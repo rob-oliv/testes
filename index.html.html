@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devocionais do Rob</title>
+<meta name="description" content="Um pequeno encontro com Deus todos os dias.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+
+  :root {
+    --bg: #f5f2ea;
+    --paper: #fcfaf5;
+    --ink: #24251f;
+    --muted: #77776e;
+    --line: #dedbd0;
+    --olive: #66735a;
+    --olive-dark: #4e5a45;
+    --olive-light: #e7ebe1;
+    --gold: #b59a63;
+    --shadow: 0 24px 70px rgba(47, 48, 38, .10);
+    --radius: 28px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at 10% 5%, rgba(181,154,99,.10), transparent 25%),
+      radial-gradient(circle at 90% 20%, rgba(102,115,90,.10), transparent 28%),
+      var(--bg);
+    color: var(--ink);
+    font-family: "DM Sans", sans-serif;
+  }
+
+  button { font: inherit; }
+  .wrap { width: min(1120px, calc(100% - 36px)); margin: auto; }
+
+  /* HEADER */
+  header {
+    padding: 28px 0 0;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--olive);
+    color: white;
+    font-size: 17px;
+  }
+
+  .today-btn {
+    border: 1px solid var(--line);
+    background: rgba(252,250,245,.72);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 17px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 610px;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 70px;
+    align-items: center;
+    padding: 70px 0 75px;
+  }
+
+  .eyebrow {
+    color: var(--olive);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+    margin-bottom: 19px;
+  }
+
+  h1 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(54px, 7vw, 92px);
+    line-height: .93;
+    letter-spacing: -.045em;
+    font-weight: 400;
+    margin: 0 0 25px;
+    max-width: 650px;
+  }
+
+  .hero-copy {
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.75;
+    max-width: 490px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  .primary, .secondary {
+    border-radius: 999px;
+    padding: 13px 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .primary {
+    background: var(--olive);
+    color: white;
+    border: 1px solid var(--olive);
+  }
+
+  .secondary {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  /* FEATURE CARD */
+  .feature {
+    background: var(--paper);
+    border: 1px solid rgba(222,219,208,.9);
+    border-radius: 34px;
+    padding: 37px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: var(--olive-light);
+    right: -95px;
+    top: -90px;
+  }
+
+  .feature-date {
+    position: relative;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+
+  .feature h2 {
+    position: relative;
+    font-family: "DM Serif Display", serif;
+    font-size: 43px;
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -.03em;
+    margin: 55px 0 25px;
+  }
+
+  .feature-verse {
+    position: relative;
+    border-left: 2px solid var(--gold);
+    padding-left: 17px;
+    color: #59594f;
+    font-family: "DM Serif Display", serif;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .feature-ref {
+    display: block;
+    margin-top: 9px;
+    color: var(--muted);
+    font: 11px "DM Sans", sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .read {
+    position: relative;
+    margin-top: 32px;
+    border: 0;
+    background: var(--ink);
+    color: white;
+    padding: 13px 19px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* SECTION */
+  section { padding: 35px 0 90px; }
+
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+
+  .section-heading h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: 42px;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: -.03em;
+  }
+
+  .section-heading p {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 5px;
+  }
+
+  /* CALENDAR */
+  .calendar {
+    background: rgba(252,250,245,.75);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 27px;
+  }
+
+  .calendar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+
+  .calendar-head strong {
+    font-family: "DM Serif Display", serif;
+    font-size: 25px;
+    font-weight: 400;
+  }
+
+  .month-label {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .weekdays, .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .weekday {
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding-bottom: 7px;
+  }
+
+  .date {
+    min-height: 84px;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    text-align: left;
+    padding: 12px;
+    position: relative;
+    transition: .2s ease;
+  }
+
+  .date:hover {
+    background: var(--paper);
+    border-color: var(--line);
+    transform: translateY(-2px);
+  }
+
+  .date.active {
+    background: var(--olive);
+    color: white;
+  }
+
+  .date.empty { cursor: default; }
+  .date.empty:hover { background: transparent; border-color: transparent; transform: none; }
+
+  .num { font-size: 15px; font-weight: 700; }
+  .topic {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.2;
+    margin-top: 8px;
+  }
+
+  .active .topic { color: rgba(255,255,255,.72); }
+
+  .dot {
+    position: absolute;
+    right: 11px;
+    top: 13px;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* DEVOTIONAL READER */
+  #reader {
+    display: none;
+    padding-top: 0;
+  }
+
+  #reader.open { display: block; }
+
+  .reader {
+    background: var(--paper);
+    border-radius: 34px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .reader-top {
+    padding: 38px 46px 27px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .reader-top span {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+  }
+
+  .reader-nav {
+    display: flex;
+    gap: 7px;
+  }
+
+  .nav-btn {
+    border: 1px solid var(--line);
+    background: transparent;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+  }
+
+  .reader-body {
+    width: min(740px, calc(100% - 48px));
+    margin: auto;
+    padding: 62px 0 72px;
+  }
+
+  .reader-body h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(42px, 6vw, 67px);
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -.04em;
+    margin: 12px 0 35px;
+  }
+
+  .big-verse {
+    font-family: "DM Serif Display", serif;
+    font-size: 22px;
+    line-height: 1.55;
+    color: #55564d;
+    border-left: 3px solid var(--gold);
+    padding: 4px 0 4px 23px;
+    margin-bottom: 48px;
+  }
+
+  .big-verse small {
+    display: block;
+    margin-top: 12px;
+    color: var(--muted);
+    font: 11px "DM Sans", sans-serif;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .label {
+    color: var(--olive);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+    margin: 38px 0 12px;
+  }
+
+  .reader-body p {
+    font-family: "DM Serif Display", serif;
+    font-size: 19px;
+    line-height: 1.75;
+    margin: 0 0 15px;
+    color: #3f4038;
+  }
+
+  .takeaway {
+    margin-top: 15px;
+    padding: 23px 25px;
+    background: var(--olive-light);
+    border-radius: 19px;
+    font-family: "DM Serif Display", serif;
+    font-size: 21px;
+    line-height: 1.4;
+  }
+
+  .prayer {
+    padding-top: 4px;
+  }
+
+  .reader-bottom {
+    border-top: 1px solid var(--line);
+    padding: 23px 46px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 30px 0 45px;
+    color: var(--muted);
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 800px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding-top: 55px;
+    }
+    .feature h2 { font-size: 36px; }
+    .date { min-height: 65px; padding: 9px; }
+    .topic { display: none; }
+    .reader-top, .reader-bottom { padding-left: 23px; padding-right: 23px; }
+  }
+
+  @media (max-width: 520px) {
+    .wrap { width: min(100% - 22px, 1120px); }
+    header { padding-top: 17px; }
+    h1 { font-size: 55px; }
+    .feature { padding: 25px; border-radius: 25px; }
+    .feature h2 { margin-top: 45px; }
+    .calendar { padding: 12px; border-radius: 20px; }
+    .weekdays, .dates { gap: 3px; }
+    .date { min-height: 55px; border-radius: 11px; }
+    .dot { display: none; }
+    .section-heading h2 { font-size: 34px; }
+    .reader { border-radius: 24px; }
+    .reader-body { width: calc(100% - 36px); padding: 42px 0 52px; }
+    .reader-body h2 { font-size: 43px; }
+    .big-verse { font-size: 19px; }
+    footer { display: block; }
+  }
+</style>
+</head>
+
+<body>
+<header class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">✦</div>
+      Devocionais do Rob
+    </div>
+    <button class="today-btn" onclick="goToday()">Devocional de hoje</button>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Um momento com Deus, todos os dias</div>
+        <h1>Uma palavra para o caminho.</h1>
+        <p class="hero-copy">
+          Devocionais para parar por alguns minutos, respirar, abrir a Palavra
+          e lembrar que Deus continua presente em cada parte da caminhada.
+        </p>
+        <div class="hero-actions">
+          <button class="primary" onclick="openDevotional(17)">Ler o devocional de hoje →</button>
+          <button class="secondary" onclick="document.getElementById('calendar').scrollIntoView()">Ver calendário</button>
+        </div>
+      </div>
+
+      <div class="feature" id="feature">
+        <div class="feature-date">17 de setembro · quinta-feira</div>
+        <h2>Deus está cuidando do caminho.</h2>
+        <div class="feature-verse">
+          “Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.”
+          <span class="feature-ref">Isaías 41:10</span>
+        </div>
+        <button class="read" onclick="openDevotional(17)">Abrir devocional</button>
+      </div>
+    </section>
+
+    <section id="calendar">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Arquivo</div>
+          <h2>Setembro 2026</h2>
+        </div>
+        <p>Escolha uma data para abrir sua palavra.</p>
+      </div>
+
+      <div class="calendar">
+        <div class="calendar-head">
+          <strong>Setembro</strong>
+          <span class="month-label">30 devocionais</span>
+        </div>
+
+        <div class="weekdays">
+          <div class="weekday">DOM</div><div class="weekday">SEG</div>
+          <div class="weekday">TER</div><div class="weekday">QUA</div>
+          <div class="weekday">QUI</div><div class="weekday">SEX</div>
+          <div class="weekday">SÁB</div>
+        </div>
+
+        <div class="dates" id="dates"></div>
+      </div>
+    </section>
+
+    <section id="reader">
+      <div class="reader">
+        <div class="reader-top">
+          <span id="readerDate">17 de setembro de 2026</span>
+          <div class="reader-nav">
+            <button class="nav-btn" onclick="changeDay(-1)" aria-label="Anterior">←</button>
+            <button class="nav-btn" onclick="changeDay(1)" aria-label="Próximo">→</button>
+          </div>
+        </div>
+
+        <article class="reader-body">
+          <div class="eyebrow">Devocional do dia</div>
+          <h2 id="readerTitle"></h2>
+
+          <div class="big-verse">
+            <span id="readerVerse"></span>
+            <small id="readerRef"></small>
+          </div>
+
+          <div class="label">Reflexão</div>
+          <div id="readerReflection"></div>
+
+          <div class="label">Para guardar hoje</div>
+          <div class="takeaway" id="readerTakeaway"></div>
+
+          <div class="label">Oração</div>
+          <div class="prayer" id="readerPrayer"></div>
+        </article>
+
+        <div class="reader-bottom">
+          <span id="progress">17 / 30</span>
+          <span>Que a Palavra acompanhe o seu dia.</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="wrap">
+  <span>Devocionais do Rob · 2026</span>
+  <span>Feito com fé, um dia de cada vez.</span>
+</footer>
+
+<script>
+const data = {
+  1: ["Comece de novo", "As misericórdias do Senhor são a causa de não sermos consumidos.", "Lamentações 3:22-23",
+      "Um novo dia não precisa carregar o peso do dia anterior. Deus nos dá espaço para recomeçar, aprender e continuar. A graça não exige que você seja perfeito antes de seguir.",
+      "Hoje também pode ser um começo.", "Deus, obrigado por uma nova oportunidade. Ajuda-me a deixar para trás o que precisa ficar e a caminhar com leveza para aquilo que Tu tens preparado. Amém."],
+  2: ["Confie mesmo sem entender", "Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento.", "Provérbios 3:5",
+      "Há coisas que só fazem sentido depois. A fé muitas vezes começa exatamente onde termina a nossa necessidade de entender tudo.",
+      "Eu posso confiar sem ter todas as respostas.", "Senhor, acalma minha necessidade de controlar cada detalhe. Ensina-me a confiar em Ti mesmo quando o caminho ainda não estiver claro. Amém."],
+  3: ["Tenha coragem", "Sê forte e corajoso; não temas, nem te espantes, porque o Senhor, teu Deus, é contigo.", "Josué 1:9",
+      "Coragem não significa ausência de medo. Significa decidir não deixar o medo escolher por você. Deus não prometeu que todos os caminhos seriam fáceis, mas prometeu presença.",
+      "Eu não estou sozinho no caminho.", "Deus, coloca coragem dentro de mim. Que o medo não seja maior do que a certeza de que Tu estás comigo. Amém."],
+  4: ["Existe um tempo para tudo", "Tudo tem o seu tempo determinado, e há tempo para todo propósito debaixo do céu.", "Eclesiastes 3:1",
+      "Nem tudo precisa acontecer agora. Algumas respostas precisam amadurecer, algumas portas precisam se abrir no tempo certo e alguns processos precisam de paciência.",
+      "O tempo de Deus também faz parte da promessa.", "Senhor, dá-me paciência para respeitar os processos e sabedoria para reconhecer o que já posso fazer hoje. Amém."],
+  5: ["Agradeça pelo que já existe", "Em tudo, dai graças, porque esta é a vontade de Deus.", "1 Tessalonicenses 5:18",
+      "A gratidão não ignora aquilo que falta. Ela muda o lugar de onde olhamos para aquilo que já recebemos. Hoje, perceba uma pequena coisa boa que normalmente passaria despercebida.",
+      "Ainda existem motivos para agradecer.", "Deus, abre meus olhos para as pequenas bênçãos de hoje. Que eu não fique tão preocupado com o que falta a ponto de esquecer tudo aquilo que já recebi. Amém."],
+  6: ["Seu propósito não desapareceu", "Porque eu bem sei os pensamentos que penso a vosso respeito, diz o Senhor.", "Jeremias 29:11",
+      "Às vezes, uma mudança de rota parece o fim de um plano. Mas uma porta fechada não significa que Deus tenha esquecido aquilo que colocou em seu coração.",
+      "Uma mudança de caminho não apaga o propósito.", "Senhor, ajuda-me a confiar nos caminhos que ainda não consigo compreender. Guia meus passos e conserva vivo em mim aquilo que vem de Ti. Amém."],
+  7: ["Descanse", "Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei.", "Mateus 11:28",
+      "Você não precisa resolver tudo hoje. Existe uma diferença entre responsabilidade e carregar sozinho aquilo que deveria ser entregue a Deus.",
+      "Nem tudo precisa ser resolvido hoje.", "Jesus, recebe aquilo que está pesado dentro de mim. Ensina-me a descansar sem culpa e a confiar que Tu continuas trabalhando. Amém."],
+  8: ["A fé também mora nos detalhes", "Quem é fiel no pouco também é fiel no muito.", "Lucas 16:10",
+      "Grandes mudanças quase sempre começam pequenas. Uma decisão, uma oração, um hábito, um passo. Não despreze aquilo que parece pequeno hoje.",
+      "O pequeno passo de hoje também importa.", "Deus, dá-me constância para cuidar bem das pequenas coisas. Que eu não despreze os começos simples. Amém."],
+  9: ["Deus provê", "O meu Deus, segundo as suas riquezas, suprirá todas as vossas necessidades.", "Filipenses 4:19",
+      "A preocupação com o amanhã pode ocupar tanto espaço que esquecemos de perceber como Deus já sustentou o hoje. Provisão nem sempre chega do jeito que imaginamos, mas Deus continua sendo fonte.",
+      "Eu posso caminhar sem viver em escassez de esperança.", "Senhor, cuida das minhas necessidades e do meu coração. Dá-me sabedoria para fazer a minha parte e fé para confiar na Tua provisão. Amém."],
+  10: ["Permita-se parar", "Aquietai-vos e sabei que eu sou Deus.", "Salmos 46:10",
+      "Há momentos em que a resposta não é fazer mais. É silenciar. Parar de procurar uma solução por alguns minutos e simplesmente lembrar quem está no controle.",
+      "Às vezes, fé é aquietar.", "Deus, silencia o barulho dentro de mim. Ajuda-me a lembrar que eu não preciso controlar tudo para estar seguro. Amém."],
+  11: ["A esperança continua", "Por que estás abatida, ó minha alma? Espera em Deus.", "Salmos 42:11",
+      "Sentir-se cansado não significa ter perdido a fé. Há dias em que a esperança precisa ser lembrada, não sentida. Continue voltando para Deus.",
+      "Eu posso esperar novamente.", "Senhor, renova minha esperança. Quando meu coração estiver cansado, lembra-me das vezes em que Tu já me sustentaste. Amém."],
+  12: ["Entregue", "Lança o teu cuidado sobre o Senhor, e ele te susterá.", "Salmos 55:22",
+      "Entregar não é desistir. É reconhecer que existe um limite para aquilo que as nossas mãos conseguem carregar. Coloque diante de Deus aquilo que você vem tentando resolver sozinho.",
+      "O que eu entrego a Deus não precisa continuar nas minhas mãos.", "Pai, eu entrego a Ti aquilo que não consigo controlar. Sustenta-me e ensina-me a confiar. Amém."],
+  13: ["Deus está presente", "Ainda que eu ande pelo vale da sombra da morte, não temerei mal algum, porque tu estás comigo.", "Salmos 23:4",
+      "A presença de Deus não depende de um cenário perfeito. Ela também está no vale, no caminho difícil e no dia comum.",
+      "A presença de Deus não depende das circunstâncias.", "Senhor, obrigado porque não preciso atravessar nenhum vale sozinho. Fica comigo hoje e guia meus passos. Amém."],
+  14: ["Você é cuidado", "Lança sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.", "1 Pedro 5:7",
+      "Existe algo profundamente consolador em lembrar que você é cuidado. Não precisa esconder de Deus o que sente. Fale com Ele com honestidade.",
+      "Eu sou cuidado por Deus.", "Deus, recebe minhas preocupações. Que eu consiga descansar sabendo que minha vida não está esquecida diante de Ti. Amém."],
+  15: ["Um novo ciclo", "Eis que faço uma coisa nova; agora sairá à luz; porventura não a percebeis?", "Isaías 43:19",
+      "Alguns ciclos terminam antes de sabermos exatamente o que virá depois. Não tenha medo do espaço entre o fim e o começo. Deus também trabalha nele.",
+      "O fim de um ciclo pode ser o começo de outro.", "Senhor, prepara meu coração para o novo. Dá-me coragem para deixar ir e fé para receber aquilo que está chegando. Amém."],
+  16: ["Peça direção", "Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.", "Provérbios 3:6",
+      "Antes de pedir que Deus abençoe uma decisão, peça que Ele conduza a decisão. Direção é também aprender a escutar.",
+      "Eu não preciso caminhar sem direção.", "Deus, guia minhas escolhas. Fecha as portas que não são para mim e dá-me clareza para reconhecer os caminhos que vêm de Ti. Amém."],
+  17: ["Deus está cuidando do caminho", "Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.", "Isaías 41:10",
+      "Nem sempre você vai saber exatamente o que vem depois. Às vezes, Deus não mostra o caminho inteiro. Ele mostra apenas o próximo passo. E talvez seja justamente aí que mora a fé: continuar caminhando mesmo quando você ainda não consegue enxergar tudo.",
+      "Você não precisa enxergar todo o caminho para dar o próximo passo com Deus.",
+      "Deus, acalma meu coração quando eu tentar controlar aquilo que ainda não consigo ver. Dá-me coragem para seguir, sabedoria para escolher e confiança para lembrar que eu não estou caminhando sozinho. Cuida dos meus passos e me ensina a confiar em Ti. Amém."],
+  18: ["Você não precisa ter todas as respostas", "Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento.", "Provérbios 3:5",
+      "Nem toda resposta precisa chegar antes do próximo passo. Há momentos em que confiar em Deus significa aceitar que algumas coisas ainda estão sendo construídas.",
+      "A falta de respostas não significa falta de direção.", "Senhor, quando eu não entender o que está acontecendo, ajuda-me a confiar em Ti. Dá-me paz para esperar e coragem para continuar. Amém."],
+  19: ["O que Deus está construindo em silêncio", "Tudo tem o seu tempo determinado, e há tempo para todo propósito debaixo do céu.", "Eclesiastes 3:1",
+      "Nem tudo que parece parado está realmente parado. Existem processos que acontecem longe dos nossos olhos. Deus também trabalha nos intervalos, nos silêncios e nos dias comuns.",
+      "Silêncio não é ausência. Às vezes, é processo.", "Deus, ajuda-me a não desprezar os períodos silenciosos. Que eu consiga confiar no que Tu estás fazendo mesmo quando ainda não consigo perceber. Amém."],
+  20: ["Não abandone a esperança", "Aqueles que semeiam com lágrimas, com alegria colherão.", "Salmos 126:5",
+      "Existem sementes que precisam de tempo antes de aparecerem. O esforço de hoje pode estar preparando uma colheita que você ainda não consegue ver.",
+      "Continue semeando aquilo que vale a pena.", "Senhor, fortalece-me para continuar. Que eu não desista só porque ainda não vejo os frutos. Amém."],
+  21: ["Deus renova suas forças", "Os que esperam no Senhor renovarão as suas forças.", "Isaías 40:31",
+      "Cansaço não precisa ser o ponto final. Há uma força que não vem apenas da nossa capacidade de insistir, mas da capacidade de descansar em Deus e receber novo fôlego.",
+      "Eu posso recomeçar com novas forças.", "Deus, renova minhas forças. Onde eu estiver cansado, sopra novo ânimo e lembra-me que ainda existe caminho pela frente. Amém."],
+  22: ["Tenha paciência com você", "Aquele que começou boa obra em vós há de completá-la.", "Filipenses 1:6",
+      "Você está em processo. Não cobre de uma versão ainda em construção a perfeição de quem já chegou ao destino.",
+      "Deus ainda está trabalhando em mim.", "Senhor, ajuda-me a ter paciência com meu próprio processo. Que eu consiga enxergar crescimento onde antes só enxergava distância. Amém."],
+  23: ["O amor permanece", "O amor jamais acaba.", "1 Coríntios 13:8",
+      "Em um mundo cheio de coisas passageiras, o amor de Deus permanece. Quando outras certezas mudarem, volte para aquilo que não muda.",
+      "O amor de Deus permanece.", "Pai, ajuda-me a viver a partir da certeza do Teu amor, e não da necessidade de provar meu valor. Amém."],
+  24: ["Quem você é em Deus", "Vede que grande amor nos tem concedido o Pai: sermos chamados filhos de Deus.", "1 João 3:1",
+      "Seu valor não começa no que você conquista. Antes de qualquer título, resultado ou reconhecimento, existe uma identidade recebida: você é amado por Deus.",
+      "Meu valor não depende do meu desempenho.", "Deus, ajuda-me a lembrar quem eu sou em Ti. Que nenhuma comparação seja maior do que a Tua voz sobre minha vida. Amém."],
+  25: ["Peça sabedoria", "Se algum de vós tem falta de sabedoria, peça-a a Deus.", "Tiago 1:5",
+      "Nem toda decisão precisa ser tomada no impulso. Você pode parar, orar, pensar e pedir sabedoria. Deus não se incomoda com quem pede direção.",
+      "Antes de agir, eu posso pedir sabedoria.", "Senhor, dá-me sabedoria para as decisões de hoje. Que eu não seja guiado apenas pela pressa, pelo medo ou pela ansiedade. Amém."],
+  26: ["Olhe para o que Deus já fez", "Bendize, ó minha alma, ao Senhor, e não te esqueças de nenhum de seus benefícios.", "Salmos 103:2",
+      "Quando o futuro assusta, lembrar do passado pode fortalecer a fé. Relembre os livramentos, as portas abertas e os momentos em que você pensou que não conseguiria.",
+      "Eu não devo esquecer tudo o que Deus já fez.", "Deus, obrigado por cada vez que Tu me sustentaste. Quando eu duvidar do amanhã, lembra-me da Tua fidelidade ontem. Amém."],
+  27: ["Fique perto", "Chegai-vos a Deus, e ele se chegará a vós.", "Tiago 4:8",
+      "Não transforme a oração em último recurso. Deus não precisa de uma versão perfeita de você. Aproxime-se como está.",
+      "Posso chegar a Deus exatamente como estou.", "Senhor, quero estar mais perto de Ti. Recebe meu coração como ele está e ensina-me a cultivar essa presença todos os dias. Amém."],
+  28: ["Descanse no que você não controla", "Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará.", "Salmos 37:5",
+      "Existe paz quando entendemos que responsabilidade não significa controle absoluto. Faça o que está ao seu alcance e entregue a Deus o que não está.",
+      "Eu faço minha parte e entrego o restante.", "Deus, mostra-me o que depende de mim e ajuda-me a entregar aquilo que não depende. Que eu encontre paz nessa diferença. Amém."],
+  29: ["Amanhã ainda não chegou", "Não vos inquieteis, pois, pelo dia de amanhã.", "Mateus 6:34",
+      "A ansiedade tenta fazer você viver vários dias ao mesmo tempo. Mas hoje já tem suas próprias tarefas, alegrias e necessidades. Volte para o presente.",
+      "Hoje é o dia que Deus colocou nas minhas mãos.", "Jesus, traz minha mente de volta para o hoje. Ajuda-me a não sofrer antecipadamente por aquilo que ainda não aconteceu. Amém."],
+  30: ["Entregue o mês", "Em paz me deito e logo pego no sono, porque, Senhor, só tu me fazes repousar seguro.", "Salmos 4:8",
+      "Um mês termina. Algumas coisas deram certo, outras não. Algumas orações foram respondidas, outras continuam abertas. Entregue tudo a Deus e reconheça que você chegou até aqui.",
+      "Eu termino este mês confiando em Deus.", "Senhor, obrigado por me trazer até aqui. Recebe minhas vitórias, minhas frustrações, meus pedidos e meus aprendizados. Que o próximo ciclo encontre meu coração mais perto de Ti. Amém."]
+};
+
+const topics = [
+  "Recomeços","Confiança","Coragem","Espera","Gratidão","Propósito","Descanso","Fé",
+  "Provisão","Silêncio","Esperança","Entrega","Presença","Cuidado","Novo ciclo","Direção",
+  "Coragem","Confiança","Silêncio","Esperança","Força","Paciência","Amor","Identidade",
+  "Sabedoria","Gratidão","Presença","Descanso","Esperança","Entrega"
+];
+
+let currentDay = 17;
+
+function buildCalendar() {
+  const grid = document.getElementById("dates");
+  grid.innerHTML = "";
+
+  // Setembro de 2026 começa na terça-feira.
+  [0,1].forEach(() => {
+    const empty = document.createElement("div");
+    empty.className = "date empty";
+    grid.appendChild(empty);
+  });
+
+  for (let day = 1; day <= 30; day++) {
+    const b = document.createElement("button");
+    b.className = "date" + (day === currentDay ? " active" : "");
+    b.onclick = () => openDevotional(day);
+    b.innerHTML = `<span class="num">${day}</span><span class="dot"></span><span class="topic">${topics[day-1]}</span>`;
+    grid.appendChild(b);
+  }
+}
+
+function openDevotional(day) {
+  currentDay = day;
+  const d = data[day];
+
+  document.getElementById("readerDate").textContent =
+    `${day} de setembro de 2026`;
+
+  document.getElementById("readerTitle").textContent = d[0];
+  document.getElementById("readerVerse").textContent = `“${d[1]}”`;
+  document.getElementById("readerRef").textContent = d[2];
+
+  document.getElementById("readerReflection").innerHTML =
+    `<p>${d[3]}</p>`;
+
+  document.getElementById("readerTakeaway").textContent = d[4];
+
+  document.getElementById("readerPrayer").innerHTML =
+    `<p>${d[5]}</p>`;
+
+  document.getElementById("progress").textContent = `${day} / 30`;
+  document.getElementById("reader").classList.add("open");
+
+  document.querySelectorAll(".date").forEach((el, index) => {
+    el.classList.toggle("active", index - 2 === day - 1);
+  });
+
+  document.getElementById("reader").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function changeDay(direction) {
+  const next = currentDay + direction;
+  if (next >= 1 && next <= 30) openDevotional(next);
+}
+
+function goToday() {
+  openDevotional(17);
+}
+
+buildCalendar();
+openDevotional(17);
+</script>
+</body>
+</html>
