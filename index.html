@@ -3,54 +3,75 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#F5EBDD">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<meta
+    name="theme-color"
+    content="#F5EBDD"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+>
+
+<meta
+    name="mobile-web-app-capable"
+    content="yes"
+>
 
 <title>Momento</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
 <style>
 
 /* =========================================================
    MOMENTO
-   FINAL COLOR SYSTEM
+   COLOR SYSTEM
 ========================================================= */
 
 :root{
-    /* BASE */
+
     --paper:#F5EBDD;
-    --paper-2:#FFF8EF;
+    --paper-light:#FFF9F2;
+
     --ink:#171313;
 
-    /* STRONG PALETTE */
     --orange:#F26A32;
-    --orange-dark:#C94A21;
-
     --blue:#2457F5;
-    --blue-dark:#1237AE;
-
     --brown:#5A3428;
-    --brown-dark:#3A211A;
-
     --pink:#E94F86;
-    --pink-dark:#B92D62;
-
     --yellow:#F5C84B;
 
     --cream:#F8E8D4;
-
     --white:#FFFDF9;
 
-    --sans:"DM Sans", sans-serif;
     --display:"Space Grotesk", sans-serif;
+    --sans:"DM Sans", sans-serif;
     --serif:"Instrument Serif", serif;
     --mono:"DM Mono", monospace;
 
     --radius:28px;
+
+    --safe-top:env(safe-area-inset-top);
+    --safe-bottom:env(safe-area-inset-bottom);
+
 }
 
 
@@ -65,27 +86,44 @@
 }
 
 html{
-    scroll-behavior:smooth;
     background:var(--paper);
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;
 }
 
 body{
     min-height:100svh;
+
+    margin:0;
+
     background:var(--paper);
     color:var(--ink);
 
     font-family:var(--sans);
 
     -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+
     overflow-x:hidden;
 }
 
 button{
     font:inherit;
+    color:inherit;
     border:0;
     background:none;
-    color:inherit;
-    cursor:pointer;
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+button,
+a{
+    touch-action:manipulation;
+}
+
+::selection{
+    background:var(--yellow);
+    color:var(--ink);
 }
 
 ::-webkit-scrollbar{
@@ -109,30 +147,39 @@ button{
 ========================================================= */
 
 .topbar{
+
     position:fixed;
-    z-index:30;
+
+    z-index:50;
 
     top:0;
     left:0;
     right:0;
 
-    height:72px;
+    height:
+        calc(
+            62px +
+            var(--safe-top)
+        );
 
     padding:
-        env(safe-area-inset-top)
-        20px
+        var(--safe-top)
+        18px
         0;
 
     display:flex;
     align-items:center;
     justify-content:space-between;
 
-    background:rgba(245,235,221,.86);
+    background:
+        rgba(245,235,221,.88);
 
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
 
-    border-bottom:1px solid rgba(23,19,19,.08);
+    border-bottom:
+        1px solid
+        rgba(23,19,19,.07);
 }
 
 .logo{
@@ -142,36 +189,42 @@ button{
 }
 
 .logo-mark{
-    width:28px;
-    height:28px;
 
-    background:var(--ink);
-    color:var(--paper);
-
-    border-radius:50%;
+    width:29px;
+    height:29px;
 
     display:grid;
     place-items:center;
 
+    border-radius:50%;
+
+    background:var(--ink);
+    color:var(--paper);
+
     font-family:var(--display);
     font-size:12px;
     font-weight:700;
+
 }
 
 .logo-name{
+
     font-family:var(--display);
     font-size:16px;
     font-weight:700;
-    letter-spacing:-.04em;
+
+    letter-spacing:-.05em;
 }
 
 .top-date{
+
     font-family:var(--mono);
-    font-size:9px;
+    font-size:8px;
+
     text-transform:uppercase;
     letter-spacing:.08em;
 
-    opacity:.55;
+    opacity:.5;
 }
 
 
@@ -180,10 +233,20 @@ button{
 ========================================================= */
 
 .home{
+
     min-height:100svh;
 
-    padding-top:100px;
-    padding-bottom:110px;
+    padding-top:
+        calc(
+            84px +
+            var(--safe-top)
+        );
+
+    padding-bottom:
+        calc(
+            96px +
+            var(--safe-bottom)
+        );
 }
 
 
@@ -192,26 +255,30 @@ button{
 ========================================================= */
 
 .hero{
-    padding:18px 20px 32px;
+    padding:
+        18px
+        20px
+        34px;
 }
 
 .hero-kicker{
+
     display:flex;
     align-items:center;
     gap:9px;
 
-    margin-bottom:18px;
+    margin-bottom:19px;
 
     font-family:var(--mono);
-    font-size:9px;
-    text-transform:uppercase;
-    letter-spacing:.08em;
+    font-size:8px;
 
-    opacity:.55;
+    text-transform:uppercase;
+    letter-spacing:.09em;
+
+    opacity:.52;
 }
 
 .hero-kicker span{
-    display:block;
 
     width:7px;
     height:7px;
@@ -219,56 +286,67 @@ button{
     border-radius:50%;
 
     background:var(--orange);
+
 }
 
 .hero-title{
+
     font-family:var(--display);
 
-    font-size:clamp(
-        55px,
-        17vw,
-        105px
-    );
+    font-size:
+        clamp(
+            57px,
+            17vw,
+            105px
+        );
 
     line-height:.82;
 
-    letter-spacing:-.075em;
+    letter-spacing:-.08em;
 
     font-weight:700;
 }
 
 .hero-title em{
+
     font-family:var(--serif);
 
     font-weight:400;
 
-    letter-spacing:-.045em;
-
     color:var(--blue);
+
+    letter-spacing:-.04em;
+
 }
 
 .hero-meta{
-    margin-top:26px;
+
+    margin-top:27px;
 
     display:flex;
     align-items:flex-end;
     justify-content:space-between;
+
 }
 
 .hero-copy{
-    max-width:240px;
 
-    font-size:13px;
+    max-width:245px;
+
+    font-size:12px;
     line-height:1.45;
 
-    color:rgba(23,19,19,.63);
+    color:
+        rgba(23,19,19,.62);
 }
 
 .hero-count{
+
     font-family:var(--display);
 
     font-size:13px;
     font-weight:600;
+
 }
 
 
@@ -277,7 +355,11 @@ button{
 ========================================================= */
 
 .carousel-header{
-    padding:0 20px 14px;
+
+    padding:
+        0
+        20px
+        14px;
 
     display:flex;
     align-items:center;
@@ -285,15 +367,14 @@ button{
 }
 
 .section-label{
+
     font-family:var(--mono);
-
-    font-size:9px;
-
-    letter-spacing:.08em;
+    font-size:8px;
 
     text-transform:uppercase;
+    letter-spacing:.1em;
 
-    opacity:.5;
+    opacity:.48;
 }
 
 .carousel-arrows{
@@ -302,30 +383,35 @@ button{
 }
 
 .arrow{
-    width:34px;
-    height:34px;
 
-    border:1px solid rgba(23,19,19,.15);
-
-    border-radius:50%;
+    width:35px;
+    height:35px;
 
     display:grid;
     place-items:center;
 
-    transition:.2s ease;
+    border:
+        1px solid
+        rgba(23,19,19,.15);
+
+    border-radius:50%;
+
 }
 
 .arrow:active{
-    transform:scale(.92);
 
     background:var(--ink);
-
     color:var(--paper);
+
+    transform:scale(.93);
+
 }
 
 .arrow.disabled{
+
     opacity:.2;
     pointer-events:none;
+
 }
 
 
@@ -334,23 +420,27 @@ button{
 ========================================================= */
 
 .carousel{
-    overflow:hidden;
-
     width:100%;
+    overflow:hidden;
 }
 
 .carousel-track{
+
     display:flex;
-    align-items:stretch;
 
     gap:12px;
 
-    padding:0 20px;
+    padding:
+        0
+        20px;
 
     transition:
-        transform .55s cubic-bezier(.22,.8,.25,1);
+        transform
+        .55s
+        cubic-bezier(.22,.8,.25,1);
 
     will-change:transform;
+
 }
 
 
@@ -359,24 +449,31 @@ button{
 ========================================================= */
 
 .card{
-    flex:0 0 calc(100vw - 68px);
+
+    flex:
+        0 0
+        calc(
+            100vw - 68px
+        );
 
     max-width:390px;
 
-    min-height:470px;
-
-    border-radius:var(--radius);
+    min-height:475px;
 
     position:relative;
 
     overflow:hidden;
 
-    border:1px solid rgba(23,19,19,.12);
-
     display:flex;
     flex-direction:column;
 
     padding:20px;
+
+    border:
+        1px solid
+        rgba(23,19,19,.12);
+
+    border-radius:var(--radius);
 
     user-select:none;
     -webkit-user-select:none;
@@ -384,260 +481,170 @@ button{
     transition:
         transform .45s cubic-bezier(.22,.8,.25,1),
         opacity .45s ease;
+
 }
 
 .card:not(.active){
-    opacity:.42;
+
+    opacity:.4;
 
     transform:scale(.94);
+
 }
 
 .card.active{
+
     opacity:1;
 
     transform:scale(1);
+
 }
 
 
 /* =========================================================
-   COLOR SYSTEM
+   CARD COLORS
 ========================================================= */
 
-/* ORANGE */
-
 .card:nth-child(4n+1){
+
     background:var(--orange);
     color:var(--ink);
+
+}
+
+.card:nth-child(4n+2){
+
+    background:var(--blue);
+    color:var(--white);
+
+}
+
+.card:nth-child(4n+3){
+
+    background:var(--brown);
+    color:var(--cream);
+
+}
+
+.card:nth-child(4n+4){
+
+    background:var(--pink);
+    color:var(--ink);
+
 }
 
 .card:nth-child(4n+1) .card-open{
+
     background:var(--ink);
-}
+    color:var(--orange);
 
-.card:nth-child(4n+1) .card-open svg{
-    stroke:var(--orange);
-}
-
-
-/* BLUE */
-
-.card:nth-child(4n+2){
-    background:var(--blue);
-    color:var(--white);
 }
 
 .card:nth-child(4n+2) .card-open{
+
     background:var(--yellow);
-}
+    color:var(--ink);
 
-.card:nth-child(4n+2) .card-open svg{
-    stroke:var(--ink);
-}
-
-
-/* BROWN */
-
-.card:nth-child(4n+3){
-    background:var(--brown);
-    color:var(--cream);
 }
 
 .card:nth-child(4n+3) .card-open{
-    background:var(--pink);
-}
 
-.card:nth-child(4n+3) .card-open svg{
-    stroke:var(--ink);
-}
-
-
-/* PINK */
-
-.card:nth-child(4n+4){
     background:var(--pink);
     color:var(--ink);
+
 }
 
 .card:nth-child(4n+4) .card-open{
-    background:var(--white);
-}
 
-.card:nth-child(4n+4) .card-open svg{
-    stroke:var(--ink);
+    background:var(--white);
+    color:var(--ink);
+
 }
 
 
 /* =========================================================
-   CARD TOP
+   CARD
 ========================================================= */
 
 .card-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
 
     position:relative;
     z-index:3;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
 }
 
 .card-date{
+
     display:flex;
     align-items:center;
-
     gap:8px;
 
     font-family:var(--mono);
-
-    font-size:9px;
+    font-size:8px;
 
     text-transform:uppercase;
-
     letter-spacing:.06em;
+
 }
 
 .card-date strong{
-    font-family:var(--display);
 
+    font-family:var(--display);
     font-size:12px;
+
 }
 
 .card-ref{
+
     font-family:var(--mono);
+    font-size:7px;
 
-    font-size:8px;
+    opacity:.6;
 
-    opacity:.65;
 }
 
-
-/* =========================================================
-   GIANT NUMBER
-========================================================= */
-
 .card-number{
+
     position:absolute;
 
+    top:61px;
     left:-12px;
-    top:64px;
 
     font-family:var(--display);
-
     font-size:190px;
 
     line-height:.75;
 
-    letter-spacing:-.12em;
-
     font-weight:700;
+
+    letter-spacing:-.12em;
 
     opacity:.12;
 
     pointer-events:none;
+
 }
-
-
-/* =========================================================
-   CARD BODY
-========================================================= */
-
-.card-body{
-    position:relative;
-    z-index:2;
-
-    margin-top:auto;
-}
-
-.card-index{
-    font-family:var(--mono);
-
-    font-size:8px;
-
-    opacity:.58;
-
-    margin-bottom:12px;
-}
-
-.card-title{
-    max-width:330px;
-
-    font-family:var(--display);
-
-    font-size:clamp(
-        37px,
-        11vw,
-        58px
-    );
-
-    line-height:.9;
-
-    letter-spacing:-.065em;
-
-    font-weight:700;
-}
-
-.card-title em{
-    font-family:var(--serif);
-
-    font-weight:400;
-}
-
-.card-bottom{
-    position:relative;
-    z-index:2;
-
-    margin-top:26px;
-
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-}
-
-.card-intro{
-    max-width:240px;
-
-    font-size:12px;
-
-    line-height:1.35;
-
-    opacity:.76;
-}
-
-.card-open{
-    width:46px;
-    height:46px;
-
-    flex-shrink:0;
-
-    border-radius:50%;
-
-    display:grid;
-    place-items:center;
-}
-
-.card-open svg{
-    width:17px;
-    height:17px;
-}
-
-
-/* =========================================================
-   DECOR
-========================================================= */
 
 .card-plus{
+
     position:absolute;
 
     right:25px;
     top:45%;
 
     font-family:var(--display);
-
     font-size:25px;
 
     opacity:.5;
+
 }
 
 .card-line{
+
     position:absolute;
 
     right:-20px;
@@ -651,14 +658,102 @@ button{
     opacity:.25;
 
     transform:rotate(-45deg);
+
 }
 
+.card-body{
 
-/* =========================================================
-   TODAY
-========================================================= */
+    position:relative;
+    z-index:2;
+
+    margin-top:auto;
+
+}
+
+.card-index{
+
+    margin-bottom:12px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    opacity:.55;
+
+}
+
+.card-title{
+
+    max-width:330px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            37px,
+            11vw,
+            58px
+        );
+
+    line-height:.89;
+
+    letter-spacing:-.065em;
+
+    font-weight:700;
+
+}
+
+.card-title em{
+
+    font-family:var(--serif);
+
+    font-weight:400;
+
+}
+
+.card-bottom{
+
+    margin-top:26px;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+}
+
+.card-intro{
+
+    max-width:235px;
+
+    font-size:12px;
+    line-height:1.35;
+
+    opacity:.76;
+
+}
+
+.card-open{
+
+    width:47px;
+    height:47px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+}
+
+.card-open svg{
+
+    width:17px;
+    height:17px;
+
+}
 
 .today-pill{
+
     position:absolute;
 
     top:20px;
@@ -670,25 +765,21 @@ button{
 
     border-radius:30px;
 
-    background:rgba(255,255,255,.48);
+    background:
+        rgba(255,255,255,.45);
 
     font-family:var(--mono);
-
     font-size:7px;
 
+    text-transform:uppercase;
     letter-spacing:.08em;
 
-    text-transform:uppercase;
-
     backdrop-filter:blur(5px);
+
 }
 
-
-/* =========================================================
-   COMPLETED
-========================================================= */
-
 .completed-mark{
+
     position:absolute;
 
     top:19px;
@@ -697,16 +788,18 @@ button{
     width:25px;
     height:25px;
 
-    border-radius:50%;
-
-    background:rgba(255,255,255,.65);
-
     display:grid;
     place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.62);
 
     font-size:12px;
 
     opacity:0;
+
 }
 
 .card.completed .completed-mark{
@@ -719,45 +812,57 @@ button{
 ========================================================= */
 
 .carousel-foot{
-    padding:15px 20px 0;
+
+    padding:
+        15px
+        20px
+        0;
 
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
+
 }
 
 .dots{
+
     display:flex;
+    gap:5px;
     align-items:center;
 
-    gap:5px;
 }
 
 .dot{
+
     width:4px;
     height:4px;
 
     border-radius:50%;
 
-    background:rgba(23,19,19,.2);
+    background:
+        rgba(23,19,19,.2);
 
     transition:.25s ease;
+
 }
 
 .dot.active{
+
     width:18px;
 
     border-radius:10px;
 
     background:var(--ink);
+
 }
 
 .swipe-hint{
+
     font-family:var(--mono);
+    font-size:7px;
 
-    font-size:8px;
+    opacity:.38;
 
-    opacity:.4;
 }
 
 
@@ -766,39 +871,51 @@ button{
 ========================================================= */
 
 .daily-note{
-    margin:58px 20px 0;
 
-    padding:22px 0;
+    margin:
+        58px
+        20px
+        0;
 
-    border-top:1px solid rgba(23,19,19,.12);
+    padding:
+        22px
+        0;
 
-    border-bottom:1px solid rgba(23,19,19,.12);
+    border-top:
+        1px solid
+        rgba(23,19,19,.12);
+
+    border-bottom:
+        1px solid
+        rgba(23,19,19,.12);
+
 }
 
 .daily-note-label{
-    font-family:var(--mono);
 
+    margin-bottom:15px;
+
+    font-family:var(--mono);
     font-size:8px;
 
     text-transform:uppercase;
-
     letter-spacing:.1em;
 
     opacity:.45;
 
-    margin-bottom:15px;
 }
 
 .daily-note-text{
+
+    max-width:350px;
+
     font-family:var(--serif);
 
-    font-size:28px;
-
+    font-size:29px;
     line-height:1;
 
-    max-width:340px;
-
     letter-spacing:-.025em;
+
 }
 
 .daily-note-text span{
@@ -807,96 +924,23 @@ button{
 
 
 /* =========================================================
-   BOTTOM NAV
-========================================================= */
-
-.bottom-nav{
-    position:fixed;
-
-    z-index:30;
-
-    left:0;
-    right:0;
-    bottom:0;
-
-    padding:
-        10px
-        20px
-        calc(10px + env(safe-area-inset-bottom));
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(245,235,221,1),
-            rgba(245,235,221,.92)
-        );
-
-    backdrop-filter:blur(18px);
-
-    -webkit-backdrop-filter:blur(18px);
-
-    border-top:1px solid rgba(23,19,19,.08);
-
-    display:flex;
-    justify-content:center;
-}
-
-.nav-inner{
-    width:100%;
-    max-width:400px;
-
-    display:flex;
-    justify-content:space-around;
-}
-
-.nav-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
-    gap:5px;
-
-    font-family:var(--mono);
-
-    font-size:7px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.06em;
-
-    opacity:.42;
-}
-
-.nav-item.active{
-    opacity:1;
-}
-
-.nav-icon{
-    width:30px;
-    height:24px;
-
-    display:grid;
-    place-items:center;
-}
-
-.nav-icon svg{
-    width:17px;
-    height:17px;
-}
-
-
-/* =========================================================
    READING
 ========================================================= */
 
 .reading{
+
     display:none;
 
     min-height:100svh;
 
+    padding-bottom:
+        calc(
+            80px +
+            var(--safe-bottom)
+        );
+
     background:var(--paper);
 
-    padding-bottom:100px;
 }
 
 .reading.visible{
@@ -909,44 +953,61 @@ button{
 ========================================================= */
 
 .reading-header{
+
     position:sticky;
 
-    z-index:20;
+    z-index:40;
 
     top:0;
 
-    height:70px;
+    height:
+        calc(
+            62px +
+            var(--safe-top)
+        );
 
     padding:
-        env(safe-area-inset-top)
-        20px
+        var(--safe-top)
+        18px
         0;
 
-    background:rgba(245,235,221,.88);
+    display:grid;
 
-    backdrop-filter:blur(18px);
-
-    -webkit-backdrop-filter:blur(18px);
-
-    display:flex;
+    grid-template-columns:
+        1fr
+        auto
+        1fr;
 
     align-items:center;
 
-    justify-content:space-between;
+    background:
+        rgba(245,235,221,.9);
 
-    border-bottom:1px solid rgba(23,19,19,.08);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-bottom:
+        1px solid
+        rgba(23,19,19,.07);
+
 }
 
 .back-button{
+
     width:38px;
     height:38px;
 
-    border:1px solid rgba(23,19,19,.15);
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(23,19,19,.15);
 
     border-radius:50%;
 
-    display:grid;
-    place-items:center;
+    justify-self:start;
+
 }
 
 .back-button svg{
@@ -954,194 +1015,358 @@ button{
 }
 
 .reading-counter{
-    font-family:var(--mono);
 
+    font-family:var(--mono);
     font-size:8px;
 
-    opacity:.5;
+    opacity:.48;
+
 }
 
 .reading-status{
-    font-family:var(--mono);
 
-    font-size:8px;
+    justify-self:end;
+
+    font-family:var(--mono);
+    font-size:7px;
 
     text-transform:uppercase;
-
     letter-spacing:.08em;
+
+    opacity:.48;
+
 }
 
 
 /* =========================================================
-   READING CONTENT
+   READING HERO
 ========================================================= */
 
 .reading-content{
-    padding:46px 20px 80px;
+
+    position:relative;
+
+    max-width:760px;
+
+    margin:0 auto;
+
+    padding:
+        48px
+        20px
+        80px;
+
 }
 
 .reading-eyebrow{
+
     display:flex;
-
     align-items:center;
-
     gap:8px;
 
-    font-family:var(--mono);
+    margin-bottom:20px;
 
+    font-family:var(--mono);
     font-size:8px;
 
     text-transform:uppercase;
-
-    letter-spacing:.08em;
+    letter-spacing:.09em;
 
     opacity:.5;
 
-    margin-bottom:20px;
 }
 
 .reading-eyebrow span{
+
     width:6px;
     height:6px;
 
+    border-radius:50%;
+
     background:var(--orange);
 
-    border-radius:50%;
 }
 
 .reading-title{
+
+    max-width:680px;
+
     font-family:var(--display);
 
-    font-size:clamp(
-        55px,
-        17vw,
-        94px
-    );
+    font-size:
+        clamp(
+            58px,
+            17vw,
+            110px
+        );
 
-    line-height:.82;
+    line-height:.8;
 
-    letter-spacing:-.075em;
+    letter-spacing:-.08em;
 
     font-weight:700;
 
-    max-width:600px;
 }
 
 .reading-title em{
+
     font-family:var(--serif);
 
     font-weight:400;
 
     color:var(--blue);
+
 }
 
 .reading-intro{
-    margin-top:30px;
 
-    max-width:510px;
+    max-width:550px;
+
+    margin-top:30px;
 
     font-family:var(--serif);
 
-    font-size:29px;
+    font-size:
+        clamp(
+            28px,
+            7vw,
+            42px
+        );
 
-    line-height:1.02;
+    line-height:1;
 
     letter-spacing:-.025em;
+
 }
 
 .reference-row{
-    margin-top:34px;
+
+    margin-top:30px;
 
     display:flex;
-
     align-items:center;
+    gap:11px;
 
-    gap:12px;
 }
 
 .reference-number{
+
     font-family:var(--display);
-
-    font-size:14px;
-
+    font-size:13px;
     font-weight:700;
+
 }
 
 .reference-line{
-    width:42px;
+
+    width:38px;
     height:1px;
 
     background:currentColor;
 
-    opacity:.25;
+    opacity:.22;
+
 }
 
 .reference-name{
-    font-family:var(--mono);
 
-    font-size:8px;
+    font-family:var(--mono);
+    font-size:7px;
 
     text-transform:uppercase;
+    letter-spacing:.08em;
 
-    letter-spacing:.07em;
+    opacity:.45;
 
-    opacity:.5;
 }
 
 
 /* =========================================================
-   VERSE
+   GIANT ASTERISK
+========================================================= */
+
+.star{
+
+    position:absolute;
+
+    z-index:0;
+
+    font-family:var(--display);
+
+    font-weight:700;
+
+    line-height:.6;
+
+    pointer-events:none;
+
+    user-select:none;
+
+}
+
+.star.hero-star{
+
+    top:110px;
+    right:-22px;
+
+    font-size:170px;
+
+    color:var(--orange);
+
+    opacity:.9;
+
+    transform:rotate(12deg);
+
+}
+
+.star.section-star{
+
+    position:relative;
+
+    top:auto;
+    right:auto;
+
+    display:block;
+
+    margin:
+        5px
+        0
+        -7px
+        -7px;
+
+    font-size:72px;
+
+    color:var(--pink);
+
+    opacity:.95;
+
+}
+
+
+/* =========================================================
+   SECTION DIVIDER
+========================================================= */
+
+.section-divider{
+
+    margin:
+        65px
+        0
+        0;
+
+    padding-top:25px;
+
+    border-top:
+        1px solid
+        rgba(23,19,19,.13);
+
+}
+
+.section-number{
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.43;
+
+}
+
+.section-heading{
+
+    margin-top:11px;
+
+    font-family:var(--display);
+
+    font-size:34px;
+
+    line-height:.95;
+
+    letter-spacing:-.055em;
+
+    font-weight:700;
+
+}
+
+
+/* =========================================================
+   SCRIPTURE
 ========================================================= */
 
 .verse-card{
-    margin-top:55px;
 
-    padding:28px 24px 30px;
+    position:relative;
+
+    margin-top:24px;
+
+    padding:
+        29px
+        24px
+        34px;
 
     background:var(--blue);
-
     color:var(--white);
 
     border-radius:28px;
 
-    position:relative;
-
     overflow:hidden;
+
 }
 
 .verse-label{
-    font-family:var(--mono);
 
+    margin-bottom:25px;
+
+    font-family:var(--mono);
     font-size:8px;
 
     text-transform:uppercase;
-
     letter-spacing:.1em;
 
-    opacity:.65;
+    opacity:.6;
 
-    margin-bottom:26px;
 }
 
 .verse-text{
+
+    position:relative;
+    z-index:2;
+
     font-family:var(--serif);
 
-    font-size:34px;
+    font-size:
+        clamp(
+            30px,
+            8vw,
+            42px
+        );
 
     line-height:.98;
 
     letter-spacing:-.025em;
 
-    position:relative;
+}
 
-    z-index:2;
+.verse-reference{
+
+    margin-top:25px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.62;
+
 }
 
 .verse-number{
+
     position:absolute;
 
-    right:-20px;
-    bottom:-62px;
+    right:-15px;
+    bottom:-55px;
 
     font-family:var(--display);
 
@@ -1149,44 +1374,210 @@ button{
 
     line-height:1;
 
-    font-weight:700;
+    opacity:.11;
 
-    opacity:.12;
 }
 
 
 /* =========================================================
-   READING BODY
+   EXPLANATION
 ========================================================= */
 
-.body-label{
-    margin-top:58px;
+.explanation{
+
+    margin-top:28px;
+
+}
+
+.explanation p{
+
+    margin-bottom:21px;
+
+    font-size:17px;
+    line-height:1.58;
+
+    letter-spacing:-.01em;
+
+}
+
+.explanation p:last-child{
+    margin-bottom:0;
+}
+
+
+/* =========================================================
+   CONTEXT
+========================================================= */
+
+.context-card{
+
+    position:relative;
+
+    margin-top:25px;
+
+    padding:28px 24px 31px;
+
+    background:var(--brown);
+    color:var(--cream);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+}
+
+.context-label{
+
+    margin-bottom:24px;
 
     font-family:var(--mono);
-
     font-size:8px;
 
     text-transform:uppercase;
+    letter-spacing:.1em;
 
+    opacity:.55;
+
+}
+
+.context-title{
+
+    font-family:var(--display);
+
+    font-size:29px;
+
+    line-height:.95;
+
+    letter-spacing:-.05em;
+
+    font-weight:600;
+
+}
+
+.context-text{
+
+    margin-top:22px;
+
+    font-size:15px;
+    line-height:1.55;
+
+    opacity:.86;
+
+}
+
+.context-star{
+
+    position:absolute;
+
+    right:-15px;
+    bottom:-35px;
+
+    font-family:var(--display);
+
+    font-size:130px;
+
+    opacity:.1;
+
+}
+
+
+/* =========================================================
+   PERSONAL CONNECTION
+========================================================= */
+
+.personal{
+
+    margin-top:70px;
+
+}
+
+.personal-label{
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
     letter-spacing:.1em;
 
     opacity:.45;
+
 }
 
-.body-copy{
-    margin-top:18px;
+.personal-label span{
 
-    max-width:620px;
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
 }
 
-.body-copy p{
-    margin-bottom:23px;
+.personal-title{
+
+    margin-top:14px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            37px,
+            10vw,
+            55px
+        );
+
+    line-height:.9;
+
+    letter-spacing:-.065em;
+
+    font-weight:700;
+
+}
+
+.personal-title em{
+
+    font-family:var(--serif);
+    font-weight:400;
+
+    color:var(--pink);
+
+}
+
+.personal-text{
+
+    margin-top:23px;
 
     font-size:17px;
+    line-height:1.58;
 
-    line-height:1.55;
+}
 
-    letter-spacing:-.01em;
+.personal-quote{
+
+    margin-top:27px;
+
+    padding:
+        23px
+        21px;
+
+    background:var(--orange);
+
+    border-radius:23px;
+
+    font-family:var(--display);
+
+    font-size:22px;
+    line-height:1;
+
+    letter-spacing:-.04em;
+
+    font-weight:600;
+
 }
 
 
@@ -1195,38 +1586,74 @@ button{
 ========================================================= */
 
 .highlight{
-    margin:54px 0;
 
-    padding:30px 0;
+    position:relative;
 
-    border-top:1px solid rgba(23,19,19,.14);
+    margin-top:70px;
 
-    border-bottom:1px solid rgba(23,19,19,.14);
-}
-
-.highlight-mark{
-    width:9px;
-    height:9px;
+    padding:
+        31px
+        24px
+        34px;
 
     background:var(--pink);
 
-    border-radius:50%;
+    border-radius:28px;
 
-    margin-bottom:20px;
+    overflow:hidden;
+
 }
 
-.highlight-text{
-    font-family:var(--display);
+.highlight-label{
 
-    font-size:29px;
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.5;
+
+}
+
+.highlight-star{
+
+    position:absolute;
+
+    top:-20px;
+    right:-12px;
+
+    font-family:var(--display);
+    font-size:115px;
 
     line-height:1;
 
-    letter-spacing:-.045em;
+    opacity:.14;
+
+}
+
+.highlight-text{
+
+    position:relative;
+    z-index:2;
+
+    margin-top:22px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            29px,
+            8vw,
+            43px
+        );
+
+    line-height:.94;
+
+    letter-spacing:-.055em;
 
     font-weight:600;
 
-    max-width:500px;
 }
 
 
@@ -1235,35 +1662,44 @@ button{
 ========================================================= */
 
 .reflection{
-    margin-top:52px;
 
-    padding:26px;
+    margin-top:18px;
+
+    padding:28px 24px 31px;
 
     background:var(--yellow);
 
-    border-radius:24px;
+    border-radius:25px;
+
 }
 
 .reflection-label{
-    font-family:var(--mono);
-
-    font-size:8px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.1em;
 
     margin-bottom:20px;
 
-    opacity:.55;
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.5;
+
 }
 
 .reflection-text{
+
     font-family:var(--serif);
 
-    font-size:31px;
+    font-size:
+        clamp(
+            29px,
+            8vw,
+            40px
+        );
 
     line-height:.98;
+
 }
 
 
@@ -1272,35 +1708,98 @@ button{
 ========================================================= */
 
 .prayer{
+
+    position:relative;
+
     margin-top:18px;
 
-    padding:30px 26px;
+    padding:31px 24px 34px;
 
-    background:var(--brown);
+    background:var(--ink);
+    color:var(--paper);
 
-    color:var(--cream);
+    border-radius:28px;
 
-    border-radius:24px;
+    overflow:hidden;
+
 }
 
 .prayer-label{
-    font-family:var(--mono);
 
+    margin-bottom:23px;
+
+    font-family:var(--mono);
     font-size:8px;
 
     text-transform:uppercase;
-
     letter-spacing:.1em;
 
-    opacity:.55;
+    opacity:.45;
 
-    margin-bottom:20px;
 }
 
 .prayer-text{
-    font-size:15px;
 
-    line-height:1.55;
+    position:relative;
+    z-index:2;
+
+    font-size:16px;
+    line-height:1.58;
+
+}
+
+.prayer-star{
+
+    position:absolute;
+
+    right:-13px;
+    bottom:-35px;
+
+    font-family:var(--display);
+
+    font-size:140px;
+
+    color:var(--orange);
+
+    opacity:.14;
+
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final-note{
+
+    margin-top:75px;
+
+    text-align:center;
+
+}
+
+.final-star{
+
+    font-family:var(--display);
+
+    font-size:80px;
+
+    line-height:.5;
+
+    color:var(--blue);
+
+}
+
+.final-note p{
+
+    margin-top:18px;
+
+    font-family:var(--serif);
+
+    font-size:25px;
+
+    line-height:1;
+
 }
 
 
@@ -1309,9 +1808,10 @@ button{
 ========================================================= */
 
 .progress-wrap{
+
     position:fixed;
 
-    z-index:50;
+    z-index:100;
 
     top:0;
     left:0;
@@ -1320,9 +1820,10 @@ button{
 
     height:3px;
 
+    display:none;
+
     background:transparent;
 
-    display:none;
 }
 
 .progress-wrap.visible{
@@ -1330,38 +1831,42 @@ button{
 }
 
 .progress-bar{
-    height:100%;
 
     width:0%;
+    height:100%;
 
     background:var(--orange);
 
-    transition:width .12s linear;
 }
 
 .progress-percent{
+
     position:fixed;
 
-    z-index:40;
+    z-index:80;
 
-    right:20px;
-    top:76px;
+    top:
+        calc(
+            71px +
+            var(--safe-top)
+        );
 
-    font-family:var(--mono);
-
-    font-size:8px;
+    right:18px;
 
     padding:6px 8px;
 
     border-radius:20px;
 
     background:var(--ink);
-
     color:var(--paper);
+
+    font-family:var(--mono);
+    font-size:7px;
 
     opacity:0;
 
     transition:.2s ease;
+
 }
 
 .progress-percent.visible{
@@ -1370,27 +1875,126 @@ button{
 
 
 /* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav{
+
+    position:fixed;
+
+    z-index:50;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:
+        9px
+        18px
+        calc(
+            9px +
+            var(--safe-bottom)
+        );
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(245,235,221,1),
+            rgba(245,235,221,.92)
+        );
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-top:
+        1px solid
+        rgba(23,19,19,.07);
+
+}
+
+.nav-inner{
+
+    width:100%;
+    max-width:410px;
+
+    margin:auto;
+
+    display:flex;
+    justify-content:space-around;
+
+}
+
+.nav-item{
+
+    min-width:64px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:4px;
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    text-transform:uppercase;
+    letter-spacing:.06em;
+
+    opacity:.38;
+
+}
+
+.nav-item.active{
+    opacity:1;
+}
+
+.nav-icon{
+
+    width:30px;
+    height:23px;
+
+    display:grid;
+    place-items:center;
+
+}
+
+.nav-icon svg{
+
+    width:17px;
+    height:17px;
+
+}
+
+
+/* =========================================================
    MODAL
 ========================================================= */
 
 .modal{
+
     position:fixed;
 
-    z-index:100;
+    z-index:200;
 
     inset:0;
 
-    padding:20px;
-
     display:none;
-
     align-items:flex-end;
 
-    background:rgba(23,19,19,.38);
+    padding:
+        18px
+        18px
+        calc(
+            18px +
+            var(--safe-bottom)
+        );
+
+    background:
+        rgba(23,19,19,.4);
 
     backdrop-filter:blur(12px);
-
     -webkit-backdrop-filter:blur(12px);
+
 }
 
 .modal.visible{
@@ -1398,23 +2002,27 @@ button{
 }
 
 .modal-card{
-    width:100%;
 
+    width:100%;
     max-width:500px;
 
     margin:auto;
+
+    padding:30px;
 
     background:var(--paper);
 
     border-radius:30px;
 
-    padding:30px;
-
     box-shadow:
-        0 30px 100px rgba(0,0,0,.2);
+        0 30px 100px
+        rgba(0,0,0,.2);
 
     animation:
-        modalIn .45s cubic-bezier(.22,.8,.25,1);
+        modalIn
+        .4s
+        cubic-bezier(.22,.8,.25,1);
+
 }
 
 @keyframes modalIn{
@@ -1422,7 +2030,7 @@ button{
     from{
         opacity:0;
         transform:
-            translateY(30px)
+            translateY(25px)
             scale(.97);
     }
 
@@ -1434,24 +2042,25 @@ button{
 }
 
 .modal-mark{
+
     width:46px;
     height:46px;
-
-    background:var(--orange);
-
-    color:var(--ink);
-
-    border-radius:50%;
 
     display:grid;
     place-items:center;
 
-    font-size:20px;
+    margin-bottom:27px;
 
-    margin-bottom:28px;
+    border-radius:50%;
+
+    background:var(--orange);
+
+    font-size:19px;
+
 }
 
 .modal-title{
+
     font-family:var(--display);
 
     font-size:40px;
@@ -1459,9 +2068,11 @@ button{
     line-height:.9;
 
     letter-spacing:-.06em;
+
 }
 
 .modal-text{
+
     margin-top:15px;
 
     font-family:var(--serif);
@@ -1471,34 +2082,40 @@ button{
     line-height:1.05;
 
     opacity:.7;
+
 }
 
 .modal-actions{
-    margin-top:30px;
 
     display:grid;
-
     gap:8px;
+
+    margin-top:29px;
+
 }
 
 .modal-button{
-    min-height:52px;
+
+    min-height:54px;
 
     border-radius:18px;
+
+    border:
+        1px solid
+        rgba(23,19,19,.14);
 
     font-family:var(--display);
 
     font-size:13px;
-
     font-weight:600;
 
-    border:1px solid rgba(23,19,19,.15);
 }
 
 .modal-button.primary{
-    background:var(--ink);
 
+    background:var(--ink);
     color:var(--paper);
+
 }
 
 
@@ -1508,26 +2125,9 @@ button{
 
 @media(min-width:760px){
 
-    .topbar{
-        padding-left:36px;
-        padding-right:36px;
-    }
-
-    .home{
-        padding-top:120px;
-    }
-
     .hero{
         padding-left:8vw;
         padding-right:8vw;
-    }
-
-    .hero-title{
-        max-width:900px;
-    }
-
-    .hero-meta{
-        max-width:800px;
     }
 
     .carousel-header,
@@ -1545,7 +2145,6 @@ button{
 
     .card{
         flex-basis:390px;
-
         min-height:540px;
     }
 
@@ -1559,27 +2158,7 @@ button{
     }
 
     .reading-content{
-        max-width:900px;
-
-        margin:auto;
-
         padding-top:80px;
-    }
-
-    .reading-title{
-        font-size:110px;
-    }
-
-    .reading-intro{
-        font-size:40px;
-    }
-
-    .verse-card{
-        max-width:760px;
-    }
-
-    .body-copy{
-        font-size:18px;
     }
 
 }
@@ -1594,11 +2173,13 @@ button{
     *,
     *::before,
     *::after{
+
         scroll-behavior:auto!important;
+
+        animation:none!important;
 
         transition:none!important;
 
-        animation:none!important;
     }
 
 }
@@ -1630,20 +2211,24 @@ button{
 
     </div>
 
-    <div class="top-date" id="topDate">
+    <div
+        class="top-date"
+        id="topDate"
+    >
         SET · 2026
     </div>
 
 </header>
 
 
-
 <!-- =====================================================
      HOME
 ===================================================== -->
 
-<main class="home" id="home">
-
+<main
+    class="home"
+    id="home"
+>
 
 <section class="hero">
 
@@ -1655,7 +2240,6 @@ button{
 
     </div>
 
-
     <h1 class="hero-title">
 
         pare.<br>
@@ -1666,21 +2250,21 @@ button{
 
     </h1>
 
-
     <div class="hero-meta">
 
         <p class="hero-copy">
 
-            Um pequeno espaço do seu dia para desacelerar,
-            ouvir a Palavra e lembrar que você não está sozinho.
+            Um pequeno espaço do seu dia
+            para desacelerar, ouvir a Palavra
+            e lembrar que você não está sozinho.
 
         </p>
 
-
-        <div class="hero-count" id="heroCount">
-
+        <div
+            class="hero-count"
+            id="heroCount"
+        >
             01 / 14
-
         </div>
 
     </div>
@@ -1688,31 +2272,26 @@ button{
 </section>
 
 
-
-<!-- CAROUSEL HEADER -->
-
 <div class="carousel-header">
 
     <div class="section-label">
         devocionais
     </div>
 
-
     <div class="carousel-arrows">
 
         <button
             class="arrow"
             id="prevBtn"
-            aria-label="Anterior"
+            aria-label="Devocional anterior"
         >
             ←
         </button>
 
-
         <button
             class="arrow"
             id="nextBtn"
-            aria-label="Próximo"
+            aria-label="Próximo devocional"
         >
             →
         </button>
@@ -1721,9 +2300,6 @@ button{
 
 </div>
 
-
-
-<!-- CAROUSEL -->
 
 <section class="carousel">
 
@@ -1735,14 +2311,12 @@ button{
 </section>
 
 
-
 <div class="carousel-foot">
 
     <div
         class="dots"
         id="dots"
     ></div>
-
 
     <div class="swipe-hint">
         arraste para explorar
@@ -1751,15 +2325,11 @@ button{
 </div>
 
 
-
-<!-- DAILY NOTE -->
-
 <section class="daily-note">
 
     <div class="daily-note-label">
         lembrete de hoje
     </div>
-
 
     <div class="daily-note-text">
 
@@ -1774,7 +2344,6 @@ button{
 </main>
 
 
-
 <!-- =====================================================
      READING
 ===================================================== -->
@@ -1783,7 +2352,6 @@ button{
     class="reading"
     id="reading"
 >
-
 
 <header class="reading-header">
 
@@ -1806,14 +2374,12 @@ button{
 
     </button>
 
-
     <div
         class="reading-counter"
         id="readingCounter"
     >
-        17 · 09
+        17 · SET
     </div>
-
 
     <div class="reading-status">
         devocional
@@ -1822,147 +2388,280 @@ button{
 </header>
 
 
-
 <div class="reading-content">
 
 
-<div class="reading-eyebrow">
+    <!-- =================================================
+         INTRO
+    ================================================= -->
 
-    <span></span>
+    <div class="reading-eyebrow">
 
-    um momento com Deus
+        <span></span>
 
-</div>
+        um momento com Deus
 
-
-
-<h1
-    class="reading-title"
-    id="readingTitle"
->
-    Não tenha <em>medo</em>
-</h1>
-
-
-
-<div
-    class="reading-intro"
-    id="readingIntro"
-></div>
-
-
-
-<div class="reference-row">
-
-    <div
-        class="reference-number"
-        id="reference"
-    ></div>
-
-
-    <div class="reference-line"></div>
-
-
-    <div class="reference-name">
-        palavra para hoje
-    </div>
-
-</div>
-
-
-
-<!-- VERSE -->
-
-<section class="verse-card">
-
-    <div class="verse-label">
-        palavra
     </div>
 
 
-    <div
-        class="verse-text"
-        id="verseText"
-    ></div>
+    <span class="star hero-star">
+        *
+    </span>
 
 
-    <div
-        class="verse-number"
-        id="verseNumber"
+    <h1
+        class="reading-title"
+        id="readingTitle"
     >
-        10
-    </div>
-
-</section>
-
-
-
-<div class="body-label">
-    leia devagar
-</div>
-
-
-<article
-    class="body-copy"
-    id="bodyCopy"
-></article>
-
-
-
-<!-- HIGHLIGHT -->
-
-<section class="highlight">
-
-    <div class="highlight-mark"></div>
+        Não tenha <em>medo</em>
+    </h1>
 
 
     <div
-        class="highlight-text"
-        id="highlightText"
+        class="reading-intro"
+        id="readingIntro"
     ></div>
 
-</section>
 
+    <div class="reference-row">
 
+        <div
+            class="reference-number"
+            id="reference"
+        ></div>
 
-<!-- REFLECTION -->
+        <div class="reference-line"></div>
 
-<section class="reflection">
+        <div class="reference-name">
+            escritura para hoje
+        </div>
 
-    <div class="reflection-label">
-        para pensar
     </div>
 
 
-    <div
-        class="reflection-text"
-        id="reflectionText"
-    ></div>
+    <!-- =================================================
+         01 · ESCRITURA
+    ================================================= -->
 
-</section>
+    <section class="section-divider">
+
+        <div class="section-number">
+            01 · escritura
+        </div>
+
+        <h2 class="section-heading">
+            leia a Palavra.
+        </h2>
+
+    </section>
 
 
+    <section class="verse-card">
 
-<!-- PRAYER -->
+        <div class="verse-label">
+            a Palavra diz
+        </div>
 
-<section class="prayer">
+        <div
+            class="verse-text"
+            id="verseText"
+        ></div>
 
-    <div class="prayer-label">
-        oração
+        <div
+            class="verse-reference"
+            id="verseReference"
+        ></div>
+
+        <div
+            class="verse-number"
+            id="verseNumber"
+        >
+            10
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         02 · ENTENDENDO
+    ================================================= -->
+
+    <section class="section-divider">
+
+        <div class="section-number">
+            02 · entendendo
+        </div>
+
+        <h2 class="section-heading">
+            o que Deus está dizendo?
+        </h2>
+
+    </section>
+
+
+    <article
+        class="explanation"
+        id="explanation"
+    ></article>
+
+
+    <!-- =================================================
+         03 · CONTEXTO
+    ================================================= -->
+
+    <section class="section-divider">
+
+        <div class="section-number">
+            03 · contexto
+        </div>
+
+        <h2 class="section-heading">
+            antes de aplicar,
+            entenda.
+        </h2>
+
+    </section>
+
+
+    <section class="context-card">
+
+        <div class="context-label">
+            colocando a escritura no lugar certo
+        </div>
+
+        <div
+            class="context-title"
+            id="contextTitle"
+        ></div>
+
+        <div
+            class="context-text"
+            id="contextText"
+        ></div>
+
+        <div class="context-star">
+            *
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         04 · SUA VIDA
+    ================================================= -->
+
+    <section class="personal">
+
+        <div class="personal-label">
+
+            <span></span>
+
+            04 · trazendo para hoje
+
+        </div>
+
+
+        <h2
+            class="personal-title"
+            id="personalTitle"
+        >
+            e o que isso tem a ver
+            com <em>você?</em>
+        </h2>
+
+
+        <div
+            class="personal-text"
+            id="personalText"
+        ></div>
+
+
+        <div
+            class="personal-quote"
+            id="personalQuote"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         05 · DESTAQUE
+    ================================================= -->
+
+    <section class="highlight">
+
+        <div class="highlight-label">
+            guarde isso
+        </div>
+
+        <div class="highlight-star">
+            *
+        </div>
+
+        <div
+            class="highlight-text"
+            id="highlightText"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         06 · REFLEXÃO
+    ================================================= -->
+
+    <section class="reflection">
+
+        <div class="reflection-label">
+            05 · responda a Deus
+        </div>
+
+        <div
+            class="reflection-text"
+            id="reflectionText"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         ORAÇÃO
+    ================================================= -->
+
+    <section class="prayer">
+
+        <div class="prayer-label">
+            uma oração para terminar
+        </div>
+
+        <div
+            class="prayer-text"
+            id="prayerText"
+        ></div>
+
+        <div class="prayer-star">
+            *
+        </div>
+
+    </section>
+
+
+    <div class="final-note">
+
+        <div class="final-star">
+            *
+        </div>
+
+        <p>
+            agora, vá viver o seu dia.
+        </p>
+
     </div>
 
-
-    <div
-        class="prayer-text"
-        id="prayerText"
-    ></div>
-
-</section>
 
 </div>
 
 </main>
-
 
 
 <!-- =====================================================
@@ -1990,111 +2689,109 @@ button{
 </div>
 
 
-
 <!-- =====================================================
      BOTTOM NAV
 ===================================================== -->
 
 <nav class="bottom-nav">
 
-<div class="nav-inner">
+    <div class="nav-inner">
 
-
-<button
-    class="nav-item active"
-    id="navHome"
->
-
-    <div class="nav-icon">
-
-        <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
+        <button
+            class="nav-item active"
+            id="navHome"
         >
 
-            <path d="M3 11.5L12 4l9 7.5"/>
+            <div class="nav-icon">
 
-            <path d="M5.5 10v9h13v-9"/>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                >
 
-        </svg>
+                    <path d="M3 11.5L12 4l9 7.5"/>
+                    <path d="M5.5 10v9h13v-9"/>
 
-    </div>
+                </svg>
 
-    hoje
+            </div>
 
-</button>
+            hoje
+
+        </button>
 
 
-
-<button class="nav-item">
-
-    <div class="nav-icon">
-
-        <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
+        <button
+            class="nav-item"
+            id="navDevotionals"
         >
 
-            <path d="M5 4h14v16H5z"/>
+            <div class="nav-icon">
 
-            <path d="M8 8h8M8 12h8M8 16h5"/>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                >
 
-        </svg>
+                    <path d="M5 4h14v16H5z"/>
+                    <path d="M8 8h8M8 12h8M8 16h5"/>
 
-    </div>
+                </svg>
 
-    devocionais
+            </div>
 
-</button>
+            devocionais
+
+        </button>
 
 
-
-<button class="nav-item">
-
-    <div class="nav-icon">
-
-        <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
+        <button
+            class="nav-item"
+            id="navProgress"
         >
 
-            <path d="
-                M12 3
-                l2.7 5.5
-                L21 9.4
-                l-4.5 4.4
-                1.1 6.2
-                L12 17.1
-                6.4 20
-                7.5 13.8
-                3 9.4
-                9.3 8.5
-                12 3z
-            "/>
+            <div class="nav-icon">
 
-        </svg>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                >
+
+                    <path d="
+                        M12 3
+                        l2.7 5.5
+                        L21 9.4
+                        l-4.5 4.4
+                        1.1 6.2
+                        L12 17.1
+                        6.4 20
+                        7.5 13.8
+                        3 9.4
+                        9.3 8.5
+                        12 3z
+                    "/>
+
+                </svg>
+
+            </div>
+
+            progresso
+
+        </button>
 
     </div>
-
-    progresso
-
-</button>
-
-
-</div>
 
 </nav>
 
 
-
 <!-- =====================================================
-     COMPLETION MODAL
+     MODAL
 ===================================================== -->
 
 <div
@@ -2102,52 +2799,41 @@ button{
     id="completionModal"
 >
 
-<div class="modal-card">
+    <div class="modal-card">
 
+        <div class="modal-mark">
+            ✓
+        </div>
 
-<div class="modal-mark">
-    ✓
-</div>
+        <h2 class="modal-title">
+            você chegou<br>
+            até o fim.
+        </h2>
 
+        <p class="modal-text">
+            Guarde o que fez sentido para você hoje.
+            Amanhã existe um novo momento.
+        </p>
 
-<h2 class="modal-title">
+        <div class="modal-actions">
 
-    você chegou<br>
-    até o fim.
+            <button
+                class="modal-button primary"
+                id="continueButton"
+            >
+                continuar aqui
+            </button>
 
-</h2>
+            <button
+                class="modal-button"
+                id="homeButton"
+            >
+                voltar para início
+            </button>
 
+        </div>
 
-<p class="modal-text">
-
-    Guarde o que fez sentido para você hoje.
-    Amanhã existe um novo momento.
-
-</p>
-
-
-<div class="modal-actions">
-
-
-<button
-    class="modal-button primary"
-    id="continueButton"
->
-    continuar aqui
-</button>
-
-
-<button
-    class="modal-button"
-    id="homeButton"
->
-    voltar para início
-</button>
-
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
@@ -2164,227 +2850,605 @@ button{
 const devotionals = {
 
 17:{
-title:"Não tenha medo",
-intro:"Quando o medo aparecer, lembre-se de quem está caminhando com você.",
-reference:"Isaías 41:10",
-verse:"Não tenha medo, pois eu estou com você; não fique assustado, pois eu sou o seu Deus. Eu lhe dou forças e o ajudo.",
-reading:[
-"Existem dias em que a gente olha para o futuro e não consegue enxergar muita coisa. Só existem perguntas. Será que vai dar certo? Será que eu vou conseguir? E se tudo mudar de novo?",
-"Deus não promete que nunca teremos motivos para sentir medo. O que Ele promete é que não precisaremos atravessar esses momentos sozinhos.",
-"A presença de Deus muda a maneira como enfrentamos aquilo que ainda não conhecemos. Você não precisa ter todas as respostas hoje. Precisa apenas continuar caminhando.",
-"Talvez algumas coisas ainda estejam fora do lugar. Isso não significa que Deus tenha abandonado o processo. Algumas respostas chegam enquanto caminhamos."
-],
-highlight:"Você não precisa enxergar todo o caminho para dar o próximo passo.",
-reflection:"Qual preocupação você precisa entregar a Deus hoje?",
-prayer:"Deus, quando o medo tentar ocupar espaço dentro de mim, lembra-me de que Tu estás comigo. Dá-me coragem para continuar e confiança para viver um dia de cada vez. Amém."
+    title:"Não tenha medo",
+
+    intro:
+        "Quando o medo aparecer, lembre-se de quem está caminhando com você.",
+
+    reference:
+        "Isaías 41:10",
+
+    verse:
+        "Não tenha medo, pois eu estou com você; não fique assustado, pois eu sou o seu Deus. Eu lhe dou forças e o ajudo.",
+
+    explanation:[
+        "Isaías 41 foi escrito para um povo que atravessava um período de insegurança e ameaça. Israel precisava lembrar de quem Deus era e, principalmente, de que a presença dEle não dependia das circunstâncias.",
+        "Perceba que Deus não começa dizendo que não haverá dificuldade. Ele começa dizendo: 'Eu estou com você'. A promessa não é uma vida sem medo. É uma vida em que o medo não precisa ocupar o lugar de Deus.",
+        "Quando a Bíblia diz 'Eu lhe dou forças e o ajudo', ela desloca o peso da nossa capacidade para a fidelidade de Deus. Você continua caminhando, mas não precisa acreditar que tudo depende exclusivamente de você."
+    ],
+
+    contextTitle:
+        "A promessa não é ausência de medo. É presença.",
+
+    contextText:
+        "Esse versículo não foi dado para alguém que estava vivendo uma vida perfeitamente tranquila. Foi dado justamente no meio da insegurança. Por isso ele continua tão atual: Deus não espera você resolver tudo para então estar perto.",
+
+    personalTitle:
+        "Rob, talvez você esteja tentando enxergar o caminho inteiro.",
+
+    personalText:
+        "Tem muita coisa acontecendo ao mesmo tempo: trabalho, dinheiro, mudança, Salvador, casa, futuro, carreira e a vontade de reconstruir uma vida que tenha mais a sua cara. É natural olhar para tudo isso e pensar: 'E se não der certo?'.",
+
+    personalQuote:
+        "Você não precisa saber exatamente como chegar. Só precisa confiar o próximo passo a Deus.",
+
+    highlight:
+        "Você não precisa enxergar todo o caminho para dar o próximo passo.",
+
+    reflection:
+        "Qual medo sobre o seu futuro você precisa colocar nas mãos de Deus hoje?",
+
+    prayer:
+        "Deus, Tu sabes tudo aquilo que eu ainda não consigo enxergar. Conheces meus planos, minhas preocupações e também aquilo que eu desejo construir. Quando o medo aparecer, lembra-me de que eu não estou caminhando sozinho. Dá-me coragem para fazer o que está ao meu alcance e confiança para entregar a Ti aquilo que não está. Amém."
 },
 
 18:{
-title:"Um dia de cada vez",
-intro:"Nem tudo precisa ser resolvido hoje.",
-reference:"Mateus 6:34",
-verse:"Portanto, não fiquem preocupados com o dia de amanhã, pois o dia de amanhã terá as suas próprias preocupações.",
-reading:[
-"A ansiedade muitas vezes tenta nos fazer viver vários dias ao mesmo tempo. Pensamos no amanhã, na próxima semana, no próximo mês e até em coisas que talvez nunca aconteçam.",
-"Jesus nos convida para uma vida mais presente. O hoje já carrega suas próprias tarefas, alegrias e desafios.",
-"Isso não significa ignorar o futuro. Significa não permitir que aquilo que ainda não chegou roube a paz do dia que Deus colocou diante de você.",
-"Faça o que está ao seu alcance hoje. O restante pode esperar."
-],
-highlight:"O futuro será vivido quando chegar. Hoje, você só precisa viver hoje.",
-reflection:"O que você está tentando resolver antes da hora?",
-prayer:"Senhor, ensina-me a viver o presente com confiança. Ajuda-me a não carregar preocupações que ainda não pertencem ao meu dia. Amém."
+    title:"Um dia de cada vez",
+
+    intro:
+        "Nem tudo precisa ser resolvido hoje.",
+
+    reference:
+        "Mateus 6:34",
+
+    verse:
+        "Portanto, não fiquem preocupados com o dia de amanhã, pois o dia de amanhã terá as suas próprias preocupações.",
+
+    explanation:[
+        "Jesus está falando sobre ansiedade dentro do Sermão do Monte. Pouco antes, Ele fala sobre alimento, roupa e as necessidades básicas da vida. A questão não é deixar de planejar. É não permitir que a preocupação com o futuro consuma o presente.",
+        "Existe uma diferença importante entre responsabilidade e ansiedade. Responsabilidade pergunta: 'O que posso fazer hoje?'. Ansiedade pergunta: 'E se tudo der errado depois?'.",
+        "Jesus traz a gente de volta para o tamanho real do dia. O amanhã ainda não chegou. O único lugar onde você consegue agir é aqui."
+    ],
+
+    contextTitle:
+        "Jesus está ensinando presença, não passividade.",
+
+    contextText:
+        "Você pode continuar fazendo planos, organizando dinheiro, procurando apartamento, trabalhando e construindo sua carreira. A diferença está em não tentar viver todos esses futuros ao mesmo tempo.",
+
+    personalTitle:
+        "Você está tentando morar no futuro antes de chegar lá.",
+
+    personalText:
+        "É fácil transformar a mudança para Salvador em uma espécie de prova final: 'Quando eu estiver lá, tudo precisa dar certo'. Mas sua vida não começa em novembro. Ela já está acontecendo agora.",
+
+    personalQuote:
+        "O próximo passo é mais importante que o próximo ano.",
+
+    highlight:
+        "O futuro será vivido quando chegar. Hoje, você só precisa viver hoje.",
+
+    reflection:
+        "O que você está tentando resolver antes da hora?",
+
+    prayer:
+        "Senhor, ensina-me a viver o dia que Tu colocaste diante de mim. Ajuda-me a planejar sem me consumir, trabalhar sem me desesperar e esperar sem transformar o futuro em uma ameaça. Que eu consiga viver hoje com a paz que vem de Ti. Amém."
 },
 
 19:{
-title:"Deus abre caminhos",
-intro:"Às vezes a porta ainda não apareceu porque o caminho ainda está sendo preparado.",
-reference:"Salmos 37:5",
-verse:"Ponha a sua vida nas mãos do Senhor, confie nele, e ele o ajudará.",
-reading:[
-"Existem momentos em que parece que nada está acontecendo. Você tenta, espera, procura e continua sem enxergar uma saída.",
-"Mas silêncio não significa ausência. Deus pode estar trabalhando em coisas que você ainda não consegue perceber.",
-"Entregar os planos a Deus não significa deixar de agir. Significa agir sem acreditar que tudo depende exclusivamente das nossas forças.",
-"Continue fazendo a sua parte. Ore. Procure. Tente novamente. E confie que nem toda porta fechada é o fim da história."
-],
-highlight:"O caminho pode estar sendo preparado mesmo quando você ainda não consegue vê-lo.",
-reflection:"Existe alguma área da sua vida em que você precisa confiar mais e controlar menos?",
-prayer:"Deus, coloco meus planos diante de Ti. Guia meus passos e abre os caminhos que forem certos para mim. Dá-me paciência enquanto espero. Amém."
+    title:"Deus abre caminhos",
+
+    intro:
+        "Às vezes a porta ainda não apareceu porque o caminho ainda está sendo preparado.",
+
+    reference:
+        "Salmos 37:5",
+
+    verse:
+        "Ponha a sua vida nas mãos do Senhor, confie nele, e ele o ajudará.",
+
+    explanation:[
+        "O Salmo 37 fala sobre confiança em Deus em meio a um cenário em que parece que as coisas estão injustas ou fora do lugar. Davi não está dizendo para a pessoa simplesmente esperar. Ele fala de confiar, fazer o bem, permanecer firme e entregar o caminho ao Senhor.",
+        "Entregar o caminho não significa abandonar a responsabilidade. Significa parar de acreditar que precisamos controlar cada detalhe para que Deus possa agir.",
+        "Existe uma paz diferente quando fazemos nossa parte sem transformar cada resultado em uma medida do nosso valor."
+    ],
+
+    contextTitle:
+        "Confiar também é continuar agindo.",
+
+    contextText:
+        "Você pode procurar apartamento, enviar proposta, trabalhar, fazer contatos, organizar seu dinheiro e planejar a mudança. Fé não substitui movimento. Fé muda o lugar de onde você se movimenta.",
+
+    personalTitle:
+        "Você não precisa fabricar a porta.",
+
+    personalText:
+        "Talvez uma oportunidade profissional apareça de um jeito que você não imaginava. Talvez um apartamento que parecia impossível tenha uma condição diferente. Talvez alguma solução surja quando você já estava cansado de procurar.",
+
+    personalQuote:
+        "Faça sua parte. Deus continua cuidando do que você não consegue controlar.",
+
+    highlight:
+        "O caminho pode estar sendo preparado mesmo quando você ainda não consegue vê-lo.",
+
+    reflection:
+        "Em que área da sua vida você precisa agir mais e controlar menos?",
+
+    prayer:
+        "Deus, coloco meus caminhos diante de Ti. Dá-me iniciativa para fazer minha parte e serenidade para aceitar aquilo que não posso controlar. Se uma porta precisar se abrir, prepara o caminho. Se outra precisar permanecer fechada, dá-me discernimento para não insistir nela. Amém."
 },
 
 20:{
-title:"Você pode continuar",
-intro:"Cansaço não significa fracasso.",
-reference:"Gálatas 6:9",
-verse:"Não nos cansemos de fazer o bem, pois, se não desanimarmos, chegará o tempo certo em que faremos a colheita.",
-reading:[
-"Talvez você esteja cansado de tentar. Cansado de recomeçar, esperar, procurar ou acreditar.",
-"Mas uma fase difícil não apaga tudo aquilo que você já construiu. Você chegou até aqui porque, mesmo com medo, continuou.",
-"Nem todo progresso é visível. Há crescimento acontecendo dentro de você enquanto nada parece mudar por fora.",
-"Descanse quando precisar. Reorganize-se. Respire. Mas não confunda uma pausa com desistência."
-],
-highlight:"Você pode descansar sem desistir.",
-reflection:"Onde você precisa de descanso e onde precisa apenas de um pouco mais de perseverança?",
-prayer:"Pai, renova minhas forças. Quando eu estiver cansado, ajuda-me a descansar sem perder a esperança. Amém."
+    title:"Você pode continuar",
+
+    intro:
+        "Cansaço não significa fracasso.",
+
+    reference:
+        "Gálatas 6:9",
+
+    verse:
+        "Não nos cansemos de fazer o bem, pois, se não desanimarmos, chegará o tempo certo em que faremos a colheita.",
+
+    explanation:[
+        "Paulo está falando sobre perseverança. A imagem da colheita é importante porque existe um intervalo entre plantar e colher. Nesse intervalo, pode parecer que nada está acontecendo.",
+        "A Bíblia não romantiza o cansaço. O próprio texto reconhece que podemos nos cansar. O convite é não transformar o cansaço em uma conclusão sobre a nossa história.",
+        "Às vezes você não precisa de uma nova estratégia. Precisa descansar, recuperar forças e continuar depois."
+    ],
+
+    contextTitle:
+        "Existe um tempo entre plantar e colher.",
+
+    contextText:
+        "Esse espaço pode ser frustrante porque você trabalha hoje e nem sempre vê resultado hoje. Mas crescimento profissional, estabilidade, uma mudança de vida e até uma vida espiritual mais profunda são construídos em camadas.",
+
+    personalTitle:
+        "Você já recomeçou mais vezes do que reconhece.",
+
+    personalText:
+        "Você já mudou de trabalho, recomeçou projetos, voltou a treinar, reorganizou planos e continua tentando construir uma vida que faça sentido para você. Isso não é pouca coisa.",
+
+    personalQuote:
+        "Descansar não apaga o caminho que você já percorreu.",
+
+    highlight:
+        "Você pode descansar sem desistir.",
+
+    reflection:
+        "Onde você precisa de descanso e onde precisa apenas perseverar mais um pouco?",
+
+    prayer:
+        "Pai, renova minhas forças. Tira de mim a necessidade de provar todos os dias que estou avançando. Ensina-me a respeitar meu ritmo sem abandonar aquilo que é importante. Quando eu precisar parar, dá-me descanso. Quando for hora de continuar, dá-me coragem. Amém."
 },
 
 21:{
-title:"Há propósito no caminho",
-intro:"Nem toda parte da história faz sentido enquanto estamos vivendo.",
-reference:"Romanos 8:28",
-verse:"Pois sabemos que todas as coisas trabalham juntas para o bem daqueles que amam a Deus.",
-reading:[
-"Algumas experiências só começam a fazer sentido depois de algum tempo. Uma porta fechada, uma mudança inesperada ou uma despedida podem parecer apenas perdas quando acontecem.",
-"Não precisamos fingir que tudo é bom. Algumas coisas realmente doem.",
-"Mas podemos confiar que Deus é capaz de trabalhar até dentro de histórias que não escolhemos viver.",
-"O capítulo atual não é o livro inteiro. Continue. Ainda existem páginas que você não leu."
-],
-highlight:"Você está vivendo um capítulo, não a história inteira.",
-reflection:"O que hoje parece confuso, mas você gostaria de entregar à perspectiva de Deus?",
-prayer:"Senhor, ajuda-me a confiar na Tua condução mesmo quando não entendo o caminho. Amém."
+    title:"Há propósito no caminho",
+
+    intro:
+        "Nem toda parte da história faz sentido enquanto estamos vivendo.",
+
+    reference:
+        "Romanos 8:28",
+
+    verse:
+        "Pois sabemos que todas as coisas trabalham juntas para o bem daqueles que amam a Deus.",
+
+    explanation:[
+        "Romanos 8:28 aparece em um capítulo que fala sobre sofrimento, espera, fraqueza e esperança. Por isso, 'todas as coisas' não significa que tudo o que acontece seja bom.",
+        "A promessa é diferente: Deus pode trabalhar até dentro de circunstâncias que não escolheríamos.",
+        "Isso muda a forma de olhar para uma fase difícil. Não precisamos chamar uma perda de coisa boa. Podemos simplesmente confiar que ela não precisa ser a última palavra."
+    ],
+
+    contextTitle:
+        "Deus pode trabalhar dentro de histórias que você não escolheu.",
+
+    contextText:
+        "A fé cristã não exige que você finja que tudo foi fácil. Existem coisas que doem, portas que decepcionam e mudanças que ninguém teria escolhido. Esperança não apaga isso. Ela impede que isso seja o fim da história.",
+
+    personalTitle:
+        "Essa fase não precisa ser o resumo da sua vida.",
+
+    personalText:
+        "O que aconteceu com trabalho, relacionamentos, dinheiro, planos e mudanças pode parecer grande quando você está dentro da situação. Mas você está vendo um capítulo. Deus vê o livro inteiro.",
+
+    personalQuote:
+        "O capítulo atual não é a história inteira.",
+
+    highlight:
+        "Você está vivendo um capítulo, não a história inteira.",
+
+    reflection:
+        "O que hoje parece confuso você gostaria de conseguir entregar à perspectiva de Deus?",
+
+    prayer:
+        "Senhor, ajuda-me a não transformar uma fase difícil em uma sentença sobre meu futuro. Dá-me coragem para reconhecer o que doeu e fé para acreditar que Tu ainda podes trabalhar dentro da minha história. Amém."
 },
 
 22:{
-title:"Quando faltar força",
-intro:"Você não precisa ser forte o tempo inteiro.",
-reference:"Salmos 46:1",
-verse:"Deus é o nosso refúgio e a nossa força; ele é socorro que não falta em tempos de aflição.",
-reading:[
-"Existe uma diferença entre ser forte e fingir que nada machuca. Deus não pede que você esconda suas fraquezas.",
-"Você pode chegar diante dEle exatamente como está. Cansado, confuso, frustrado ou sem saber o que fazer.",
-"O refúgio existe justamente para os momentos em que precisamos parar e recuperar o fôlego.",
-"Hoje, talvez sua oração não precise ser longa. Pode ser apenas: 'Deus, fica comigo'. E Ele fica."
-],
-highlight:"A sua fraqueza não assusta Deus.",
-reflection:"O que você precisa colocar nas mãos de Deus em vez de tentar carregar sozinho?",
-prayer:"Deus, eu não quero fingir que sou forte o tempo inteiro. Recebe minhas preocupações e sustenta-me quando minhas forças faltarem. Amém."
+    title:"Quando faltar força",
+
+    intro:
+        "Você não precisa ser forte o tempo inteiro.",
+
+    reference:
+        "Salmos 46:1",
+
+    verse:
+        "Deus é o nosso refúgio e a nossa força; ele é socorro que não falta em tempos de aflição.",
+
+    explanation:[
+        "O Salmo 46 começa reconhecendo que existem momentos em que a terra treme, os montes se movem e as águas se agitam. É uma linguagem forte para falar de instabilidade.",
+        "Mesmo nesse cenário, a primeira afirmação é sobre Deus: Ele é refúgio e força.",
+        "Refúgio não é um lugar onde você precisa chegar fingindo estar bem. É justamente o lugar para onde você corre quando não consegue mais sustentar tudo sozinho."
+    ],
+
+    contextTitle:
+        "Deus não precisa da sua performance para cuidar de você.",
+
+    contextText:
+        "Você pode chegar diante de Deus cansado, frustrado, inseguro ou sem saber qual decisão tomar. A oração não precisa ser bonita. Às vezes ela pode ser simplesmente: 'Deus, fica comigo'.",
+
+    personalTitle:
+        "Você não precisa provar que aguenta tudo.",
+
+    personalText:
+        "Tem uma diferença entre ser forte e nunca admitir que alguma coisa pesa. Talvez parte da sua próxima fase não seja aprender a carregar mais. Talvez seja aprender a entregar melhor.",
+
+    personalQuote:
+        "A sua fraqueza não assusta Deus.",
+
+    highlight:
+        "Você não precisa ser forte para ser sustentado.",
+
+    reflection:
+        "O que você está tentando carregar sozinho?",
+
+    prayer:
+        "Deus, eu não quero fingir que consigo controlar tudo. Recebe aquilo que está pesado em mim. Sê meu refúgio quando eu estiver cansado e minha força quando eu não souber como continuar. Amém."
 },
 
 23:{
-title:"Confie no processo",
-intro:"Nem tudo precisa acontecer imediatamente para estar acontecendo.",
-reference:"Eclesiastes 3:1",
-verse:"Tudo neste mundo tem o seu tempo; cada coisa tem a sua ocasião.",
-reading:[
-"Vivemos em uma época que nos acostumou com respostas rápidas. Mas algumas das coisas mais importantes da vida precisam de tempo.",
-"Crescimento, amadurecimento, relacionamentos, carreira e sonhos não obedecem ao ritmo da ansiedade.",
-"Isso pode ser frustrante. Mas existe beleza em permitir que cada coisa aconteça no seu tempo.",
-"Continue plantando. Continue cuidando. Continue acreditando. O tempo também faz parte da obra."
-],
-highlight:"O tempo de espera não é necessariamente tempo perdido.",
-reflection:"O que você gostaria que acontecesse mais rápido?",
-prayer:"Senhor, dá-me sabedoria para reconhecer o tempo de agir e o tempo de esperar. Amém."
+    title:"Confie no processo",
+
+    intro:
+        "Nem tudo precisa acontecer imediatamente para estar acontecendo.",
+
+    reference:
+        "Eclesiastes 3:1",
+
+    verse:
+        "Tudo neste mundo tem o seu tempo; cada coisa tem a sua ocasião.",
+
+    explanation:[
+        "Eclesiastes 3 apresenta uma série de tempos diferentes: nascer e morrer, plantar e colher, chorar e rir, buscar e perder. A vida é apresentada como movimento.",
+        "Isso não significa que devemos ficar parados esperando o tempo perfeito. Significa reconhecer que algumas coisas não podem ser aceleradas apenas porque estamos ansiosos.",
+        "Existe um tipo de sabedoria em fazer o que cabe a nós e aceitar que o restante também depende do tempo."
+    ],
+
+    contextTitle:
+        "Nem tudo que demora está dando errado.",
+
+    contextText:
+        "A ansiedade costuma interpretar demora como fracasso. Mas algumas coisas simplesmente precisam de tempo para ganhar forma: uma carreira, uma mudança, uma casa, estabilidade financeira, maturidade e até nossa relação com Deus.",
+
+    personalTitle:
+        "Você quer chegar logo na próxima versão da sua vida.",
+
+    personalText:
+        "E eu entendo. Você já consegue imaginar Salvador, sua casa, sua rotina, seu trabalho e a sensação de finalmente estar em um lugar que combina com você. Mas existe uma parte da história que precisa ser vivida antes da chegada.",
+
+    personalQuote:
+        "O processo também é parte da resposta.",
+
+    highlight:
+        "O tempo de espera não é necessariamente tempo perdido.",
+
+    reflection:
+        "O que você gostaria que acontecesse mais rápido?",
+
+    prayer:
+        "Senhor, dá-me sabedoria para reconhecer quando é hora de agir e quando é hora de esperar. Livra-me da pressa que me faz desprezar o processo. Ensina-me a perceber que Tu também estás presente enquanto eu ainda não cheguei. Amém."
 },
 
 24:{
-title:"Deus conhece você",
-intro:"Você não é invisível para Deus.",
-reference:"Salmos 139:1",
-verse:"Ó Senhor Deus, tu me examinas e me conheces.",
-reading:[
-"Há uma coisa profundamente bonita na ideia de ser conhecido por Deus: você não precisa explicar tudo para ser compreendido por Ele.",
-"Ele conhece aquilo que você mostra e aquilo que você esconde. Conhece seus sonhos, seus medos, suas dúvidas e até aquilo que você ainda não conseguiu colocar em palavras.",
-"Isso significa que você pode se aproximar de Deus com honestidade.",
-"Não precisa construir uma versão perfeita de si mesmo para conversar com Ele."
-],
-highlight:"Você pode ser completamente honesto com Deus.",
-reflection:"Existe algo que você tem dificuldade de falar com Deus?",
-prayer:"Pai, obrigado porque Tu me conheces profundamente e ainda assim me recebes. Ajuda-me a me aproximar de Ti com sinceridade. Amém."
+    title:"Deus conhece você",
+
+    intro:
+        "Você não é invisível para Deus.",
+
+    reference:
+        "Salmos 139:1",
+
+    verse:
+        "Ó Senhor Deus, tu me examinas e me conheces.",
+
+    explanation:[
+        "O Salmo 139 é uma oração de alguém profundamente consciente da presença de Deus. Deus conhece quando a pessoa se senta, se levanta, pensa, caminha e descansa.",
+        "Esse conhecimento não é apresentado como vigilância ameaçadora. É apresentado como intimidade. Deus conhece aquilo que ninguém mais consegue conhecer completamente.",
+        "Isso significa que você não precisa editar sua vida antes de conversar com Ele."
+    ],
+
+    contextTitle:
+        "Você não precisa explicar tudo para ser conhecido.",
+
+    contextText:
+        "Existe liberdade em saber que Deus conhece inclusive aquilo que você ainda não consegue organizar em palavras. Fé também pode ser honestidade.",
+
+    personalTitle:
+        "Deus conhece o Rob por trás dos planos.",
+
+    personalText:
+        "Ele conhece o desejo de voltar para Salvador, a vontade de ter estabilidade, o medo de faltar dinheiro, a ambição profissional, as inseguranças e também as coisas bonitas que você espera viver.",
+
+    personalQuote:
+        "Você pode chegar a Deus exatamente como está.",
+
+    highlight:
+        "Você pode ser completamente honesto com Deus.",
+
+    reflection:
+        "Existe algo que você tem dificuldade de falar com Deus?",
+
+    prayer:
+        "Pai, obrigado porque Tu me conheces profundamente. Não preciso esconder de Ti aquilo que sinto nem fingir que tenho todas as respostas. Ensina-me a conversar contigo com honestidade e confiança. Amém."
 },
 
 25:{
-title:"Recomeços",
-intro:"Um novo começo não apaga o passado. Ele mostra que a história continua.",
-reference:"Isaías 43:19",
-verse:"Vejam! Estou fazendo uma coisa nova; ela está surgindo agora e vocês não percebem?",
-reading:[
-"Recomeçar pode dar medo porque significa entrar em um território que ainda não conhecemos.",
-"Mas também existe liberdade em perceber que o passado não precisa determinar todos os próximos capítulos.",
-"Você pode aprender com o que aconteceu sem permanecer preso ao que aconteceu.",
-"Deus continua criando possibilidades. Talvez você ainda não consiga enxergá-las, mas isso não significa que elas não existam."
-],
-highlight:"O que terminou não precisa definir o que começa agora.",
-reflection:"Que novo começo você gostaria de viver?",
-prayer:"Deus, dá-me coragem para abraçar novos começos. Que eu carregue aprendizados do passado sem carregar pesos que já não preciso carregar. Amém."
+    title:"Recomeços",
+
+    intro:
+        "Um novo começo não apaga o passado. Ele mostra que a história continua.",
+
+    reference:
+        "Isaías 43:19",
+
+    verse:
+        "Vejam! Estou fazendo uma coisa nova; ela está surgindo agora e vocês não percebem?",
+
+    explanation:[
+        "Isaías 43 fala para um povo que conhecia a experiência de perda, deslocamento e espera. Deus lembra aquilo que já fez, mas logo chama a atenção para algo novo.",
+        "Existe uma tensão bonita aqui: lembrar o passado sem ficar preso a ele.",
+        "Um recomeço não exige que você finja que nada aconteceu. Ele permite que você leve os aprendizados sem precisar carregar os pesos."
+    ],
+
+    contextTitle:
+        "Deus não está limitado ao capítulo anterior.",
+
+    contextText:
+        "A novidade anunciada por Isaías acontece depois de uma história difícil. Isso é importante: o novo não precisa nascer de uma vida perfeita. Pode nascer justamente depois de uma ruptura.",
+
+    personalTitle:
+        "Talvez você esteja entrando exatamente nessa fase.",
+
+    personalText:
+        "A mudança para Salvador não é só trocar de endereço. Para você, ela representa uma tentativa de reconstruir rotina, carreira, independência e uma vida que tenha mais sentido. É normal sentir medo junto com a esperança.",
+
+    personalQuote:
+        "Você pode levar sua história sem precisar morar nela.",
+
+    highlight:
+        "O que terminou não precisa definir o que começa agora.",
+
+    reflection:
+        "Que novo começo você gostaria de viver?",
+
+    prayer:
+        "Deus, dá-me coragem para começar de novo sem apagar aquilo que aprendi. Ajuda-me a não carregar para o futuro pesos que pertencem ao passado. Abre meus olhos para reconhecer as coisas novas que Tu estás colocando diante de mim. Amém."
 },
 
 26:{
-title:"A paz que permanece",
-intro:"Paz não é ausência de problemas. É presença de Deus no meio deles.",
-reference:"João 14:27",
-verse:"Deixo com vocês a minha paz; a minha paz lhes dou.",
-reading:[
-"Nem sempre teremos controle sobre aquilo que acontece ao nosso redor. Pessoas mudam, planos mudam e circunstâncias mudam.",
-"Mas existe uma paz que não depende de tudo estar perfeito.",
-"Jesus fala de uma paz que Ele oferece. Uma paz que não significa que todos os problemas desaparecerão imediatamente.",
-"Hoje, permita-se diminuir o ritmo. Respire fundo. Entregue a Deus aquilo que você não consegue controlar."
-],
-highlight:"Você não precisa esperar tudo ficar perfeito para experimentar paz.",
-reflection:"O que está roubando sua paz neste momento?",
-prayer:"Jesus, coloca Tua paz dentro de mim. Acalma aquilo que está agitado e ensina-me a confiar em Ti. Amém."
+    title:"A paz que permanece",
+
+    intro:
+        "Paz não é ausência de problemas. É presença de Deus no meio deles.",
+
+    reference:
+        "João 14:27",
+
+    verse:
+        "Deixo com vocês a minha paz; a minha paz lhes dou.",
+
+    explanation:[
+        "Jesus diz essas palavras aos discípulos pouco antes de sua morte. Isso muda completamente o peso da promessa: Ele fala de paz justamente quando os discípulos estavam prestes a enfrentar uma enorme mudança.",
+        "A paz de Jesus não depende de circunstâncias perfeitamente organizadas.",
+        "Por isso, paz cristã não significa nunca sentir ansiedade, tristeza ou preocupação. Significa ter um lugar para colocar essas coisas."
+    ],
+
+    contextTitle:
+        "Jesus oferece paz antes de oferecer respostas.",
+
+    contextText:
+        "Às vezes queremos que Deus primeiro resolva a situação para depois conseguirmos descansar. Aqui, Jesus apresenta outra possibilidade: receber a paz enquanto a situação ainda está acontecendo.",
+
+    personalTitle:
+        "Você não precisa esperar Salvador para começar a respirar.",
+
+    personalText:
+        "É fácil pensar: 'quando eu mudar, quando eu estiver empregado, quando o dinheiro estiver organizado, quando tudo estiver resolvido...'. Mas sempre existirá alguma coisa depois dessa lista.",
+
+    personalQuote:
+        "Sua paz não precisa ficar presa ao próximo capítulo.",
+
+    highlight:
+        "Você não precisa esperar tudo ficar perfeito para experimentar paz.",
+
+    reflection:
+        "O que está roubando sua paz neste momento?",
+
+    prayer:
+        "Jesus, coloca Tua paz dentro de mim antes mesmo que todas as coisas estejam resolvidas. Acalma aquilo que está agitado e ensina-me a confiar em Ti enquanto continuo fazendo minha parte. Amém."
 },
 
 27:{
-title:"Continue acreditando",
-intro:"A esperança também é uma forma de coragem.",
-reference:"Romanos 15:13",
-verse:"Que Deus, a fonte da esperança, os encha de toda alegria e paz.",
-reading:[
-"Às vezes manter a esperança parece mais difícil do que começar algo novo.",
-"Mas esperança não é fingir que tudo está bem. É acreditar que o presente não é o único cenário possível.",
-"Você pode olhar para a realidade com honestidade e, ainda assim, acreditar que Deus pode conduzir os próximos passos.",
-"Não abandone seus sonhos simplesmente porque eles estão demorando."
-],
-highlight:"Demorar não significa que nunca vai acontecer.",
-reflection:"Qual sonho você precisa voltar a colocar diante de Deus?",
-prayer:"Senhor, protege minha esperança. Quando eu estiver desanimado, lembra-me de que ainda existem possibilidades que não consigo enxergar. Amém."
+    title:"Continue acreditando",
+
+    intro:
+        "A esperança também é uma forma de coragem.",
+
+    reference:
+        "Romanos 15:13",
+
+    verse:
+        "Que Deus, a fonte da esperança, os encha de toda alegria e paz.",
+
+    explanation:[
+        "Paulo chama Deus de fonte da esperança. Isso é diferente de dizer que precisamos fabricar esperança sozinhos.",
+        "A esperança cristã não é negar a realidade. É reconhecer a realidade e ainda assim acreditar que Deus não terminou de agir.",
+        "Por isso ela exige coragem. Esperar significa continuar aberto para aquilo que ainda não conseguimos ver."
+    ],
+
+    contextTitle:
+        "Esperança não é ingenuidade.",
+
+    contextText:
+        "Você pode reconhecer que algo está difícil e ainda acreditar que pode mudar. Pode olhar para sua conta bancária, sua carreira ou sua situação atual e continuar acreditando que essa não é a fotografia definitiva da sua vida.",
+
+    personalTitle:
+        "Não transforme a demora em desistência.",
+
+    personalText:
+        "Você tem sonhos bem concretos: estabilidade, uma boa oportunidade profissional, sua casa, Salvador, uma rotina que faça sentido. Alguns podem demorar mais do que você gostaria. Isso não transforma automaticamente o sonho em erro.",
+
+    personalQuote:
+        "Demorar não significa que nunca vai acontecer.",
+
+    highlight:
+        "A esperança também é uma forma de coragem.",
+
+    reflection:
+        "Qual sonho você precisa voltar a colocar diante de Deus?",
+
+    prayer:
+        "Senhor, protege minha esperança. Quando eu estiver cansado de esperar, lembra-me de que a demora de uma resposta não significa abandono. Dá-me discernimento para continuar aquilo que devo continuar e sabedoria para mudar aquilo que precisa mudar. Amém."
 },
 
 28:{
-title:"Você já chegou longe",
-intro:"Antes de olhar para o que falta, reconheça o caminho que você já percorreu.",
-reference:"Salmos 40:2",
-verse:"Ele me tirou de uma cova perigosa, de um lugar de lama e de desespero.",
-reading:[
-"É muito fácil olhar para frente e perceber apenas aquilo que ainda não conseguimos conquistar.",
-"Mas existe outra forma de olhar para a vida: reconhecer de onde Deus já nos tirou.",
-"Você sobreviveu a dias que um dia pareciam impossíveis. Passou por situações que achou que não conseguiria superar.",
-"Talvez ainda exista muito pela frente. Mas isso não diminui a distância que você já percorreu."
-],
-highlight:"Não diminua a sua própria caminhada.",
-reflection:"Qual dificuldade do passado prova que você é capaz de atravessar momentos difíceis?",
-prayer:"Deus, obrigado por todas as vezes em que me sustentaste sem que eu sequer percebesse. Ajuda-me a reconhecer o caminho que já percorri. Amém."
+    title:"Você já chegou longe",
+
+    intro:
+        "Antes de olhar para o que falta, reconheça o caminho que você já percorreu.",
+
+    reference:
+        "Salmos 40:2",
+
+    verse:
+        "Ele me tirou de uma cova perigosa, de um lugar de lama e de desespero.",
+
+    explanation:[
+        "O Salmo 40 usa uma imagem muito concreta: alguém preso em um lugar instável é colocado sobre uma rocha. É uma imagem de resgate e recomeço.",
+        "A pessoa não diz apenas 'eu cheguei'. Ela reconhece que foi tirada de algum lugar.",
+        "Existe uma disciplina espiritual importante nisso: lembrar de onde Deus já nos trouxe."
+    ],
+
+    contextTitle:
+        "Memória também pode ser uma forma de fé.",
+
+    contextText:
+        "Quando olhamos apenas para o que ainda falta, nossa história parece pequena. Quando lembramos do que já atravessamos, conseguimos perceber que nem todo caminho foi perdido.",
+
+    personalTitle:
+        "Olha quanta coisa você já atravessou.",
+
+    personalText:
+        "Você já passou por mudanças profissionais, perdas, recomeços e períodos em que precisou se reorganizar. Mesmo assim, continua fazendo planos. Continua trabalhando. Continua sonhando. Continua procurando um lugar para chamar de casa.",
+
+    personalQuote:
+        "Não diminua a distância que você já percorreu.",
+
+    highlight:
+        "Você não está começando do zero. Está começando de tudo que aprendeu.",
+
+    reflection:
+        "Qual dificuldade do passado prova que você consegue atravessar momentos difíceis?",
+
+    prayer:
+        "Deus, obrigado por todas as vezes em que me sustentaste sem que eu percebesse. Ajuda-me a lembrar da minha própria caminhada quando eu estiver olhando apenas para aquilo que ainda falta. Que a memória do Teu cuidado fortaleça minha esperança. Amém."
 },
 
 29:{
-title:"Entrega",
-intro:"Algumas coisas precisam sair das nossas mãos para encontrarem descanso.",
-reference:"1 Pedro 5:7",
-verse:"Entreguem todas as suas preocupações a Deus, pois ele cuida de vocês.",
-reading:[
-"Controle pode dar uma sensação temporária de segurança. Pensamos que, se planejarmos tudo, nada dará errado.",
-"Mas a vida não funciona assim.",
-"Existem coisas que simplesmente não estão sob nosso controle. E reconhecer isso não é fraqueza.",
-"Entregar é reconhecer que Deus pode cuidar de coisas que nós não conseguimos resolver."
-],
-highlight:"Nem tudo precisa estar nas suas mãos.",
-reflection:"Qual preocupação você pode entregar a Deus hoje?",
-prayer:"Pai, eu entrego a Ti aquilo que não consigo controlar. Ajuda-me a confiar no Teu cuidado e a fazer apenas aquilo que está ao meu alcance. Amém."
+    title:"Entrega",
+
+    intro:
+        "Algumas coisas precisam sair das nossas mãos para encontrarem descanso.",
+
+    reference:
+        "1 Pedro 5:7",
+
+    verse:
+        "Entreguem todas as suas preocupações a Deus, pois ele cuida de vocês.",
+
+    explanation:[
+        "Pedro escreve para pessoas que estavam enfrentando dificuldades. A orientação não é 'pare de sentir preocupação'. É colocar essas preocupações diante de Deus.",
+        "A palavra entrega carrega a ideia de lançar sobre alguém um peso que você não precisa continuar carregando.",
+        "Isso não elimina responsabilidade. Você continua fazendo o que pode. Mas deixa de carregar emocionalmente aquilo que não pode resolver."
+    ],
+
+    contextTitle:
+        "Entrega não é desistência. É confiança.",
+
+    contextText:
+        "Existe uma diferença entre abrir mão dos seus sonhos e abrir mão da necessidade de controlar exatamente como eles vão acontecer. Você pode continuar desejando, planejando e trabalhando sem carregar o mundo inteiro nas costas.",
+
+    personalTitle:
+        "Talvez você esteja segurando coisas demais.",
+
+    personalText:
+        "O apartamento, o dinheiro, o trabalho, a mudança, as decisões e o futuro podem virar uma única grande preocupação. Separe as coisas. Faça uma por vez. E entregue a Deus aquilo que não cabe nas suas mãos.",
+
+    personalQuote:
+        "Faça o que está ao seu alcance. O resto, entregue.",
+
+    highlight:
+        "Nem tudo precisa estar nas suas mãos.",
+
+    reflection:
+        "Qual preocupação você pode entregar a Deus hoje?",
+
+    prayer:
+        "Pai, eu entrego a Ti aquilo que não consigo controlar. Entrego meus planos, minhas preocupações e aquilo que ainda não sei como resolver. Dá-me responsabilidade para agir e fé para soltar aquilo que não depende de mim. Amém."
 },
 
 30:{
-title:"Amanhã existe",
-intro:"O fim de um mês também pode ser o começo de uma nova expectativa.",
-reference:"Lamentações 3:22-23",
-verse:"O amor do Senhor Deus não se acaba, e a sua bondade não tem fim. Esse amor e essa bondade são novos todas as manhãs.",
-reading:[
-"Chegar ao fim de um ciclo nos faz olhar para trás. Algumas coisas deram certo. Outras não. Algumas respostas chegaram. Outras ainda estão sendo esperadas.",
-"Mas uma coisa permanece: a possibilidade de um novo dia.",
-"A misericórdia de Deus não depende de como foi ontem. Cada manhã traz uma nova oportunidade de caminhar, aprender, tentar novamente e confiar.",
-"Não precisa saber exatamente como será o próximo mês. Entre nele com o coração aberto."
-],
-highlight:"Amanhã não precisa repetir ontem.",
-reflection:"Com que expectativa você gostaria de entrar no próximo ciclo?",
-prayer:"Senhor, obrigado por me trazer até aqui. Entrego a Ti o próximo ciclo da minha vida. Que eu caminhe com coragem, sabedoria e confiança. Amém."
+    title:"Amanhã existe",
+
+    intro:
+        "O fim de um mês também pode ser o começo de uma nova expectativa.",
+
+    reference:
+        "Lamentações 3:22-23",
+
+    verse:
+        "O amor do Senhor Deus não se acaba, e a sua bondade não tem fim. Esse amor e essa bondade são novos todas as manhãs.",
+
+    explanation:[
+        "Lamentações é um livro marcado pela dor. Isso torna essa declaração ainda mais poderosa. A esperança aparece não porque tudo está bem, mas porque, mesmo no meio da destruição, a misericórdia de Deus continua.",
+        "A frase 'novos todas as manhãs' fala de renovação. Deus não exige que você carregue ontem como se fosse uma sentença.",
+        "Cada manhã apresenta uma possibilidade nova de caminhar, aprender, corrigir, tentar e confiar."
+    ],
+
+    contextTitle:
+        "A misericórdia de Deus não termina no dia ruim.",
+
+    contextText:
+        "Um ciclo pode terminar com coisas incompletas. Você pode não ter todas as respostas. Ainda assim, existe um amanhã. E existe Deus dentro dele.",
+
+    personalTitle:
+        "Você não precisa entrar no próximo ciclo com todas as respostas.",
+
+    personalText:
+        "Talvez você ainda não saiba exatamente como será sua mudança, sua casa, seu trabalho ou os próximos meses. Tudo bem. Você não precisa conhecer o roteiro inteiro para entrar no próximo capítulo.",
+
+    personalQuote:
+        "Amanhã não precisa repetir ontem.",
+
+    highlight:
+        "Você chegou até aqui. E ainda existe amanhã.",
+
+    reflection:
+        "Com que expectativa você gostaria de entrar no próximo ciclo?",
+
+    prayer:
+        "Senhor, obrigado por me trazer até aqui. Obrigado pelo que deu certo, pelo que me ensinou e até pelo que ainda não entendo. Entrego a Ti o próximo ciclo da minha vida. Que eu entre nele com coragem, sabedoria, esperança e um coração aberto para aquilo que Tu ainda vais fazer. Amém."
 }
 
 };
@@ -2394,7 +3458,9 @@ prayer:"Senhor, obrigado por me trazer até aqui. Entrego a Ti o próximo ciclo 
    STATE
 ========================================================= */
 
-const days = Object.keys(devotionals).map(Number);
+const days =
+    Object.keys(devotionals)
+    .map(Number);
 
 let currentIndex = 0;
 let currentDay = days[0];
@@ -2446,11 +3512,29 @@ const reference =
 const verseText =
     document.getElementById("verseText");
 
+const verseReference =
+    document.getElementById("verseReference");
+
 const verseNumber =
     document.getElementById("verseNumber");
 
-const bodyCopy =
-    document.getElementById("bodyCopy");
+const explanation =
+    document.getElementById("explanation");
+
+const contextTitle =
+    document.getElementById("contextTitle");
+
+const contextText =
+    document.getElementById("contextText");
+
+const personalTitle =
+    document.getElementById("personalTitle");
+
+const personalText =
+    document.getElementById("personalText");
+
+const personalQuote =
+    document.getElementById("personalQuote");
 
 const highlightText =
     document.getElementById("highlightText");
@@ -2469,6 +3553,12 @@ const backButton =
 
 const navHome =
     document.getElementById("navHome");
+
+const navDevotionals =
+    document.getElementById("navDevotionals");
+
+const navProgress =
+    document.getElementById("navProgress");
 
 const progressWrap =
     document.getElementById("progressWrap");
@@ -2593,7 +3683,31 @@ function formatDate(){
 
 
 /* =========================================================
-   CARD RENDER
+   TITLE
+========================================================= */
+
+function formatTitle(title){
+
+    const words =
+        title.split(" ");
+
+    if(words.length < 2){
+        return title;
+    }
+
+    const last =
+        words.pop();
+
+    return `
+        ${words.join(" ")}
+        <em>${last}</em>
+    `;
+
+}
+
+
+/* =========================================================
+   CARDS
 ========================================================= */
 
 function renderCards(){
@@ -2615,6 +3729,12 @@ function renderCards(){
             card.className =
                 "card";
 
+            card.dataset.index =
+                index;
+
+            card.dataset.day =
+                day;
+
             if(
                 completed.includes(day)
             ){
@@ -2625,15 +3745,8 @@ function renderCards(){
 
             }
 
-            card.dataset.index =
-                index;
-
-            card.dataset.day =
-                day;
-
             const isToday =
-                index ===
-                getTodayIndex();
+                index === getTodayIndex();
 
             card.innerHTML = `
 
@@ -2671,19 +3784,15 @@ function renderCards(){
 
                 </div>
 
-
                 <div class="card-number">
                     ${String(day).padStart(2,"0")}
                 </div>
 
-
                 <div class="card-plus">
-                    +
+                    *
                 </div>
 
-
                 <div class="card-line"></div>
-
 
                 <div class="card-body">
 
@@ -2693,18 +3802,15 @@ function renderCards(){
                         ${String(days.length).padStart(2,"0")}
                     </div>
 
-
                     <h2 class="card-title">
                         ${formatTitle(d.title)}
                     </h2>
-
 
                     <div class="card-bottom">
 
                         <p class="card-intro">
                             ${d.intro}
                         </p>
-
 
                         <button
                             class="card-open"
@@ -2714,6 +3820,7 @@ function renderCards(){
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"
+                                stroke="currentColor"
                                 stroke-width="1.8"
                             >
 
@@ -2732,9 +3839,7 @@ function renderCards(){
                     </div>
 
                 </div>
-
             `;
-
 
             card.addEventListener(
                 "click",
@@ -2760,42 +3865,14 @@ function renderCards(){
                 }
             );
 
-
             track.appendChild(card);
 
         }
     );
 
-
     renderDots();
 
     updateCarousel();
-
-}
-
-
-/* =========================================================
-   TITLE
-========================================================= */
-
-function formatTitle(title){
-
-    const words =
-        title.split(" ");
-
-    if(words.length < 2){
-
-        return title;
-
-    }
-
-    const last =
-        words.pop();
-
-    return `
-        ${words.join(" ")}
-        <em>${last}</em>
-    `;
 
 }
 
@@ -2812,20 +3889,20 @@ function renderDots(){
         (_,index)=>{
 
             const dot =
-                document.createElement("div");
+                document.createElement("button");
 
             dot.className =
                 "dot";
 
-            if(
+            dot.setAttribute(
+                "aria-label",
+                `Ir para devocional ${index + 1}`
+            );
+
+            dot.classList.toggle(
+                "active",
                 index === currentIndex
-            ){
-
-                dot.classList.add(
-                    "active"
-                );
-
-            }
+            );
 
             dot.addEventListener(
                 "click",
@@ -2852,9 +3929,7 @@ function getCardWidth(){
         track.querySelector(".card");
 
     if(!card){
-
         return 0;
-
     }
 
     return card.offsetWidth + 12;
@@ -2866,17 +3941,12 @@ function updateCarousel(){
 
     const cards =
         [
-            ...track.querySelectorAll(
-                ".card"
-            )
+            ...track.querySelectorAll(".card")
         ];
 
     if(!cards.length){
-
         return;
-
     }
-
 
     cards.forEach(
         (card,index)=>{
@@ -2889,7 +3959,6 @@ function updateCarousel(){
         }
     );
 
-
     const cardWidth =
         getCardWidth();
 
@@ -2899,26 +3968,16 @@ function updateCarousel(){
     const card =
         cards[currentIndex];
 
-    if(!card){
-
-        return;
-
-    }
-
-
     const cardCenter =
         currentIndex * cardWidth +
         card.offsetWidth / 2;
-
 
     const offset =
         viewportWidth / 2 -
         cardCenter;
 
-
     track.style.transform =
         `translateX(${offset}px)`;
-
 
     prevBtn.classList.toggle(
         "disabled",
@@ -2927,14 +3986,11 @@ function updateCarousel(){
 
     nextBtn.classList.toggle(
         "disabled",
-        currentIndex ===
-        days.length - 1
+        currentIndex === days.length - 1
     );
-
 
     heroCount.textContent =
         `${String(currentIndex + 1).padStart(2,"0")} / ${String(days.length).padStart(2,"0")}`;
-
 
     [
         ...dots.children
@@ -2987,7 +4043,6 @@ prevBtn.addEventListener(
     }
 );
 
-
 nextBtn.addEventListener(
     "click",
     ()=>{
@@ -3013,7 +4068,6 @@ track.addEventListener(
     {passive:true}
 );
 
-
 track.addEventListener(
     "touchend",
     event=>{
@@ -3027,11 +4081,8 @@ track.addEventListener(
         if(
             Math.abs(distance) < 45
         ){
-
             return;
-
         }
-
 
         if(distance < 0){
 
@@ -3068,15 +4119,12 @@ track.addEventListener(
     }
 );
 
-
 track.addEventListener(
     "pointerup",
     event=>{
 
         if(!isDragging){
-
             return;
-
         }
 
         const distance =
@@ -3085,15 +4133,11 @@ track.addEventListener(
 
         isDragging = false;
 
-
         if(
             Math.abs(distance) < 45
         ){
-
             return;
-
         }
-
 
         if(distance < 0){
 
@@ -3139,7 +4183,6 @@ document.addEventListener(
 
         }
 
-
         if(
             event.key === "ArrowRight"
         ){
@@ -3150,7 +4193,6 @@ document.addEventListener(
 
         }
 
-
         if(
             event.key === "ArrowLeft"
         ){
@@ -3160,7 +4202,6 @@ document.addEventListener(
             );
 
         }
-
 
         if(
             event.key === "Enter"
@@ -3191,82 +4232,83 @@ function openDevotional(day){
     completionTriggered =
         false;
 
-
     readingTitle.innerHTML =
         formatTitle(
             d.title
         );
 
-
     readingIntro.textContent =
         d.intro;
-
 
     reference.textContent =
         d.reference;
 
-
     verseText.textContent =
         d.verse;
 
+    verseReference.textContent =
+        d.reference;
 
     verseNumber.textContent =
         d.reference.match(/\d+/)?.[0] || "";
 
-
-    bodyCopy.innerHTML =
-        d.reading
+    explanation.innerHTML =
+        d.explanation
             .map(
                 paragraph =>
                     `<p>${paragraph}</p>`
             )
             .join("");
 
+    contextTitle.textContent =
+        d.contextTitle;
+
+    contextText.textContent =
+        d.contextText;
+
+    personalTitle.innerHTML =
+        d.personalTitle;
+
+    personalText.textContent =
+        d.personalText;
+
+    personalQuote.textContent =
+        d.personalQuote;
 
     highlightText.textContent =
         d.highlight;
 
-
     reflectionText.textContent =
         d.reflection;
-
 
     prayerText.textContent =
         d.prayer;
 
-
     readingCounter.textContent =
         `${String(day).padStart(2,"0")} · SET`;
 
-
     home.style.display =
         "none";
-
 
     reading.classList.add(
         "visible"
     );
 
-
     progressWrap.classList.add(
         "visible"
     );
-
 
     progressPercent.classList.add(
         "visible"
     );
 
-
     document.body.style.overflowY =
         "auto";
 
-
-    window.scrollTo({
-        top:0,
-        behavior:"instant"
-    });
-
+    window.scrollTo(
+        0,
+        0
+    );
 
     updateReadingProgress();
 
@@ -3283,35 +4325,25 @@ function goHome(){
         "visible"
     );
 
-
     progressWrap.classList.remove(
         "visible"
     );
-
 
     progressPercent.classList.remove(
         "visible"
     );
 
-
     completionModal.classList.remove(
         "visible"
     );
 
-
     home.style.display =
         "block";
 
-
-    document.body.style.overflowY =
-        "auto";
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"instant"
-    });
-
+    window.scrollTo(
+        0,
+        0
+    );
 
     renderCards();
 
@@ -3329,29 +4361,30 @@ function updateReadingProgress(){
             "visible"
         )
     ){
-
         return;
-
     }
-
 
     const scrollTop =
         window.scrollY;
 
+    const documentHeight =
+        document.documentElement.scrollHeight;
 
-    const maxScroll =
-        document.documentElement.scrollHeight -
+    const viewportHeight =
         window.innerHeight;
 
+    const maxScroll =
+        Math.max(
+            1,
+            documentHeight -
+            viewportHeight
+        );
 
     let percent =
-        maxScroll > 0
-        ? (
+        (
             scrollTop /
             maxScroll
-        ) * 100
-        : 0;
-
+        ) * 100;
 
     percent =
         Math.max(
@@ -3362,14 +4395,11 @@ function updateReadingProgress(){
             )
         );
 
-
     progressBar.style.width =
         `${percent}%`;
 
-
     progressPercent.textContent =
         `${Math.round(percent)}%`;
-
 
     if(
         percent >= 99.4 &&
@@ -3389,7 +4419,9 @@ function updateReadingProgress(){
 window.addEventListener(
     "scroll",
     updateReadingProgress,
-    {passive:true}
+    {
+        passive:true
+    }
 );
 
 
@@ -3403,14 +4435,11 @@ function completeDevotional(){
         currentDay
     );
 
-
     setTimeout(
         ()=>{
-
             completionModal.classList.add(
                 "visible"
             );
-
         },
         350
     );
@@ -3421,20 +4450,16 @@ function completeDevotional(){
 continueButton.addEventListener(
     "click",
     ()=>{
-
         completionModal.classList.remove(
             "visible"
         );
-
     }
 );
-
 
 homeButton.addEventListener(
     "click",
     goHome
 );
-
 
 completionModal.addEventListener(
     "click",
@@ -3464,10 +4489,31 @@ backButton.addEventListener(
     goHome
 );
 
-
 navHome.addEventListener(
     "click",
     goHome
+);
+
+navDevotionals.addEventListener(
+    "click",
+    ()=>{
+        goHome();
+        window.scrollTo(
+            0,
+            300
+        );
+    }
+);
+
+navProgress.addEventListener(
+    "click",
+    ()=>{
+        goHome();
+        window.scrollTo(
+            0,
+            document.body.scrollHeight
+        );
+    }
 );
 
 
