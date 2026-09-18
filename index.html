@@ -1,0 +1,3503 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F5EBDD">
+
+<title>Momento</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   MOMENTO
+   FINAL COLOR SYSTEM
+========================================================= */
+
+:root{
+    /* BASE */
+    --paper:#F5EBDD;
+    --paper-2:#FFF8EF;
+    --ink:#171313;
+
+    /* STRONG PALETTE */
+    --orange:#F26A32;
+    --orange-dark:#C94A21;
+
+    --blue:#2457F5;
+    --blue-dark:#1237AE;
+
+    --brown:#5A3428;
+    --brown-dark:#3A211A;
+
+    --pink:#E94F86;
+    --pink-dark:#B92D62;
+
+    --yellow:#F5C84B;
+
+    --cream:#F8E8D4;
+
+    --white:#FFFDF9;
+
+    --sans:"DM Sans", sans-serif;
+    --display:"Space Grotesk", sans-serif;
+    --serif:"Instrument Serif", serif;
+    --mono:"DM Mono", monospace;
+
+    --radius:28px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+    background:var(--paper);
+}
+
+body{
+    min-height:100svh;
+    background:var(--paper);
+    color:var(--ink);
+
+    font-family:var(--sans);
+
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+}
+
+button{
+    font:inherit;
+    border:0;
+    background:none;
+    color:inherit;
+    cursor:pointer;
+}
+
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+    min-height:100svh;
+    position:relative;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+    position:fixed;
+    z-index:30;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:72px;
+
+    padding:
+        env(safe-area-inset-top)
+        20px
+        0;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(245,235,221,.86);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(23,19,19,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.logo-mark{
+    width:28px;
+    height:28px;
+
+    background:var(--ink);
+    color:var(--paper);
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+
+    font-family:var(--display);
+    font-size:12px;
+    font-weight:700;
+}
+
+.logo-name{
+    font-family:var(--display);
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:-.04em;
+}
+
+.top-date{
+    font-family:var(--mono);
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.55;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+.home{
+    min-height:100svh;
+
+    padding-top:100px;
+    padding-bottom:110px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    padding:18px 20px 32px;
+}
+
+.hero-kicker{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    margin-bottom:18px;
+
+    font-family:var(--mono);
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.55;
+}
+
+.hero-kicker span{
+    display:block;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+}
+
+.hero-title{
+    font-family:var(--display);
+
+    font-size:clamp(
+        55px,
+        17vw,
+        105px
+    );
+
+    line-height:.82;
+
+    letter-spacing:-.075em;
+
+    font-weight:700;
+}
+
+.hero-title em{
+    font-family:var(--serif);
+
+    font-weight:400;
+
+    letter-spacing:-.045em;
+
+    color:var(--blue);
+}
+
+.hero-meta{
+    margin-top:26px;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+}
+
+.hero-copy{
+    max-width:240px;
+
+    font-size:13px;
+    line-height:1.45;
+
+    color:rgba(23,19,19,.63);
+}
+
+.hero-count{
+    font-family:var(--display);
+
+    font-size:13px;
+    font-weight:600;
+}
+
+
+/* =========================================================
+   CAROUSEL HEADER
+========================================================= */
+
+.carousel-header{
+    padding:0 20px 14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.section-label{
+    font-family:var(--mono);
+
+    font-size:9px;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+
+    opacity:.5;
+}
+
+.carousel-arrows{
+    display:flex;
+    gap:7px;
+}
+
+.arrow{
+    width:34px;
+    height:34px;
+
+    border:1px solid rgba(23,19,19,.15);
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+
+    transition:.2s ease;
+}
+
+.arrow:active{
+    transform:scale(.92);
+
+    background:var(--ink);
+
+    color:var(--paper);
+}
+
+.arrow.disabled{
+    opacity:.2;
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   CAROUSEL
+========================================================= */
+
+.carousel{
+    overflow:hidden;
+
+    width:100%;
+}
+
+.carousel-track{
+    display:flex;
+    align-items:stretch;
+
+    gap:12px;
+
+    padding:0 20px;
+
+    transition:
+        transform .55s cubic-bezier(.22,.8,.25,1);
+
+    will-change:transform;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+    flex:0 0 calc(100vw - 68px);
+
+    max-width:390px;
+
+    min-height:470px;
+
+    border-radius:var(--radius);
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:1px solid rgba(23,19,19,.12);
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px;
+
+    user-select:none;
+    -webkit-user-select:none;
+
+    transition:
+        transform .45s cubic-bezier(.22,.8,.25,1),
+        opacity .45s ease;
+}
+
+.card:not(.active){
+    opacity:.42;
+
+    transform:scale(.94);
+}
+
+.card.active{
+    opacity:1;
+
+    transform:scale(1);
+}
+
+
+/* =========================================================
+   COLOR SYSTEM
+========================================================= */
+
+/* ORANGE */
+
+.card:nth-child(4n+1){
+    background:var(--orange);
+    color:var(--ink);
+}
+
+.card:nth-child(4n+1) .card-open{
+    background:var(--ink);
+}
+
+.card:nth-child(4n+1) .card-open svg{
+    stroke:var(--orange);
+}
+
+
+/* BLUE */
+
+.card:nth-child(4n+2){
+    background:var(--blue);
+    color:var(--white);
+}
+
+.card:nth-child(4n+2) .card-open{
+    background:var(--yellow);
+}
+
+.card:nth-child(4n+2) .card-open svg{
+    stroke:var(--ink);
+}
+
+
+/* BROWN */
+
+.card:nth-child(4n+3){
+    background:var(--brown);
+    color:var(--cream);
+}
+
+.card:nth-child(4n+3) .card-open{
+    background:var(--pink);
+}
+
+.card:nth-child(4n+3) .card-open svg{
+    stroke:var(--ink);
+}
+
+
+/* PINK */
+
+.card:nth-child(4n+4){
+    background:var(--pink);
+    color:var(--ink);
+}
+
+.card:nth-child(4n+4) .card-open{
+    background:var(--white);
+}
+
+.card:nth-child(4n+4) .card-open svg{
+    stroke:var(--ink);
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    position:relative;
+    z-index:3;
+}
+
+.card-date{
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    font-family:var(--mono);
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.06em;
+}
+
+.card-date strong{
+    font-family:var(--display);
+
+    font-size:12px;
+}
+
+.card-ref{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    opacity:.65;
+}
+
+
+/* =========================================================
+   GIANT NUMBER
+========================================================= */
+
+.card-number{
+    position:absolute;
+
+    left:-12px;
+    top:64px;
+
+    font-family:var(--display);
+
+    font-size:190px;
+
+    line-height:.75;
+
+    letter-spacing:-.12em;
+
+    font-weight:700;
+
+    opacity:.12;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.card-body{
+    position:relative;
+    z-index:2;
+
+    margin-top:auto;
+}
+
+.card-index{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    opacity:.58;
+
+    margin-bottom:12px;
+}
+
+.card-title{
+    max-width:330px;
+
+    font-family:var(--display);
+
+    font-size:clamp(
+        37px,
+        11vw,
+        58px
+    );
+
+    line-height:.9;
+
+    letter-spacing:-.065em;
+
+    font-weight:700;
+}
+
+.card-title em{
+    font-family:var(--serif);
+
+    font-weight:400;
+}
+
+.card-bottom{
+    position:relative;
+    z-index:2;
+
+    margin-top:26px;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+}
+
+.card-intro{
+    max-width:240px;
+
+    font-size:12px;
+
+    line-height:1.35;
+
+    opacity:.76;
+}
+
+.card-open{
+    width:46px;
+    height:46px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+}
+
+.card-open svg{
+    width:17px;
+    height:17px;
+}
+
+
+/* =========================================================
+   DECOR
+========================================================= */
+
+.card-plus{
+    position:absolute;
+
+    right:25px;
+    top:45%;
+
+    font-family:var(--display);
+
+    font-size:25px;
+
+    opacity:.5;
+}
+
+.card-line{
+    position:absolute;
+
+    right:-20px;
+    bottom:92px;
+
+    width:130px;
+    height:1px;
+
+    background:currentColor;
+
+    opacity:.25;
+
+    transform:rotate(-45deg);
+}
+
+
+/* =========================================================
+   TODAY
+========================================================= */
+
+.today-pill{
+    position:absolute;
+
+    top:20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:6px 9px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.48);
+
+    font-family:var(--mono);
+
+    font-size:7px;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+
+    backdrop-filter:blur(5px);
+}
+
+
+/* =========================================================
+   COMPLETED
+========================================================= */
+
+.completed-mark{
+    position:absolute;
+
+    top:19px;
+    right:20px;
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.65);
+
+    display:grid;
+    place-items:center;
+
+    font-size:12px;
+
+    opacity:0;
+}
+
+.card.completed .completed-mark{
+    opacity:1;
+}
+
+
+/* =========================================================
+   CAROUSEL FOOT
+========================================================= */
+
+.carousel-foot{
+    padding:15px 20px 0;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.dots{
+    display:flex;
+    align-items:center;
+
+    gap:5px;
+}
+
+.dot{
+    width:4px;
+    height:4px;
+
+    border-radius:50%;
+
+    background:rgba(23,19,19,.2);
+
+    transition:.25s ease;
+}
+
+.dot.active{
+    width:18px;
+
+    border-radius:10px;
+
+    background:var(--ink);
+}
+
+.swipe-hint{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    opacity:.4;
+}
+
+
+/* =========================================================
+   DAILY NOTE
+========================================================= */
+
+.daily-note{
+    margin:58px 20px 0;
+
+    padding:22px 0;
+
+    border-top:1px solid rgba(23,19,19,.12);
+
+    border-bottom:1px solid rgba(23,19,19,.12);
+}
+
+.daily-note-label{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    opacity:.45;
+
+    margin-bottom:15px;
+}
+
+.daily-note-text{
+    font-family:var(--serif);
+
+    font-size:28px;
+
+    line-height:1;
+
+    max-width:340px;
+
+    letter-spacing:-.025em;
+}
+
+.daily-note-text span{
+    color:var(--orange);
+}
+
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav{
+    position:fixed;
+
+    z-index:30;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:
+        10px
+        20px
+        calc(10px + env(safe-area-inset-bottom));
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(245,235,221,1),
+            rgba(245,235,221,.92)
+        );
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border-top:1px solid rgba(23,19,19,.08);
+
+    display:flex;
+    justify-content:center;
+}
+
+.nav-inner{
+    width:100%;
+    max-width:400px;
+
+    display:flex;
+    justify-content:space-around;
+}
+
+.nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:5px;
+
+    font-family:var(--mono);
+
+    font-size:7px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.06em;
+
+    opacity:.42;
+}
+
+.nav-item.active{
+    opacity:1;
+}
+
+.nav-icon{
+    width:30px;
+    height:24px;
+
+    display:grid;
+    place-items:center;
+}
+
+.nav-icon svg{
+    width:17px;
+    height:17px;
+}
+
+
+/* =========================================================
+   READING
+========================================================= */
+
+.reading{
+    display:none;
+
+    min-height:100svh;
+
+    background:var(--paper);
+
+    padding-bottom:100px;
+}
+
+.reading.visible{
+    display:block;
+}
+
+
+/* =========================================================
+   READING HEADER
+========================================================= */
+
+.reading-header{
+    position:sticky;
+
+    z-index:20;
+
+    top:0;
+
+    height:70px;
+
+    padding:
+        env(safe-area-inset-top)
+        20px
+        0;
+
+    background:rgba(245,235,221,.88);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:1px solid rgba(23,19,19,.08);
+}
+
+.back-button{
+    width:38px;
+    height:38px;
+
+    border:1px solid rgba(23,19,19,.15);
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+}
+
+.back-button svg{
+    width:17px;
+}
+
+.reading-counter{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    opacity:.5;
+}
+
+.reading-status{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+}
+
+
+/* =========================================================
+   READING CONTENT
+========================================================= */
+
+.reading-content{
+    padding:46px 20px 80px;
+}
+
+.reading-eyebrow{
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+    opacity:.5;
+
+    margin-bottom:20px;
+}
+
+.reading-eyebrow span{
+    width:6px;
+    height:6px;
+
+    background:var(--orange);
+
+    border-radius:50%;
+}
+
+.reading-title{
+    font-family:var(--display);
+
+    font-size:clamp(
+        55px,
+        17vw,
+        94px
+    );
+
+    line-height:.82;
+
+    letter-spacing:-.075em;
+
+    font-weight:700;
+
+    max-width:600px;
+}
+
+.reading-title em{
+    font-family:var(--serif);
+
+    font-weight:400;
+
+    color:var(--blue);
+}
+
+.reading-intro{
+    margin-top:30px;
+
+    max-width:510px;
+
+    font-family:var(--serif);
+
+    font-size:29px;
+
+    line-height:1.02;
+
+    letter-spacing:-.025em;
+}
+
+.reference-row{
+    margin-top:34px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.reference-number{
+    font-family:var(--display);
+
+    font-size:14px;
+
+    font-weight:700;
+}
+
+.reference-line{
+    width:42px;
+    height:1px;
+
+    background:currentColor;
+
+    opacity:.25;
+}
+
+.reference-name{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.07em;
+
+    opacity:.5;
+}
+
+
+/* =========================================================
+   VERSE
+========================================================= */
+
+.verse-card{
+    margin-top:55px;
+
+    padding:28px 24px 30px;
+
+    background:var(--blue);
+
+    color:var(--white);
+
+    border-radius:28px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.verse-label{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    opacity:.65;
+
+    margin-bottom:26px;
+}
+
+.verse-text{
+    font-family:var(--serif);
+
+    font-size:34px;
+
+    line-height:.98;
+
+    letter-spacing:-.025em;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.verse-number{
+    position:absolute;
+
+    right:-20px;
+    bottom:-62px;
+
+    font-family:var(--display);
+
+    font-size:180px;
+
+    line-height:1;
+
+    font-weight:700;
+
+    opacity:.12;
+}
+
+
+/* =========================================================
+   READING BODY
+========================================================= */
+
+.body-label{
+    margin-top:58px;
+
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    opacity:.45;
+}
+
+.body-copy{
+    margin-top:18px;
+
+    max-width:620px;
+}
+
+.body-copy p{
+    margin-bottom:23px;
+
+    font-size:17px;
+
+    line-height:1.55;
+
+    letter-spacing:-.01em;
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+    margin:54px 0;
+
+    padding:30px 0;
+
+    border-top:1px solid rgba(23,19,19,.14);
+
+    border-bottom:1px solid rgba(23,19,19,.14);
+}
+
+.highlight-mark{
+    width:9px;
+    height:9px;
+
+    background:var(--pink);
+
+    border-radius:50%;
+
+    margin-bottom:20px;
+}
+
+.highlight-text{
+    font-family:var(--display);
+
+    font-size:29px;
+
+    line-height:1;
+
+    letter-spacing:-.045em;
+
+    font-weight:600;
+
+    max-width:500px;
+}
+
+
+/* =========================================================
+   REFLECTION
+========================================================= */
+
+.reflection{
+    margin-top:52px;
+
+    padding:26px;
+
+    background:var(--yellow);
+
+    border-radius:24px;
+}
+
+.reflection-label{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    margin-bottom:20px;
+
+    opacity:.55;
+}
+
+.reflection-text{
+    font-family:var(--serif);
+
+    font-size:31px;
+
+    line-height:.98;
+}
+
+
+/* =========================================================
+   PRAYER
+========================================================= */
+
+.prayer{
+    margin-top:18px;
+
+    padding:30px 26px;
+
+    background:var(--brown);
+
+    color:var(--cream);
+
+    border-radius:24px;
+}
+
+.prayer-label{
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    opacity:.55;
+
+    margin-bottom:20px;
+}
+
+.prayer-text{
+    font-size:15px;
+
+    line-height:1.55;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-wrap{
+    position:fixed;
+
+    z-index:50;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    height:3px;
+
+    background:transparent;
+
+    display:none;
+}
+
+.progress-wrap.visible{
+    display:block;
+}
+
+.progress-bar{
+    height:100%;
+
+    width:0%;
+
+    background:var(--orange);
+
+    transition:width .12s linear;
+}
+
+.progress-percent{
+    position:fixed;
+
+    z-index:40;
+
+    right:20px;
+    top:76px;
+
+    font-family:var(--mono);
+
+    font-size:8px;
+
+    padding:6px 8px;
+
+    border-radius:20px;
+
+    background:var(--ink);
+
+    color:var(--paper);
+
+    opacity:0;
+
+    transition:.2s ease;
+}
+
+.progress-percent.visible{
+    opacity:1;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+    position:fixed;
+
+    z-index:100;
+
+    inset:0;
+
+    padding:20px;
+
+    display:none;
+
+    align-items:flex-end;
+
+    background:rgba(23,19,19,.38);
+
+    backdrop-filter:blur(12px);
+
+    -webkit-backdrop-filter:blur(12px);
+}
+
+.modal.visible{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+
+    max-width:500px;
+
+    margin:auto;
+
+    background:var(--paper);
+
+    border-radius:30px;
+
+    padding:30px;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.2);
+
+    animation:
+        modalIn .45s cubic-bezier(.22,.8,.25,1);
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(30px)
+            scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+
+}
+
+.modal-mark{
+    width:46px;
+    height:46px;
+
+    background:var(--orange);
+
+    color:var(--ink);
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+
+    font-size:20px;
+
+    margin-bottom:28px;
+}
+
+.modal-title{
+    font-family:var(--display);
+
+    font-size:40px;
+
+    line-height:.9;
+
+    letter-spacing:-.06em;
+}
+
+.modal-text{
+    margin-top:15px;
+
+    font-family:var(--serif);
+
+    font-size:22px;
+
+    line-height:1.05;
+
+    opacity:.7;
+}
+
+.modal-actions{
+    margin-top:30px;
+
+    display:grid;
+
+    gap:8px;
+}
+
+.modal-button{
+    min-height:52px;
+
+    border-radius:18px;
+
+    font-family:var(--display);
+
+    font-size:13px;
+
+    font-weight:600;
+
+    border:1px solid rgba(23,19,19,.15);
+}
+
+.modal-button.primary{
+    background:var(--ink);
+
+    color:var(--paper);
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width:760px){
+
+    .topbar{
+        padding-left:36px;
+        padding-right:36px;
+    }
+
+    .home{
+        padding-top:120px;
+    }
+
+    .hero{
+        padding-left:8vw;
+        padding-right:8vw;
+    }
+
+    .hero-title{
+        max-width:900px;
+    }
+
+    .hero-meta{
+        max-width:800px;
+    }
+
+    .carousel-header,
+    .carousel-foot{
+        padding-left:8vw;
+        padding-right:8vw;
+    }
+
+    .carousel-track{
+        padding-left:8vw;
+        padding-right:8vw;
+
+        gap:18px;
+    }
+
+    .card{
+        flex-basis:390px;
+
+        min-height:540px;
+    }
+
+    .daily-note{
+        margin-left:8vw;
+        margin-right:8vw;
+    }
+
+    .bottom-nav{
+        display:none;
+    }
+
+    .reading-content{
+        max-width:900px;
+
+        margin:auto;
+
+        padding-top:80px;
+    }
+
+    .reading-title{
+        font-size:110px;
+    }
+
+    .reading-intro{
+        font-size:40px;
+    }
+
+    .verse-card{
+        max-width:760px;
+    }
+
+    .body-copy{
+        font-size:18px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        scroll-behavior:auto!important;
+
+        transition:none!important;
+
+        animation:none!important;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+
+<header class="topbar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            M
+        </div>
+
+        <div class="logo-name">
+            momento
+        </div>
+
+    </div>
+
+    <div class="top-date" id="topDate">
+        SET · 2026
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<main class="home" id="home">
+
+
+<section class="hero">
+
+    <div class="hero-kicker">
+
+        <span></span>
+
+        um momento com Deus
+
+    </div>
+
+
+    <h1 class="hero-title">
+
+        pare.<br>
+
+        <em>respire.</em><br>
+
+        continue.
+
+    </h1>
+
+
+    <div class="hero-meta">
+
+        <p class="hero-copy">
+
+            Um pequeno espaço do seu dia para desacelerar,
+            ouvir a Palavra e lembrar que você não está sozinho.
+
+        </p>
+
+
+        <div class="hero-count" id="heroCount">
+
+            01 / 14
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- CAROUSEL HEADER -->
+
+<div class="carousel-header">
+
+    <div class="section-label">
+        devocionais
+    </div>
+
+
+    <div class="carousel-arrows">
+
+        <button
+            class="arrow"
+            id="prevBtn"
+            aria-label="Anterior"
+        >
+            ←
+        </button>
+
+
+        <button
+            class="arrow"
+            id="nextBtn"
+            aria-label="Próximo"
+        >
+            →
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- CAROUSEL -->
+
+<section class="carousel">
+
+    <div
+        class="carousel-track"
+        id="carouselTrack"
+    ></div>
+
+</section>
+
+
+
+<div class="carousel-foot">
+
+    <div
+        class="dots"
+        id="dots"
+    ></div>
+
+
+    <div class="swipe-hint">
+        arraste para explorar
+    </div>
+
+</div>
+
+
+
+<!-- DAILY NOTE -->
+
+<section class="daily-note">
+
+    <div class="daily-note-label">
+        lembrete de hoje
+    </div>
+
+
+    <div class="daily-note-text">
+
+        Você não precisa saber
+        <span>como tudo termina</span>
+        para continuar.
+
+    </div>
+
+</section>
+
+</main>
+
+
+
+<!-- =====================================================
+     READING
+===================================================== -->
+
+<main
+    class="reading"
+    id="reading"
+>
+
+
+<header class="reading-header">
+
+    <button
+        class="back-button"
+        id="backButton"
+        aria-label="Voltar"
+    >
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+        >
+
+            <path d="M15 18l-6-6 6-6"/>
+
+        </svg>
+
+    </button>
+
+
+    <div
+        class="reading-counter"
+        id="readingCounter"
+    >
+        17 · 09
+    </div>
+
+
+    <div class="reading-status">
+        devocional
+    </div>
+
+</header>
+
+
+
+<div class="reading-content">
+
+
+<div class="reading-eyebrow">
+
+    <span></span>
+
+    um momento com Deus
+
+</div>
+
+
+
+<h1
+    class="reading-title"
+    id="readingTitle"
+>
+    Não tenha <em>medo</em>
+</h1>
+
+
+
+<div
+    class="reading-intro"
+    id="readingIntro"
+></div>
+
+
+
+<div class="reference-row">
+
+    <div
+        class="reference-number"
+        id="reference"
+    ></div>
+
+
+    <div class="reference-line"></div>
+
+
+    <div class="reference-name">
+        palavra para hoje
+    </div>
+
+</div>
+
+
+
+<!-- VERSE -->
+
+<section class="verse-card">
+
+    <div class="verse-label">
+        palavra
+    </div>
+
+
+    <div
+        class="verse-text"
+        id="verseText"
+    ></div>
+
+
+    <div
+        class="verse-number"
+        id="verseNumber"
+    >
+        10
+    </div>
+
+</section>
+
+
+
+<div class="body-label">
+    leia devagar
+</div>
+
+
+<article
+    class="body-copy"
+    id="bodyCopy"
+></article>
+
+
+
+<!-- HIGHLIGHT -->
+
+<section class="highlight">
+
+    <div class="highlight-mark"></div>
+
+
+    <div
+        class="highlight-text"
+        id="highlightText"
+    ></div>
+
+</section>
+
+
+
+<!-- REFLECTION -->
+
+<section class="reflection">
+
+    <div class="reflection-label">
+        para pensar
+    </div>
+
+
+    <div
+        class="reflection-text"
+        id="reflectionText"
+    ></div>
+
+</section>
+
+
+
+<!-- PRAYER -->
+
+<section class="prayer">
+
+    <div class="prayer-label">
+        oração
+    </div>
+
+
+    <div
+        class="prayer-text"
+        id="prayerText"
+    ></div>
+
+</section>
+
+</div>
+
+</main>
+
+
+
+<!-- =====================================================
+     PROGRESS
+===================================================== -->
+
+<div
+    class="progress-wrap"
+    id="progressWrap"
+>
+
+    <div
+        class="progress-bar"
+        id="progressBar"
+    ></div>
+
+</div>
+
+
+<div
+    class="progress-percent"
+    id="progressPercent"
+>
+    0%
+</div>
+
+
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+<div class="nav-inner">
+
+
+<button
+    class="nav-item active"
+    id="navHome"
+>
+
+    <div class="nav-icon">
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+        >
+
+            <path d="M3 11.5L12 4l9 7.5"/>
+
+            <path d="M5.5 10v9h13v-9"/>
+
+        </svg>
+
+    </div>
+
+    hoje
+
+</button>
+
+
+
+<button class="nav-item">
+
+    <div class="nav-icon">
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+        >
+
+            <path d="M5 4h14v16H5z"/>
+
+            <path d="M8 8h8M8 12h8M8 16h5"/>
+
+        </svg>
+
+    </div>
+
+    devocionais
+
+</button>
+
+
+
+<button class="nav-item">
+
+    <div class="nav-icon">
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+        >
+
+            <path d="
+                M12 3
+                l2.7 5.5
+                L21 9.4
+                l-4.5 4.4
+                1.1 6.2
+                L12 17.1
+                6.4 20
+                7.5 13.8
+                3 9.4
+                9.3 8.5
+                12 3z
+            "/>
+
+        </svg>
+
+    </div>
+
+    progresso
+
+</button>
+
+
+</div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     COMPLETION MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="completionModal"
+>
+
+<div class="modal-card">
+
+
+<div class="modal-mark">
+    ✓
+</div>
+
+
+<h2 class="modal-title">
+
+    você chegou<br>
+    até o fim.
+
+</h2>
+
+
+<p class="modal-text">
+
+    Guarde o que fez sentido para você hoje.
+    Amanhã existe um novo momento.
+
+</p>
+
+
+<div class="modal-actions">
+
+
+<button
+    class="modal-button primary"
+    id="continueButton"
+>
+    continuar aqui
+</button>
+
+
+<button
+    class="modal-button"
+    id="homeButton"
+>
+    voltar para início
+</button>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DEVOCIONAIS
+========================================================= */
+
+const devotionals = {
+
+17:{
+title:"Não tenha medo",
+intro:"Quando o medo aparecer, lembre-se de quem está caminhando com você.",
+reference:"Isaías 41:10",
+verse:"Não tenha medo, pois eu estou com você; não fique assustado, pois eu sou o seu Deus. Eu lhe dou forças e o ajudo.",
+reading:[
+"Existem dias em que a gente olha para o futuro e não consegue enxergar muita coisa. Só existem perguntas. Será que vai dar certo? Será que eu vou conseguir? E se tudo mudar de novo?",
+"Deus não promete que nunca teremos motivos para sentir medo. O que Ele promete é que não precisaremos atravessar esses momentos sozinhos.",
+"A presença de Deus muda a maneira como enfrentamos aquilo que ainda não conhecemos. Você não precisa ter todas as respostas hoje. Precisa apenas continuar caminhando.",
+"Talvez algumas coisas ainda estejam fora do lugar. Isso não significa que Deus tenha abandonado o processo. Algumas respostas chegam enquanto caminhamos."
+],
+highlight:"Você não precisa enxergar todo o caminho para dar o próximo passo.",
+reflection:"Qual preocupação você precisa entregar a Deus hoje?",
+prayer:"Deus, quando o medo tentar ocupar espaço dentro de mim, lembra-me de que Tu estás comigo. Dá-me coragem para continuar e confiança para viver um dia de cada vez. Amém."
+},
+
+18:{
+title:"Um dia de cada vez",
+intro:"Nem tudo precisa ser resolvido hoje.",
+reference:"Mateus 6:34",
+verse:"Portanto, não fiquem preocupados com o dia de amanhã, pois o dia de amanhã terá as suas próprias preocupações.",
+reading:[
+"A ansiedade muitas vezes tenta nos fazer viver vários dias ao mesmo tempo. Pensamos no amanhã, na próxima semana, no próximo mês e até em coisas que talvez nunca aconteçam.",
+"Jesus nos convida para uma vida mais presente. O hoje já carrega suas próprias tarefas, alegrias e desafios.",
+"Isso não significa ignorar o futuro. Significa não permitir que aquilo que ainda não chegou roube a paz do dia que Deus colocou diante de você.",
+"Faça o que está ao seu alcance hoje. O restante pode esperar."
+],
+highlight:"O futuro será vivido quando chegar. Hoje, você só precisa viver hoje.",
+reflection:"O que você está tentando resolver antes da hora?",
+prayer:"Senhor, ensina-me a viver o presente com confiança. Ajuda-me a não carregar preocupações que ainda não pertencem ao meu dia. Amém."
+},
+
+19:{
+title:"Deus abre caminhos",
+intro:"Às vezes a porta ainda não apareceu porque o caminho ainda está sendo preparado.",
+reference:"Salmos 37:5",
+verse:"Ponha a sua vida nas mãos do Senhor, confie nele, e ele o ajudará.",
+reading:[
+"Existem momentos em que parece que nada está acontecendo. Você tenta, espera, procura e continua sem enxergar uma saída.",
+"Mas silêncio não significa ausência. Deus pode estar trabalhando em coisas que você ainda não consegue perceber.",
+"Entregar os planos a Deus não significa deixar de agir. Significa agir sem acreditar que tudo depende exclusivamente das nossas forças.",
+"Continue fazendo a sua parte. Ore. Procure. Tente novamente. E confie que nem toda porta fechada é o fim da história."
+],
+highlight:"O caminho pode estar sendo preparado mesmo quando você ainda não consegue vê-lo.",
+reflection:"Existe alguma área da sua vida em que você precisa confiar mais e controlar menos?",
+prayer:"Deus, coloco meus planos diante de Ti. Guia meus passos e abre os caminhos que forem certos para mim. Dá-me paciência enquanto espero. Amém."
+},
+
+20:{
+title:"Você pode continuar",
+intro:"Cansaço não significa fracasso.",
+reference:"Gálatas 6:9",
+verse:"Não nos cansemos de fazer o bem, pois, se não desanimarmos, chegará o tempo certo em que faremos a colheita.",
+reading:[
+"Talvez você esteja cansado de tentar. Cansado de recomeçar, esperar, procurar ou acreditar.",
+"Mas uma fase difícil não apaga tudo aquilo que você já construiu. Você chegou até aqui porque, mesmo com medo, continuou.",
+"Nem todo progresso é visível. Há crescimento acontecendo dentro de você enquanto nada parece mudar por fora.",
+"Descanse quando precisar. Reorganize-se. Respire. Mas não confunda uma pausa com desistência."
+],
+highlight:"Você pode descansar sem desistir.",
+reflection:"Onde você precisa de descanso e onde precisa apenas de um pouco mais de perseverança?",
+prayer:"Pai, renova minhas forças. Quando eu estiver cansado, ajuda-me a descansar sem perder a esperança. Amém."
+},
+
+21:{
+title:"Há propósito no caminho",
+intro:"Nem toda parte da história faz sentido enquanto estamos vivendo.",
+reference:"Romanos 8:28",
+verse:"Pois sabemos que todas as coisas trabalham juntas para o bem daqueles que amam a Deus.",
+reading:[
+"Algumas experiências só começam a fazer sentido depois de algum tempo. Uma porta fechada, uma mudança inesperada ou uma despedida podem parecer apenas perdas quando acontecem.",
+"Não precisamos fingir que tudo é bom. Algumas coisas realmente doem.",
+"Mas podemos confiar que Deus é capaz de trabalhar até dentro de histórias que não escolhemos viver.",
+"O capítulo atual não é o livro inteiro. Continue. Ainda existem páginas que você não leu."
+],
+highlight:"Você está vivendo um capítulo, não a história inteira.",
+reflection:"O que hoje parece confuso, mas você gostaria de entregar à perspectiva de Deus?",
+prayer:"Senhor, ajuda-me a confiar na Tua condução mesmo quando não entendo o caminho. Amém."
+},
+
+22:{
+title:"Quando faltar força",
+intro:"Você não precisa ser forte o tempo inteiro.",
+reference:"Salmos 46:1",
+verse:"Deus é o nosso refúgio e a nossa força; ele é socorro que não falta em tempos de aflição.",
+reading:[
+"Existe uma diferença entre ser forte e fingir que nada machuca. Deus não pede que você esconda suas fraquezas.",
+"Você pode chegar diante dEle exatamente como está. Cansado, confuso, frustrado ou sem saber o que fazer.",
+"O refúgio existe justamente para os momentos em que precisamos parar e recuperar o fôlego.",
+"Hoje, talvez sua oração não precise ser longa. Pode ser apenas: 'Deus, fica comigo'. E Ele fica."
+],
+highlight:"A sua fraqueza não assusta Deus.",
+reflection:"O que você precisa colocar nas mãos de Deus em vez de tentar carregar sozinho?",
+prayer:"Deus, eu não quero fingir que sou forte o tempo inteiro. Recebe minhas preocupações e sustenta-me quando minhas forças faltarem. Amém."
+},
+
+23:{
+title:"Confie no processo",
+intro:"Nem tudo precisa acontecer imediatamente para estar acontecendo.",
+reference:"Eclesiastes 3:1",
+verse:"Tudo neste mundo tem o seu tempo; cada coisa tem a sua ocasião.",
+reading:[
+"Vivemos em uma época que nos acostumou com respostas rápidas. Mas algumas das coisas mais importantes da vida precisam de tempo.",
+"Crescimento, amadurecimento, relacionamentos, carreira e sonhos não obedecem ao ritmo da ansiedade.",
+"Isso pode ser frustrante. Mas existe beleza em permitir que cada coisa aconteça no seu tempo.",
+"Continue plantando. Continue cuidando. Continue acreditando. O tempo também faz parte da obra."
+],
+highlight:"O tempo de espera não é necessariamente tempo perdido.",
+reflection:"O que você gostaria que acontecesse mais rápido?",
+prayer:"Senhor, dá-me sabedoria para reconhecer o tempo de agir e o tempo de esperar. Amém."
+},
+
+24:{
+title:"Deus conhece você",
+intro:"Você não é invisível para Deus.",
+reference:"Salmos 139:1",
+verse:"Ó Senhor Deus, tu me examinas e me conheces.",
+reading:[
+"Há uma coisa profundamente bonita na ideia de ser conhecido por Deus: você não precisa explicar tudo para ser compreendido por Ele.",
+"Ele conhece aquilo que você mostra e aquilo que você esconde. Conhece seus sonhos, seus medos, suas dúvidas e até aquilo que você ainda não conseguiu colocar em palavras.",
+"Isso significa que você pode se aproximar de Deus com honestidade.",
+"Não precisa construir uma versão perfeita de si mesmo para conversar com Ele."
+],
+highlight:"Você pode ser completamente honesto com Deus.",
+reflection:"Existe algo que você tem dificuldade de falar com Deus?",
+prayer:"Pai, obrigado porque Tu me conheces profundamente e ainda assim me recebes. Ajuda-me a me aproximar de Ti com sinceridade. Amém."
+},
+
+25:{
+title:"Recomeços",
+intro:"Um novo começo não apaga o passado. Ele mostra que a história continua.",
+reference:"Isaías 43:19",
+verse:"Vejam! Estou fazendo uma coisa nova; ela está surgindo agora e vocês não percebem?",
+reading:[
+"Recomeçar pode dar medo porque significa entrar em um território que ainda não conhecemos.",
+"Mas também existe liberdade em perceber que o passado não precisa determinar todos os próximos capítulos.",
+"Você pode aprender com o que aconteceu sem permanecer preso ao que aconteceu.",
+"Deus continua criando possibilidades. Talvez você ainda não consiga enxergá-las, mas isso não significa que elas não existam."
+],
+highlight:"O que terminou não precisa definir o que começa agora.",
+reflection:"Que novo começo você gostaria de viver?",
+prayer:"Deus, dá-me coragem para abraçar novos começos. Que eu carregue aprendizados do passado sem carregar pesos que já não preciso carregar. Amém."
+},
+
+26:{
+title:"A paz que permanece",
+intro:"Paz não é ausência de problemas. É presença de Deus no meio deles.",
+reference:"João 14:27",
+verse:"Deixo com vocês a minha paz; a minha paz lhes dou.",
+reading:[
+"Nem sempre teremos controle sobre aquilo que acontece ao nosso redor. Pessoas mudam, planos mudam e circunstâncias mudam.",
+"Mas existe uma paz que não depende de tudo estar perfeito.",
+"Jesus fala de uma paz que Ele oferece. Uma paz que não significa que todos os problemas desaparecerão imediatamente.",
+"Hoje, permita-se diminuir o ritmo. Respire fundo. Entregue a Deus aquilo que você não consegue controlar."
+],
+highlight:"Você não precisa esperar tudo ficar perfeito para experimentar paz.",
+reflection:"O que está roubando sua paz neste momento?",
+prayer:"Jesus, coloca Tua paz dentro de mim. Acalma aquilo que está agitado e ensina-me a confiar em Ti. Amém."
+},
+
+27:{
+title:"Continue acreditando",
+intro:"A esperança também é uma forma de coragem.",
+reference:"Romanos 15:13",
+verse:"Que Deus, a fonte da esperança, os encha de toda alegria e paz.",
+reading:[
+"Às vezes manter a esperança parece mais difícil do que começar algo novo.",
+"Mas esperança não é fingir que tudo está bem. É acreditar que o presente não é o único cenário possível.",
+"Você pode olhar para a realidade com honestidade e, ainda assim, acreditar que Deus pode conduzir os próximos passos.",
+"Não abandone seus sonhos simplesmente porque eles estão demorando."
+],
+highlight:"Demorar não significa que nunca vai acontecer.",
+reflection:"Qual sonho você precisa voltar a colocar diante de Deus?",
+prayer:"Senhor, protege minha esperança. Quando eu estiver desanimado, lembra-me de que ainda existem possibilidades que não consigo enxergar. Amém."
+},
+
+28:{
+title:"Você já chegou longe",
+intro:"Antes de olhar para o que falta, reconheça o caminho que você já percorreu.",
+reference:"Salmos 40:2",
+verse:"Ele me tirou de uma cova perigosa, de um lugar de lama e de desespero.",
+reading:[
+"É muito fácil olhar para frente e perceber apenas aquilo que ainda não conseguimos conquistar.",
+"Mas existe outra forma de olhar para a vida: reconhecer de onde Deus já nos tirou.",
+"Você sobreviveu a dias que um dia pareciam impossíveis. Passou por situações que achou que não conseguiria superar.",
+"Talvez ainda exista muito pela frente. Mas isso não diminui a distância que você já percorreu."
+],
+highlight:"Não diminua a sua própria caminhada.",
+reflection:"Qual dificuldade do passado prova que você é capaz de atravessar momentos difíceis?",
+prayer:"Deus, obrigado por todas as vezes em que me sustentaste sem que eu sequer percebesse. Ajuda-me a reconhecer o caminho que já percorri. Amém."
+},
+
+29:{
+title:"Entrega",
+intro:"Algumas coisas precisam sair das nossas mãos para encontrarem descanso.",
+reference:"1 Pedro 5:7",
+verse:"Entreguem todas as suas preocupações a Deus, pois ele cuida de vocês.",
+reading:[
+"Controle pode dar uma sensação temporária de segurança. Pensamos que, se planejarmos tudo, nada dará errado.",
+"Mas a vida não funciona assim.",
+"Existem coisas que simplesmente não estão sob nosso controle. E reconhecer isso não é fraqueza.",
+"Entregar é reconhecer que Deus pode cuidar de coisas que nós não conseguimos resolver."
+],
+highlight:"Nem tudo precisa estar nas suas mãos.",
+reflection:"Qual preocupação você pode entregar a Deus hoje?",
+prayer:"Pai, eu entrego a Ti aquilo que não consigo controlar. Ajuda-me a confiar no Teu cuidado e a fazer apenas aquilo que está ao meu alcance. Amém."
+},
+
+30:{
+title:"Amanhã existe",
+intro:"O fim de um mês também pode ser o começo de uma nova expectativa.",
+reference:"Lamentações 3:22-23",
+verse:"O amor do Senhor Deus não se acaba, e a sua bondade não tem fim. Esse amor e essa bondade são novos todas as manhãs.",
+reading:[
+"Chegar ao fim de um ciclo nos faz olhar para trás. Algumas coisas deram certo. Outras não. Algumas respostas chegaram. Outras ainda estão sendo esperadas.",
+"Mas uma coisa permanece: a possibilidade de um novo dia.",
+"A misericórdia de Deus não depende de como foi ontem. Cada manhã traz uma nova oportunidade de caminhar, aprender, tentar novamente e confiar.",
+"Não precisa saber exatamente como será o próximo mês. Entre nele com o coração aberto."
+],
+highlight:"Amanhã não precisa repetir ontem.",
+reflection:"Com que expectativa você gostaria de entrar no próximo ciclo?",
+prayer:"Senhor, obrigado por me trazer até aqui. Entrego a Ti o próximo ciclo da minha vida. Que eu caminhe com coragem, sabedoria e confiança. Amém."
+}
+
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const days = Object.keys(devotionals).map(Number);
+
+let currentIndex = 0;
+let currentDay = days[0];
+
+let touchStartX = 0;
+let pointerStartX = 0;
+let isDragging = false;
+
+let completionTriggered = false;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const home =
+    document.getElementById("home");
+
+const reading =
+    document.getElementById("reading");
+
+const track =
+    document.getElementById("carouselTrack");
+
+const dots =
+    document.getElementById("dots");
+
+const prevBtn =
+    document.getElementById("prevBtn");
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+const heroCount =
+    document.getElementById("heroCount");
+
+const topDate =
+    document.getElementById("topDate");
+
+const readingTitle =
+    document.getElementById("readingTitle");
+
+const readingIntro =
+    document.getElementById("readingIntro");
+
+const reference =
+    document.getElementById("reference");
+
+const verseText =
+    document.getElementById("verseText");
+
+const verseNumber =
+    document.getElementById("verseNumber");
+
+const bodyCopy =
+    document.getElementById("bodyCopy");
+
+const highlightText =
+    document.getElementById("highlightText");
+
+const reflectionText =
+    document.getElementById("reflectionText");
+
+const prayerText =
+    document.getElementById("prayerText");
+
+const readingCounter =
+    document.getElementById("readingCounter");
+
+const backButton =
+    document.getElementById("backButton");
+
+const navHome =
+    document.getElementById("navHome");
+
+const progressWrap =
+    document.getElementById("progressWrap");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const progressPercent =
+    document.getElementById("progressPercent");
+
+const completionModal =
+    document.getElementById("completionModal");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const homeButton =
+    document.getElementById("homeButton");
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function getCompleted(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "devotionalCompleted"
+            ) || "[]"
+        );
+
+    }catch{
+
+        return [];
+
+    }
+
+}
+
+
+function markCompleted(day){
+
+    const completed =
+        getCompleted();
+
+    if(!completed.includes(day)){
+
+        completed.push(day);
+
+        localStorage.setItem(
+            "devotionalCompleted",
+            JSON.stringify(completed)
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function getTodayIndex(){
+
+    const now =
+        new Date();
+
+    const month =
+        now.getMonth() + 1;
+
+    const date =
+        now.getDate();
+
+    if(
+        month === 9 &&
+        date >= 17 &&
+        date <= 30
+    ){
+
+        return date - 17;
+
+    }
+
+    return 0;
+
+}
+
+
+function formatDate(){
+
+    const now =
+        new Date();
+
+    const months = [
+        "JAN",
+        "FEV",
+        "MAR",
+        "ABR",
+        "MAI",
+        "JUN",
+        "JUL",
+        "AGO",
+        "SET",
+        "OUT",
+        "NOV",
+        "DEZ"
+    ];
+
+    return `
+        ${String(now.getDate()).padStart(2,"0")}
+        ·
+        ${months[now.getMonth()]}
+        ·
+        ${now.getFullYear()}
+    `;
+
+}
+
+
+/* =========================================================
+   CARD RENDER
+========================================================= */
+
+function renderCards(){
+
+    const completed =
+        getCompleted();
+
+    track.innerHTML = "";
+
+    days.forEach(
+        (day,index)=>{
+
+            const d =
+                devotionals[day];
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "card";
+
+            if(
+                completed.includes(day)
+            ){
+
+                card.classList.add(
+                    "completed"
+                );
+
+            }
+
+            card.dataset.index =
+                index;
+
+            card.dataset.day =
+                day;
+
+            const isToday =
+                index ===
+                getTodayIndex();
+
+            card.innerHTML = `
+
+                ${
+                    isToday
+                    ? `
+                        <div class="today-pill">
+                            hoje
+                        </div>
+                    `
+                    : ""
+                }
+
+                <div class="completed-mark">
+                    ✓
+                </div>
+
+                <div class="card-top">
+
+                    <div class="card-date">
+
+                        <strong>
+                            ${String(day).padStart(2,"0")}
+                        </strong>
+
+                        <span>
+                            setembro 2026
+                        </span>
+
+                    </div>
+
+                    <div class="card-ref">
+                        ${d.reference}
+                    </div>
+
+                </div>
+
+
+                <div class="card-number">
+                    ${String(day).padStart(2,"0")}
+                </div>
+
+
+                <div class="card-plus">
+                    +
+                </div>
+
+
+                <div class="card-line"></div>
+
+
+                <div class="card-body">
+
+                    <div class="card-index">
+                        ${String(index + 1).padStart(2,"0")}
+                        /
+                        ${String(days.length).padStart(2,"0")}
+                    </div>
+
+
+                    <h2 class="card-title">
+                        ${formatTitle(d.title)}
+                    </h2>
+
+
+                    <div class="card-bottom">
+
+                        <p class="card-intro">
+                            ${d.intro}
+                        </p>
+
+
+                        <button
+                            class="card-open"
+                            aria-label="Abrir devocional"
+                        >
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke-width="1.8"
+                            >
+
+                                <path d="M5 12h13"/>
+
+                                <path d="
+                                    M13 6
+                                    l6 6
+                                    -6 6
+                                "/>
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                event=>{
+
+                    if(
+                        event.target.closest(
+                            ".card-open"
+                        ) ||
+                        card.classList.contains(
+                            "active"
+                        )
+                    ){
+
+                        openDevotional(day);
+
+                    }else{
+
+                        setActiveIndex(index);
+
+                    }
+
+                }
+            );
+
+
+            track.appendChild(card);
+
+        }
+    );
+
+
+    renderDots();
+
+    updateCarousel();
+
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+function formatTitle(title){
+
+    const words =
+        title.split(" ");
+
+    if(words.length < 2){
+
+        return title;
+
+    }
+
+    const last =
+        words.pop();
+
+    return `
+        ${words.join(" ")}
+        <em>${last}</em>
+    `;
+
+}
+
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+function renderDots(){
+
+    dots.innerHTML = "";
+
+    days.forEach(
+        (_,index)=>{
+
+            const dot =
+                document.createElement("div");
+
+            dot.className =
+                "dot";
+
+            if(
+                index === currentIndex
+            ){
+
+                dot.classList.add(
+                    "active"
+                );
+
+            }
+
+            dot.addEventListener(
+                "click",
+                ()=>{
+                    setActiveIndex(index);
+                }
+            );
+
+            dots.appendChild(dot);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CAROUSEL
+========================================================= */
+
+function getCardWidth(){
+
+    const card =
+        track.querySelector(".card");
+
+    if(!card){
+
+        return 0;
+
+    }
+
+    return card.offsetWidth + 12;
+
+}
+
+
+function updateCarousel(){
+
+    const cards =
+        [
+            ...track.querySelectorAll(
+                ".card"
+            )
+        ];
+
+    if(!cards.length){
+
+        return;
+
+    }
+
+
+    cards.forEach(
+        (card,index)=>{
+
+            card.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+        }
+    );
+
+
+    const cardWidth =
+        getCardWidth();
+
+    const viewportWidth =
+        window.innerWidth;
+
+    const card =
+        cards[currentIndex];
+
+    if(!card){
+
+        return;
+
+    }
+
+
+    const cardCenter =
+        currentIndex * cardWidth +
+        card.offsetWidth / 2;
+
+
+    const offset =
+        viewportWidth / 2 -
+        cardCenter;
+
+
+    track.style.transform =
+        `translateX(${offset}px)`;
+
+
+    prevBtn.classList.toggle(
+        "disabled",
+        currentIndex === 0
+    );
+
+    nextBtn.classList.toggle(
+        "disabled",
+        currentIndex ===
+        days.length - 1
+    );
+
+
+    heroCount.textContent =
+        `${String(currentIndex + 1).padStart(2,"0")} / ${String(days.length).padStart(2,"0")}`;
+
+
+    [
+        ...dots.children
+    ].forEach(
+        (dot,index)=>{
+
+            dot.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+        }
+    );
+
+}
+
+
+function setActiveIndex(index){
+
+    index =
+        Math.max(
+            0,
+            Math.min(
+                days.length - 1,
+                index
+            )
+        );
+
+    currentIndex =
+        index;
+
+    currentDay =
+        days[index];
+
+    updateCarousel();
+
+}
+
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+prevBtn.addEventListener(
+    "click",
+    ()=>{
+        setActiveIndex(
+            currentIndex - 1
+        );
+    }
+);
+
+
+nextBtn.addEventListener(
+    "click",
+    ()=>{
+        setActiveIndex(
+            currentIndex + 1
+        );
+    }
+);
+
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+track.addEventListener(
+    "touchstart",
+    event=>{
+
+        touchStartX =
+            event.changedTouches[0].clientX;
+
+    },
+    {passive:true}
+);
+
+
+track.addEventListener(
+    "touchend",
+    event=>{
+
+        const endX =
+            event.changedTouches[0].clientX;
+
+        const distance =
+            endX - touchStartX;
+
+        if(
+            Math.abs(distance) < 45
+        ){
+
+            return;
+
+        }
+
+
+        if(distance < 0){
+
+            setActiveIndex(
+                currentIndex + 1
+            );
+
+        }else{
+
+            setActiveIndex(
+                currentIndex - 1
+            );
+
+        }
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   POINTER
+========================================================= */
+
+track.addEventListener(
+    "pointerdown",
+    event=>{
+
+        pointerStartX =
+            event.clientX;
+
+        isDragging = true;
+
+    }
+);
+
+
+track.addEventListener(
+    "pointerup",
+    event=>{
+
+        if(!isDragging){
+
+            return;
+
+        }
+
+        const distance =
+            event.clientX -
+            pointerStartX;
+
+        isDragging = false;
+
+
+        if(
+            Math.abs(distance) < 45
+        ){
+
+            return;
+
+        }
+
+
+        if(distance < 0){
+
+            setActiveIndex(
+                currentIndex + 1
+            );
+
+        }else{
+
+            setActiveIndex(
+                currentIndex - 1
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            reading.classList.contains(
+                "visible"
+            )
+        ){
+
+            if(
+                event.key === "Escape"
+            ){
+
+                goHome();
+
+            }
+
+            return;
+
+        }
+
+
+        if(
+            event.key === "ArrowRight"
+        ){
+
+            setActiveIndex(
+                currentIndex + 1
+            );
+
+        }
+
+
+        if(
+            event.key === "ArrowLeft"
+        ){
+
+            setActiveIndex(
+                currentIndex - 1
+            );
+
+        }
+
+
+        if(
+            event.key === "Enter"
+        ){
+
+            openDevotional(
+                days[currentIndex]
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   OPEN DEVOTIONAL
+========================================================= */
+
+function openDevotional(day){
+
+    const d =
+        devotionals[day];
+
+    currentDay =
+        day;
+
+    completionTriggered =
+        false;
+
+
+    readingTitle.innerHTML =
+        formatTitle(
+            d.title
+        );
+
+
+    readingIntro.textContent =
+        d.intro;
+
+
+    reference.textContent =
+        d.reference;
+
+
+    verseText.textContent =
+        d.verse;
+
+
+    verseNumber.textContent =
+        d.reference.match(/\d+/)?.[0] || "";
+
+
+    bodyCopy.innerHTML =
+        d.reading
+            .map(
+                paragraph =>
+                    `<p>${paragraph}</p>`
+            )
+            .join("");
+
+
+    highlightText.textContent =
+        d.highlight;
+
+
+    reflectionText.textContent =
+        d.reflection;
+
+
+    prayerText.textContent =
+        d.prayer;
+
+
+    readingCounter.textContent =
+        `${String(day).padStart(2,"0")} · SET`;
+
+
+    home.style.display =
+        "none";
+
+
+    reading.classList.add(
+        "visible"
+    );
+
+
+    progressWrap.classList.add(
+        "visible"
+    );
+
+
+    progressPercent.classList.add(
+        "visible"
+    );
+
+
+    document.body.style.overflowY =
+        "auto";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"instant"
+    });
+
+
+    updateReadingProgress();
+
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function goHome(){
+
+    reading.classList.remove(
+        "visible"
+    );
+
+
+    progressWrap.classList.remove(
+        "visible"
+    );
+
+
+    progressPercent.classList.remove(
+        "visible"
+    );
+
+
+    completionModal.classList.remove(
+        "visible"
+    );
+
+
+    home.style.display =
+        "block";
+
+
+    document.body.style.overflowY =
+        "auto";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"instant"
+    });
+
+
+    renderCards();
+
+}
+
+
+/* =========================================================
+   READING PROGRESS
+========================================================= */
+
+function updateReadingProgress(){
+
+    if(
+        !reading.classList.contains(
+            "visible"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const scrollTop =
+        window.scrollY;
+
+
+    const maxScroll =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+
+    let percent =
+        maxScroll > 0
+        ? (
+            scrollTop /
+            maxScroll
+        ) * 100
+        : 0;
+
+
+    percent =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                percent
+            )
+        );
+
+
+    progressBar.style.width =
+        `${percent}%`;
+
+
+    progressPercent.textContent =
+        `${Math.round(percent)}%`;
+
+
+    if(
+        percent >= 99.4 &&
+        !completionTriggered
+    ){
+
+        completionTriggered =
+            true;
+
+        completeDevotional();
+
+    }
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateReadingProgress,
+    {passive:true}
+);
+
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+function completeDevotional(){
+
+    markCompleted(
+        currentDay
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            completionModal.classList.add(
+                "visible"
+            );
+
+        },
+        350
+    );
+
+}
+
+
+continueButton.addEventListener(
+    "click",
+    ()=>{
+
+        completionModal.classList.remove(
+            "visible"
+        );
+
+    }
+);
+
+
+homeButton.addEventListener(
+    "click",
+    goHome
+);
+
+
+completionModal.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            event.target ===
+            completionModal
+        ){
+
+            completionModal.classList.remove(
+                "visible"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+backButton.addEventListener(
+    "click",
+    goHome
+);
+
+
+navHome.addEventListener(
+    "click",
+    goHome
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    updateCarousel
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+currentIndex =
+    getTodayIndex();
+
+currentDay =
+    days[currentIndex];
+
+topDate.textContent =
+    formatDate();
+
+renderCards();
+
+</script>
+
+</body>
+</html>
+```
