@@ -3,30 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f1ece2">
+<meta name="theme-color" content="#f3eee5">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
 <title>momento.</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap');
-
 :root{
-  --paper:#f1ece2;
-  --paper-deep:#e8dfd1;
-  --ink:#171613;
-  --muted:#756e64;
-  --faint:#aaa093;
-  --line:#d0c6b7;
+  --bg:#f3eee5;
+  --paper:#faf7f0;
+  --ink:#191815;
+  --muted:#756f66;
+  --line:#d8d0c3;
+  --soft:#e7dfd2;
   --red:#b51e19;
-  --red-dark:#801612;
-  --white:#faf7f0;
-  --black:#161411;
-
-  --serif:"DM Serif Display", Georgia, serif;
-  --sans:"DM Sans", Arial, sans-serif;
-  --mono:"DM Mono", monospace;
+  --red-light:#ead0ca;
+  --green:#526452;
+  --green-light:#d9dfd5;
+  --white:#fffdf8;
+  --shadow:rgba(25,24,21,.08);
+  --serif: Georgia, "Times New Roman", serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
 }
 
 *{
@@ -35,21 +32,22 @@
 }
 
 html{
-  background:var(--paper);
+  background:var(--bg);
   scroll-behavior:smooth;
 }
 
 body{
   margin:0;
-  background:var(--paper);
+  background:var(--bg);
   color:var(--ink);
   font-family:var(--sans);
+  min-height:100dvh;
   overflow-x:hidden;
 }
 
 button,
-textarea,
-input{
+input,
+textarea{
   font:inherit;
 }
 
@@ -57,69 +55,35 @@ button{
   color:inherit;
 }
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9999;
-  opacity:.14;
-  background-image:
-    radial-gradient(circle at 20% 20%,rgba(0,0,0,.12) 0 .5px,transparent .7px),
-    radial-gradient(circle at 80% 70%,rgba(0,0,0,.09) 0 .45px,transparent .7px);
-  background-size:13px 15px,19px 21px;
-  mix-blend-mode:multiply;
+::selection{
+  background:var(--ink);
+  color:var(--bg);
 }
 
-.app{
-  width:min(100%,470px);
+#app{
+  width:100%;
+  max-width:520px;
+  min-height:100dvh;
   margin:auto;
-  min-height:100svh;
-  padding-bottom:90px;
+  position:relative;
+  padding-bottom:88px;
 }
 
-.top{
-  height:67px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 21px;
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(241,236,226,.9);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-}
-
-.logo{
-  font-family:var(--serif);
-  font-size:21px;
-  letter-spacing:-.6px;
-}
-
-.logo span{
-  color:var(--red);
-}
-
-.top-right{
-  font-family:var(--mono);
-  color:var(--muted);
-  font-size:8px;
-  letter-spacing:1.2px;
-  text-transform:uppercase;
-}
+/* ─────────────────────────
+   BASE
+───────────────────────── */
 
 .view{
   display:none;
-  animation:enter .38s ease both;
+  min-height:calc(100dvh - 88px);
+  animation:appear .35s ease both;
 }
 
 .view.active{
   display:block;
 }
 
-@keyframes enter{
+@keyframes appear{
   from{
     opacity:0;
     transform:translateY(8px);
@@ -130,413 +94,526 @@ body:before{
   }
 }
 
-.eyebrow{
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  color:var(--muted);
+button{
+  border:0;
+  background:none;
+  padding:0;
+  cursor:pointer;
 }
 
-.red{
-  color:var(--red);
+.eyebrow{
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--muted);
 }
 
 .serif{
   font-family:var(--serif);
 }
 
-.rule{
-  height:1px;
-  background:var(--line);
-}
+/* ─────────────────────────
+   HEADER
+───────────────────────── */
 
-
-/* =========================================================
-   HOME
-========================================================= */
-
-.home{
-  padding:24px 21px 40px;
-}
-
-.home-intro{
+.top{
+  height:68px;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
   position:relative;
-  min-height:530px;
-  display:flex;
-  flex-direction:column;
+  z-index:5;
 }
 
-.home-star{
-  position:absolute;
-  top:10px;
-  right:-4px;
+.logo{
   font-family:var(--serif);
-  color:var(--red);
-  font-size:75px;
-  line-height:.7;
-  transform:rotate(9deg);
+  font-size:22px;
+  letter-spacing:-.04em;
 }
 
-.home-date{
-  margin-top:38px;
+.logo span{
+  color:var(--red);
+}
+
+.top-right{
   display:flex;
-  align-items:flex-end;
+  align-items:center;
   gap:12px;
 }
 
-.home-day{
-  font-family:var(--serif);
-  font-size:111px;
-  line-height:.72;
-  letter-spacing:-8px;
-}
-
-.home-date-text{
-  margin-bottom:4px;
-}
-
-.home-date-text strong{
-  display:block;
-  font-family:var(--serif);
-  font-size:16px;
-  font-weight:400;
-}
-
-.home-headline{
-  font-family:var(--serif);
-  font-size:42px;
-  line-height:.98;
-  letter-spacing:-1.8px;
-  margin:62px 0 0;
-  max-width:390px;
-}
-
-.home-headline em{
-  color:var(--red);
-  font-style:italic;
-}
-
-.home-small{
-  margin-top:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:20px;
-}
-
-.home-small p{
-  margin:0;
-  max-width:300px;
-  font-family:var(--serif);
-  font-size:14px;
-  line-height:1.65;
-}
-
-.home-small-mark{
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:43px;
-}
-
-
-/* TODAY DEVOTIONAL */
-
-.today{
-  margin-top:20px;
-}
-
-.today-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding-bottom:12px;
-  border-bottom:1px solid var(--ink);
-}
-
-.today-top span:last-child{
-  color:var(--red);
-}
-
-.today-content{
-  padding:29px 0 35px;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
-  position:relative;
-}
-
-.today-content:after{
-  content:"↗";
-  position:absolute;
-  top:25px;
-  right:0;
-  color:var(--red);
-  font-size:21px;
-}
-
-.today-content h2{
-  font-family:var(--serif);
-  font-size:34px;
-  font-weight:400;
-  line-height:1.08;
-  letter-spacing:-1px;
-  max-width:385px;
-  margin:0 30px 18px 0;
-}
-
-.today-content p{
-  font-family:var(--serif);
-  font-size:14px;
-  line-height:1.7;
+.today-mini{
+  font-size:10px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
   color:var(--muted);
-  max-width:375px;
-  margin:0;
 }
 
-.today-scripture{
-  margin-top:22px;
-  padding-left:15px;
-  border-left:2px solid var(--red);
+.star{
   font-family:var(--serif);
-  font-size:15px;
-  line-height:1.6;
+  font-size:28px;
+  line-height:1;
+  transform:rotate(-8deg);
 }
 
+/* ─────────────────────────
+   HOME
+───────────────────────── */
 
-/* DEVOTIONAL DAYS */
-
-.dev-days{
-  margin-top:50px;
+.home{
+  padding:0 22px;
 }
 
-.dev-days-head{
+.date-hero{
+  min-height:340px;
+  position:relative;
+  padding-top:15px;
+  overflow:hidden;
+}
+
+.date-kicker{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  position:relative;
+  z-index:2;
+}
+
+.date-location{
+  font-size:10px;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.date-big{
+  font-family:var(--serif);
+  font-size:clamp(145px,42vw,220px);
+  line-height:.72;
+  letter-spacing:-.1em;
+  margin-left:-12px;
+  margin-top:62px;
+  font-weight:400;
+  position:relative;
+  z-index:1;
+}
+
+.date-month{
+  position:absolute;
+  left:8px;
+  bottom:48px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  transform:rotate(-90deg);
+  transform-origin:left top;
+  color:var(--muted);
+}
+
+.date-year{
+  position:absolute;
+  right:5px;
+  bottom:43px;
+  font-family:var(--serif);
+  font-size:19px;
+  color:var(--muted);
+}
+
+.date-asterisk{
+  position:absolute;
+  right:8px;
+  top:73px;
+  font-family:var(--serif);
+  font-size:80px;
+  line-height:1;
+  color:var(--red);
+  transform:rotate(13deg);
+  z-index:2;
+}
+
+.home-rule{
+  height:1px;
+  background:var(--line);
+  margin-bottom:34px;
+}
+
+/* DEVOCIONAL DE HOJE */
+
+.daily{
+  padding-bottom:36px;
+}
+
+.daily-heading{
   display:flex;
   justify-content:space-between;
   align-items:baseline;
-  margin-bottom:17px;
+  margin-bottom:18px;
 }
 
-.dev-days-head h2{
-  font-family:var(--serif);
-  font-size:25px;
-  font-weight:400;
-  margin:0;
+.daily-heading span:first-child{
+  font-size:10px;
+  letter-spacing:.18em;
+  font-weight:700;
+  text-transform:uppercase;
 }
 
-.day-strip{
-  display:flex;
-  gap:0;
-  border-top:1px solid var(--ink);
-  border-bottom:1px solid var(--line);
-}
-
-.day-cell{
-  flex:1;
-  min-height:68px;
-  border:0;
-  background:none;
-  position:relative;
-  cursor:pointer;
-  font-family:var(--mono);
-  font-size:9px;
+.daily-heading span:last-child{
+  font-size:11px;
   color:var(--muted);
 }
 
-.day-cell + .day-cell{
-  border-left:1px solid var(--line);
+.daily-title{
+  font-family:var(--serif);
+  font-size:clamp(35px,9vw,48px);
+  line-height:.98;
+  letter-spacing:-.045em;
+  font-weight:400;
+  max-width:430px;
+  margin:0 0 23px;
 }
 
-.day-cell.active{
-  color:var(--ink);
+.daily-scripture{
+  border-left:2px solid var(--red);
+  padding:2px 0 2px 17px;
+  margin-bottom:27px;
 }
 
-.day-cell.active:after{
-  content:"";
-  position:absolute;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:var(--red);
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-}
-
-.day-cell.done{
+.daily-scripture small{
+  display:block;
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
   color:var(--red);
+  font-weight:700;
+  margin-bottom:8px;
 }
 
-
-/* OTHER PATHS */
-
-.home-paths{
-  margin-top:54px;
+.daily-scripture p{
+  margin:0;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
 }
 
-.path{
-  min-height:95px;
+.editorial-link{
+  width:100%;
   border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:16px 0;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.editorial-link .arrow{
+  font-family:var(--serif);
+  font-size:22px;
+  font-weight:400;
+  transition:transform .2s;
+}
+
+.editorial-link:active .arrow{
+  transform:translateX(5px);
+}
+
+/* WEEK */
+
+.week-strip{
+  border-top:1px solid var(--line);
+  padding:22px 0 33px;
+}
+
+.week-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.week-top span{
+  font-size:9px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.days{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+
+.day{
+  width:36px;
+  text-align:center;
+  position:relative;
   cursor:pointer;
 }
 
-.path:last-child{
-  border-bottom:1px solid var(--line);
+.day-name{
+  display:block;
+  font-size:8px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:8px;
 }
 
-.path-left{
-  display:flex;
-  align-items:center;
-  gap:20px;
-}
-
-.path-symbol{
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:31px;
-  width:35px;
-  text-align:center;
-}
-
-.path-title{
+.day-number{
+  display:block;
   font-family:var(--serif);
   font-size:20px;
 }
 
-.path-desc{
-  color:var(--muted);
-  font-size:10px;
-  margin-top:4px;
-}
-
-.path-arrow{
-  font-size:18px;
-  color:var(--muted);
-}
-
-
-/* =========================================================
-   DEVOTIONAL
-========================================================= */
-
-.dev{
-  padding:32px 21px 45px;
-}
-
-.dev-header{
-  display:flex;
-  justify-content:space-between;
-}
-
-.dev-number{
-  margin-top:55px;
-  font-family:var(--serif);
-  font-size:103px;
-  line-height:.7;
-  letter-spacing:-8px;
+.day.current .day-number{
   color:var(--red);
 }
 
-.dev h1{
-  font-family:var(--serif);
-  font-size:40px;
-  font-weight:400;
-  line-height:1;
-  letter-spacing:-1.7px;
-  margin:54px 0 48px;
-  max-width:420px;
+.day.current:after{
+  content:"";
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:var(--red);
+  position:absolute;
+  bottom:-9px;
+  left:50%;
+  transform:translateX(-50%);
 }
 
-.scripture{
-  border-top:1px solid var(--ink);
+.day.done .day-number{
+  text-decoration:line-through;
+  text-decoration-thickness:1px;
+}
+
+/* SECONDARY HOME */
+
+.home-links{
+  padding-bottom:28px;
+}
+
+.home-link{
+  display:grid;
+  grid-template-columns:48px 1fr 24px;
+  align-items:center;
+  min-height:74px;
+  border-top:1px solid var(--line);
+}
+
+.home-link:last-child{
   border-bottom:1px solid var(--line);
-  padding:20px 0 27px;
 }
 
-.scripture-ref{
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.4px;
-  color:var(--red);
-}
-
-.scripture-text{
-  font-family:var(--serif);
-  font-size:18px;
-  line-height:1.65;
-  margin-top:14px;
-}
-
-.dev-section{
-  padding:38px 0;
-}
-
-.dev-label{
-  font-family:var(--mono);
-  color:var(--muted);
-  font-size:8px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  margin-bottom:15px;
-}
-
-.dev-section p{
+.home-link-index{
   font-family:var(--serif);
   font-size:15px;
-  line-height:1.85;
-  margin:0 0 22px;
+  color:var(--muted);
 }
 
-.reality{
-  margin:10px -21px;
-  padding:42px 21px;
-  background:var(--black);
-  color:var(--white);
-  position:relative;
+.home-link-main strong{
+  display:block;
+  font-family:var(--serif);
+  font-size:20px;
+  font-weight:400;
+  margin-bottom:3px;
 }
 
-.reality-mark{
-  position:absolute;
-  right:19px;
-  top:14px;
+.home-link-main span{
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.home-link-arrow{
+  font-family:var(--serif);
+  font-size:22px;
+}
+
+/* PHRASE */
+
+.phrase-home{
+  padding:35px 0 12px;
+  text-align:center;
+}
+
+.phrase-home .asterisk{
   color:var(--red);
   font-family:var(--serif);
-  font-size:60px;
+  font-size:31px;
+  display:block;
+  margin-bottom:13px;
 }
 
-.reality h2{
+.phrase-home p{
+  margin:0 auto;
+  max-width:350px;
   font-family:var(--serif);
-  font-weight:400;
-  font-size:26px;
-  line-height:1.25;
-  max-width:370px;
-  margin:0 0 20px;
-}
-
-.reality p{
-  color:#c6beb2;
-  font-family:var(--serif);
-  font-size:14px;
-  line-height:1.8;
-}
-
-.practice{
-  padding:40px 0;
-}
-
-.practice-question{
-  font-family:var(--serif);
-  font-size:24px;
+  font-size:17px;
   line-height:1.4;
 }
 
-.note{
+/* ─────────────────────────
+   DEVOTIONAL
+───────────────────────── */
+
+.inner{
+  padding:0 22px;
+}
+
+.inner-head{
+  padding:12px 0 35px;
+}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:700;
+  color:var(--muted);
+  margin-bottom:28px;
+}
+
+.back span{
+  font-size:17px;
+  line-height:1;
+}
+
+.dev-number{
+  font-family:var(--serif);
+  font-size:105px;
+  line-height:.75;
+  letter-spacing:-.08em;
+  margin-left:-8px;
+  color:var(--soft);
+}
+
+.dev-label{
+  margin-top:17px;
+}
+
+.dev-title{
+  font-family:var(--serif);
+  font-size:42px;
+  line-height:1;
+  letter-spacing:-.045em;
+  font-weight:400;
+  margin:9px 0 0;
+}
+
+.dev-section{
+  border-top:1px solid var(--line);
+  padding:25px 0 31px;
+}
+
+.section-label{
+  font-size:9px;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--red);
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.scripture-large{
+  font-family:var(--serif);
+  font-size:24px;
+  line-height:1.3;
+  margin:0;
+}
+
+.body-copy{
+  font-size:15px;
+  line-height:1.65;
+  color:#39352f;
+  margin:0;
+}
+
+.context{
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.35;
+  margin:0;
+}
+
+.exercise{
+  padding:22px 0;
+}
+
+.exercise-number{
+  font-family:var(--serif);
+  font-size:42px;
+  color:var(--red);
+  margin-bottom:6px;
+}
+
+.exercise p{
+  margin:0;
+  font-family:var(--serif);
+  font-size:21px;
+  line-height:1.35;
+}
+
+.question{
+  font-family:var(--serif);
+  font-size:27px;
+  line-height:1.25;
+  margin:0;
+}
+
+.question-line{
+  height:42px;
+  border-bottom:1px solid var(--ink);
+  margin-top:15px;
+}
+
+.prayer{
+  margin:0 -22px;
+  padding:40px 22px 43px;
+  background:var(--ink);
+  color:var(--paper);
+  position:relative;
+  overflow:hidden;
+}
+
+.prayer .asterisk-big{
+  position:absolute;
+  right:-6px;
+  top:-27px;
+  font-family:var(--serif);
+  font-size:120px;
+  color:var(--red);
+  opacity:.8;
+}
+
+.prayer .section-label{
+  position:relative;
+}
+
+.prayer-text{
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.45;
+  max-width:440px;
+  position:relative;
+  margin:0;
+}
+
+.note-area{
+  border-top:1px solid var(--line);
+  padding:27px 0 35px;
+}
+
+.note-area textarea{
   width:100%;
   min-height:130px;
-  margin-top:23px;
-  padding:0;
   resize:none;
   border:0;
   outline:0;
@@ -544,1491 +621,1784 @@ body:before{
     repeating-linear-gradient(
       to bottom,
       transparent 0,
-      transparent 30px,
-      var(--line) 31px
+      transparent 31px,
+      var(--line) 32px
     );
   font-family:var(--serif);
-  font-size:14px;
-  line-height:31px;
+  font-size:17px;
+  line-height:32px;
+  color:var(--ink);
 }
 
-.note::placeholder{
-  color:#aaa093;
-  font-style:italic;
+.note-area textarea::placeholder{
+  color:#a39b90;
 }
 
-.prayer{
-  border-top:1px solid var(--ink);
-  padding-top:30px;
+.complete-button{
+  width:100%;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:19px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
 }
 
-.prayer p{
+.complete-mark{
+  width:20px;
+  height:20px;
+  border:1px solid var(--ink);
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   font-family:var(--serif);
-  font-size:16px;
-  line-height:1.85;
+  font-size:13px;
+}
+
+.complete-button.done .complete-mark{
+  background:var(--green);
+  border-color:var(--green);
+  color:white;
+}
+
+/* ─────────────────────────
+   SALMO 18
+───────────────────────── */
+
+.psalm-hero{
+  position:relative;
+  padding:18px 0 45px;
+  overflow:hidden;
+}
+
+.psalm-big{
+  font-family:var(--serif);
+  font-size:220px;
+  line-height:.7;
+  letter-spacing:-.12em;
+  color:var(--soft);
+  margin-left:-18px;
+}
+
+.psalm-title{
+  position:relative;
+  margin-top:-4px;
+}
+
+.psalm-title h1{
+  font-family:var(--serif);
+  font-size:52px;
+  line-height:.9;
+  font-weight:400;
+  letter-spacing:-.05em;
   margin:0;
 }
 
-.dev-footer{
-  display:flex;
-  justify-content:space-between;
-  margin-top:38px;
-  border-top:1px solid var(--line);
-  padding-top:22px;
-}
-
-.text-button{
-  border:0;
-  background:none;
-  padding:5px 0;
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.3px;
+.psalm-title p{
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.15em;
   text-transform:uppercase;
-  cursor:pointer;
+  margin:13px 0 0;
 }
 
-.text-button.red-button{
-  color:var(--red);
+.psalm-intro{
+  border-top:1px solid var(--line);
+  padding:28px 0;
 }
 
-
-/* =========================================================
-   SALMO
-========================================================= */
-
-.psalm{
-  padding:30px 21px 45px;
-}
-
-.psalm-hero{
-  min-height:355px;
-  position:relative;
-}
-
-.psalm-number{
-  position:absolute;
-  top:25px;
-  left:-9px;
+.psalm-intro p{
   font-family:var(--serif);
-  color:var(--red);
-  font-size:210px;
-  line-height:.7;
-  letter-spacing:-20px;
-}
-
-.psalm-side{
-  position:absolute;
-  top:0;
-  right:0;
-  writing-mode:vertical-rl;
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.7px;
-  color:var(--muted);
-}
-
-.psalm-heading{
-  position:absolute;
-  bottom:10px;
-  left:0;
-  font-family:var(--serif);
-  font-size:35px;
-  line-height:1.08;
-  letter-spacing:-1px;
-}
-
-.psalm-heading em{
-  color:var(--red);
-  font-style:normal;
-}
-
-.psalm-days{
-  display:flex;
-  border-top:1px solid var(--ink);
-  border-bottom:1px solid var(--line);
-}
-
-.psalm-day{
-  flex:1;
-  height:55px;
-  border:0;
-  background:none;
-  cursor:pointer;
-  font-family:var(--mono);
-  font-size:8px;
-  color:var(--muted);
-}
-
-.psalm-day.active{
-  color:var(--red);
+  font-size:22px;
+  line-height:1.4;
+  margin:0;
 }
 
 .psalm-reading{
-  padding-top:37px;
+  border-top:1px solid var(--line);
+  padding:25px 0;
 }
 
-.psalm-reading h2{
-  font-family:var(--serif);
-  font-size:25px;
-  font-weight:400;
-  line-height:1.3;
-  margin:12px 0 27px;
+.psalm-verse{
+  display:grid;
+  grid-template-columns:35px 1fr;
+  gap:8px;
+  padding:17px 0;
+  border-bottom:1px solid var(--line);
 }
 
-.verse{
-  border-left:2px solid var(--red);
-  padding-left:17px;
-  font-family:var(--serif);
-  font-size:17px;
-  line-height:1.7;
-  margin:28px 0;
-}
-
-.psalm-reading p{
+.psalm-verse-number{
+  color:var(--red);
   font-family:var(--serif);
   font-size:14px;
-  line-height:1.85;
 }
 
-
-/* =========================================================
-   JAPAMALA
-========================================================= */
-
-.japa{
-  padding:27px 15px 38px;
-  min-height:calc(100svh - 67px);
-}
-
-.japa-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  padding:0 7px;
-}
-
-.japa-title{
+.psalm-verse p{
+  margin:0;
   font-family:var(--serif);
-  font-size:34px;
-  line-height:.9;
-  letter-spacing:-1.2px;
-  margin-top:5px;
+  font-size:18px;
+  line-height:1.45;
 }
 
-.japa-round-info{
-  text-align:right;
+.psalm-focus{
+  margin-top:35px;
+  padding:32px 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
 }
 
-.japa-round-info strong{
-  display:block;
+.psalm-focus h2{
   font-family:var(--serif);
-  font-size:28px;
+  font-size:31px;
+  line-height:1;
   font-weight:400;
+  margin:0 0 16px;
 }
 
-.japa-round-info span{
-  font-family:var(--mono);
+.psalm-focus p{
+  font-size:14px;
+  line-height:1.65;
+  margin:0;
+  color:#454039;
+}
+
+/* ─────────────────────────
+   BANHOS
+───────────────────────── */
+
+.ritual-intro{
+  padding:14px 0 35px;
+}
+
+.ritual-intro h1{
+  font-family:var(--serif);
+  font-size:54px;
+  line-height:.88;
+  font-weight:400;
+  letter-spacing:-.06em;
+  margin:20px 0;
+}
+
+.ritual-intro p{
+  font-size:14px;
+  line-height:1.6;
   color:var(--muted);
-  font-size:8px;
+  max-width:400px;
 }
 
+.ritual-list{
+  border-top:1px solid var(--line);
+}
 
-/* MODE */
+.ritual{
+  border-bottom:1px solid var(--line);
+}
 
-.japa-modes{
-  margin-top:20px;
+.ritual-trigger{
+  width:100%;
+  min-height:92px;
+  display:grid;
+  grid-template-columns:48px 1fr 20px;
+  align-items:center;
+  text-align:left;
+}
+
+.ritual-number{
+  font-family:var(--serif);
+  font-size:15px;
+  color:var(--muted);
+}
+
+.ritual-name{
+  font-family:var(--serif);
+  font-size:23px;
+}
+
+.ritual-symbol{
+  font-family:var(--serif);
+  font-size:20px;
+  transition:transform .25s;
+}
+
+.ritual.open .ritual-symbol{
+  transform:rotate(45deg);
+}
+
+.ritual-content{
+  display:none;
+  padding:0 0 28px 48px;
+}
+
+.ritual.open .ritual-content{
+  display:block;
+  animation:appear .25s ease;
+}
+
+.ritual-content p{
+  font-size:14px;
+  line-height:1.6;
+  color:#454039;
+  margin:0 0 17px;
+}
+
+.ingredients{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.ingredients li{
+  border-top:1px solid var(--line);
+  padding:11px 0;
+  font-family:var(--serif);
+  font-size:16px;
+}
+
+/* ─────────────────────────
+   JAPAMALA
+───────────────────────── */
+
+.japa-view{
+  min-height:calc(100dvh - 88px);
   display:flex;
-  justify-content:flex-end;
-  gap:17px;
-  padding:0 7px;
+  flex-direction:column;
 }
 
-.mode{
-  border:0;
-  background:none;
-  padding:0 0 4px;
+.japa-top{
+  padding:15px 22px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+  z-index:20;
+}
+
+.japa-top-title{
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.japa-mode-label{
+  font-family:var(--serif);
+  font-size:15px;
+}
+
+.japa-intro{
+  padding:35px 22px 22px;
+}
+
+.japa-intro h1{
+  font-family:var(--serif);
+  font-size:49px;
+  line-height:.9;
+  font-weight:400;
+  letter-spacing:-.055em;
+  margin:0 0 17px;
+}
+
+.japa-intro p{
+  font-size:13px;
+  line-height:1.55;
   color:var(--muted);
-  font-family:var(--mono);
-  font-size:8px;
-  cursor:pointer;
-  border-bottom:1px solid transparent;
+  margin:0;
+  max-width:360px;
 }
 
-.mode.active{
-  color:var(--red);
+.japa-settings{
+  padding:12px 22px 22px;
+}
+
+.setting-row{
+  border-top:1px solid var(--line);
+  padding:17px 0;
+}
+
+.setting-label{
+  display:block;
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.mode-options{
+  display:flex;
+  gap:22px;
+}
+
+.mode-option{
+  font-family:var(--serif);
+  font-size:22px;
+  color:var(--muted);
+  position:relative;
+}
+
+.mode-option.active{
+  color:var(--ink);
+}
+
+.mode-option.active:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-4px;
+  height:1px;
+  background:var(--red);
+}
+
+.phrase-input{
+  width:100%;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--ink);
+  padding:7px 0;
+  outline:none;
+  font-family:var(--serif);
+  font-size:18px;
+  color:var(--ink);
+}
+
+.phrase-input:focus{
   border-color:var(--red);
 }
 
+.japa-start{
+  margin:5px 22px 30px;
+  width:calc(100% - 44px);
+  padding:18px 0;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-size:10px;
+  font-weight:700;
+  display:flex;
+  justify-content:space-between;
+}
 
-/*
-  THIS IS THE IMPORTANT PART.
+/* PRACTICE */
 
-  The entire central area is the tap target.
-  We don't require the user to hit an individual SVG bead.
-*/
+.japa-practice{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:var(--bg);
+  display:none;
+  flex-direction:column;
+  touch-action:none;
+  overscroll-behavior:none;
+}
 
-.japa-touch{
-  position:relative;
-  width:100%;
-  height:530px;
-  margin-top:5px;
-  cursor:pointer;
-  touch-action:manipulation;
-  user-select:none;
-  -webkit-user-select:none;
+.japa-practice.active{
+  display:flex;
+}
+
+.practice-head{
+  padding:
+    max(18px, env(safe-area-inset-top))
+    20px
+    0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-shrink:0;
+  z-index:10;
+}
+
+.practice-head-left{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.practice-head-left strong{
+  font-size:9px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.practice-head-left span{
+  font-family:var(--serif);
+  font-size:14px;
+}
+
+.practice-close{
+  font-family:var(--serif);
+  font-size:27px;
+  width:42px;
+  height:42px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-.japa-touch:active .mala-object{
-  transform:scale(.985);
+.practice-stage{
+  flex:1;
+  min-height:0;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
-.mala-object{
-  width:100%;
-  height:100%;
-  transition:transform .18s ease;
-}
-
-#malaSvg{
-  width:100%;
-  height:100%;
+.mala-svg{
+  width:min(92vw,430px);
+  height:min(68vh,600px);
   overflow:visible;
 }
 
-.mala-string{
+.mala-cord{
   fill:none;
-  stroke:#948777;
-  stroke-width:1;
-  opacity:.7;
-}
-
-.bead-shadow{
-  fill:rgba(0,0,0,.14);
+  stroke:#9e9487;
+  stroke-width:1.5;
+  opacity:.65;
 }
 
 .bead{
-  fill:#d2c1a5;
-  stroke:#8b7b68;
-  stroke-width:.7;
-}
-
-.bead-completed{
-  fill:#a9987e;
-}
-
-.bead-current{
-  fill:var(--red);
-  stroke:#77130f;
+  fill:#d9d0c4;
+  stroke:#bcb1a4;
   stroke-width:1;
+  transition:
+    fill .2s,
+    stroke .2s,
+    opacity .2s,
+    transform .25s;
 }
 
-.bead-highlight{
-  fill:rgba(255,255,255,.45);
+.bead-shine{
+  fill:rgba(255,255,255,.58);
+  pointer-events:none;
 }
 
-.bead-current-highlight{
-  fill:rgba(255,255,255,.35);
+.bead.completed{
+  fill:var(--green);
+  stroke:#405341;
 }
 
-.japa-center{
+.bead.current{
+  fill:var(--red);
+  stroke:#8e1714;
+  stroke-width:1.5;
+  animation:beadPulse 1.25s ease-in-out infinite;
+}
+
+.bead.ghost{
+  opacity:.22;
+}
+
+@keyframes beadPulse{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(181,30,25,0))}
+  50%{filter:drop-shadow(0 0 8px rgba(181,30,25,.28))}
+}
+
+.bead-shine.current-shine{
+  fill:rgba(255,255,255,.4);
+}
+
+.guru{
+  fill:var(--red);
+  stroke:#8e1714;
+  stroke-width:2;
+}
+
+.guru-shine{
+  fill:rgba(255,255,255,.42);
+}
+
+.tassel{
+  stroke:var(--red);
+  stroke-width:1.4;
+  fill:none;
+  stroke-linecap:round;
+}
+
+.practice-center{
   position:absolute;
   left:50%;
   top:50%;
   transform:translate(-50%,-50%);
+  width:150px;
   text-align:center;
   pointer-events:none;
-  width:140px;
+  z-index:3;
 }
 
-.japa-center-label{
-  font-family:var(--mono);
-  font-size:7px;
-  letter-spacing:1.6px;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.japa-center-count{
+.counter{
   font-family:var(--serif);
-  font-size:69px;
-  line-height:.9;
-  letter-spacing:-5px;
-  margin-top:5px;
-}
-
-.japa-center-total{
-  font-family:var(--mono);
-  color:var(--muted);
-  font-size:8px;
-  margin-top:8px;
-}
-
-.japa-center-progress{
-  width:70px;
-  height:1px;
-  background:var(--line);
-  margin:13px auto 0;
-  position:relative;
-  overflow:hidden;
-}
-
-.japa-center-progress i{
-  display:block;
-  height:100%;
-  width:0;
-  background:var(--red);
-  transition:width .3s ease;
-}
-
-.japa-hint{
-  position:absolute;
-  bottom:5px;
-  left:50%;
-  transform:translateX(-50%);
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.2px;
-  color:var(--muted);
-  white-space:nowrap;
-  transition:opacity .5s;
-}
-
-.japa-hint.hidden{
-  opacity:0;
-}
-
-
-/* MILESTONE */
-
-.japa-milestone{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) scale(.8);
-  opacity:0;
-  pointer-events:none;
-  z-index:10;
-  text-align:center;
-  transition:
-    opacity .3s ease,
-    transform .45s cubic-bezier(.2,.9,.2,1);
-}
-
-.japa-milestone.show{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1);
-}
-
-.milestone-symbol{
-  font-family:var(--serif);
-  color:var(--red);
-  font-size:45px;
-}
-
-.milestone-text{
-  font-family:var(--serif);
-  font-size:20px;
-  margin-top:5px;
-}
-
-.milestone-sub{
-  font-family:var(--mono);
-  color:var(--muted);
-  font-size:7px;
-  letter-spacing:1.3px;
-  margin-top:8px;
-}
-
-
-/* PHRASE */
-
-.japa-mantra{
-  border-top:1px solid var(--ink);
-  padding:24px 7px 22px;
-  position:relative;
-}
-
-.japa-mantra:after{
-  content:"“";
-  position:absolute;
-  right:0;
-  top:3px;
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:60px;
-}
-
-.mantra-label{
-  font-family:var(--mono);
-  color:var(--muted);
-  font-size:8px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-}
-
-.mantra-text{
-  font-family:var(--serif);
-  font-size:18px;
-  line-height:1.65;
-  max-width:385px;
-  padding-right:20px;
-  margin-top:10px;
-}
-
-.mantra-text em{
-  color:var(--red);
-  font-style:italic;
-}
-
-.mantra-edit{
-  margin-top:13px;
-  color:var(--muted);
-}
-
-
-/* CONTROLS */
-
-.japa-actions{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:5px 7px 0;
-}
-
-.japa-action{
-  border:0;
-  background:none;
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.1px;
-  text-transform:uppercase;
-  padding:9px 0;
-  cursor:pointer;
-}
-
-.japa-action.primary{
-  color:var(--red);
-}
-
-.japa-action:disabled{
-  color:var(--faint);
-}
-
-
-/* STATS */
-
-.japa-stats{
-  display:flex;
-  border-top:1px solid var(--line);
-  margin-top:21px;
-  padding-top:16px;
-}
-
-.japa-stat{
-  flex:1;
-}
-
-.japa-stat + .japa-stat{
-  border-left:1px solid var(--line);
-  padding-left:16px;
-}
-
-.japa-stat strong{
-  font-family:var(--serif);
-  font-size:23px;
-  font-weight:400;
-}
-
-.japa-stat span{
-  display:block;
-  font-family:var(--mono);
-  font-size:7px;
-  letter-spacing:1px;
-  color:var(--muted);
-  text-transform:uppercase;
-  margin-top:3px;
-}
-
-
-/* COMPLETION */
-
-.japa-complete{
-  position:fixed;
-  inset:0;
-  z-index:900;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(22,20,17,.92);
-  color:var(--white);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .45s;
-}
-
-.japa-complete.show{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.complete-inner{
-  width:min(100%,400px);
-  padding:35px;
-  text-align:center;
-}
-
-.complete-symbol{
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:75px;
+  font-size:44px;
+  letter-spacing:-.06em;
   line-height:1;
 }
 
-.complete-inner h2{
-  font-family:var(--serif);
-  font-size:39px;
-  font-weight:400;
-  letter-spacing:-1.5px;
-  margin:22px 0 12px;
-}
-
-.complete-inner p{
-  color:#c4bcae;
-  font-family:var(--serif);
-  font-size:14px;
-  line-height:1.7;
-}
-
-.complete-inner button{
-  margin-top:25px;
-  border:0;
-  border-bottom:1px solid var(--red);
-  background:none;
-  color:var(--white);
-  padding:8px 0;
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.3px;
-  text-transform:uppercase;
-}
-
-
-/* =========================================================
-   BANHOS
-========================================================= */
-
-.baths{
-  padding:31px 21px 45px;
-}
-
-.baths-hero{
-  min-height:305px;
-  position:relative;
-}
-
-.baths-hero-mark{
-  position:absolute;
-  right:0;
-  top:0;
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:66px;
-}
-
-.baths-hero h1{
-  font-family:var(--serif);
-  font-size:58px;
-  line-height:.92;
-  font-weight:400;
-  letter-spacing:-3px;
-  margin:60px 0 0;
-}
-
-.bath-list{
-  border-top:1px solid var(--ink);
-}
-
-.bath{
-  position:relative;
-  padding:23px 35px 23px 0;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
-}
-
-.bath-number{
-  color:var(--red);
-  font-family:var(--mono);
-  font-size:8px;
-}
-
-.bath-name{
-  font-family:var(--serif);
-  font-size:23px;
-  margin-top:7px;
-}
-
-.bath-description{
+.counter-target{
   color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-  margin-top:7px;
-}
-
-.bath-arrow{
-  position:absolute;
-  right:0;
-  top:27px;
-  color:var(--muted);
-}
-
-.bath-detail{
-  display:none;
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid var(--line);
-}
-
-.bath.open .bath-detail{
-  display:block;
-  animation:enter .3s ease;
-}
-
-.bath-detail p{
-  font-family:var(--serif);
-  font-size:14px;
-  line-height:1.75;
-}
-
-.bath-ingredients{
-  font-family:var(--mono);
-  color:var(--muted);
-  font-size:8px;
-  letter-spacing:.8px;
-  line-height:1.8;
-}
-
-
-/* =========================================================
-   MAIS
-========================================================= */
-
-.more{
-  padding:32px 21px 45px;
-}
-
-.more h1{
-  font-family:var(--serif);
-  font-weight:400;
-  font-size:62px;
-  line-height:.9;
-  letter-spacing:-3px;
-  margin:70px 0;
-}
-
-.more-list{
-  border-top:1px solid var(--ink);
-}
-
-.more-item{
-  min-height:68px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
-}
-
-.more-item span:first-child{
-  font-family:var(--serif);
-  font-size:18px;
-}
-
-.more-item span:last-child{
-  color:var(--muted);
-  font-family:var(--mono);
-  font-size:8px;
-}
-
-
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
-
-.bottom-nav{
-  position:fixed;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:min(100%,470px);
-  height:74px;
-  z-index:500;
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  background:rgba(241,236,226,.94);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-top:1px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom);
-}
-
-.nav{
-  border:0;
-  background:none;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:5px;
-  color:var(--muted);
-  cursor:pointer;
-}
-
-.nav-symbol{
-  font-family:var(--serif);
   font-size:19px;
-  line-height:1;
 }
 
-.nav-label{
-  font-family:var(--mono);
-  font-size:7px;
-  letter-spacing:.9px;
+.counter-label{
+  margin-top:10px;
+  font-size:8px;
+  letter-spacing:.17em;
   text-transform:uppercase;
+  color:var(--muted);
 }
 
-.nav.active{
+.practice-phrase{
+  position:absolute;
+  bottom:19%;
+  left:50%;
+  transform:translateX(-50%);
+  width:75%;
+  text-align:center;
+  font-family:var(--serif);
+  font-size:15px;
+  line-height:1.3;
+  color:#4b463e;
+  pointer-events:none;
+  opacity:.9;
+}
+
+.tap-hint{
+  position:absolute;
+  bottom:10%;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-size:8px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#92897d;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+
+.tap-hint.hidden{
+  opacity:0;
+}
+
+.float-word{
+  position:absolute;
+  left:50%;
+  top:38%;
+  transform:translate(-50%,0);
+  font-family:var(--serif);
+  font-size:18px;
+  color:var(--red);
+  pointer-events:none;
+  animation:floatWord 1s ease forwards;
+  z-index:20;
+}
+
+@keyframes floatWord{
+  from{
+    opacity:0;
+    transform:translate(-50%,10px);
+  }
+  20%{
+    opacity:1;
+  }
+  to{
+    opacity:0;
+    transform:translate(-50%,-42px);
+  }
+}
+
+.practice-bottom{
+  flex-shrink:0;
+  border-top:1px solid var(--line);
+  padding:
+    13px
+    20px
+    max(15px, env(safe-area-inset-bottom));
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  z-index:10;
+}
+
+.practice-control{
+  font-size:9px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--muted);
+}
+
+.practice-control.center{
+  font-family:var(--serif);
+  font-size:18px;
+  text-transform:none;
+  letter-spacing:0;
   color:var(--ink);
 }
 
-.nav.active .nav-symbol{
+.practice-control.right{
+  text-align:right;
+}
+
+.pause-label{
   color:var(--red);
 }
 
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal{
-  position:fixed;
+.paused-overlay{
+  position:absolute;
   inset:0;
-  z-index:1000;
+  background:rgba(243,238,229,.68);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
   display:none;
-  align-items:flex-end;
-  background:rgba(20,18,15,.65);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:15;
 }
 
-.modal.show{
+.paused-overlay.active{
   display:flex;
 }
 
-.modal-sheet{
-  width:min(100%,470px);
-  background:var(--paper);
-  padding:25px 21px 38px;
-  animation:sheet .35s ease;
-}
-
-@keyframes sheet{
-  from{
-    transform:translateY(100%);
-  }
-  to{
-    transform:none;
-  }
-}
-
-.modal-close{
-  float:right;
-  border:0;
-  background:none;
-  font-size:24px;
-  cursor:pointer;
-}
-
-.modal-sheet h2{
-  clear:both;
+.paused-overlay strong{
   font-family:var(--serif);
-  font-size:28px;
+  font-size:43px;
   font-weight:400;
-  line-height:1.2;
-  margin:35px 0 20px;
 }
 
-.modal-sheet textarea{
-  width:100%;
-  min-height:120px;
-  border:0;
-  border-bottom:1px solid var(--ink);
-  background:none;
-  outline:none;
-  resize:none;
-  font-family:var(--serif);
-  font-size:16px;
-  line-height:1.7;
-}
-
-.modal-save{
-  border:0;
-  background:none;
-  color:var(--red);
-  font-family:var(--mono);
-  font-size:8px;
-  letter-spacing:1.3px;
+.paused-overlay span{
+  margin-top:10px;
+  font-size:9px;
   text-transform:uppercase;
-  margin-top:20px;
-  border-bottom:1px solid var(--red);
-  padding:7px 0;
+  letter-spacing:.15em;
+  color:var(--muted);
 }
 
+/* COMPLETION */
 
-/* =========================================================
-   SMALL
-========================================================= */
+.complete-overlay{
+  position:absolute;
+  inset:0;
+  background:var(--ink);
+  color:var(--paper);
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+}
 
-@media(max-width:370px){
+.complete-overlay.active{
+  display:flex;
+  animation:fadeIn .35s ease;
+}
 
-  .home-headline{
-    font-size:36px;
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+.completion-inner{
+  position:relative;
+}
+
+.completion-star{
+  color:var(--red);
+  font-family:var(--serif);
+  font-size:58px;
+  display:block;
+  margin-bottom:22px;
+}
+
+.completion-number{
+  font-family:var(--serif);
+  font-size:120px;
+  line-height:.7;
+  letter-spacing:-.1em;
+}
+
+.completion-inner h2{
+  font-family:var(--serif);
+  font-size:36px;
+  font-weight:400;
+  margin:35px 0 10px;
+}
+
+.completion-inner p{
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#aaa39a;
+}
+
+.completion-close{
+  margin-top:34px;
+  color:var(--paper);
+  border-bottom:1px solid var(--paper);
+  padding-bottom:6px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+/* ─────────────────────────
+   MAIS
+───────────────────────── */
+
+.more-head{
+  padding:15px 0 42px;
+}
+
+.more-head h1{
+  font-family:var(--serif);
+  font-size:58px;
+  line-height:.85;
+  font-weight:400;
+  letter-spacing:-.07em;
+  margin:25px 0 0;
+}
+
+.more-list{
+  border-top:1px solid var(--line);
+}
+
+.more-item{
+  min-height:76px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.more-item strong{
+  font-family:var(--serif);
+  font-size:21px;
+  font-weight:400;
+}
+
+.more-item span{
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+}
+
+.theme-toggle{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+
+.theme-choice{
+  font-family:var(--serif);
+  font-size:17px;
+  color:var(--muted);
+}
+
+.theme-choice.active{
+  color:var(--ink);
+  text-decoration:underline;
+  text-decoration-color:var(--red);
+  text-underline-offset:5px;
+}
+
+/* ─────────────────────────
+   BOTTOM NAV
+───────────────────────── */
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(520px,100%);
+  height:76px;
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(243,238,229,.94);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  z-index:50;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:5px;
+  color:#928a7f;
+}
+
+.nav-item .nav-icon{
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1;
+}
+
+.nav-item .nav-label{
+  font-size:8px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.nav-item.active{
+  color:var(--ink);
+}
+
+.nav-item.active .nav-icon{
+  color:var(--red);
+}
+
+/* ─────────────────────────
+   TOAST
+───────────────────────── */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:100px;
+  transform:translate(-50%,12px);
+  background:var(--ink);
+  color:var(--paper);
+  padding:11px 17px;
+  font-size:10px;
+  letter-spacing:.05em;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:200;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* ─────────────────────────
+   DARK THEME
+───────────────────────── */
+
+body.dark{
+  --bg:#171614;
+  --paper:#211f1b;
+  --ink:#f1ece2;
+  --muted:#999187;
+  --line:#3b3731;
+  --soft:#2b2823;
+  --white:#24211d;
+  --shadow:rgba(0,0,0,.25);
+}
+
+body.dark .bottom-nav{
+  background:rgba(23,22,20,.94);
+}
+
+body.dark .daily-scripture{
+  border-color:var(--red);
+}
+
+body.dark .japa-practice{
+  background:var(--bg);
+}
+
+body.dark .paused-overlay{
+  background:rgba(23,22,20,.7);
+}
+
+body.dark .bead{
+  fill:#4b463f;
+  stroke:#686158;
+}
+
+body.dark .bead.ghost{
+  opacity:.2;
+}
+
+body.dark .mala-cord{
+  stroke:#756d62;
+}
+
+body.dark .phrase-input{
+  color:var(--ink);
+}
+
+/* ─────────────────────────
+   DESKTOP
+───────────────────────── */
+
+@media (min-width:700px){
+  body{
+    background:#ddd7cc;
   }
 
-  .home-day{
-    font-size:95px;
+  #app{
+    background:var(--bg);
+    box-shadow:0 0 60px rgba(0,0,0,.08);
   }
+}
 
-  .japa-touch{
-    height:475px;
+/* ─────────────────────────
+   REDUCED MOTION
+───────────────────────── */
+
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition:none !important;
   }
-
-  .japa-center-count{
-    font-size:60px;
-  }
-
-  .dev h1{
-    font-size:36px;
-  }
-
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div id="app">
 
-<header class="top">
-  <div class="logo">momento<span>.</span></div>
-  <div class="top-right" id="dateTop"></div>
-</header>
+  <!-- ═══════════════════════════════
+       HOME
+  ═══════════════════════════════ -->
 
+  <section id="view-home" class="view active">
 
-<!-- =======================================================
-     HOME
-======================================================= -->
+    <header class="top">
+      <div class="logo">momento<span>.</span></div>
 
-<main id="home" class="view active">
-
-<section class="home">
-
-  <div class="home-intro">
-
-    <div class="home-star">*</div>
-
-    <div class="eyebrow">
-      um espaço para voltar a si
-    </div>
-
-    <div class="home-date">
-
-      <div class="home-day" id="homeDay"></div>
-
-      <div class="home-date-text">
-        <strong id="homeMonth"></strong>
-        <span class="eyebrow" id="homeWeekday"></span>
+      <div class="top-right">
+        <span class="today-mini" id="topDate"></span>
+        <span class="star">*</span>
       </div>
+    </header>
 
-    </div>
+    <main class="home">
 
-    <h1 class="home-headline">
-      um pouco de<br>
-      silêncio para<br>
-      <em>ouvir melhor.</em>
-    </h1>
+      <section class="date-hero">
 
-    <div class="home-small">
+        <div class="date-kicker">
+          <span class="date-location">um momento com Deus</span>
+          <span class="eyebrow" id="dayOfWeek"></span>
+        </div>
 
-      <p>
-        O dia não precisa começar com pressa.
-        Primeiro, um momento. Depois, o resto.
-      </p>
+        <div class="date-big" id="bigDate">29</div>
 
-      <div class="home-small-mark">✳</div>
+        <div class="date-month" id="bigMonth">SETEMBRO</div>
+        <div class="date-year" id="bigYear">2026</div>
 
-    </div>
+        <div class="date-asterisk">*</div>
 
-  </div>
+      </section>
 
+      <div class="home-rule"></div>
 
-  <!-- DEVOCIONAL É O CENTRO DO HOME -->
+      <!-- DEVOCIONAL DO DIA -->
 
-  <section class="today">
+      <section class="daily">
 
-    <div class="today-top">
+        <div class="daily-heading">
+          <span>devocional de hoje</span>
+          <span id="dailyDay">dia 01 / 07</span>
+        </div>
 
-      <span class="eyebrow">devocional de hoje</span>
+        <h1 class="daily-title" id="dailyTitle"></h1>
 
-      <span class="eyebrow">
-        dia <span id="todayDay">01</span> / 07
-      </span>
+        <div class="daily-scripture">
+          <small id="dailyReference"></small>
+          <p id="dailyVerse"></p>
+        </div>
 
-    </div>
+        <button class="editorial-link" onclick="openDevotional(currentDay)">
+          <span>entrar no devocional</span>
+          <span class="arrow">↗</span>
+        </button>
 
-    <div class="today-content" onclick="openDev()">
+      </section>
 
-      <h2 id="todayTitle">
-        Confiar sem precisar controlar tudo.
-      </h2>
+      <!-- SEMANA -->
 
-      <p id="todayIntro">
-        Existe uma diferença entre fazer a sua parte
-        e tentar carregar sozinho aquilo que não depende
-        de você.
-      </p>
+      <section class="week-strip">
 
-      <div class="today-scripture" id="todayRef">
-        Provérbios 3:5–6
-      </div>
+        <div class="week-top">
+          <span>sua semana</span>
+          <span>7 momentos</span>
+        </div>
 
-    </div>
+        <div class="days" id="weekDays"></div>
+
+      </section>
+
+      <!-- CAMINHOS -->
+
+      <section class="home-links">
+
+        <button class="home-link" onclick="showView('psalm')">
+          <span class="home-link-index">01</span>
+          <span class="home-link-main">
+            <strong>Salmo 18</strong>
+            <span>leitura da semana</span>
+          </span>
+          <span class="home-link-arrow">↗</span>
+        </button>
+
+        <button class="home-link" onclick="showView('japa')">
+          <span class="home-link-index">02</span>
+          <span class="home-link-main">
+            <strong>Japamala</strong>
+            <span>oração · presença · repetição</span>
+          </span>
+          <span class="home-link-arrow">↗</span>
+        </button>
+
+        <button class="home-link" onclick="showView('rituals')">
+          <span class="home-link-index">03</span>
+          <span class="home-link-main">
+            <strong>Banhos</strong>
+            <span>rituais simbólicos de cuidado</span>
+          </span>
+          <span class="home-link-arrow">↗</span>
+        </button>
+
+      </section>
+
+      <section class="phrase-home">
+        <span class="asterisk">*</span>
+        <p>“Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.”</p>
+      </section>
+
+    </main>
 
   </section>
 
 
-  <!-- SETE DIAS -->
+  <!-- ═══════════════════════════════
+       DEVOCIONAL
+  ═══════════════════════════════ -->
 
-  <section class="dev-days">
+  <section id="view-devotional" class="view">
 
-    <div class="dev-days-head">
+    <header class="top">
+      <div class="logo">momento<span>.</span></div>
+      <span class="star">*</span>
+    </header>
 
-      <h2>esta semana</h2>
+    <main class="inner">
 
-      <span class="eyebrow">
-        caminhar um dia de cada vez
-      </span>
+      <div class="inner-head">
 
-    </div>
+        <button class="back" onclick="showView('home')">
+          <span>←</span>
+          voltar
+        </button>
 
-    <div class="day-strip" id="dayStrip"></div>
+        <div class="dev-number" id="devNumber">01</div>
+
+        <div class="dev-label eyebrow">devocional</div>
+
+        <h1 class="dev-title" id="devTitle"></h1>
+
+      </div>
+
+      <section class="dev-section">
+
+        <div class="section-label">escritura</div>
+
+        <p class="scripture-large" id="devScripture"></p>
+
+      </section>
+
+      <section class="dev-section">
+
+        <div class="section-label">o que essa palavra diz</div>
+
+        <p class="body-copy" id="devExplanation"></p>
+
+      </section>
+
+      <section class="dev-section">
+
+        <div class="section-label">trazendo para a sua vida</div>
+
+        <p class="context" id="devContext"></p>
+
+      </section>
+
+      <section class="dev-section">
+
+        <div class="section-label">um pequeno movimento</div>
+
+        <div class="exercise">
+          <div class="exercise-number">01</div>
+          <p id="devExercise"></p>
+        </div>
+      </section>
+
+      <section class="dev-section">
+
+        <div class="section-label">para levar com você</div>
+
+        <p class="question" id="devQuestion"></p>
+
+        <div class="question-line"></div>
+
+      </section>
+
+      <section class="prayer">
+
+        <div class="asterisk-big">*</div>
+
+        <div class="section-label">oração</div>
+
+        <p class="prayer-text" id="devPrayer"></p>
+
+      </section>
+
+      <section class="note-area">
+
+        <div class="section-label">anotações</div>
+
+        <textarea
+          id="devNotes"
+          placeholder="Escreva o que ficou no seu coração..."
+        ></textarea>
+
+      </section>
+
+      <button class="complete-button" id="completeButton" onclick="toggleComplete()">
+
+        <span id="completeText">marcar este momento como concluído</span>
+
+        <span class="complete-mark" id="completeMark"></span>
+
+      </button>
+
+      <div style="height:35px"></div>
+
+    </main>
 
   </section>
 
 
-  <!-- OUTRAS PRÁTICAS -->
+  <!-- ═══════════════════════════════
+       SALMO 18
+  ═══════════════════════════════ -->
 
-  <section class="home-paths">
+  <section id="view-psalm" class="view">
 
-    <div class="path" onclick="showView('psalm')">
+    <header class="top">
+      <button class="back" onclick="showView('home')" style="margin:0">
+        <span>←</span>
+        voltar
+      </button>
+      <span class="star">*</span>
+    </header>
 
-      <div class="path-left">
+    <main class="inner">
 
-        <div class="path-symbol">18</div>
+      <section class="psalm-hero">
 
-        <div>
-          <div class="path-title">Salmo 18</div>
-          <div class="path-desc">
-            leia o salmo durante a semana
+        <div class="psalm-big">18</div>
+
+        <div class="psalm-title">
+          <h1>Salmo<br>18</h1>
+          <p>força · proteção · caminho</p>
+        </div>
+
+      </section>
+
+      <section class="psalm-intro">
+
+        <p>
+          Esta é a leitura que acompanha a sua semana:
+          uma lembrança de que Deus pode ser abrigo,
+          força e direção enquanto você atravessa
+          o que ainda não consegue enxergar inteiro.
+        </p>
+
+      </section>
+
+      <section class="psalm-reading">
+
+        <div class="section-label">para meditar</div>
+
+        <div class="psalm-verse">
+          <span class="psalm-verse-number">01</span>
+          <p>
+            “Eu te amo, Senhor, minha força. O Senhor é a minha rocha,
+            minha fortaleza e aquele em quem encontro segurança.”
+          </p>
+        </div>
+
+        <div class="psalm-verse">
+          <span class="psalm-verse-number">02</span>
+          <p>
+            Deus não é apenas o lugar para onde você corre quando
+            tudo dá errado. Ele também pode ser a base sobre a qual
+            você constrói o que está começando.
+          </p>
+        </div>
+
+        <div class="psalm-verse">
+          <span class="psalm-verse-number">03</span>
+          <p>
+            “Invoco o Senhor, digno de louvor, e sou salvo dos meus
+            inimigos.” A imagem central é de alguém que não precisa
+            carregar sozinho aquilo que ultrapassa suas forças.
+          </p>
+        </div>
+
+        <div class="psalm-verse">
+          <span class="psalm-verse-number">04</span>
+          <p>
+            Há também movimento: Deus firma os pés, abre caminho,
+            ensina as mãos para a batalha e conduz para um lugar
+            mais amplo.
+          </p>
+        </div>
+
+        <div class="psalm-verse">
+          <span class="psalm-verse-number">05</span>
+          <p>
+            Leia o Salmo 18 completo na sua Bíblia e volte para ele
+            todos os dias desta semana. Não leia apenas para terminar.
+            Leia para permanecer.
+          </p>
+        </div>
+
+      </section>
+
+      <section class="psalm-focus">
+
+        <h2>O que eu preciso lembrar hoje?</h2>
+
+        <p>
+          Nem todo caminho precisa estar visível para que você dê
+          o próximo passo. Você pode pedir direção, fazer a sua parte
+          e deixar que Deus cuide daquilo que não está sob o seu controle.
+        </p>
+
+      </section>
+
+      <section class="phrase-home">
+
+        <span class="asterisk">*</span>
+
+        <p>
+          Eu estou no caminho da prosperidade.<br>
+          Eu sou a prosperidade.<br>
+          Eu sou.
+        </p>
+
+      </section>
+
+      <div style="height:30px"></div>
+
+    </main>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════
+       BANHOS
+  ═══════════════════════════════ -->
+
+  <section id="view-rituals" class="view">
+
+    <header class="top">
+      <button class="back" onclick="showView('home')" style="margin:0">
+        <span>←</span>
+        voltar
+      </button>
+      <span class="star">*</span>
+    </header>
+
+    <main class="inner">
+
+      <section class="ritual-intro">
+
+        <div class="eyebrow">cuidado simbólico</div>
+
+        <h1>Banhos &<br>rituais.</h1>
+
+        <p>
+          Pequenos rituais podem funcionar como uma pausa consciente:
+          um momento para desacelerar, colocar uma intenção e cuidar de si.
+          Aqui eles são apresentados de forma simbólica, sem promessa
+          sobrenatural ou terapêutica.
+        </p>
+
+      </section>
+
+      <section class="ritual-list">
+
+        <article class="ritual">
+
+          <button class="ritual-trigger" onclick="toggleRitual(this)">
+            <span class="ritual-number">01</span>
+            <span class="ritual-name">Abertura de caminhos</span>
+            <span class="ritual-symbol">+</span>
+          </button>
+
+          <div class="ritual-content">
+
+            <p>
+              Um ritual simbólico para marcar um recomeço e lembrar
+              que caminho aberto também exige movimento.
+            </p>
+
+            <ul class="ingredients">
+              <li>alecrim</li>
+              <li>manjericão</li>
+              <li>água morna</li>
+            </ul>
+
           </div>
+
+        </article>
+
+        <article class="ritual">
+
+          <button class="ritual-trigger" onclick="toggleRitual(this)">
+            <span class="ritual-number">02</span>
+            <span class="ritual-name">Prosperidade</span>
+            <span class="ritual-symbol">+</span>
+          </button>
+
+          <div class="ritual-content">
+
+            <p>
+              Um momento para agradecer pelo que existe e mentalizar
+              responsabilidade, trabalho, oportunidades e crescimento.
+            </p>
+
+            <ul class="ingredients">
+              <li>alecrim</li>
+              <li>manjericão</li>
+              <li>folhas de louro</li>
+              <li>água morna</li>
+            </ul>
+
+          </div>
+
+        </article>
+
+        <article class="ritual">
+
+          <button class="ritual-trigger" onclick="toggleRitual(this)">
+            <span class="ritual-number">03</span>
+            <span class="ritual-name">Descarrego simbólico</span>
+            <span class="ritual-symbol">+</span>
+          </button>
+
+          <div class="ritual-content">
+
+            <p>
+              Pense no banho como um marcador de encerramento:
+              “isso aconteceu, mas não precisa continuar ocupando
+              o meu corpo e a minha atenção”.
+            </p>
+
+            <ul class="ingredients">
+              <li>camomila</li>
+              <li>alecrim</li>
+              <li>água morna</li>
+            </ul>
+
+          </div>
+
+        </article>
+
+        <article class="ritual">
+
+          <button class="ritual-trigger" onclick="toggleRitual(this)">
+            <span class="ritual-number">04</span>
+            <span class="ritual-name">Calma</span>
+            <span class="ritual-symbol">+</span>
+          </button>
+
+          <div class="ritual-content">
+
+            <p>
+              Um banho pensado como transição entre o ritmo do dia
+              e um estado mais tranquilo de presença.
+            </p>
+
+            <ul class="ingredients">
+              <li>camomila</li>
+              <li>lavanda culinária própria para uso em banho</li>
+              <li>água morna</li>
+            </ul>
+
+          </div>
+
+        </article>
+
+        <article class="ritual">
+
+          <button class="ritual-trigger" onclick="toggleRitual(this)">
+            <span class="ritual-number">05</span>
+            <span class="ritual-name">Renovação</span>
+            <span class="ritual-symbol">+</span>
+          </button>
+
+          <div class="ritual-content">
+
+            <p>
+              Para marcar simbolicamente a passagem de uma fase para outra.
+              O foco é a intenção: deixar espaço para o que vem depois.
+            </p>
+
+            <ul class="ingredients">
+              <li>alecrim</li>
+              <li>hortelã</li>
+              <li>água morna</li>
+            </ul>
+
+          </div>
+
+        </article>
+
+      </section>
+
+      <div style="height:40px"></div>
+
+    </main>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════
+       JAPAMALA SETUP
+  ═══════════════════════════════ -->
+
+  <section id="view-japa" class="view">
+
+    <header class="top">
+      <button class="back" onclick="showView('home')" style="margin:0">
+        <span>←</span>
+        voltar
+      </button>
+      <span class="star">*</span>
+    </header>
+
+    <main class="inner japa-view">
+
+      <section class="japa-intro">
+
+        <div class="eyebrow">oração repetida</div>
+
+        <h1>Uma conta.<br>Uma respiração.<br>Um momento.</h1>
+
+        <p>
+          A japamala foi pensada para funcionar sem precisar olhar para
+          a tela o tempo todo. Durante a prática, toque em qualquer lugar
+          para avançar uma conta.
+        </p>
+
+      </section>
+
+      <section class="japa-settings">
+
+        <div class="setting-row">
+
+          <span class="setting-label">quantidade</span>
+
+          <div class="mode-options">
+
+            <button class="mode-option" data-mode="27" onclick="selectMode(27)">
+              27
+            </button>
+
+            <button class="mode-option" data-mode="54" onclick="selectMode(54)">
+              54
+            </button>
+
+            <button class="mode-option active" data-mode="108" onclick="selectMode(108)">
+              108
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="setting-row">
+
+          <span class="setting-label">frase / mantra</span>
+
+          <input
+            class="phrase-input"
+            id="phraseInput"
+            data-no-count
+            value="Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou."
+          >
+
+        </div>
+
+      </section>
+
+      <button class="japa-start" onclick="startJapa()">
+        <span>começar a prática</span>
+        <span>→</span>
+      </button>
+
+      <div class="setting-row" style="margin:0 22px">
+
+        <span class="setting-label">sua prática</span>
+
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+
+          <span style="font-family:var(--serif);font-size:27px">
+            <span id="japaLifetime">0</span> contas
+          </span>
+
+          <span style="font-size:10px;color:var(--muted)">
+            hoje: <span id="japaToday">0</span>
+          </span>
+
         </div>
 
       </div>
 
-      <div class="path-arrow">↗</div>
+    </main>
 
-    </div>
+  </section>
 
 
-    <div class="path" onclick="showView('japa')">
+  <!-- ═══════════════════════════════
+       MAIS
+  ═══════════════════════════════ -->
 
-      <div class="path-left">
+  <section id="view-more" class="view">
 
-        <div class="path-symbol">◌</div>
+    <header class="top">
+      <button class="back" onclick="showView('home')" style="margin:0">
+        <span>←</span>
+        voltar
+      </button>
+      <span class="star">*</span>
+    </header>
 
-        <div>
-          <div class="path-title">Japamala</div>
-          <div class="path-desc">
-            uma volta de cada vez
+    <main class="inner">
+
+      <section class="more-head">
+
+        <div class="eyebrow">o que existe aqui</div>
+
+        <h1>mais.</h1>
+
+      </section>
+
+      <section class="more-list">
+
+        <div class="more-item">
+
+          <div>
+            <strong>Aparência</strong>
           </div>
+
+          <div class="theme-toggle">
+
+            <button class="theme-choice active" data-theme="light" onclick="setTheme('light')">
+              claro
+            </button>
+
+            <button class="theme-choice" data-theme="dark" onclick="setTheme('dark')">
+              escuro
+            </button>
+
+          </div>
+
         </div>
 
-      </div>
+        <button class="more-item" onclick="showAbout()">
 
-      <div class="path-arrow">↗</div>
+          <strong>Sobre o momento.</strong>
 
-    </div>
+          <span>ler →</span>
 
+        </button>
 
-    <div class="path" onclick="showView('baths')">
+        <div class="more-item">
 
-      <div class="path-left">
-
-        <div class="path-symbol">≈</div>
-
-        <div>
-          <div class="path-title">Banhos</div>
-          <div class="path-desc">
-            rituais simbólicos de autocuidado
+          <div>
+            <strong>Seu momento</strong>
           </div>
+
+          <span>Deus no centro.</span>
+
         </div>
 
-      </div>
+      </section>
 
-      <div class="path-arrow">↗</div>
+      <section style="padding:45px 0;text-align:center">
 
-    </div>
+        <div style="
+          font-family:var(--serif);
+          font-size:65px;
+          color:var(--red);
+          line-height:.8;
+          margin-bottom:20px;
+        ">*</div>
 
-  </section>
+        <p style="
+          font-family:var(--serif);
+          font-size:20px;
+          line-height:1.4;
+          margin:0 auto;
+          max-width:330px;
+        ">
+          “Aquietai-vos e sabei que eu sou Deus.”
+        </p>
 
-</section>
+      </section>
 
-</main>
-
-
-<!-- =======================================================
-     DEVOTIONAL
-======================================================= -->
-
-<main id="dev" class="view">
-
-<section class="dev">
-
-  <div class="dev-header">
-
-    <span class="eyebrow">devocional</span>
-
-    <span class="eyebrow">
-      <span id="devDayNumber">01</span> / 07
-    </span>
-
-  </div>
-
-
-  <div class="dev-number" id="devNumber">
-    01
-  </div>
-
-
-  <h1 id="devTitle">
-    Confiar sem<br>
-    precisar controlar<br>
-    tudo.
-  </h1>
-
-
-  <section class="scripture">
-
-    <div class="scripture-ref" id="devRef">
-      PROVÉRBIOS 3:5–6
-    </div>
-
-    <div class="scripture-text" id="devVerse">
-      “Confia no Senhor de todo o teu coração
-      e não te apoies no teu próprio entendimento.”
-    </div>
+    </main>
 
   </section>
 
 
-  <section class="dev-section">
+  <!-- ═══════════════════════════════
+       NAVEGAÇÃO
+  ═══════════════════════════════ -->
 
-    <div class="dev-label">
-      01 · entender
-    </div>
+  <nav class="bottom-nav">
 
-    <p id="devExplain">
-      Confiar em Deus não significa abandonar a própria
-      responsabilidade. Significa reconhecer que existe
-      uma parte da vida que não pode ser controlada pela
-      força do pensamento, da ansiedade ou da antecipação.
-    </p>
-
-    <p id="devExplain2">
-      Você pode planejar, trabalhar, procurar, insistir,
-      aprender e se movimentar. Mas existe um ponto em que
-      a tentativa de controlar o resultado começa a roubar
-      a paz do caminho.
-    </p>
-
-  </section>
-
-
-  <section class="reality">
-
-    <div class="reality-mark">*</div>
-
-    <div class="dev-label">
-      02 · trazer para a vida
-    </div>
-
-    <h2 id="devRealityTitle">
-      Faça a sua parte sem transformar
-      o resultado em uma condição para
-      você acreditar que Deus está agindo.
-    </h2>
-
-    <p id="devReality">
-      Há coisas acontecendo na sua vida que ainda estão
-      em processo. Nem toda demora é abandono.
-      Nem toda porta fechada é uma sentença.
-      Às vezes o caminho precisa continuar sendo percorrido
-      antes de fazer sentido.
-    </p>
-
-  </section>
-
-
-  <section class="practice">
-
-    <div class="dev-label">
-      03 · hoje
-    </div>
-
-    <div class="practice-question" id="devQuestion">
-      O que eu estou tentando controlar
-      que poderia simplesmente colocar
-      nas mãos de Deus hoje?
-    </div>
-
-    <textarea
-      id="devNote"
-      class="note"
-      placeholder="escreva aqui..."
-    ></textarea>
-
-  </section>
-
-
-  <section class="prayer">
-
-    <div class="dev-label">
-      04 · oração
-    </div>
-
-    <p id="devPrayer">
-      Deus, me ajuda a fazer aquilo que está ao meu alcance
-      sem carregar sozinho aquilo que não está. Dá-me
-      coragem para agir, sabedoria para esperar e fé para
-      continuar caminhando mesmo quando ainda não consigo
-      enxergar o resultado. Amém.
-    </p>
-
-  </section>
-
-
-  <div class="dev-footer">
-
-    <button
-      class="text-button"
-      onclick="showView('home')">
-      ← início
+    <button class="nav-item active" data-view="home" onclick="showView('home')">
+      <span class="nav-icon">•</span>
+      <span class="nav-label">hoje</span>
     </button>
 
+    <button class="nav-item" data-view="psalm" onclick="showView('psalm')">
+      <span class="nav-icon">18</span>
+      <span class="nav-label">salmo</span>
+    </button>
+
+    <button class="nav-item" data-view="japa" onclick="showView('japa')">
+      <span class="nav-icon">○</span>
+      <span class="nav-label">japa</span>
+    </button>
+
+    <button class="nav-item" data-view="rituals" onclick="showView('rituals')">
+      <span class="nav-icon">*</span>
+      <span class="nav-label">banhos</span>
+    </button>
+
+    <button class="nav-item" data-view="more" onclick="showView('more')">
+      <span class="nav-icon">+</span>
+      <span class="nav-label">mais</span>
+    </button>
+
+  </nav>
+
+</div>
+
+
+<!-- ═══════════════════════════════
+     JAPAMALA FULLSCREEN
+═══════════════════════════════ -->
+
+<div class="japa-practice" id="japaPractice">
+
+  <div class="practice-head">
+
+    <div class="practice-head-left">
+
+      <strong>japamala</strong>
+
+      <span id="practiceMode">108 contas</span>
+
+    </div>
+
     <button
-      class="text-button red-button"
-      onclick="nextDev()">
-      próximo dia →
+      class="practice-close"
+      data-no-count
+      onclick="closeJapa()"
+      aria-label="Fechar"
+    >
+      ×
     </button>
 
   </div>
 
-</section>
-
-</main>
-
-
-<!-- =======================================================
-     SALMO 18
-======================================================= -->
-
-<main id="psalm" class="view">
-
-<section class="psalm">
-
-  <div class="psalm-hero">
-
-    <div class="eyebrow">
-      leitura da semana
-    </div>
-
-    <div class="psalm-number">18</div>
-
-    <div class="psalm-side">
-      FORÇA · PROTEÇÃO · CAMINHO
-    </div>
-
-    <div class="psalm-heading">
-      “O Senhor é a minha<br>
-      <em>força.</em>”
-    </div>
-
-  </div>
-
-
-  <div class="psalm-days">
-
-    <button class="psalm-day active" onclick="setPsalmDay(1)">01</button>
-    <button class="psalm-day" onclick="setPsalmDay(2)">02</button>
-    <button class="psalm-day" onclick="setPsalmDay(3)">03</button>
-    <button class="psalm-day" onclick="setPsalmDay(4)">04</button>
-    <button class="psalm-day" onclick="setPsalmDay(5)">05</button>
-    <button class="psalm-day" onclick="setPsalmDay(6)">06</button>
-    <button class="psalm-day" onclick="setPsalmDay(7)">07</button>
-
-  </div>
-
-
-  <section class="psalm-reading">
-
-    <div class="eyebrow">
-      reflexão · dia <span id="psalmCurrentDay">01</span>
-    </div>
-
-    <h2 id="psalmTitle">
-      Deus não é apenas o lugar para onde você corre.
-      É também a força com a qual você continua.
-    </h2>
-
-    <div class="verse" id="psalmVerse">
-      “Eu te amo, ó Senhor, força minha.
-      O Senhor é a minha rocha, a minha fortaleza
-      e o meu libertador.”
-    </div>
-
-    <p id="psalmReflection">
-      O Salmo 18 começa com uma declaração de confiança.
-      Antes de falar sobre vitória, ele fala sobre quem
-      sustenta o caminho.
-    </p>
-
-    <p>
-      Leia o Salmo 18 inteiro hoje. Não leia apenas
-      procurando uma resposta. Leia tentando perceber
-      onde você ainda precisa lembrar que não está sozinho.
-    </p>
-
-    <div class="rule"></div>
-
-    <p style="margin-top:28px;color:var(--red);">
-      Eu estou no caminho da prosperidade.
-      Eu sou a prosperidade. Eu sou.
-    </p>
-
-  </section>
-
-</section>
-
-</main>
-
-
-<!-- =======================================================
-     JAPAMALA
-======================================================= -->
-
-<main id="japa" class="view">
-
-<section class="japa">
-
-  <header class="japa-header">
-
-    <div>
-
-      <div class="eyebrow">
-        prática
-      </div>
-
-      <div class="japa-title">
-        japamala
-      </div>
-
-    </div>
-
-
-    <div class="japa-round-info">
-
-      <strong id="roundsToday">
-        0
-      </strong>
-
-      <span>
-        voltas hoje
-      </span>
-
-    </div>
-
-  </header>
-
-
-  <!-- 27 / 54 / 108 -->
-
-  <div class="japa-modes">
-
-    <button
-      class="mode"
-      data-mode="27"
-      onclick="setJapaMode(27)">
-      27
-    </button>
-
-    <button
-      class="mode"
-      data-mode="54"
-      onclick="setJapaMode(54)">
-      54
-    </button>
-
-    <button
-      class="mode active"
-      data-mode="108"
-      onclick="setJapaMode(108)">
-      108
-    </button>
-
-  </div>
-
-
-  <!--
-    CRITICAL:
-    toda essa área é um único alvo de toque.
-    não é necessário tocar nas contas.
-  -->
 
   <div
-    class="japa-touch"
-    id="japaTouch"
-    aria-label="Toque para avançar uma conta"
-    role="button"
-    tabindex="0"
+    class="practice-stage"
+    id="practiceStage"
   >
 
     <svg
+      class="mala-svg"
       id="malaSvg"
-      class="mala-object"
-      viewBox="0 0 430 530"
-      preserveAspectRatio="xMidYMid meet"
-    >
-
-      <path
-        id="malaString"
-        class="mala-string"
-        d=""
-      />
-
-      <g id="beads"></g>
+      viewBox="0 0 360 520"
+      aria-label="Japamala digital"
+    ></svg>
 
 
-      <!-- GURU BEAD -->
+    <div class="practice-center">
 
-      <g transform="translate(215 476)">
-
-        <path
-          d="M-10,-5
-             C-10,-18 -6,-25 0,-28
-             C6,-25 10,-18 10,-5
-             L8,8
-             C6,16 -6,16 -8,8 Z"
-          fill="#191714"
-        />
-
-        <circle
-          cx="0"
-          cy="-29"
-          r="6"
-          fill="#b51e19"
-        />
-
-        <path
-          d="M-5 15 C-5 27 -7 38 -10 50"
-          stroke="#897b6b"
-          stroke-width="1"
-          fill="none"
-        />
-
-        <path
-          d="M0 15 C1 28 2 40 3 51"
-          stroke="#b51e19"
-          stroke-width="1.4"
-          fill="none"
-        />
-
-        <path
-          d="M5 15 C7 27 10 39 13 49"
-          stroke="#897b6b"
-          stroke-width="1"
-          fill="none"
-        />
-
-        <path
-          d="M-1 16 C-1 30 -1 42 0 52"
-          stroke="#b51e19"
-          stroke-width="1"
-          fill="none"
-        />
-
-      </g>
-
-    </svg>
-
-
-    <div class="japa-center">
-
-      <div class="japa-center-label">
-        repetição
+      <div class="counter">
+        <span id="japaCount">0</span>
+        <span class="counter-target">/ <span id="japaTarget">108</span></span>
       </div>
 
-      <div
-        class="japa-center-count"
-        id="japaCount">
-        0
-      </div>
-
-      <div
-        class="japa-center-total"
-        id="japaTotal">
-        de 108
-      </div>
-
-      <div class="japa-center-progress">
-        <i id="japaProgress"></i>
+      <div class="counter-label">
+        contas percorridas
       </div>
 
     </div>
 
 
-    <div
-      class="japa-hint"
-      id="japaHint">
+    <div class="practice-phrase" id="practicePhrase">
+      Eu estou no caminho da prosperidade.
+    </div>
+
+    <div class="tap-hint" id="tapHint">
       toque em qualquer lugar para contar
     </div>
 
 
-    <div
-      class="japa-milestone"
-      id="milestone">
+    <div class="paused-overlay" id="pausedOverlay">
 
-      <div class="milestone-symbol">✳</div>
+      <strong>pausado.</strong>
 
-      <div
-        class="milestone-text"
-        id="milestoneText">
-        um quarto do caminho
-      </div>
+      <span>toque em continuar abaixo</span>
 
-      <div
-        class="milestone-sub"
-        id="milestoneSub">
-        27
+    </div>
+
+
+    <div class="complete-overlay" id="completeOverlay">
+
+      <div class="completion-inner">
+
+        <span class="completion-star">*</span>
+
+        <div class="completion-number" id="completionNumber">108</div>
+
+        <h2>uma volta concluída.</h2>
+
+        <p>que essa oração permaneça em você.</p>
+
+        <button
+          class="completion-close"
+          data-no-count
+          onclick="closeCompletion()"
+        >
+          continuar em silêncio
+        </button>
+
       </div>
 
     </div>
@@ -2036,711 +2406,471 @@ body:before{
   </div>
 
 
-  <!-- MANTRA -->
-
-  <section class="japa-mantra">
-
-    <div class="mantra-label">
-      mentalização
-    </div>
-
-    <div
-      class="mantra-text"
-      id="mantraText">
-      Eu estou no caminho da prosperidade.
-      Eu sou a prosperidade. <em>Eu sou.</em>
-    </div>
+  <div class="practice-bottom">
 
     <button
-      class="text-button mantra-edit"
-      onclick="openMantra()">
-      editar frase
-    </button>
-
-  </section>
-
-
-  <!-- ACTIONS -->
-
-  <div class="japa-actions">
-
-    <button
-      class="japa-action"
-      id="undoButton"
-      onclick="undoJapa()">
-      ← desfazer
+      class="practice-control"
+      data-no-count
+      onclick="undoJapa()"
+    >
+      desfazer
     </button>
 
     <button
-      class="japa-action primary"
+      class="practice-control center"
+      data-no-count
       id="pauseButton"
-      onclick="togglePause()">
+      onclick="togglePause()"
+    >
       pausar
     </button>
 
     <button
-      class="japa-action"
-      onclick="resetJapa()">
+      class="practice-control right"
+      data-no-count
+      onclick="restartJapa()"
+    >
       recomeçar
     </button>
 
   </div>
 
-
-  <!-- STATS -->
-
-  <div class="japa-stats">
-
-    <div class="japa-stat">
-
-      <strong id="currentTotal">
-        0
-      </strong>
-
-      <span>
-        contas hoje
-      </span>
-
-    </div>
-
-    <div class="japa-stat">
-
-      <strong id="completedRounds">
-        0
-      </strong>
-
-      <span>
-        voltas completas
-      </span>
-
-    </div>
-
-    <div class="japa-stat">
-
-      <strong id="currentMode">
-        108
-      </strong>
-
-      <span>
-        contas
-      </span>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- =======================================================
-     BANHOS
-======================================================= -->
-
-<main id="baths" class="view">
-
-<section class="baths">
-
-  <div class="baths-hero">
-
-    <div class="eyebrow">
-      autocuidado simbólico
-    </div>
-
-    <div class="baths-hero-mark">*</div>
-
-    <h1>
-      água,<br>
-      intenção,<br>
-      <span class="red">presença.</span>
-    </h1>
-
-  </div>
-
-
-  <div class="bath-list">
-
-    <article class="bath" onclick="toggleBath(this)">
-
-      <div class="bath-number">01</div>
-
-      <div class="bath-name">
-        Descarrego
-      </div>
-
-      <div class="bath-description">
-        Um ritual simbólico para marcar encerramentos
-        e deixar para trás aquilo que você não quer carregar.
-      </div>
-
-      <div class="bath-arrow">
-        ↗
-      </div>
-
-      <div class="bath-detail">
-
-        <p>
-          Banho morno, respiração lenta e uma intenção simples:
-          “eu libero o que não preciso mais carregar”.
-        </p>
-
-        <div class="bath-ingredients">
-          ALECRIM · MANJERICÃO · ÁGUA MORNA
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="bath" onclick="toggleBath(this)">
-
-      <div class="bath-number">02</div>
-
-      <div class="bath-name">
-        Prosperidade
-      </div>
-
-      <div class="bath-description">
-        Para transformar desejo em intenção e intenção
-        em movimento.
-      </div>
-
-      <div class="bath-arrow">
-        ↗
-      </div>
-
-      <div class="bath-detail">
-
-        <p>
-          Enquanto prepara o banho, mentalize aquilo que deseja
-          construir, sem transformar o ritual em garantia.
-        </p>
-
-        <div class="bath-ingredients">
-          LOURO · CANELA · ALECRIM
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="bath" onclick="toggleBath(this)">
-
-      <div class="bath-number">03</div>
-
-      <div class="bath-name">
-        Acalmar
-      </div>
-
-      <div class="bath-description">
-        Um pequeno intervalo para desacelerar o corpo.
-      </div>
-
-      <div class="bath-arrow">
-        ↗
-      </div>
-
-      <div class="bath-detail">
-
-        <p>
-          Use o banho como uma transição entre o ritmo do dia
-          e um momento de descanso.
-        </p>
-
-        <div class="bath-ingredients">
-          CAMOMILA · LAVANDA
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="bath" onclick="toggleBath(this)">
-
-      <div class="bath-number">04</div>
-
-      <div class="bath-name">
-        Abertura
-      </div>
-
-      <div class="bath-description">
-        Para começar uma fase nova com presença.
-      </div>
-
-      <div class="bath-arrow">
-        ↗
-      </div>
-
-      <div class="bath-detail">
-
-        <p>
-          Pense menos no resultado final e mais na pessoa
-          que você deseja ser durante o caminho.
-        </p>
-
-        <div class="bath-ingredients">
-          MANJERICÃO · ALECRIM · LOURO
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="bath" onclick="toggleBath(this)">
-
-      <div class="bath-number">05</div>
-
-      <div class="bath-name">
-        Renovação
-      </div>
-
-      <div class="bath-description">
-        Um marcador simbólico para começar novamente.
-      </div>
-
-      <div class="bath-arrow">
-        ↗
-      </div>
-
-      <div class="bath-detail">
-
-        <p>
-          Entre no banho pensando no que você quer levar
-          consigo para a próxima fase e no que decidiu deixar.
-        </p>
-
-        <div class="bath-ingredients">
-          ALECRIM · HORTELÃ
-        </div>
-
-      </div>
-
-    </article>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- =======================================================
-     MAIS
-======================================================= -->
-
-<main id="more" class="view">
-
-<section class="more">
-
-  <div class="eyebrow">
-    momento.
-  </div>
-
-  <h1>
-    mais<br>
-    coisas.
-  </h1>
-
-  <div class="more-list">
-
-    <div class="more-item" onclick="showView('home')">
-      <span>Hoje</span>
-      <span>↗</span>
-    </div>
-
-    <div class="more-item" onclick="showView('dev')">
-      <span>Devocionais</span>
-      <span>07</span>
-    </div>
-
-    <div class="more-item" onclick="showView('psalm')">
-      <span>Salmo 18</span>
-      <span>18</span>
-    </div>
-
-    <div class="more-item" onclick="showView('japa')">
-      <span>Japamala</span>
-      <span>108</span>
-    </div>
-
-    <div class="more-item" onclick="showView('baths')">
-      <span>Banhos</span>
-      <span>05</span>
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- =======================================================
-     NAV
-======================================================= -->
-
-<nav class="bottom-nav">
-
-  <button
-    class="nav active"
-    data-view="home"
-    onclick="showView('home')">
-
-    <span class="nav-symbol">⌂</span>
-    <span class="nav-label">hoje</span>
-
-  </button>
-
-
-  <button
-    class="nav"
-    data-view="psalm"
-    onclick="showView('psalm')">
-
-    <span class="nav-symbol">18</span>
-    <span class="nav-label">salmo</span>
-
-  </button>
-
-
-  <button
-    class="nav"
-    data-view="japa"
-    onclick="showView('japa')">
-
-    <span class="nav-symbol">◌</span>
-    <span class="nav-label">japa</span>
-
-  </button>
-
-
-  <button
-    class="nav"
-    data-view="more"
-    onclick="showView('more')">
-
-    <span class="nav-symbol">+</span>
-    <span class="nav-label">mais</span>
-
-  </button>
-
-</nav>
-
 </div>
 
 
-<!-- =======================================================
-     MANTRA MODAL
-======================================================= -->
-
-<div
-  class="modal"
-  id="mantraModal">
-
-  <div class="modal-sheet">
-
-    <button
-      class="modal-close"
-      onclick="closeMantra()">
-      ×
-    </button>
-
-    <div class="eyebrow">
-      sua mentalização
-    </div>
-
-    <h2>
-      uma frase para<br>
-      levar consigo.
-    </h2>
-
-    <textarea
-      id="mantraInput"></textarea>
-
-    <button
-      class="modal-save"
-      onclick="saveMantra()">
-      guardar frase
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =======================================================
-     JAPAMALA COMPLETION
-======================================================= -->
-
-<div
-  class="japa-complete"
-  id="japaComplete">
-
-  <div class="complete-inner">
-
-    <div class="complete-symbol">
-      ✳
-    </div>
-
-    <h2>
-      uma volta completa.
-    </h2>
-
-    <p>
-      Respire.<br>
-      Não precisa correr para a próxima.
-    </p>
-
-    <button
-      onclick="closeComplete()">
-      continuar aqui
-    </button>
-
-  </div>
-
-</div>
+<div class="toast" id="toast"></div>
 
 
 <script>
+/* ═══════════════════════════════════
+   MOMENTO.
+   estado principal
+═══════════════════════════════════ */
 
-/* ==========================================================
-   DATE
-========================================================== */
+const DEVOTIONALS = [
 
-const date = new Date();
+  {
+    title:"Confiar sem precisar controlar tudo.",
+    reference:"Provérbios 3:5–6",
+    verse:"Confia no Senhor de todo o teu coração e não te apoies somente no que você consegue entender.",
+    explanation:"Existe uma diferença entre responsabilidade e controle. Responsabilidade é fazer a sua parte. Controle é tentar garantir o resultado inteiro. A fé começa justamente naquele espaço em que você reconhece que não consegue prever tudo.",
+    context:"Você está vivendo uma fase cheia de mudanças. Trabalho, dinheiro, casa, Salvador, novos caminhos. É natural querer organizar cada detalhe para sentir segurança. Mas talvez Deus esteja te ensinando uma segurança diferente: fazer o que está ao seu alcance e não transformar o restante em peso.",
+    exercise:"Hoje, escolha uma coisa que está tentando controlar demais. Faça a parte que realmente depende de você e entregue conscientemente o restante a Deus.",
+    question:"O que eu estou tentando resolver sozinho que talvez precise ser colocado nas mãos de Deus?",
+    prayer:"Deus, eu não quero viver tentando controlar cada detalhe da minha vida. Dá-me sabedoria para reconhecer o que depende de mim e fé para entregar o que não depende. Guia meus passos, abre as portas certas e me ensina a caminhar sem medo. Amém."
+  },
 
-const months = [
-  "janeiro",
-  "fevereiro",
-  "março",
-  "abril",
-  "maio",
-  "junho",
-  "julho",
-  "agosto",
-  "setembro",
-  "outubro",
-  "novembro",
-  "dezembro"
+  {
+    title:"Prosperar com responsabilidade.",
+    reference:"Provérbios 21:5",
+    verse:"Os planos de quem trabalha com diligência conduzem à abundância, mas a pressa pode levar à falta.",
+    explanation:"Prosperidade, na Bíblia, não precisa ser entendida como dinheiro caindo do céu. Existe planejamento, trabalho, disciplina e paciência. Fé não elimina ação. Ela pode dar sentido à ação.",
+    context:"Você tem falado muito sobre construir uma vida mais próspera. Talvez prosperidade, para você agora, seja conseguir se estabelecer, trabalhar bem, morar onde deseja e construir uma reserva. Não precisa acontecer tudo de uma vez.",
+    exercise:"Pegue uma pequena decisão financeira ou profissional de hoje e faça pensando no Robson de seis meses no futuro, não apenas no alívio imediato.",
+    question:"Que escolha pequena hoje pode deixar minha vida mais organizada amanhã?",
+    prayer:"Deus, abençoa o trabalho das minhas mãos. Dá-me inteligência para administrar o que chega, coragem para buscar novas oportunidades e paciência para construir sem desespero. Que prosperidade venha acompanhada de sabedoria. Amém."
+  },
+
+  {
+    title:"Esperar sem confundir demora com abandono.",
+    reference:"Salmo 27:14",
+    verse:"Espera no Senhor. Sê forte, corajoso, e espera no Senhor.",
+    explanation:"Esperar não significa ficar parado. Existe uma espera ativa: continuar vivendo, trabalhando, procurando, preparando e acreditando enquanto o resultado ainda não apareceu.",
+    context:"Nem tudo acontece no ritmo que você gostaria. Às vezes uma resposta demora, uma oportunidade muda, um apartamento não dá certo ou uma porta parece fechar. Isso não transforma automaticamente o caminho inteiro em fracasso.",
+    exercise:"Hoje, faça uma coisa que prepare a próxima oportunidade em vez de gastar energia tentando descobrir quando ela vai chegar.",
+    question:"O que posso preparar enquanto espero?",
+    prayer:"Deus, quando eu não enxergar o próximo passo, sustenta minha coragem. Não permita que uma demora me faça acreditar que fui esquecido. Ensina-me a esperar trabalhando, vivendo e confiando. Amém."
+  },
+
+  {
+    title:"Recomeçar sem ser definido pelo passado.",
+    reference:"Isaías 43:18–19",
+    verse:"Não fique preso ao que passou. Estou fazendo uma coisa nova; ela já está começando a aparecer.",
+    explanation:"Recomeço não apaga a história. Ele muda o lugar que a história ocupa. O que aconteceu pode ensinar, mas não precisa decidir quem você será daqui para frente.",
+    context:"Você está reconstruindo várias partes da sua vida ao mesmo tempo. Talvez algumas perdas ainda tenham voz dentro de você. Mas existe uma diferença entre lembrar de onde veio e continuar morando emocionalmente lá.",
+    exercise:"Escreva uma frase começando com: “A partir de agora, eu escolho...” e complete sem pensar demais.",
+    question:"Quem eu quero ser quando essa fase de reconstrução terminar?",
+    prayer:"Deus, ajuda-me a não transformar o passado em sentença. Dá-me coragem para reconhecer o que acabou e sensibilidade para perceber o que está nascendo. Que eu não tenha medo de começar novamente. Amém."
+  },
+
+  {
+    title:"Descansar sem culpa.",
+    reference:"Mateus 11:28",
+    verse:"Venham a mim todos vocês que estão cansados e sobrecarregados, e eu darei descanso.",
+    explanation:"Descanso não é prêmio para quem terminou tudo. É parte da vida. Jesus não chama apenas quem conseguiu dar conta. Ele chama justamente quem está cansado.",
+    context:"Você pode estar acostumado a pensar que precisa resolver tudo para finalmente respirar. Mas sempre haverá outra tarefa, outra mensagem, outro boleto, outro plano. Descansar também pode ser uma forma de confiar.",
+    exercise:"Separe hoje pelo menos alguns minutos sem produtividade. Sem resolver a vida. Apenas fique presente.",
+    question:"Eu consigo descansar sem acreditar que estou ficando para trás?",
+    prayer:"Deus, aquieta aquilo que está acelerado dentro de mim. Ensina-me que descanso não é fracasso. Que eu consiga parar sem culpa e lembrar que minha vida não depende de eu controlar todas as coisas ao mesmo tempo. Amém."
+  },
+
+  {
+    title:"Coragem mesmo com medo.",
+    reference:"Josué 1:9",
+    verse:"Sê forte e corajoso. Não tenha medo, porque o Senhor teu Deus estará contigo por onde você andar.",
+    explanation:"Coragem não significa ausência de medo. A ordem para ser corajoso só faz sentido porque existe algo que poderia assustar. A promessa não é de uma vida sem desafios, mas de presença no caminho.",
+    context:"Você não precisa esperar se sentir completamente pronto para dar passos importantes. Pode existir medo junto com coragem. Pode existir insegurança junto com fé.",
+    exercise:"Faça hoje uma pequena coisa que você está adiando porque está com medo de não conseguir.",
+    question:"Qual passo eu daria se acreditasse que Deus está comigo mesmo sem saber exatamente como tudo vai terminar?",
+    prayer:"Deus, coloca coragem onde existe medo. Quando eu olhar para o tamanho dos desafios, lembra-me do tamanho da Tua presença. Que eu não confunda insegurança com incapacidade. Caminha comigo. Amém."
+  },
+
+  {
+    title:"Não medir a sua vida pela dos outros.",
+    reference:"Gálatas 6:4–5",
+    verse:"Cada pessoa examine a própria caminhada, sem precisar se comparar com a caminhada de outra.",
+    explanation:"Comparação rouba contexto. Você vê o capítulo de alguém e compara com o capítulo em que está. Deus não precisa repetir a história de outra pessoa para construir uma história boa com você.",
+    context:"Existe uma vida que é sua: seus desejos, seus recomeços, seu trabalho, seus planos, sua relação com Deus. O fato de outra pessoa estar em outro lugar não significa que você esteja atrasado.",
+    exercise:"Hoje, quando perceber uma comparação, substitua “eu deveria estar...” por “eu estou construindo...”.",
+    question:"O que existe na minha vida que eu deveria aprender a valorizar mais?",
+    prayer:"Deus, livra meu coração da comparação que me faz esquecer o que já existe. Dá-me olhos para perceber meu próprio caminho e coragem para continuar construindo sem precisar competir com a vida de ninguém. Amém."
+  }
+
 ];
 
-const weekdays = [
-  "domingo",
-  "segunda-feira",
-  "terça-feira",
-  "quarta-feira",
-  "quinta-feira",
-  "sexta-feira",
-  "sábado"
-];
 
-document.getElementById("homeDay").textContent =
-  String(date.getDate()).padStart(2,"0");
+/* ═══════════════════════════════════
+   STORAGE
+═══════════════════════════════════ */
 
-document.getElementById("homeMonth").textContent =
-  months[date.getMonth()];
-
-document.getElementById("homeWeekday").textContent =
-  weekdays[date.getDay()];
-
-document.getElementById("dateTop").textContent =
-  `${String(date.getDate()).padStart(2,"0")} · ${String(date.getMonth()+1).padStart(2,"0")}`;
+const STORAGE = {
+  start:"momento_start",
+  done:"momento_done",
+  notes:"momento_notes",
+  theme:"momento_theme",
+  japa:"momento_japa_v3"
+};
 
 
-/* ==========================================================
-   VIEW
-========================================================== */
+let currentDay = getCurrentDay();
 
-function showView(name){
+let selectedMode = 108;
 
-  document.querySelectorAll(".view").forEach(view=>{
-    view.classList.remove("active");
-  });
+let japaState = {
+  mode:108,
+  count:0,
+  lifetime:0,
+  today:0,
+  rounds:0,
+  phrase:"Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.",
+  lastDate:getDateKey(),
+  paused:false
+};
+
+
+/* ═══════════════════════════════════
+   DATA
+═══════════════════════════════════ */
+
+function getDateKey(){
+  const d = new Date();
+
+  return [
+    d.getFullYear(),
+    String(d.getMonth()+1).padStart(2,"0"),
+    String(d.getDate()).padStart(2,"0")
+  ].join("-");
+}
+
+
+function loadStorage(){
+
+  try{
+
+    const savedDone = JSON.parse(
+      localStorage.getItem(STORAGE.done) || "{}"
+    );
+
+    window.doneState = savedDone;
+
+  }catch{
+    window.doneState = {};
+  }
+
+
+  try{
+
+    const savedNotes = JSON.parse(
+      localStorage.getItem(STORAGE.notes) || "{}"
+    );
+
+    window.notesState = savedNotes;
+
+  }catch{
+    window.notesState = {};
+  }
+
+
+  try{
+
+    const savedJapa = JSON.parse(
+      localStorage.getItem(STORAGE.japa) || "null"
+    );
+
+    if(savedJapa){
+      japaState = {
+        ...japaState,
+        ...savedJapa
+      };
+    }
+
+  }catch{}
+
+
+  if(japaState.lastDate !== getDateKey()){
+
+    japaState.today = 0;
+    japaState.lastDate = getDateKey();
+
+    saveJapa();
+  }
+
+}
+
+
+function saveDone(){
+  localStorage.setItem(
+    STORAGE.done,
+    JSON.stringify(window.doneState)
+  );
+}
+
+
+function saveNotes(){
+  localStorage.setItem(
+    STORAGE.notes,
+    JSON.stringify(window.notesState)
+  );
+}
+
+
+function saveJapa(){
+
+  localStorage.setItem(
+    STORAGE.japa,
+    JSON.stringify(japaState)
+  );
+
+}
+
+
+/* ═══════════════════════════════════
+   DATA / DATE
+═══════════════════════════════════ */
+
+function getCurrentDay(){
+
+  const saved = localStorage.getItem(STORAGE.start);
+
+  if(!saved){
+
+    const today = getDateKey();
+
+    localStorage.setItem(
+      STORAGE.start,
+      today
+    );
+
+    return 0;
+  }
+
+  const start = new Date(saved + "T12:00:00");
+  const now = new Date();
+
+  const diff = Math.floor(
+    (now - start) / 86400000
+  );
+
+  return Math.max(
+    0,
+    Math.min(6,diff)
+  );
+
+}
+
+
+function updateDate(){
+
+  const now = new Date();
+
+  const day = now.getDate();
+
+  const month = now.toLocaleDateString(
+    "pt-BR",
+    {month:"long"}
+  );
+
+  const year = now.getFullYear();
+
+  const weekday = now.toLocaleDateString(
+    "pt-BR",
+    {weekday:"long"}
+  );
+
+  document.getElementById("bigDate").textContent =
+    String(day).padStart(2,"0");
+
+  document.getElementById("bigMonth").textContent =
+    month.toUpperCase();
+
+  document.getElementById("bigYear").textContent =
+    year;
+
+  document.getElementById("dayOfWeek").textContent =
+    weekday;
+
+  document.getElementById("topDate").textContent =
+    `${String(day).padStart(2,"0")} · ${month.slice(0,3)}`;
+
+}
+
+
+/* ═══════════════════════════════════
+   HOME
+═══════════════════════════════════ */
+
+function renderHome(){
+
+  const d = DEVOTIONALS[currentDay];
+
+  document.getElementById("dailyDay").textContent =
+    `dia ${String(currentDay+1).padStart(2,"0")} / 07`;
+
+  document.getElementById("dailyTitle").textContent =
+    d.title;
+
+  document.getElementById("dailyReference").textContent =
+    d.reference;
+
+  document.getElementById("dailyVerse").textContent =
+    `“${d.verse}”`;
+
+  renderWeek();
+
+}
+
+
+function renderWeek(){
+
+  const container =
+    document.getElementById("weekDays");
+
+  container.innerHTML = "";
+
+  const names = [
+    "seg","ter","qua","qui","sex","sáb","dom"
+  ];
+
+  for(let i=0;i<7;i++){
+
+    const el = document.createElement("button");
+
+    el.className = "day";
+
+    if(i === currentDay){
+      el.classList.add("current");
+    }
+
+    if(window.doneState[i]){
+      el.classList.add("done");
+    }
+
+    const dateNumber = i + 1;
+
+    el.innerHTML = `
+      <span class="day-name">${names[i]}</span>
+      <span class="day-number">${String(dateNumber).padStart(2,"0")}</span>
+    `;
+
+    el.onclick = () => {
+
+      currentDay = i;
+
+      renderHome();
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    };
+
+    container.appendChild(el);
+
+  }
+
+}
+
+
+/* ═══════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════ */
+
+function showView(view){
+
+  document.querySelectorAll(".view")
+    .forEach(v => v.classList.remove("active"));
 
   const target =
-    document.getElementById(name);
+    document.getElementById(`view-${view}`);
 
   if(target){
     target.classList.add("active");
   }
 
-  document.querySelectorAll(".nav").forEach(nav=>{
-    nav.classList.toggle(
-      "active",
-      nav.dataset.view === name
-    );
-  });
+  document.querySelectorAll(".nav-item")
+    .forEach(item => {
+
+      item.classList.toggle(
+        "active",
+        item.dataset.view === view
+      );
+
+    });
 
   window.scrollTo({
     top:0,
     behavior:"instant"
   });
 
-  if(name==="japa"){
-    setTimeout(renderMala,30);
-    updateJapaUI();
+  if(view === "home"){
+    renderHome();
   }
+
+  if(view === "japa"){
+    updateJapaHome();
+  }
+
 }
 
 
-/* ==========================================================
-   DEVOTIONAL DATA
-========================================================== */
+/* ═══════════════════════════════════
+   DEVOCIONAL
+═══════════════════════════════════ */
 
-const DEVOTIONALS = [
+function openDevotional(index){
 
-  {
-    title:"Confiar sem precisar controlar tudo.",
-    ref:"PROVÉRBIOS 3:5–6",
-    verse:"“Confia no Senhor de todo o teu coração e não te apoies no teu próprio entendimento.”",
-    intro:"Existe uma diferença entre fazer a sua parte e tentar carregar sozinho aquilo que não depende de você.",
-    explain:"Confiar em Deus não significa abandonar a própria responsabilidade. Significa reconhecer que existe uma parte da vida que não pode ser controlada pela força do pensamento, da ansiedade ou da antecipação.",
-    explain2:"Você pode planejar, trabalhar, procurar, insistir, aprender e se movimentar. Mas existe um ponto em que a tentativa de controlar o resultado começa a roubar a paz do caminho.",
-    realityTitle:"Faça a sua parte sem transformar o resultado em uma condição para você acreditar que Deus está agindo.",
-    reality:"Há coisas acontecendo na sua vida que ainda estão em processo. Nem toda demora é abandono. Nem toda porta fechada é uma sentença. Às vezes o caminho precisa continuar sendo percorrido antes de fazer sentido.",
-    question:"O que eu estou tentando controlar que poderia simplesmente colocar nas mãos de Deus hoje?",
-    prayer:"Deus, me ajuda a fazer aquilo que está ao meu alcance sem carregar sozinho aquilo que não está. Dá-me coragem para agir, sabedoria para esperar e fé para continuar caminhando mesmo quando ainda não consigo enxergar o resultado. Amém."
-  },
+  currentDay = index;
 
-  {
-    title:"Prosperar com responsabilidade.",
-    ref:"PROVÉRBIOS 21:5",
-    verse:"“Os planos do diligente tendem à abundância, mas a pressa excessiva, à pobreza.”",
-    intro:"Prosperidade também é aprender a construir sem transformar urgência em direção.",
-    explain:"Existe uma diferença entre desejar uma mudança e construir as condições para sustentá-la. A Bíblia não trata planejamento como falta de fé.",
-    explain2:"Planejar dinheiro, trabalho, casa e futuro pode ser uma forma muito concreta de responsabilidade. Fé e movimento não precisam competir.",
-    realityTitle:"Você não precisa escolher entre confiar em Deus e fazer contas.",
-    reality:"Seu desejo de prosperar pode continuar sendo grande sem precisar virar ansiedade. Faça o que está ao seu alcance hoje. Uma proposta enviada, uma nota fiscal emitida, uma oportunidade procurada, uma despesa evitada.",
-    question:"Qual pequena decisão prática de hoje aproxima a vida que eu estou pedindo a Deus?",
-    prayer:"Deus, me dá sabedoria para construir com responsabilidade. Que eu saiba reconhecer oportunidades sem me precipitar e que minha prosperidade seja acompanhada de paz, consciência e propósito. Amém."
-  },
-
-  {
-    title:"Esperar sem confundir demora com abandono.",
-    ref:"SALMO 27:14",
-    verse:"“Espera no Senhor. Sê forte, e fortifique-se o teu coração.”",
-    intro:"Esperar não é ficar parado. Às vezes é continuar vivendo enquanto algo ainda não chegou.",
-    explain:"A espera pode ser uma das experiências mais difíceis porque o presente parece insuficiente e o futuro ainda não aconteceu.",
-    explain2:"Mas o intervalo também pode ser um lugar de preparação. Você continua trabalhando, cuidando de si, organizando a vida e fazendo escolhas enquanto confia que nem tudo precisa acontecer imediatamente.",
-    realityTitle:"Não transforme o tempo de espera em prova de que Deus esqueceu de você.",
-    reality:"Existe uma versão sua que só poderá existir porque você atravessou justamente este período. Nem tudo que demora está negado.",
-    question:"O que posso continuar construindo enquanto espero aquilo que ainda não chegou?",
-    prayer:"Deus, fortalece meu coração enquanto eu espero. Que eu não confunda silêncio com abandono nem demora com ausência. Ensina-me a permanecer em movimento sem perder a paz. Amém."
-  },
-
-  {
-    title:"Recomeçar sem ser definido pelo passado.",
-    ref:"ISAÍAS 43:18–19",
-    verse:"“Eis que faço coisa nova; porventura não o percebeis?”",
-    intro:"Um recomeço não precisa apagar o que aconteceu. Ele precisa impedir que aquilo seja a única história possível.",
-    explain:"Você não precisa negar o passado para seguir em frente. Pode reconhecer o que doeu, aprender com o que aconteceu e ainda assim abrir espaço para algo diferente.",
-    explain2:"A Bíblia está cheia de pessoas que tiveram fases completamente diferentes dentro da mesma vida. Um capítulo difícil não tem autoridade para definir todos os capítulos seguintes.",
-    realityTitle:"O passado pode explicar algumas coisas sem precisar decidir o que acontece depois.",
-    reality:"Você pode começar outra vez. Uma cidade diferente, uma rotina diferente, novas pessoas, novas escolhas e uma relação diferente com aquilo que você viveu.",
-    question:"Que parte da minha vida eu preciso parar de tratar como se fosse permanente?",
-    prayer:"Deus, me dá coragem para reconhecer o novo quando ele aparecer. Que eu não tenha medo de começar outra vez só porque já comecei antes. Amém."
-  },
-
-  {
-    title:"Descansar sem culpa.",
-    ref:"MATEUS 11:28",
-    verse:"“Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei.”",
-    intro:"Descansar não significa desistir. Às vezes significa parar de tentar provar que você consegue carregar tudo.",
-    explain:"Existe uma cultura de produtividade que faz o descanso parecer perda de tempo. Mas descanso também é uma necessidade humana.",
-    explain2:"Você não precisa transformar cada hora livre em uma tarefa. Há momentos em que o melhor movimento possível é não fazer nada além de respirar e permitir que o corpo desacelere.",
-    realityTitle:"Você não precisa merecer o descanso.",
-    reality:"Seu valor não aumenta quando você produz mais nem diminui quando você para. Hoje, talvez descansar seja uma forma de confiar que o mundo continua girando mesmo quando você não está resolvendo tudo.",
-    question:"Onde eu poderia me permitir descansar sem transformar isso em culpa?",
-    prayer:"Deus, me ensina a descansar. Tira de mim a necessidade de provar o meu valor o tempo inteiro e me lembra que eu posso simplesmente existir diante de Ti. Amém."
-  },
-
-  {
-    title:"Coragem mesmo com medo.",
-    ref:"JOSUÉ 1:9",
-    verse:"“Não fui eu que te ordenei? Sê forte e corajoso. Não temas, nem te espantes.”",
-    intro:"Coragem não significa ausência de medo. Significa não permitir que o medo seja o único responsável pelas suas decisões.",
-    explain:"Há momentos em que você sabe qual é o próximo passo e mesmo assim sente medo. Isso não significa necessariamente que o caminho esteja errado.",
-    explain2:"Coragem pode ser uma coisa muito pequena: enviar uma mensagem, fazer uma ligação, procurar uma oportunidade, entrar em um lugar novo ou admitir que deseja alguma coisa.",
-    realityTitle:"Você pode estar com medo e ainda assim estar pronto para ir.",
-    reality:"Não espere se sentir completamente seguro para começar tudo que importa. Algumas certezas aparecem depois do movimento, não antes dele.",
-    question:"Qual é o próximo passo que eu já sei qual é, mas estou adiando por medo?",
-    prayer:"Deus, me dá coragem para fazer o próximo passo. Não preciso saber tudo sobre o caminho. Preciso apenas confiar que não estou caminhando sozinho. Amém."
-  },
-
-  {
-    title:"Não medir a vida pela dos outros.",
-    ref:"GÁLATAS 6:4–5",
-    verse:"“Examine cada um a sua própria obra, e então terá motivo de gloriar-se unicamente em si mesmo, e não em outro.”",
-    intro:"A comparação transforma o caminho dos outros em régua para medir uma vida que tem outro ritmo.",
-    explain:"Você não conhece todas as condições que existem por trás da vida de outra pessoa. Comparar resultados sem conhecer caminhos produz uma conta impossível de fechar.",
-    explain2:"Seu trabalho é observar a própria direção. O que você está construindo? O que aprendeu? O que mudou? O que hoje consegue fazer que antes não conseguia?",
-    realityTitle:"Sua vida não precisa parecer pronta para estar avançando.",
-    reality:"Talvez algumas pessoas estejam em lugares diferentes. Isso não transforma o seu caminho em atraso. Há coisas que só podem ser construídas no seu próprio tempo.",
-    question:"Se eu parasse de olhar para a régua dos outros, o que reconheceria na minha própria caminhada?",
-    prayer:"Deus, me ajuda a olhar para minha própria história com mais honestidade e menos comparação. Que eu consiga reconhecer o que já construí e continuar caminhando com gratidão. Amém."
-  }
-
-];
-
-
-let currentDev =
-  Number(
-    localStorage.getItem("momento_dev_day") || 0
-  );
-
-
-function renderDevotional(){
-
-  const d = DEVOTIONALS[currentDev];
-
-  document.getElementById("todayDay").textContent =
-    String(currentDev+1).padStart(2,"0");
-
-  document.getElementById("todayTitle").textContent =
-    d.title;
-
-  document.getElementById("todayIntro").textContent =
-    d.intro;
-
-  document.getElementById("todayRef").textContent =
-    d.ref.replaceAll("PROVÉRBIOS","Provérbios")
-          .replaceAll("SALMO","Salmo")
-          .replaceAll("ISAÍAS","Isaías")
-          .replaceAll("MATEUS","Mateus")
-          .replaceAll("JOSUÉ","Josué")
-          .replaceAll("GÁLATAS","Gálatas");
-
-  document.getElementById("devDayNumber").textContent =
-    String(currentDev+1).padStart(2,"0");
+  const d = DEVOTIONALS[index];
 
   document.getElementById("devNumber").textContent =
-    String(currentDev+1).padStart(2,"0");
+    String(index+1).padStart(2,"0");
 
-  document.getElementById("devTitle").innerHTML =
-    formatTitle(d.title);
+  document.getElementById("devTitle").textContent =
+    d.title;
 
-  document.getElementById("devRef").textContent =
-    d.ref;
+  document.getElementById("devScripture").textContent =
+    `“${d.reference}”\n\n${d.verse}`;
 
-  document.getElementById("devVerse").textContent =
-    d.verse;
+  document.getElementById("devExplanation").textContent =
+    d.explanation;
 
-  document.getElementById("devExplain").textContent =
-    d.explain;
+  document.getElementById("devContext").textContent =
+    d.context;
 
-  document.getElementById("devExplain2").textContent =
-    d.explain2;
-
-  document.getElementById("devRealityTitle").textContent =
-    d.realityTitle;
-
-  document.getElementById("devReality").textContent =
-    d.reality;
+  document.getElementById("devExercise").textContent =
+    d.exercise;
 
   document.getElementById("devQuestion").textContent =
     d.question;
@@ -2748,748 +2878,1018 @@ function renderDevotional(){
   document.getElementById("devPrayer").textContent =
     d.prayer;
 
-  renderDayStrip();
+  const notes =
+    window.notesState[index] || "";
+
+  document.getElementById("devNotes").value =
+    notes;
+
+  updateCompleteButton();
+
+  showView("devotional");
 
 }
 
 
-function formatTitle(title){
+function toggleComplete(){
 
-  const words = title.split(" ");
+  window.doneState[currentDay] =
+    !window.doneState[currentDay];
 
-  if(words.length<5){
-    return title;
+  saveDone();
+
+  updateCompleteButton();
+
+  renderHome();
+
+  if(window.doneState[currentDay]){
+    showToast("momento concluído ✦");
   }
 
-  const half =
-    Math.ceil(words.length/2);
+}
 
-  return `
-    ${words.slice(0,half).join(" ")}<br>
-    ${words.slice(half).join(" ")}
-  `;
+
+function updateCompleteButton(){
+
+  const done =
+    !!window.doneState[currentDay];
+
+  const button =
+    document.getElementById("completeButton");
+
+  const mark =
+    document.getElementById("completeMark");
+
+  const text =
+    document.getElementById("completeText");
+
+  button.classList.toggle("done",done);
+
+  mark.textContent =
+    done ? "✓" : "";
+
+  text.textContent =
+    done
+      ? "este momento está guardado"
+      : "marcar este momento como concluído";
 
 }
 
 
-function openDev(){
+/* notas */
 
-  showView("dev");
+document.getElementById("devNotes")
+  .addEventListener("input",function(){
+
+    window.notesState[currentDay] =
+      this.value;
+
+    saveNotes();
+
+  });
+
+
+/* ═══════════════════════════════════
+   RITUAIS
+═══════════════════════════════════ */
+
+function toggleRitual(button){
+
+  const ritual =
+    button.parentElement;
+
+  const currentlyOpen =
+    ritual.classList.contains("open");
+
+  document.querySelectorAll(".ritual")
+    .forEach(item => item.classList.remove("open"));
+
+  if(!currentlyOpen){
+    ritual.classList.add("open");
+  }
 
 }
 
 
-function nextDev(){
+/* ═══════════════════════════════════
+   TEMA
+═══════════════════════════════════ */
 
-  currentDev =
-    (currentDev+1) % DEVOTIONALS.length;
+function setTheme(theme){
+
+  if(theme === "dark"){
+    document.body.classList.add("dark");
+  }else{
+    document.body.classList.remove("dark");
+  }
 
   localStorage.setItem(
-    "momento_dev_day",
-    currentDev
+    STORAGE.theme,
+    theme
   );
 
-  renderDevotional();
+  document.querySelectorAll(".theme-choice")
+    .forEach(button => {
 
-  showView("dev");
-
-}
-
-
-function renderDayStrip(){
-
-  const strip =
-    document.getElementById("dayStrip");
-
-  strip.innerHTML = "";
-
-  for(let i=0;i<7;i++){
-
-    const button =
-      document.createElement("button");
-
-    button.className = "day-cell";
-
-    if(i===currentDev){
-      button.classList.add("active");
-    }
-
-    const completed =
-      localStorage.getItem(
-        `momento_dev_done_${i}`
-      ) === "true";
-
-    if(completed){
-      button.classList.add("done");
-    }
-
-    button.innerHTML =
-      String(i+1).padStart(2,"0");
-
-    button.onclick = ()=>{
-
-      currentDev=i;
-
-      localStorage.setItem(
-        "momento_dev_day",
-        currentDev
-      );
-
-      renderDevotional();
-
-      showView("dev");
-
-    };
-
-    strip.appendChild(button);
-
-  }
-
-}
-
-
-/* ==========================================================
-   DEVOTIONAL NOTE
-========================================================== */
-
-const note =
-  document.getElementById("devNote");
-
-note.value =
-  localStorage.getItem(
-    "momento_dev_note"
-  ) || "";
-
-note.addEventListener("input",()=>{
-
-  localStorage.setItem(
-    "momento_dev_note",
-    note.value
-  );
-
-});
-
-
-/* ==========================================================
-   PSALM
-========================================================== */
-
-const PSALMS = [
-
-  {
-    title:"Deus não é apenas o lugar para onde você corre. É também a força com a qual você continua.",
-    verse:"“Eu te amo, ó Senhor, força minha. O Senhor é a minha rocha, a minha fortaleza e o meu libertador.”",
-    text:"O Salmo 18 começa com uma declaração de confiança. Antes de falar sobre vitória, ele fala sobre quem sustenta o caminho."
-  },
-
-  {
-    title:"Quando a força parece pequena, lembre-se de onde ela vem.",
-    verse:"“Invocarei o Senhor, digno de ser louvado, e ficarei livre dos meus inimigos.”",
-    text:"A fé não elimina a necessidade de agir. Ela muda de onde você parte para agir."
-  },
-
-  {
-    title:"Há caminhos que só aparecem depois que você começa.",
-    verse:"“Ele adestrou minhas mãos para o combate.”",
-    text:"Nem toda preparação parece preparação enquanto acontece. Algumas fases estão construindo dentro de você aquilo que a próxima exigirá."
-  },
-
-  {
-    title:"A proteção também pode aparecer como direção.",
-    verse:"“Com o meu Deus salto muralhas.”",
-    text:"O Salmo 18 não apresenta uma vida sem obstáculos. Apresenta uma vida em que os obstáculos não têm a palavra final."
-  },
-
-  {
-    title:"Você não precisa transformar cada dificuldade em identidade.",
-    verse:"“O Senhor recompensa-me segundo a minha justiça.”",
-    text:"Existe uma diferença entre atravessar uma fase difícil e concluir que você é definido por ela."
-  },
-
-  {
-    title:"A força não precisa ser barulho.",
-    verse:"“Tu acendes a minha lâmpada; o Senhor, meu Deus, ilumina as minhas trevas.”",
-    text:"Às vezes a resposta para uma fase escura não é enxergar tudo. É enxergar o próximo passo."
-  },
-
-  {
-    title:"Termine a semana lembrando: você ainda está caminhando.",
-    verse:"“Grandes vitórias ele dá ao seu rei e usa de bondade para com o seu ungido.”",
-    text:"Leia o Salmo inteiro e reconheça não apenas o que ainda falta, mas também aquilo que já foi atravessado."
-  }
-
-];
-
-
-function setPsalmDay(day){
-
-  document
-    .querySelectorAll(".psalm-day")
-    .forEach((button,index)=>{
       button.classList.toggle(
         "active",
-        index===day-1
+        button.dataset.theme === theme
       );
+
     });
 
-  const p =
-    PSALMS[day-1];
+}
 
-  document.getElementById("psalmCurrentDay").textContent =
-    String(day).padStart(2,"0");
 
-  document.getElementById("psalmTitle").textContent =
-    p.title;
+function loadTheme(){
 
-  document.getElementById("psalmVerse").textContent =
-    p.verse;
+  const theme =
+    localStorage.getItem(STORAGE.theme) || "light";
 
-  document.getElementById("psalmReflection").textContent =
-    p.text;
+  setTheme(theme);
 
 }
 
 
-/* ==========================================================
-   JAPAMALA STATE
-========================================================== */
+/* ═══════════════════════════════════
+   ABOUT
+═══════════════════════════════════ */
 
-const STORAGE_PREFIX =
-  "momento_japa_";
+function showAbout(){
 
-let japaMode =
-  Number(
-    localStorage.getItem(
-      STORAGE_PREFIX+"mode"
-    ) || 108
+  showToast(
+    "momento. · um pequeno lugar para voltar a Deus."
   );
-
-let japaCount =
-  Number(
-    localStorage.getItem(
-      STORAGE_PREFIX+"count"
-    ) || 0
-  );
-
-let totalToday =
-  Number(
-    localStorage.getItem(
-      STORAGE_PREFIX+"today"
-    ) || 0
-  );
-
-let completedRounds =
-  Number(
-    localStorage.getItem(
-      STORAGE_PREFIX+"rounds"
-    ) || 0
-  );
-
-let paused =
-  localStorage.getItem(
-    STORAGE_PREFIX+"paused"
-  ) === "true";
-
-let lastTap = 0;
-
-
-/* ==========================================================
-   MALA GEOMETRY
-========================================================== */
-
-function getPoint(index,total){
-
-  /*
-    The mala is not a perfect mathematical circle.
-    Slight organic variation makes it feel more like
-    a physical cord.
-  */
-
-  const t =
-    (index / total) * Math.PI * 2
-    - Math.PI / 2;
-
-  const rx = 156;
-  const ry = 193;
-
-  const variationX =
-    Math.sin(t*3.7)*2.1 +
-    Math.sin(t*8.1)*.8;
-
-  const variationY =
-    Math.cos(t*4.3)*2.2 +
-    Math.sin(t*7.2)*.9;
-
-  return {
-    x:215 + Math.cos(t)*rx + variationX,
-    y:244 + Math.sin(t)*ry + variationY
-  };
 
 }
 
 
-function renderMala(){
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(() => {
+
+      toast.classList.remove("show");
+
+    },2200);
+
+}
+
+
+/* ═══════════════════════════════════
+   JAPAMALA
+═══════════════════════════════════ */
+
+let beads = [];
+
+function loadJapa(){
+
+  selectedMode =
+    japaState.mode || 108;
+
+  const input =
+    document.getElementById("phraseInput");
+
+  if(input){
+    input.value =
+      japaState.phrase;
+  }
+
+  updateModeButtons();
+  updateJapaHome();
+
+}
+
+
+function selectMode(mode){
+
+  selectedMode = mode;
+
+  updateModeButtons();
+
+}
+
+
+function updateModeButtons(){
+
+  document.querySelectorAll(".mode-option")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        Number(button.dataset.mode) === selectedMode
+      );
+
+    });
+
+}
+
+
+function updateJapaHome(){
+
+  document.getElementById("japaLifetime")
+    .textContent = japaState.lifetime;
+
+  document.getElementById("japaToday")
+    .textContent = japaState.today;
+
+}
+
+
+function startJapa(){
+
+  const phrase =
+    document.getElementById("phraseInput").value.trim();
+
+  if(phrase){
+    japaState.phrase = phrase;
+  }
+
+  japaState.mode = selectedMode;
+  japaState.paused = false;
+
+  saveJapa();
+
+  openJapaPractice();
+
+}
+
+
+function openJapaPractice(){
+
+  const practice =
+    document.getElementById("japaPractice");
+
+  practice.classList.add("active");
+
+  document.getElementById("practiceMode")
+    .textContent =
+    `${japaState.mode} contas`;
+
+  document.getElementById("japaTarget")
+    .textContent =
+    japaState.mode;
+
+  document.getElementById("practicePhrase")
+    .textContent =
+    japaState.phrase;
+
+  document.getElementById("japaCount")
+    .textContent =
+    japaState.count;
+
+  document.getElementById("tapHint")
+    .classList.toggle(
+      "hidden",
+      japaState.count > 0
+    );
+
+  document.getElementById("pausedOverlay")
+    .classList.remove("active");
+
+  document.getElementById("pauseButton")
+    .textContent = "pausar";
+
+  buildMala();
+
+  updateMala();
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+function closeJapa(){
+
+  document
+    .getElementById("japaPractice")
+    .classList.remove("active");
+
+  document.body.style.overflow = "";
+
+  saveJapa();
+
+  updateJapaHome();
+
+}
+
+
+/* ═══════════════════════════════════
+   CONSTRUÇÃO DA MALA
+═══════════════════════════════════ */
+
+function buildMala(){
 
   const svg =
     document.getElementById("malaSvg");
 
-  const group =
-    document.getElementById("beads");
+  svg.innerHTML = "";
 
-  const string =
-    document.getElementById("malaString");
+  beads = [];
 
-  if(!svg || !group || !string){
-    return;
+
+  /* cordão orgânico */
+
+  let path = "";
+
+  const total = 108;
+
+  const points = [];
+
+  for(let i=0;i<=108;i++){
+
+    const angle =
+      -Math.PI/2 +
+      (Math.PI*2*i/108);
+
+    const noiseX =
+      Math.sin(i * 1.73) * 5 +
+      Math.sin(i * .37) * 3;
+
+    const noiseY =
+      Math.cos(i * 1.19) * 5 +
+      Math.sin(i * .61) * 2;
+
+    const rx = 126 + noiseX;
+    const ry = 193 + noiseY;
+
+    const x =
+      180 +
+      Math.cos(angle) * rx;
+
+    const y =
+      260 +
+      Math.sin(angle) * ry;
+
+    points.push({x,y});
   }
 
-  group.innerHTML="";
 
-  const points=[];
+  points.forEach((p,i) => {
 
-  for(let i=0;i<japaMode;i++){
-
-    points.push(
-      getPoint(i,japaMode)
-    );
-
-  }
-
-
-  /* string */
-
-  let d="";
-
-  points.forEach((point,index)=>{
-
-    if(index===0){
-      d += `M ${point.x} ${point.y}`;
+    if(i === 0){
+      path += `M ${p.x} ${p.y}`;
     }else{
-      d += ` L ${point.x} ${point.y}`;
+      const prev = points[i-1];
+
+      const cx =
+        (prev.x+p.x)/2 +
+        Math.sin(i)*2;
+
+      const cy =
+        (prev.y+p.y)/2 +
+        Math.cos(i)*2;
+
+      path += ` Q ${cx} ${cy} ${p.x} ${p.y}`;
     }
 
   });
 
-  /*
-    Close the loop.
-  */
 
-  if(points.length){
-    d += ` L ${points[0].x} ${points[0].y}`;
-  }
+  const cord =
+    document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
 
-  string.setAttribute("d",d);
+  cord.setAttribute("d",path);
+  cord.setAttribute("class","mala-cord");
+
+  svg.appendChild(cord);
 
 
-  /* beads */
+  /* contas */
 
-  points.forEach((point,index)=>{
+  for(let i=0;i<108;i++){
 
-    const bead =
+    const p = points[i];
+
+    const group =
       document.createElementNS(
         "http://www.w3.org/2000/svg",
         "g"
       );
 
-    const isCompleted =
-      index < japaCount;
+    group.dataset.index = i;
 
-    const isCurrent =
-      index === japaCount &&
-      japaCount < japaMode;
-
-    bead.setAttribute(
-      "class",
-      `mala-bead ${isCompleted?"completed":""} ${isCurrent?"current":""}`
-    );
-
-    bead.setAttribute(
-      "transform",
-      `translate(${point.x} ${point.y})`
-    );
-
-
-    /* shadow */
-
-    const shadow =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "ellipse"
-      );
-
-    shadow.setAttribute(
-      "class",
-      "bead-shadow"
-    );
-
-    shadow.setAttribute("cx","1.5");
-    shadow.setAttribute("cy","2.5");
 
     const radius =
-      isCurrent ? 9.2 : 7.2;
-
-    shadow.setAttribute(
-      "rx",
-      String(radius)
-    );
-
-    shadow.setAttribute(
-      "ry",
-      String(radius*.9)
-    );
+      7.3 +
+      Math.sin(i*2.31)*.8;
 
 
-    /* body */
-
-    const body =
+    const shadow =
       document.createElementNS(
         "http://www.w3.org/2000/svg",
         "circle"
       );
 
-    body.setAttribute(
-      "class",
-      isCurrent
-        ? "bead bead-current"
-        : isCompleted
-          ? "bead bead-completed"
-          : "bead"
-    );
+    shadow.setAttribute("cx",p.x+1.2);
+    shadow.setAttribute("cy",p.y+1.8);
+    shadow.setAttribute("r",radius);
+    shadow.setAttribute("fill","rgba(40,35,30,.11)");
 
-    body.setAttribute(
-      "r",
-      String(radius)
-    );
+    group.appendChild(shadow);
 
 
-    /* highlight */
+    const bead =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "circle"
+      );
 
-    const highlight =
+    bead.setAttribute("cx",p.x);
+    bead.setAttribute("cy",p.y);
+    bead.setAttribute("r",radius);
+    bead.setAttribute("class","bead");
+
+    group.appendChild(bead);
+
+
+    const shine =
       document.createElementNS(
         "http://www.w3.org/2000/svg",
         "ellipse"
       );
 
-    highlight.setAttribute(
-      "class",
-      isCurrent
-        ? "bead-highlight bead-current-highlight"
-        : "bead-highlight"
-    );
+    shine.setAttribute("cx",p.x-2);
+    shine.setAttribute("cy",p.y-2.5);
+    shine.setAttribute("rx",radius*.34);
+    shine.setAttribute("ry",radius*.23);
+    shine.setAttribute("class","bead-shine");
 
-    highlight.setAttribute("cx","-2");
-    highlight.setAttribute("cy","-2.5");
-    highlight.setAttribute("rx","2.1");
-    highlight.setAttribute("ry","1.4");
+    group.appendChild(shine);
 
 
-    bead.appendChild(shadow);
-    bead.appendChild(body);
-    bead.appendChild(highlight);
+    svg.appendChild(group);
 
-    group.appendChild(bead);
-
-  }
-
-}
-
-
-/* ==========================================================
-   JAPAMALA UI
-========================================================== */
-
-function updateJapaUI(){
-
-  document.getElementById("japaCount").textContent =
-    japaCount;
-
-  document.getElementById("japaTotal").textContent =
-    `de ${japaMode}`;
-
-  document.getElementById("japaProgress").style.width =
-    `${Math.min(100,(japaCount/japaMode)*100)}%`;
-
-  document.getElementById("currentTotal").textContent =
-    totalToday;
-
-  document.getElementById("completedRounds").textContent =
-    completedRounds;
-
-  document.getElementById("roundsToday").textContent =
-    completedRounds;
-
-  document.getElementById("currentMode").textContent =
-    japaMode;
-
-  document.getElementById("pauseButton").textContent =
-    paused ? "retomar" : "pausar";
-
-  document.getElementById("undoButton").disabled =
-    japaCount===0;
-
-  document
-    .querySelectorAll(".mode")
-    .forEach(button=>{
-      button.classList.toggle(
-        "active",
-        Number(button.dataset.mode)===japaMode
-      );
+    beads.push({
+      group,
+      bead,
+      shine
     });
 
-  const hint =
-    document.getElementById("japaHint");
+  }
 
-  hint.classList.toggle(
-    "hidden",
-    japaCount>0
-  );
 
-  localStorage.setItem(
-    STORAGE_PREFIX+"mode",
-    japaMode
-  );
+  /* guru / meru */
 
-  localStorage.setItem(
-    STORAGE_PREFIX+"count",
-    japaCount
-  );
+  const guruGroup =
+    document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "g"
+    );
 
-  localStorage.setItem(
-    STORAGE_PREFIX+"today",
-    totalToday
-  );
+  const guru =
+    document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
 
-  localStorage.setItem(
-    STORAGE_PREFIX+"rounds",
-    completedRounds
-  );
+  guru.setAttribute("cx","180");
+  guru.setAttribute("cy","56");
+  guru.setAttribute("r","14");
+  guru.setAttribute("class","guru");
 
-  localStorage.setItem(
-    STORAGE_PREFIX+"paused",
-    paused
-  );
+  guruGroup.appendChild(guru);
 
-  renderMala();
+
+  const guruShine =
+    document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "ellipse"
+    );
+
+  guruShine.setAttribute("cx","176");
+  guruShine.setAttribute("cy","52");
+  guruShine.setAttribute("rx","4");
+  guruShine.setAttribute("ry","3");
+  guruShine.setAttribute("class","guru-shine");
+
+  guruGroup.appendChild(guruShine);
+
+
+  /* tassel */
+
+  for(let i=-4;i<=4;i++){
+
+    const tassel =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+
+    tassel.setAttribute(
+      "d",
+      `M ${180+i*2.2} 70
+       Q ${178+i*2.2} 92 ${174+i*2.2} 111`
+    );
+
+    tassel.setAttribute(
+      "class",
+      "tassel"
+    );
+
+    guruGroup.appendChild(tassel);
+
+  }
+
+
+  svg.appendChild(guruGroup);
 
 }
 
 
-/* ==========================================================
-   HAPTICS
-========================================================== */
+/* ═══════════════════════════════════
+   ATUALIZAÇÃO VISUAL
+═══════════════════════════════════ */
 
-function haptic(type="normal"){
-
-  if(!navigator.vibrate){
-    return;
-  }
-
-  if(type==="normal"){
-    navigator.vibrate(7);
-    return;
-  }
-
-  if(type==="quarter"){
-    navigator.vibrate([12,18,12]);
-    return;
-  }
-
-  if(type==="half"){
-    navigator.vibrate([18,22,18,22,18]);
-    return;
-  }
-
-  if(type==="complete"){
-    navigator.vibrate([
-      25,
-      30,
-      25,
-      30,
-      70
-    ]);
-  }
-
-}
-
-
-/* ==========================================================
-   MILESTONES
-========================================================== */
-
-function showMilestone(count){
-
-  const milestone =
-    document.getElementById("milestone");
-
-  const text =
-    document.getElementById("milestoneText");
-
-  const sub =
-    document.getElementById("milestoneSub");
-
-  if(count===27){
-
-    text.textContent =
-      "um quarto do caminho";
-
-    sub.textContent =
-      "27";
-
-  }else if(count===54){
-
-    text.textContent =
-      "metade do caminho";
-
-    sub.textContent =
-      "54";
-
-  }else if(count===81){
-
-    text.textContent =
-      "quase lá";
-
-    sub.textContent =
-      "81";
-
-  }else{
-    return;
-  }
-
-  milestone.classList.add("show");
-
-  setTimeout(()=>{
-    milestone.classList.remove("show");
-  },1100);
-
-}
-
-
-/* ==========================================================
-   ADVANCE
-========================================================== */
-
-function advanceJapa(){
-
-  if(paused){
-    return;
-  }
-
-  if(japaCount>=japaMode){
-    return;
-  }
-
-  japaCount++;
-  totalToday++;
+function updateMala(){
 
   const count =
-    japaCount;
+    japaState.count;
 
-  if(
-    count===27 ||
-    count===54 ||
-    count===81
-  ){
+  const target =
+    japaState.mode;
 
-    haptic(
-      count===27
-        ? "quarter"
-        : "half"
+
+  beads.forEach((item,i) => {
+
+    item.bead.classList.remove(
+      "completed",
+      "current",
+      "ghost"
     );
 
-    showMilestone(count);
-
-  }else{
-
-    haptic("normal");
-
-  }
-
-
-  /*
-    COMPLETION
-  */
-
-  if(japaCount===japaMode){
-
-    completedRounds++;
-
-    haptic("complete");
-
-    localStorage.setItem(
-      STORAGE_PREFIX+"lastComplete",
-      Date.now()
+    item.shine.classList.remove(
+      "current-shine"
     );
 
-    updateJapaUI();
 
-    setTimeout(()=>{
-      document
-        .getElementById("japaComplete")
-        .classList.add("show");
-    },350);
+    if(i >= target){
 
-    return;
+      item.bead.classList.add("ghost");
 
-  }
+    }else if(i < count){
 
-  updateJapaUI();
+      item.bead.classList.add("completed");
+
+    }else if(i === count && count < target){
+
+      item.bead.classList.add("current");
+
+      item.shine.classList.add(
+        "current-shine"
+      );
+
+    }
+
+  });
+
+
+  document.getElementById("japaCount")
+    .textContent = count;
+
+
+  document.getElementById("japaTarget")
+    .textContent = target;
+
+
+  document.getElementById("tapHint")
+    .classList.toggle(
+      "hidden",
+      count > 0
+    );
+
+
+  document.getElementById("practicePhrase")
+    .textContent =
+    japaState.phrase;
+
+
+  document.getElementById("practiceMode")
+    .textContent =
+    `${target} contas`;
 
 }
 
 
-/* ==========================================================
-   THE WHOLE MALA IS THE BUTTON
-========================================================== */
+/* ═══════════════════════════════════
+   CONTAGEM
+═══════════════════════════════════ */
 
-const japaTouch =
-  document.getElementById("japaTouch");
+let pointerStart = null;
+
+const practiceStage =
+  document.getElementById("practiceStage");
 
 
-japaTouch.addEventListener(
-  "pointerup",
-  function(event){
+practiceStage.addEventListener(
+  "pointerdown",
+  event => {
 
-    event.preventDefault();
-
-    const now =
-      Date.now();
-
-    /*
-      prevents accidental double firing
-      on some mobile browsers.
-    */
-
-    if(now-lastTap<90){
+    if(
+      event.target.closest("[data-no-count]")
+    ){
       return;
     }
 
-    lastTap=now;
-
-    advanceJapa();
+    pointerStart = {
+      x:event.clientX,
+      y:event.clientY
+    };
 
   },
-  {
-    passive:false
-  }
+  {passive:true}
 );
 
 
-/*
-  Keyboard support too.
-*/
-
-japaTouch.addEventListener(
-  "keydown",
-  event=>{
+practiceStage.addEventListener(
+  "pointerup",
+  event => {
 
     if(
-      event.key==="Enter" ||
-      event.key===" "
+      event.target.closest("[data-no-count]")
+    ){
+      return;
+    }
+
+    if(!pointerStart){
+      return;
+    }
+
+    const dx =
+      event.clientX-pointerStart.x;
+
+    const dy =
+      event.clientY-pointerStart.y;
+
+    const distance =
+      Math.sqrt(dx*dx+dy*dy);
+
+    pointerStart = null;
+
+    if(distance > 18){
+      return;
+    }
+
+    countJapa();
+
+  },
+  {passive:true}
+);
+
+
+function countJapa(){
+
+  if(japaState.paused){
+    return;
+  }
+
+  if(japaState.count >= japaState.mode){
+    return;
+  }
+
+
+  japaState.count++;
+
+  japaState.lifetime++;
+  japaState.today++;
+
+
+  updateMala();
+
+  saveJapa();
+
+  vibrate(8);
+
+
+  /* palavra flutuando */
+
+  showFloatingWord();
+
+
+  /* primeiros segundos */
+
+  if(japaState.count === 1){
+
+    document
+      .getElementById("tapHint")
+      .classList.add("hidden");
+
+  }
+
+
+  /* marcos */
+
+  const milestones =
+    [27,54,81,108];
+
+  if(
+    milestones.includes(japaState.count) &&
+    japaState.count < japaState.mode
+  ){
+
+    vibrate([10,35,10]);
+
+  }
+
+
+  /* conclusão */
+
+  if(
+    japaState.count >= japaState.mode
+  ){
+
+    completeJapa();
+
+  }
+
+}
+
+
+function showFloatingWord(){
+
+  const words =
+    [
+      "presença",
+      "confiança",
+      "fé",
+      "entrega",
+      "prosperidade",
+      "paz"
+    ];
+
+  const word =
+    words[
+      Math.floor(
+        Math.random()*words.length
+      )
+    ];
+
+  const el =
+    document.createElement("div");
+
+  el.className =
+    "float-word";
+
+  el.textContent =
+    word;
+
+  practiceStage.appendChild(el);
+
+  setTimeout(
+    () => el.remove(),
+    1000
+  );
+
+}
+
+
+/* ═══════════════════════════════════
+   HAPTIC
+═══════════════════════════════════ */
+
+function vibrate(pattern){
+
+  if(
+    "vibrate" in navigator
+  ){
+
+    try{
+      navigator.vibrate(pattern);
+    }catch{}
+
+  }
+
+}
+
+
+/* ═══════════════════════════════════
+   DESFAZER
+═══════════════════════════════════ */
+
+function undoJapa(){
+
+  if(japaState.count <= 0){
+    return;
+  }
+
+  japaState.count--;
+
+  japaState.lifetime =
+    Math.max(
+      0,
+      japaState.lifetime-1
+    );
+
+  japaState.today =
+    Math.max(
+      0,
+      japaState.today-1
+    );
+
+
+  document
+    .getElementById("completeOverlay")
+    .classList.remove("active");
+
+
+  updateMala();
+  saveJapa();
+
+  vibrate(5);
+
+}
+
+
+/* ═══════════════════════════════════
+   RECOMEÇAR
+═══════════════════════════════════ */
+
+function restartJapa(){
+
+  const confirmed =
+    japaState.count === 0 ||
+    confirm(
+      "Recomeçar esta volta? O progresso das contas desta prática será zerado."
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  /*
+    Subtrai as contas da prática atual
+    do total salvo.
+  */
+
+  japaState.lifetime =
+    Math.max(
+      0,
+      japaState.lifetime-japaState.count
+    );
+
+  japaState.today =
+    Math.max(
+      0,
+      japaState.today-japaState.count
+    );
+
+  japaState.count = 0;
+
+  japaState.paused = false;
+
+  document
+    .getElementById("completeOverlay")
+    .classList.remove("active");
+
+  document
+    .getElementById("pausedOverlay")
+    .classList.remove("active");
+
+  document
+    .getElementById("pauseButton")
+    .textContent = "pausar";
+
+  updateMala();
+  saveJapa();
+
+}
+
+
+/* ═══════════════════════════════════
+   PAUSA
+═══════════════════════════════════ */
+
+function togglePause(){
+
+  japaState.paused =
+    !japaState.paused;
+
+
+  const overlay =
+    document.getElementById(
+      "pausedOverlay"
+    );
+
+  const button =
+    document.getElementById(
+      "pauseButton"
+    );
+
+
+  overlay.classList.toggle(
+    "active",
+    japaState.paused
+  );
+
+
+  button.textContent =
+    japaState.paused
+      ? "continuar"
+      : "pausar";
+
+
+  saveJapa();
+
+}
+
+
+/* ═══════════════════════════════════
+   COMPLETION
+═══════════════════════════════════ */
+
+function completeJapa(){
+
+  japaState.rounds++;
+
+  saveJapa();
+
+  vibrate([
+    18,
+    50,
+    18,
+    70,
+    35
+  ]);
+
+
+  document.getElementById(
+    "completionNumber"
+  ).textContent =
+    japaState.mode;
+
+
+  setTimeout(() => {
+
+    document
+      .getElementById("completeOverlay")
+      .classList.add("active");
+
+  },180);
+
+}
+
+
+function closeCompletion(){
+
+  document
+    .getElementById("completeOverlay")
+    .classList.remove("active");
+
+}
+
+
+/* ═══════════════════════════════════
+   TECLADO
+═══════════════════════════════════ */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    const practice =
+      document
+        .getElementById("japaPractice")
+        .classList.contains("active");
+
+    if(!practice){
+      return;
+    }
+
+    if(
+      event.target.tagName === "INPUT" ||
+      event.target.tagName === "TEXTAREA" ||
+      event.target.tagName === "BUTTON"
+    ){
+      return;
+    }
+
+    if(
+      event.code === "Space" ||
+      event.code === "Enter"
     ){
 
       event.preventDefault();
 
-      advanceJapa();
+      countJapa();
 
     }
 
@@ -3497,245 +3897,45 @@ japaTouch.addEventListener(
 );
 
 
-/* ==========================================================
-   UNDO
-========================================================== */
+/* ═══════════════════════════════════
+   PHRASE
+═══════════════════════════════════ */
 
-function undoJapa(){
+document
+  .getElementById("phraseInput")
+  .addEventListener(
+    "input",
+    function(){
 
-  if(japaCount<=0){
-    return;
-  }
+      japaState.phrase =
+        this.value;
 
-  /*
-    If the user had just completed a round,
-    undo also restores that round.
-  */
+      saveJapa();
 
-  if(japaCount===japaMode){
-
-    completedRounds =
-      Math.max(0,completedRounds-1);
-
-  }
-
-  japaCount =
-    Math.max(0,japaCount-1);
-
-  totalToday =
-    Math.max(0,totalToday-1);
-
-  document
-    .getElementById("japaComplete")
-    .classList.remove("show");
-
-  haptic("normal");
-
-  updateJapaUI();
-
-}
-
-
-/* ==========================================================
-   PAUSE
-========================================================== */
-
-function togglePause(){
-
-  paused=!paused;
-
-  updateJapaUI();
-
-}
-
-
-/* ==========================================================
-   RESET CURRENT ROUND
-========================================================== */
-
-function resetJapa(){
-
-  japaCount=0;
-
-  paused=false;
-
-  document
-    .getElementById("japaComplete")
-    .classList.remove("show");
-
-  updateJapaUI();
-
-}
-
-
-/* ==========================================================
-   CLOSE COMPLETE
-========================================================== */
-
-function closeComplete(){
-
-  document
-    .getElementById("japaComplete")
-    .classList.remove("show");
-
-  /*
-    The user can continue seeing the completed mala.
-    A new round only begins when they explicitly
-    choose recomeçar.
-  */
-
-}
-
-
-/* ==========================================================
-   MODE
-========================================================== */
-
-function setJapaMode(mode){
-
-  /*
-    Changing mode starts a clean round.
-    This avoids an invalid state like 80/27.
-  */
-
-  if(
-    japaCount>0 &&
-    !confirm(
-      "Trocar o número de contas vai começar uma nova volta. Continuar?"
-    )
-  ){
-
-    return;
-
-  }
-
-  japaMode=mode;
-
-  japaCount=0;
-
-  paused=false;
-
-  document
-    .getElementById("japaComplete")
-    .classList.remove("show");
-
-  updateJapaUI();
-
-}
-
-
-/* ==========================================================
-   MANTRA
-========================================================== */
-
-let mantra =
-  localStorage.getItem(
-    "momento_mantra"
-  ) ||
-  "Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.";
-
-
-function formatMantra(text){
-
-  const safe =
-    text
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;");
-
-  return safe.replace(
-    /Eu sou\.$/i,
-    "<em>Eu sou.</em>"
+    }
   );
 
-}
 
+/* ═══════════════════════════════════
+   INICIALIZAÇÃO
+═══════════════════════════════════ */
 
-function updateMantra(){
+function init(){
 
-  document.getElementById("mantraText").innerHTML =
-    formatMantra(mantra);
+  loadStorage();
 
-}
+  updateDate();
 
+  renderHome();
 
-function openMantra(){
+  loadTheme();
 
-  document
-    .getElementById("mantraInput")
-    .value = mantra;
-
-  document
-    .getElementById("mantraModal")
-    .classList.add("show");
+  loadJapa();
 
 }
 
 
-function closeMantra(){
-
-  document
-    .getElementById("mantraModal")
-    .classList.remove("show");
-
-}
-
-
-function saveMantra(){
-
-  const value =
-    document
-      .getElementById("mantraInput")
-      .value
-      .trim();
-
-  if(value){
-    mantra=value;
-  }
-
-  localStorage.setItem(
-    "momento_mantra",
-    mantra
-  );
-
-  updateMantra();
-
-  closeMantra();
-
-}
-
-
-/* ==========================================================
-   BATHS
-========================================================== */
-
-function toggleBath(item){
-
-  const isOpen =
-    item.classList.contains("open");
-
-  document
-    .querySelectorAll(".bath")
-    .forEach(bath=>{
-      bath.classList.remove("open");
-    });
-
-  if(!isOpen){
-    item.classList.add("open");
-  }
-
-}
-
-
-/* ==========================================================
-   INITIALIZATION
-========================================================== */
-
-renderDevotional();
-
-updateMantra();
-
-updateJapaUI();
+init();
 
 </script>
 
