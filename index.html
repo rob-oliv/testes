@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Momento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5EBDD;--ink:#171313;--pap:#FFF9F2;--o:#F26A32;--b:#2457F5;--br:#5A3428;--pk:#E94F86;--y:#F5C84B;--fs:1;--d:'Space Grotesk',Arial,sans-serif;--s:'Instrument Serif',Georgia,serif;--m:'DM Mono',monospace;--mk:'Permanent Marker',cursive;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141010;--ink:#F5EBDD;--pap:#221a1a}}
+:root[data-theme="dark"]{--bg:#141010;--ink:#F5EBDD;--pap:#221a1a}
+html{height:100%}*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',Arial,sans-serif;min-height:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.v{display:none;padding-bottom:96px}.v.on{display:block}
+.mono{font:500 11px var(--m);text-transform:uppercase;letter-spacing:.08em}
+.st{display:inline-block;padding:4px 10px;border:2px solid var(--ink);background:var(--y);color:#171313;font:500 11px var(--m);text-transform:uppercase;letter-spacing:.06em;transform:rotate(-3deg);box-shadow:3px 3px 0 var(--ink)}
+.st.p{background:var(--pk);transform:rotate(2deg)}.st.b{background:var(--b);color:#fff;transform:rotate(-1.5deg)}
+.ib{min-width:40px;height:40px;padding:0 10px;border:2px solid var(--ink);border-radius:50%;font:700 13px var(--d);background:var(--pap);box-shadow:2px 2px 0 var(--ink)}
+.ib:active,.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.btn{display:block;width:100%;padding:16px;border:2px solid var(--ink);border-radius:16px;background:var(--o);color:#171313;font:700 15px var(--d);box-shadow:4px 4px 0 var(--ink);text-transform:uppercase;letter-spacing:-.01em}
+.btn.k{background:var(--ink);color:var(--bg)}.btn.y{background:var(--y)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--bg);border-bottom:2px solid var(--ink)}
+.logo{font:700 20px var(--d);letter-spacing:-.06em}.logo i{font:400 22px var(--s);color:var(--b)}
+.mq{overflow:hidden;background:var(--ink);color:var(--bg);border-bottom:2px solid var(--ink);white-space:nowrap;padding:7px 0;transform:rotate(-1deg);margin:14px -6px 0;font:700 13px var(--d);text-transform:uppercase}
+.mq div{display:inline-block;animation:mq 18s linear infinite}.mq b{color:var(--o);margin:0 10px}
+@keyframes mq{to{transform:translateX(-50%)}}
+.hero{padding:26px 20px 10px;position:relative}
+.hero h1{font:700 clamp(58px,19vw,120px)/.82 var(--d);letter-spacing:-.08em}
+.hero h1 em{font:400 1.05em var(--s);color:var(--b);letter-spacing:-.04em}
+.hero h1 u{text-decoration:none;color:transparent;-webkit-text-stroke:2px var(--ink)}
+.hero .st{position:absolute;right:16px;top:14px}
+.hero p{margin:20px 0;max-width:290px;font-size:14px;line-height:1.45;opacity:.75}
+.ctas{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px}
+.sec{display:flex;justify-content:space-between;align-items:center;padding:30px 20px 12px}
+.car{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 20px 22px;scrollbar-width:none}.car::-webkit-scrollbar{display:none}
+.card{flex:0 0 min(78vw,330px);min-height:440px;scroll-snap-align:center;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px;border:3px solid var(--ink);border-radius:26px;box-shadow:7px 7px 0 var(--ink);color:#171313;cursor:pointer;text-align:left}
+.card:nth-child(4n+1){background:var(--o);transform:rotate(-1.2deg)}.card:nth-child(4n+2){background:var(--b);color:#fff;transform:rotate(1deg)}.card:nth-child(4n+3){background:var(--br);color:#F8E8D4;transform:rotate(-.8deg)}.card:nth-child(4n){background:var(--pk);transform:rotate(1.3deg)}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(rgba(0,0,0,.28) 1.3px,transparent 1.8px) 0 0/8px 8px;-webkit-mask:linear-gradient(140deg,transparent 35%,#000);mask:linear-gradient(140deg,transparent 35%,#000);pointer-events:none}
+.card>*{position:relative}
+.card .big{position:absolute;top:36px;left:-6px;font:700 190px/.8 var(--d);letter-spacing:-.1em;color:transparent;-webkit-text-stroke:2px currentColor;opacity:.4}
+.card h3{font:700 clamp(36px,11vw,50px)/.9 var(--d);letter-spacing:-.06em}.card h3 em{font:400 1.05em var(--s)}
+.card p{font-size:13px;line-height:1.35;margin-top:12px;opacity:.85;max-width:230px}
+.card .tape{position:absolute;top:-4px;right:26px;width:64px;height:22px;background:rgba(245,200,75,.85);transform:rotate(6deg);border:1px solid rgba(0,0,0,.2)}
+.card.dn::after{content:'✓ feito';position:absolute;top:16px;left:16px;padding:3px 8px;background:var(--y);color:#171313;border:2px solid #171313;font:500 10px var(--m);text-transform:uppercase;transform:rotate(-4deg)}
+.note{margin:28px 20px 0;padding:22px 0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);font:400 30px/1 var(--s)}
+.note span{background:linear-gradient(transparent 55%,var(--o) 55%,var(--o) 92%,transparent 92%)}
+.rh{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--bg);border-bottom:2px solid var(--ink)}
+#pb{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:4px;width:0;background:var(--o);z-index:80}
+.rc{max-width:700px;margin:0 auto;padding:36px 20px 30px}
+.rc h1{font:700 clamp(54px,17vw,104px)/.82 var(--d);letter-spacing:-.08em;margin:16px 0 20px}.rc h1 em{font:400 1.05em var(--s);color:var(--b)}
+.rc .in{font:400 clamp(26px,7vw,38px)/1 var(--s)}
+.lb{margin:46px 0 14px;font:500 11px var(--m);text-transform:uppercase;letter-spacing:.1em}
+.vc{position:relative;overflow:hidden;background:var(--b);color:#fff;border:3px solid var(--ink);border-radius:26px;box-shadow:6px 6px 0 var(--ink);padding:28px 22px;transform:rotate(-.7deg)}
+.vc q{display:block;position:relative;font:400 calc(clamp(28px,7.5vw,38px)*var(--fs))/1.02 var(--s);quotes:none}
+.vc .n{position:absolute;right:-8px;bottom:-40px;font:700 180px/1 var(--d);color:transparent;-webkit-text-stroke:2px #fff;opacity:.25}
+.vc .row{position:relative;display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+.vc button{background:var(--y);color:#171313;border:2px solid #171313;padding:6px 12px;font:500 11px var(--m);text-transform:uppercase;box-shadow:2px 2px 0 #171313}
+.ex{font-size:calc(17px*var(--fs));line-height:1.6}
+.hl{margin-top:44px;padding:26px 22px;background:var(--pk);color:#171313;border:3px solid var(--ink);border-radius:26px;box-shadow:6px 6px 0 var(--ink);transform:rotate(.8deg);font:700 calc(clamp(26px,7vw,38px)*var(--fs))/.98 var(--d);letter-spacing:-.05em}
+.hl small{display:block;margin-bottom:14px;font:500 11px var(--m);letter-spacing:.1em;text-transform:uppercase}
+.hl mark{background:var(--y);color:inherit;padding:0 4px}
+.rf{margin-top:34px;padding:24px 20px;background:var(--y);color:#171313;border:3px solid var(--ink);border-radius:22px}
+.rf b{display:block;font:400 calc(28px*var(--fs))/1 var(--s);margin-bottom:16px}
+textarea{width:100%;min-height:120px;padding:14px;border:2px solid #171313;border-radius:14px;background:#FFF9F2;color:#171313;font:400 calc(16px*var(--fs))/1.5 'DM Sans',sans-serif;resize:vertical;box-shadow:3px 3px 0 #171313}
+.pr{margin-top:30px;padding:26px 22px;background:var(--ink);color:var(--bg);border-radius:26px;font-size:calc(16px*var(--fs));line-height:1.6}
+.pr .lb{margin:0 0 14px;color:var(--o)}
+.fin{margin-top:30px;display:grid;gap:12px}
+.bo{display:grid;place-items:center;padding:36px 20px;text-align:center}
+.ring{position:relative;width:230px;height:230px;margin:34px 0;display:grid;place-items:center}
+.ring::before{content:'';position:absolute;inset:0;border:3px dashed var(--ink);border-radius:50%;opacity:.35}
+#bo{width:140px;height:140px;border-radius:50%;background:var(--o);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);display:grid;place-items:center;font:400 30px var(--s);color:#171313;transition:transform 4s ease-in-out;background-image:radial-gradient(rgba(0,0,0,.25) 1.3px,transparent 1.8px);background-size:8px 8px}
+.bo h2{font:700 44px/.9 var(--d);letter-spacing:-.06em}.bo p{margin:12px 0 0;max-width:280px;line-height:1.45;opacity:.75}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:20px}
+.stat{padding:14px 10px;border:3px solid var(--ink);border-radius:18px;box-shadow:4px 4px 0 var(--ink);text-align:center;color:#171313}
+.stat b{display:block;font:700 34px var(--d);letter-spacing:-.06em}.stat span{font:500 10px var(--m);text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 20px}
+.tl{aspect-ratio:1;border:2px solid var(--ink);border-radius:12px;font:700 15px var(--d);background:var(--pap)}
+.tl.dn{background:var(--o);color:#171313;box-shadow:2px 2px 0 var(--ink)}.tl.td{outline:3px solid var(--b);outline-offset:2px}
+.jl{padding:0 20px;display:grid;gap:12px}
+.je{padding:16px;border:2px solid var(--ink);border-radius:16px;background:var(--pap);text-align:left;width:100%}
+.je small{display:block;font:500 10px var(--m);text-transform:uppercase;opacity:.6;margin-bottom:6px}.je p{font:400 20px/1.1 var(--s)}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:space-around;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:2px solid var(--ink)}
+.nav button{min-width:70px;padding:6px;opacity:.45;font:500 10px var(--m);text-transform:uppercase;letter-spacing:.06em;display:grid;gap:2px;justify-items:center}.nav button.on{opacity:1}.nav i{font:700 18px var(--d);font-style:normal}
+.nav button.on i{background:var(--y);color:#171313;border:2px solid var(--ink);padding:0 10px;border-radius:12px}
+.cf{position:fixed;top:-20px;width:10px;height:14px;z-index:200;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.8}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* refinamento editorial */
+:root{--o:#FF4A1C;--b:#1F3BFF;--pk:#FF3D8B;--y:#FFD23F;--br:#3D1A12}
+.ib,.btn,.vc,.hl,.stat,.card,.st,textarea,.tl,.je,#bo,.vc button{box-shadow:none!important}
+.ib{border:1px solid var(--ink);background:transparent}
+.btn{border:0;border-radius:999px;text-transform:none;font:600 15px var(--d);letter-spacing:0;padding:17px}
+.st,.st.p,.st.b{background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:999px;transform:none;padding:5px 12px}
+.top,.rh{border-bottom:1px solid rgba(128,128,128,.3)}
+.nav{border:0;border-top:1px solid rgba(128,128,128,.3)}
+.nav button.on i{border:0;background:var(--ink);color:var(--bg)}
+.mq{transform:none;margin:14px 0 0;border:0;font:500 11px var(--m);letter-spacing:.14em;padding:9px 0}
+.hero h1 u{color:var(--o);-webkit-text-stroke:0}
+.car{gap:14px}
+.car .card{flex:0 0 min(80vw,340px);min-height:520px;border:0;border-radius:32px;padding:24px;transform:none}
+.car .card:nth-child(5n+1){background:var(--o);color:#160E0C}
+.car .card:nth-child(5n+2){background:var(--b);color:#fff}
+.car .card:nth-child(5n+3){background:var(--pk);color:#160E0C}
+.car .card:nth-child(5n+4){background:var(--y);color:#160E0C}
+.car .card:nth-child(5n){background:var(--br);color:#FFD9C7}
+.card::before{display:none}
+.card .big{top:auto;bottom:-34px;right:-6px;left:auto;font:italic 400 270px/1 var(--s);letter-spacing:-.05em;-webkit-text-stroke:0;color:currentColor;opacity:.13}
+.cv{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;font:400 28px/1.05 var(--s);letter-spacing:-.02em;margin:26px 0;quotes:none}
+.cb{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;border-top:1px solid currentColor;padding-top:16px}
+.cb h3{font-size:31px}
+.go{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font:400 18px var(--d)}
+.card.dn::after{content:'✓ lido';top:50px;left:auto;right:24px;transform:none;background:transparent;color:inherit;border:1px solid currentColor;border-radius:999px}
+.vc,.hl{transform:none;border:0;border-radius:32px}
+.vc .n{-webkit-text-stroke:0;color:#fff;opacity:.12;font:italic 400 200px/1 var(--s)}
+.vc button{border:1px solid #fff;background:transparent;color:#fff;border-radius:999px;padding:7px 14px}
+.rf{border:0;border-radius:28px}
+textarea{border:0;border-radius:16px}
+.pr{border-radius:32px}
+.stat{border:0;border-radius:22px}
+.tl{border:1px solid rgba(128,128,128,.45);border-radius:50%}.tl.dn{border:0}.tl.td{outline-color:var(--b)}
+.je{border:0;border-radius:20px}
+.ring::before{border-style:solid;border-width:1px}
+#bo{border:0;background-image:none}
+@media(min-width:760px){.nav{max-width:520px;margin:0 auto;border:2px solid var(--ink);border-radius:20px 20px 0 0}}
+</style>
+</head>
+<body>
+<header class="top"><div class="logo">momento<i>.</i></div><button class="ib" id="th" aria-label="Tema">◐</button></header>
+
+<main class="v on" id="home"></main>
+<main class="v" id="read"></main>
+<main class="v" id="breathe"><div class="bo">
+<span class="st b">respiração 4 · 4 · 6</span>
+<div class="ring"><div id="bo">·</div></div>
+<h2 id="bl">pare.</h2><p id="bs">Um minuto para desacelerar antes de ler. Inspire, segure, solte.</p>
+<div style="width:100%;max-width:320px;margin-top:28px"><button class="btn" id="bb">começar</button></div>
+</div></main>
+<main class="v" id="prog"></main>
+<div id="pb"></div>
+
+<nav class="nav">
+<button data-v="home" class="on"><i>◉</i>hoje</button>
+<button data-v="breathe"><i>○</i>respirar</button>
+<button data-v="prog"><i>★</i>diário</button>
+</nav>
+
+<script>
+const R=[
+["Não tenha medo","Isaías 41:10","Não tenha medo, pois eu estou com você; não fique assustado, pois eu sou o seu Deus. Eu lhe dou forças e o ajudo.","Quando o medo aparecer, lembre-se de quem caminha com você.","Deus não começa dizendo que não haverá dificuldade. Ele começa dizendo: “Eu estou com você”. A promessa não é uma vida sem medo, e sim uma vida em que o medo não ocupa o lugar de Deus. Você continua caminhando, mas não precisa acreditar que tudo depende só de você.","Você não precisa enxergar todo o caminho para dar o próximo passo.","Qual medo sobre o seu futuro você precisa colocar nas mãos de Deus hoje?","Deus, lembra-me de que não caminho sozinho. Dá-me coragem para fazer o que está ao meu alcance e confiança para entregar o resto a Ti. Amém."],
+["Um dia de cada vez","Mateus 6:34","Portanto, não fiquem preocupados com o dia de amanhã, pois o dia de amanhã terá as suas próprias preocupações.","Nem tudo precisa ser resolvido hoje.","Jesus não proíbe planejar; Ele impede que a preocupação com o futuro consuma o presente. Responsabilidade pergunta “o que posso fazer hoje?”. Ansiedade pergunta “e se tudo der errado depois?”. O único lugar onde você consegue agir é aqui.","O futuro será vivido quando chegar. Hoje, você só precisa viver hoje.","O que você está tentando resolver antes da hora?","Senhor, ensina-me a viver o dia que colocaste diante de mim: planejar sem me consumir, esperar sem transformar o futuro em ameaça. Amém."],
+["Deus abre caminhos","Salmos 37:5","Ponha a sua vida nas mãos do Senhor, confie nele, e ele o ajudará.","Às vezes a porta ainda não apareceu porque o caminho está sendo preparado.","Entregar o caminho não é abandonar a responsabilidade. É parar de acreditar que você precisa controlar cada detalhe para Deus agir. Fé não substitui movimento: ela muda o lugar de onde você se movimenta.","O caminho pode estar sendo preparado mesmo quando você ainda não consegue vê-lo.","Em que área da sua vida você precisa agir mais e controlar menos?","Deus, coloco meus caminhos diante de Ti. Dá-me iniciativa para fazer minha parte e serenidade para aceitar o que não posso controlar. Amém."],
+["Você pode continuar","Gálatas 6:9","Não nos cansemos de fazer o bem, pois, se não desanimarmos, chegará o tempo certo em que faremos a colheita.","Cansaço não significa fracasso.","Entre plantar e colher existe um intervalo em que parece que nada acontece. A Bíblia não romantiza o cansaço: o convite é não transformá-lo numa conclusão sobre a sua história. Às vezes você não precisa de outra estratégia, precisa descansar e continuar depois.","Você pode descansar sem desistir.","Onde você precisa de descanso e onde precisa perseverar mais um pouco?","Pai, renova minhas forças. Quando eu precisar parar, dá-me descanso. Quando for hora de continuar, dá-me coragem. Amém."],
+["Há propósito no caminho","Romanos 8:28","Pois sabemos que todas as coisas trabalham juntas para o bem daqueles que amam a Deus.","Nem toda parte da história faz sentido enquanto a vivemos.","“Todas as coisas” não significa que tudo o que acontece seja bom. A promessa é que Deus pode trabalhar até dentro do que não escolheríamos. Uma perda não precisa ser chamada de coisa boa; ela só não precisa ser a última palavra.","Você está vivendo um capítulo, não a história inteira.","O que hoje parece confuso e você gostaria de entregar à perspectiva de Deus?","Senhor, ajuda-me a não transformar uma fase difícil em sentença sobre o meu futuro. Dá-me fé para acreditar que Tu ainda trabalhas na minha história. Amém."],
+["Quando faltar força","Salmos 46:1","Deus é o nosso refúgio e a nossa força; ele é socorro que não falta em tempos de aflição.","Você não precisa ser forte o tempo inteiro.","O salmo admite que a terra pode tremer, e mesmo assim a primeira afirmação é sobre Deus: refúgio e força. Refúgio não é um lugar aonde você chega fingindo estar bem; é para onde você corre quando não consegue mais sustentar tudo sozinho.","Você não precisa ser forte para ser sustentado.","O que você está tentando carregar sozinho?","Deus, não quero fingir que controlo tudo. Sê meu refúgio quando eu estiver cansado e minha força quando eu não souber como continuar. Amém."],
+["Confie no processo","Eclesiastes 3:1","Tudo neste mundo tem o seu tempo; cada coisa tem a sua ocasião.","Nem tudo precisa acontecer já para estar acontecendo.","A vida é apresentada como movimento: plantar e colher, chorar e rir. Isso não é convite a ficar parado, e sim a reconhecer que algumas coisas não aceleram só porque estamos ansiosos. A ansiedade costuma ler demora como fracasso.","O tempo de espera não é necessariamente tempo perdido.","O que você gostaria que acontecesse mais rápido?","Senhor, dá-me sabedoria para saber quando agir e quando esperar. Livra-me da pressa que despreza o processo. Amém."],
+["Deus conhece você","Salmos 139:1","Ó Senhor Deus, tu me examinas e me conheces.","Você não é invisível para Deus.","Esse conhecimento não é vigilância ameaçadora; é intimidade. Deus conhece o que você ainda não consegue organizar em palavras. Você não precisa editar a sua vida antes de conversar com Ele: fé também é honestidade.","Você pode ser completamente honesto com Deus.","Existe algo que você tem dificuldade de falar com Deus?","Pai, obrigado porque me conheces. Não preciso esconder o que sinto nem fingir que tenho respostas. Amém."],
+["Recomeços","Isaías 43:19","Vejam! Estou fazendo uma coisa nova; ela está surgindo agora e vocês não percebem?","Um novo começo não apaga o passado: mostra que a história continua.","Há uma tensão bonita aqui: lembrar o passado sem ficar preso a ele. O novo não precisa nascer de uma vida perfeita; pode nascer justamente depois de uma ruptura. Você leva os aprendizados sem carregar os pesos.","O que terminou não precisa definir o que começa agora.","Que novo começo você gostaria de viver?","Deus, dá-me coragem para recomeçar sem apagar o que aprendi. Abre meus olhos para as coisas novas que colocas diante de mim. Amém."],
+["A paz que permanece","João 14:27","Deixo com vocês a minha paz; a minha paz lhes dou.","Paz não é ausência de problemas. É presença de Deus no meio deles.","Jesus diz isso pouco antes de morrer, quando os discípulos estavam prestes a enfrentar uma enorme mudança. A paz cristã não é nunca sentir ansiedade; é ter um lugar para colocá-la. Ele oferece paz antes de oferecer respostas.","Você não precisa esperar tudo ficar perfeito para experimentar paz.","O que está roubando a sua paz neste momento?","Jesus, coloca a Tua paz em mim antes que tudo esteja resolvido. Acalma o que está agitado. Amém."],
+["Continue acreditando","Romanos 15:13","Que Deus, a fonte da esperança, os encha de toda alegria e paz.","A esperança também é uma forma de coragem.","Paulo chama Deus de fonte da esperança: você não precisa fabricá-la sozinho. Esperança cristã não nega a realidade; reconhece a realidade e ainda acredita que Deus não terminou de agir.","Demorar não significa que nunca vai acontecer.","Qual sonho você precisa voltar a colocar diante de Deus?","Senhor, protege a minha esperança. Quando eu cansar de esperar, lembra-me de que demora não é abandono. Amém."],
+["Você já chegou longe","Salmos 40:2","Ele me tirou de uma cova perigosa, de um lugar de lama e de desespero.","Antes de olhar o que falta, reconheça o caminho que já percorreu.","O salmista não diz apenas “eu cheguei”: reconhece que foi tirado de algum lugar. Lembrar de onde Deus já nos trouxe é uma disciplina espiritual. Memória também é uma forma de fé.","Você não está começando do zero. Está começando de tudo que aprendeu.","Qual dificuldade do passado prova que você consegue atravessar momentos difíceis?","Deus, obrigado pelas vezes em que me sustentaste sem que eu percebesse. Que a memória do Teu cuidado fortaleça a minha esperança. Amém."],
+["Entrega","1 Pedro 5:7","Entreguem todas as suas preocupações a Deus, pois ele cuida de vocês.","Algumas coisas precisam sair das nossas mãos para encontrarem descanso.","A orientação não é “pare de sentir preocupação”, e sim colocá-la diante de Deus. Você continua fazendo o que pode, mas deixa de carregar emocionalmente o que não pode resolver. Entrega não é desistência: é confiança.","Nem tudo precisa estar nas suas mãos.","Qual preocupação você pode entregar a Deus hoje?","Pai, entrego a Ti o que não consigo controlar. Dá-me responsabilidade para agir e fé para soltar o que não depende de mim. Amém."],
+["Amanhã existe","Lamentações 3:22-23","O amor do Senhor Deus não se acaba, e a sua bondade não tem fim. Esse amor e essa bondade são novos todas as manhãs.","O fim de um mês também pode ser o começo de uma nova expectativa.","Lamentações é um livro de dor, e por isso a declaração pesa mais: a esperança não vem porque tudo está bem, mas porque a misericórdia continua. “Novos todas as manhãs” fala de renovação: Deus não exige que você carregue ontem como sentença.","Você chegou até aqui. E ainda existe amanhã.","Com que expectativa você gostaria de entrar no próximo ciclo?","Senhor, obrigado por me trazer até aqui. Entrego a Ti o próximo ciclo. Que eu entre nele com coragem e o coração aberto. Amém."]
+].map((a,k)=>({n:17+k,t:a[0],r:a[1],v:a[2],i:a[3],x:a[4],h:a[5],q:a[6],p:a[7]}));
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const L=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch{return d}};
+const S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+let done=L('m_done',[]),notes=L('m_notes',{}),fs=L('m_fs',1),th=L('m_th',null),cur=17;
+const root=document.documentElement;
+const applyTh=()=>{if(th)root.dataset.theme=th;root.style.setProperty('--fs',fs)};applyTh();
+$('#th').onclick=()=>{const dark=th?th==='dark':matchMedia('(prefers-color-scheme:dark)').matches;th=dark?'light':'dark';S('m_th',th);applyTh()};
+const fd=n=>R.find(d=>d.n===n);
+function today(){const n=new Date();if(n.getFullYear()===2026&&n.getMonth()===8&&n.getDate()>=17)return n.getDate();if(n>=new Date(2026,9,1))return(R.find(d=>!done.includes(d.n))||R[13]).n;return 17}
+function streak(){const t=today();let d=done.includes(t)?t:t-1,s=0;while(done.includes(d)){s++;d--}return s}
+const ft=t=>{const w=t.split(' '),l=w.pop();return w.length?`${w.join(' ')} <em>${l}</em>`:t};
+const mk=(k,t)=>{const l=$$('#'+k).length;return l};
+
+function show(id){$$('.v').forEach(e=>e.classList.toggle('on',e.id===id));$$('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===id||(id==='read'&&b.dataset.v==='home')));window.scrollTo(0,0);$('#pb').style.width=0;if(id==='home')home();if(id==='prog')prog();if(id!=='breathe')stopB()}
+$$('.nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+
+function home(){
+const t=today(),s=streak(),tk='pare <b style="color:var(--o)">✳</b> respire <b style="color:var(--o)">✳</b> continue <b style="color:var(--o)">✳</b> ';
+$('#home').innerHTML=`<div class="mq"><div>${(tk+' ').repeat(8)}</div></div>
+<section class="hero"><span class="st">${s?'★ '+s+(s>1?' dias seguidos':' dia'):'comece hoje'}</span><h1 style="margin-top:30px">pare.<br><em>respire.</em><br><u>continue.</u></h1><p>Um espaço do seu dia para desacelerar, ouvir a Palavra e escrever o que ela mexeu em você.</p></section>
+<div class="ctas"><button class="btn" onclick="openD(${t})">ler hoje →</button><button class="btn y" onclick="show('breathe')">respirar 1 min</button></div>
+<div class="sec"><span class="mono">devocionais · ${done.length}/${R.length} lidos</span><span class="st p">arraste →</span></div>
+<div class="car" id="car">${R.map(d=>`<button class="card${done.includes(d.n)?' dn':''}" data-n="${d.n}" onclick="openD(${d.n})"><div class="big">${d.n}</div><div class="mono" style="display:flex;justify-content:space-between"><span>${d.n}.09${d.n===t?' · hoje':''}</span><span>${d.r}</span></div><q class="cv">${d.v}</q><div class="cb"><h3>${ft(d.t)}</h3><span class="go">→</span></div></button>`).join('')}</div>
+<div class="note">Você não precisa saber <span>como tudo termina</span> para continuar.</div>`;
+const c=$(`#car [data-n="${t}"]`);if(c)$('#car').scrollLeft=c.offsetLeft-($('#car').clientWidth-c.offsetWidth)/2}
+
+function openD(n){cur=n;const d=fd(n),i=R.indexOf(d),dn=done.includes(n),nx=R[i+1];
+$('#read').innerHTML=`<div class="rh"><button class="ib" onclick="show('home')" aria-label="Voltar">←</button><span class="mono">${n} · SET</span><span style="display:flex;gap:8px"><button class="ib" onclick="fz(-.1)">A-</button><button class="ib" onclick="fz(.1)">A+</button></span></div>
+<div class="rc"><span class="st">devocional ${i+1}/${R.length}</span><h1>${ft(d.t)}</h1><div class="in">${d.i}</div>
+<div class="lb">01 · escritura</div><div class="vc"><q>${d.v}</q><div class="n">${(d.r.match(/:(\d+)/)||[,''])[1]}</div><div class="row"><span class="mono">${d.r}</span><button onclick="cp(${n})">compartilhar</button></div></div>
+<div class="lb">02 · entendendo</div><p class="ex">${d.x}</p>
+<div class="hl"><small>guarde isso</small><mark>${d.h}</mark></div>
+<div class="lb">03 · responda a Deus</div><div class="rf"><b>${d.q}</b><textarea id="ta" placeholder="Escreva aqui. Fica salvo só no seu aparelho."></textarea></div>
+<div class="pr"><div class="lb">uma oração para terminar</div>${d.p}</div>
+<div class="fin"><button class="btn" id="fb" onclick="fin(${n})">${dn?'✓ concluído':'concluir devocional ✓'}</button>${nx?`<button class="btn k" onclick="openD(${nx.n})">próximo: ${nx.t} →</button>`:''}</div></div>`;
+$('#ta').value=notes[n]||'';$('#ta').oninput=e=>{notes[n]=e.target.value;if(!notes[n].trim())delete notes[n];S('m_notes',notes)};
+show('read')}
+function fz(x){fs=Math.min(1.5,Math.max(.85,+(fs+x).toFixed(2)));S('m_fs',fs);applyTh()}
+async function cp(n){const d=fd(n),t=`“${d.v}” — ${d.r}\n\nMomento · devocional de ${n}/09`;try{if(navigator.share){await navigator.share({text:t})}else{await navigator.clipboard.writeText(t);alert('Versículo copiado!')}}catch{}}
+function fin(n){if(!done.includes(n)){done.push(n);S('m_done',done);confetti()}$('#fb').textContent='✓ concluído'}
+function confetti(){const c=['#F26A32','#2457F5','#E94F86','#F5C84B'];for(let i=0;i<36;i++){const e=document.createElement('i');e.className='cf';e.style.left=Math.random()*100+'vw';e.style.background=c[i%4];e.style.animationDelay=Math.random()*.4+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}}
+window.addEventListener('scroll',()=>{if(!$('#read').classList.contains('on'))return;const m=document.documentElement.scrollHeight-innerHeight;$('#pb').style.width=Math.min(100,scrollY/Math.max(1,m)*100)+'%'},{passive:true});
+
+function prog(){const t=today(),cols=['var(--o)','var(--b)','var(--pk)'],ns=Object.keys(notes).sort((a,b)=>b-a);
+$('#prog').innerHTML=`<div class="rc" style="padding-bottom:0"><span class="st p">seu caminho</span><h1>seu <em>diário</em></h1></div>
+<div class="stats"><div class="stat" style="background:var(--o)"><b>${done.length}</b><span>lidos</span></div><div class="stat" style="background:var(--y)"><b>${streak()}</b><span>sequência</span></div><div class="stat" style="background:var(--pk)"><b>${ns.length}</b><span>anotações</span></div></div>
+<div class="sec"><span class="mono">setembro 17 → 30</span></div>
+<div class="grid">${R.map(d=>`<button class="tl${done.includes(d.n)?' dn':''}${d.n===t?' td':''}" onclick="openD(${d.n})">${d.n}</button>`).join('')}</div>
+<div class="sec"><span class="mono">suas respostas</span>${ns.length?'<button class="st" onclick="cpAll()">copiar tudo</button>':''}</div>
+<div class="jl">${ns.length?ns.map(n=>`<button class="je" onclick="openD(${n})"><small>${n} set · ${fd(+n).q}</small><p>${notes[n].replace(/</g,'&lt;')}</p></button>`).join(''):'<p class="mono" style="opacity:.6">Nada ainda. Responda a pergunta de cada devocional e ela aparece aqui.</p>'}</div>`}
+async function cpAll(){const t=Object.keys(notes).sort().map(n=>`${n}/09 · ${fd(+n).q}\n${notes[n]}`).join('\n\n');try{await navigator.clipboard.writeText(t);alert('Diário copiado!')}catch{}}
+
+let bon=false,bt,bc=0;const ph=[['inspire',4,1.6],['segure',4,1.6],['solte',6,1]];
+function stopB(){bon=false;clearTimeout(bt);const o=$('#bo');o.style.transform='scale(1)';$('#bb').textContent='começar';$('#bl').textContent='pare.'}
+function step(i){if(!bon)return;const[l,s,sc]=ph[i],o=$('#bo');$('#bl').textContent=l;o.style.transition=`transform ${s}s ease-in-out`;o.style.transform=`scale(${sc})`;o.textContent=s;let c=s;const tk=setInterval(()=>{if(!bon)return clearInterval(tk);c--;if(c>0)o.textContent=c},1000);try{navigator.vibrate&&navigator.vibrate(30)}catch{}bt=setTimeout(()=>{clearInterval(tk);if(i===2){bc++;$('#bs').textContent=bc+(bc>1?' ciclos':' ciclo')+' completos. Continue o quanto precisar.'}step((i+1)%3)},s*1000)}
+$('#bb').onclick=()=>{if(bon){stopB();return}bon=true;bc=0;$('#bb').textContent='parar';step(0)};
+home();
+</script>
+</body>
+</html>
