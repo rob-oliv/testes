@@ -3,38 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f4efe6">
+<meta name="theme-color" content="#f2ede3">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
 <title>momento.</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
 :root{
-  --bg:#f4efe6;
-  --p:#fbf8f1;
-  --ink:#171614;
-  --mu:#6f675d;
-  --ln:#ddd5c8;
-  --red:#ef2e22;
-  --rs:#f9ded8;
-  --green:#dce7d3;
-  --shadow:rgba(23,22,20,.08);
+  --paper:#f2ede3;
+  --paper2:#e9e1d4;
+  --ink:#181714;
+  --muted:#716b61;
+  --soft:#aaa194;
+  --line:#cfc5b5;
+  --red:#b51f19;
+  --red2:#8f1712;
+  --cream:#faf7f0;
+  --dark:#171512;
+  --dark2:#24211d;
+  --white:#fffdf8;
+
+  --serif:"Libre Baskerville", Georgia, serif;
+  --sans:"DM Sans", Arial, sans-serif;
+  --mono:"DM Mono", monospace;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
 html{
-  background:var(--bg);
+  background:var(--paper);
   scroll-behavior:smooth;
 }
 
 body{
   margin:0;
-  background:var(--bg);
+  background:var(--paper);
   color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  min-height:100vh;
-  padding-bottom:88px;
+  font-family:var(--sans);
+  overflow-x:hidden;
 }
 
 button,
@@ -44,513 +56,948 @@ input{
 }
 
 button{
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+  color:inherit;
 }
 
-.app{
-  width:min(460px,100%);
-  margin:auto;
-  padding:0 18px 32px;
+::selection{
+  background:var(--red);
+  color:white;
 }
+
+/* --------------------------------
+   TEXTURE
+-------------------------------- */
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  z-index:1000;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(0,0,0,.08) 0 0.5px, transparent .7px),
+    radial-gradient(circle at 70% 60%, rgba(0,0,0,.06) 0 0.45px, transparent .65px);
+  background-size:11px 13px, 17px 19px;
+  mix-blend-mode:multiply;
+}
+
+/* --------------------------------
+   APP
+-------------------------------- */
+
+.app{
+  width:min(100%, 470px);
+  margin:auto;
+  min-height:100svh;
+  position:relative;
+  padding-bottom:88px;
+}
+
+/* --------------------------------
+   TOP
+-------------------------------- */
 
 .top{
   height:68px;
-  display:grid;
-  grid-template-columns:40px 1fr 40px;
+  display:flex;
   align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
   position:sticky;
   top:0;
-  z-index:20;
-  background:color-mix(in srgb,var(--bg) 92%,transparent);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+  z-index:50;
+  background:rgba(242,237,227,.88);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
 }
 
-.top .tiny{
-  text-align:center;
+.logo{
+  font-family:var(--serif);
+  font-size:20px;
+  letter-spacing:-.7px;
 }
 
-.ib{
-  width:38px;
-  height:38px;
-  border:1px solid var(--ln);
-  border-radius:50%;
-  background:var(--p);
-  color:var(--ink);
-  display:grid;
-  place-items:center;
-  font-size:19px;
+.logo span{
+  color:var(--red);
 }
 
-h1,h2,h3,h4{
-  font-family:Georgia,"Times New Roman",serif;
-  font-weight:400;
-  margin:0;
-}
-
-h1{
-  font-size:54px;
-  line-height:.9;
-  letter-spacing:-3px;
-}
-
-h2{
-  font-size:34px;
-  line-height:1;
-  letter-spacing:-1.6px;
-}
-
-h3{
-  font-size:21px;
-}
-
-h4{
-  font-size:17px;
-}
-
-p{
-  line-height:1.65;
-}
-
-.mu{
-  color:var(--mu);
-}
-
-.tiny{
-  color:var(--mu);
-  font-size:10px;
-  letter-spacing:.13em;
+.top-date{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.2px;
+  color:var(--muted);
   text-transform:uppercase;
 }
 
-.hero{
-  padding:32px 0 25px;
+/* --------------------------------
+   VIEWS
+-------------------------------- */
+
+.view{
+  display:none;
+  animation:pageIn .42s ease both;
 }
 
-.hero .asterisk{
+.view.active{
+  display:block;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+/* --------------------------------
+   GENERAL EDITORIAL
+-------------------------------- */
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.big-title{
+  font-family:var(--serif);
+  font-weight:400;
+  letter-spacing:-2px;
+  line-height:.98;
+}
+
+.red{
   color:var(--red);
-  font:72px Georgia,serif;
-  line-height:.5;
-  margin-bottom:18px;
 }
 
-.hero p{
-  max-width:350px;
-  margin:18px 0 0;
-  color:var(--mu);
-  font-size:14px;
+.rule{
+  height:1px;
+  background:var(--line);
 }
 
-.card{
-  background:var(--p);
-  border:1px solid var(--ln);
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 12px 35px var(--shadow);
+.text-link{
+  appearance:none;
+  border:0;
+  background:none;
+  padding:0;
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
 }
 
-.hero-card{
-  min-height:180px;
+.text-link:hover{
+  color:var(--red);
+}
+
+/* --------------------------------
+   HOME
+-------------------------------- */
+
+.home{
+  padding:26px 22px 40px;
+}
+
+.home-hero{
+  min-height:440px;
   position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 85% 20%,rgba(239,46,34,.22),transparent 25%),
-    linear-gradient(135deg,#fbf8f1,#e8dfd1);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-.hero-card .big{
-  font:74px Georgia,serif;
+.home-star{
   position:absolute;
-  right:18px;
-  bottom:-5px;
+  right:0;
+  top:16px;
+  font-family:var(--serif);
+  font-size:88px;
+  line-height:.7;
   color:var(--red);
-  opacity:.9;
+  transform:rotate(8deg);
 }
 
-.hero-card .date{
-  font:13px Georgia,serif;
-  color:var(--mu);
-  margin-bottom:12px;
+.home-date{
+  margin-top:34px;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
 }
 
-.hero-card strong{
-  font:28px/1.05 Georgia,serif;
+.day-number{
+  font-family:var(--serif);
+  font-size:116px;
+  line-height:.72;
+  letter-spacing:-10px;
+}
+
+.day-meta{
+  margin-bottom:5px;
+}
+
+.day-meta strong{
   display:block;
-  max-width:260px;
+  font-family:var(--serif);
+  font-size:17px;
+  font-weight:400;
 }
 
-.hero-card small{
-  display:block;
-  margin-top:12px;
-  color:var(--mu);
-  max-width:260px;
-  line-height:1.5;
+.home-title{
+  font-size:43px;
+  max-width:390px;
+  margin:55px 0 0;
 }
 
-.sh{
+.home-title em{
+  color:var(--red);
+  font-style:italic;
+}
+
+.home-bottom{
+  margin-top:48px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:end;
+  gap:20px;
+}
+
+.home-intro{
+  font-family:var(--serif);
+  font-size:15px;
+  line-height:1.6;
+  max-width:290px;
+}
+
+.home-mark{
+  font-family:var(--serif);
+  font-size:48px;
+  line-height:1;
+}
+
+.home-section{
+  margin-top:65px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:20px;
+}
+
+.section-head h2{
+  font-family:var(--serif);
+  font-size:25px;
+  font-weight:400;
+  margin:0;
+  letter-spacing:-.8px;
+}
+
+/* DEVOTIONAL PREVIEW */
+
+.dev-preview{
+  position:relative;
+  padding:28px 0 30px;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+}
+
+.dev-preview:after{
+  content:"↗";
+  position:absolute;
+  right:2px;
+  top:25px;
+  font-size:22px;
+}
+
+.dev-day{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.5px;
+  color:var(--red);
+}
+
+.dev-preview h3{
+  font-family:var(--serif);
+  font-size:28px;
+  font-weight:400;
+  line-height:1.15;
+  margin:13px 35px 14px 0;
+  max-width:380px;
+}
+
+.dev-preview p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;
+  max-width:350px;
+  margin:0;
+}
+
+/* HOME ORBITS */
+
+.home-links{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  margin-top:5px;
+}
+
+.home-link{
+  min-height:150px;
+  padding:24px 14px 22px 0;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  position:relative;
+}
+
+.home-link:nth-child(odd){
+  border-right:1px solid var(--line);
+  padding-right:20px;
+}
+
+.home-link:nth-child(even){
+  padding-left:20px;
+}
+
+.home-link:nth-child(3),
+.home-link:nth-child(4){
+  border-bottom:0;
+  padding-top:27px;
+}
+
+.home-link .symbol{
+  font-family:var(--serif);
+  font-size:42px;
+  line-height:1;
+  color:var(--red);
+}
+
+.home-link h3{
+  font-family:var(--serif);
+  font-size:18px;
+  font-weight:400;
+  margin:16px 0 6px;
+}
+
+.home-link p{
+  font-size:10px;
+  line-height:1.45;
+  color:var(--muted);
+  margin:0;
+  max-width:150px;
+}
+
+/* --------------------------------
+   DEVOTIONAL
+-------------------------------- */
+
+.dev-page{
+  padding:34px 22px 40px;
+}
+
+.dev-topline{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin:30px 0 12px;
 }
 
-.list{
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-}
-
-.item{
-  width:100%;
-  border:1px solid var(--ln);
-  border-radius:17px;
-  padding:15px 16px;
-  background:var(--p);
-  color:var(--ink);
-  text-align:left;
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
-.item .ico{
-  width:38px;
-  height:38px;
-  flex:0 0 38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:var(--rs);
+.dev-number{
+  font-family:var(--serif);
+  font-size:100px;
+  line-height:.7;
+  letter-spacing:-7px;
+  margin-top:60px;
   color:var(--red);
-  font:20px Georgia,serif;
 }
 
-.item .copy{
-  min-width:0;
-  flex:1;
-}
-
-.item strong{
-  display:block;
-  font:16px Georgia,serif;
-  margin-bottom:3px;
-}
-
-.item small{
-  display:block;
-  color:var(--mu);
-  font-size:11px;
-}
-
-.item .arrow{
-  color:var(--mu);
-  font-size:18px;
-}
-
-.progress{
-  height:5px;
-  background:var(--ln);
-  border-radius:99px;
-  overflow:hidden;
-  margin-top:13px;
-}
-
-.progress i{
-  display:block;
-  height:100%;
-  background:var(--red);
-  border-radius:99px;
-}
-
-.q{
-  margin:20px 0;
-  padding:20px;
-  background:var(--rs);
-  border-radius:20px;
-  font:20px/1.35 Georgia,serif;
-}
-
-.blk{
-  padding:18px 0;
-  border-top:1px solid var(--ln);
-}
-
-.blk p{
-  font-size:14px;
-  color:var(--mu);
-  margin:8px 0 0;
-}
-
-textarea{
-  width:100%;
-  min-height:130px;
-  resize:vertical;
-  border:1px solid var(--ln);
-  border-radius:16px;
-  background:var(--p);
-  color:var(--ink);
-  padding:15px;
-  outline:none;
-  line-height:1.6;
-}
-
-textarea:focus{
-  border-color:var(--red);
-}
-
-.btn{
-  width:100%;
-  min-height:50px;
-  border:0;
-  border-radius:15px;
-  background:var(--ink);
-  color:var(--p);
-  font-weight:600;
-  margin-top:12px;
-}
-
-.btn.red{
-  background:var(--red);
-}
-
-.btn.light{
-  background:var(--p);
-  color:var(--ink);
-  border:1px solid var(--ln);
-}
-
-.quote{
-  font:24px/1.35 Georgia,serif;
-  margin:20px 0;
+.dev-page h1{
+  font-size:39px;
+  margin:40px 0 45px;
+  max-width:410px;
 }
 
 .scripture{
-  background:var(--green);
-  border-radius:20px;
-  padding:20px;
-  margin:18px 0;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--line);
+  padding:22px 0 25px;
 }
 
-.scripture .tiny{
-  color:#53604b;
-}
-
-.scripture p{
-  font:19px/1.55 Georgia,serif;
-  margin:8px 0 0;
-}
-
-.prayer{
-  background:var(--ink);
-  color:var(--p);
-  border-radius:22px;
-  padding:22px;
-  margin-top:20px;
-}
-
-.prayer p{
-  color:#e8e1d8;
-  font-family:Georgia,serif;
-}
-
-.done{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  padding:14px;
-  border-radius:15px;
-  background:var(--green);
-  margin:15px 0;
-  font-size:13px;
-}
-
-/* SALMO */
-
-.psalm-days{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:5px;
-  margin:18px 0;
-}
-
-.psalm-day{
-  aspect-ratio:1;
-  border-radius:50%;
-  border:1px solid var(--ln);
-  background:var(--p);
-  color:var(--ink);
-  display:grid;
-  place-items:center;
-  font-size:11px;
-}
-
-.psalm-day.active{
-  background:var(--red);
-  color:#fff;
-  border-color:var(--red);
-}
-
-.psalm-day.complete{
-  background:var(--green);
-  border-color:var(--green);
-}
-
-.psalm-box{
-  background:var(--p);
-  border:1px solid var(--ln);
-  border-radius:22px;
-  padding:22px;
-}
-
-.psalm-box .verse{
-  font:23px/1.45 Georgia,serif;
-  margin:0 0 20px;
-}
-
-.psalm-box .reference{
+.scripture .ref{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.4px;
   color:var(--red);
-  font-size:11px;
+}
+
+.scripture blockquote{
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.65;
+  margin:16px 0 0;
+}
+
+.dev-copy{
+  padding:38px 0;
+}
+
+.copy-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.5px;
+  color:var(--muted);
   text-transform:uppercase;
-  letter-spacing:.12em;
-}
-
-/* BANHOS */
-
-.bath-card{
-  padding:20px;
-  border-radius:22px;
-  background:var(--p);
-  border:1px solid var(--ln);
-  margin-bottom:10px;
-}
-
-.bath-card .bath-icon{
-  font-size:34px;
   margin-bottom:15px;
 }
 
-.bath-card h3{
-  margin-bottom:7px;
+.dev-copy p{
+  font-family:var(--serif);
+  font-size:16px;
+  line-height:1.8;
+  margin:0 0 23px;
 }
 
-.ingredients{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:12px;
+.reality{
+  margin:15px -22px;
+  padding:42px 22px;
+  background:var(--dark);
+  color:var(--cream);
+  position:relative;
 }
 
-.ingredients span{
-  padding:6px 9px;
-  border:1px solid var(--ln);
-  border-radius:99px;
-  font-size:10px;
-  color:var(--mu);
+.reality .asterisk{
+  position:absolute;
+  right:20px;
+  top:18px;
+  color:var(--red);
+  font-family:var(--serif);
+  font-size:65px;
 }
 
-.timer{
-  text-align:center;
-  padding:25px 0 10px;
+.reality h3{
+  font-family:var(--serif);
+  font-size:26px;
+  font-weight:400;
+  margin:0 0 20px;
+  max-width:310px;
 }
 
-.timer-number{
-  font:70px Georgia,serif;
-  letter-spacing:-4px;
+.reality p{
+  color:#c9c1b4;
+  font-family:var(--serif);
+  font-size:15px;
+  line-height:1.75;
+  max-width:390px;
 }
 
-.timer-actions{
-  display:flex;
-  gap:8px;
+.practice{
+  padding:37px 0;
 }
 
-.timer-actions .btn{
+.practice-question{
+  font-family:var(--serif);
+  font-size:25px;
+  line-height:1.35;
+}
+
+.note{
+  width:100%;
+  min-height:135px;
+  resize:vertical;
+  margin-top:22px;
+  border:0;
+  border-bottom:1px solid var(--line);
+  outline:none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 29px,
+      var(--line) 30px
+    );
+  font-family:var(--serif);
+  font-size:14px;
+  line-height:30px;
+  color:var(--ink);
+  padding:0;
+}
+
+.note::placeholder{
+  color:#aaa094;
+  font-style:italic;
+}
+
+.prayer{
+  margin-top:20px;
+  padding:35px 0;
+  border-top:1px solid var(--ink);
+}
+
+.prayer p{
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.75;
   margin:0;
 }
 
-/* JAPA */
+.dev-nav{
+  display:flex;
+  justify-content:space-between;
+  padding-top:30px;
+  border-top:1px solid var(--line);
+}
 
-.japa-wrap{
-  text-align:center;
-  padding:15px 0;
+/* --------------------------------
+   PSALM
+-------------------------------- */
+
+.psalm-page{
+  padding:35px 22px;
+}
+
+.psalm-hero{
+  position:relative;
+  min-height:370px;
+}
+
+.psalm-number{
+  font-family:var(--serif);
+  font-size:220px;
+  letter-spacing:-22px;
+  line-height:.72;
+  color:var(--red);
+  position:absolute;
+  top:30px;
+  left:-8px;
+  opacity:.94;
+}
+
+.psalm-label{
+  position:absolute;
+  top:0;
+  right:0;
+  writing-mode:vertical-rl;
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:2px;
+}
+
+.psalm-title{
+  position:absolute;
+  left:0;
+  bottom:15px;
+  font-family:var(--serif);
+  font-size:35px;
+  line-height:1.1;
+  max-width:340px;
+}
+
+.psalm-days{
+  display:flex;
+  gap:7px;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--line);
+  padding:13px 0;
+  margin-bottom:35px;
+}
+
+.psalm-day{
+  width:35px;
+  height:35px;
+  border:0;
+  background:none;
+  font-family:var(--mono);
+  font-size:9px;
+  cursor:pointer;
+}
+
+.psalm-day.active{
+  color:var(--red);
+  text-decoration:underline;
+  text-underline-offset:7px;
+}
+
+.psalm-content h2{
+  font-family:var(--serif);
+  font-size:25px;
+  font-weight:400;
+  line-height:1.25;
+  margin:0 0 25px;
+}
+
+.psalm-content p{
+  font-family:var(--serif);
+  font-size:15px;
+  line-height:1.8;
+}
+
+.psalm-verse{
+  margin:35px 0;
+  padding-left:20px;
+  border-left:2px solid var(--red);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.65;
+}
+
+/* --------------------------------
+   JAPAMALA
+-------------------------------- */
+
+.japa-page{
+  padding:25px 16px 35px;
+  min-height:calc(100svh - 68px);
+  position:relative;
+}
+
+.japa-head{
+  padding:0 6px;
+  display:flex;
+  justify-content:space-between;
+  align-items:start;
+}
+
+.japa-head h1{
+  font-family:var(--serif);
+  font-size:31px;
+  font-weight:400;
+  letter-spacing:-1.3px;
+  margin:6px 0 0;
 }
 
 .japa-count{
-  font:64px Georgia,serif;
-  letter-spacing:-3px;
+  text-align:right;
 }
 
-.japa-sub{
-  color:var(--mu);
-  font-size:12px;
+.japa-count strong{
+  font-family:var(--serif);
+  font-size:28px;
+  font-weight:400;
 }
 
-.japa-beads{
-  width:270px;
-  height:270px;
-  margin:22px auto;
+.japa-count span{
+  display:block;
+  font-family:var(--mono);
+  font-size:8px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+/* MAIN MALA */
+
+.mala-stage{
+  position:relative;
+  width:100%;
+  height:510px;
+  margin-top:12px;
+  cursor:pointer;
+  user-select:none;
+  touch-action:manipulation;
+}
+
+#malaSvg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+.mala-bead{
+  transition:
+    transform .32s cubic-bezier(.22,.9,.25,1),
+    opacity .25s ease;
+  transform-origin:center;
+}
+
+.bead-shadow{
+  fill:rgba(0,0,0,.14);
+}
+
+.bead-body{
+  fill:#d7c7ad;
+  stroke:#8f816d;
+  stroke-width:.65;
+}
+
+.bead-highlight{
+  fill:rgba(255,255,255,.48);
+}
+
+.bead.active .bead-body{
+  fill:var(--red);
+  stroke:#74130f;
+}
+
+.bead.active .bead-highlight{
+  fill:rgba(255,255,255,.35);
+}
+
+.bead.completed .bead-body{
+  fill:#b8a98f;
+}
+
+.guru{
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.16));
+}
+
+.guru-main{
+  fill:#171512;
+}
+
+.guru-cap{
+  fill:var(--red);
+}
+
+.tassel-line{
+  stroke:var(--red);
+  stroke-width:1.4;
+  stroke-linecap:round;
+}
+
+.tassel-thread{
+  stroke:#7d7264;
+  stroke-width:1;
+}
+
+.mala-hint{
+  position:absolute;
+  left:50%;
+  bottom:7px;
+  transform:translateX(-50%);
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:1.4px;
+  color:var(--muted);
+  text-transform:uppercase;
+  white-space:nowrap;
+  transition:opacity .4s;
+}
+
+.mala-hint.hide{
+  opacity:0;
+}
+
+.japa-center{
+  position:absolute;
+  left:50%;
+  top:47%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  pointer-events:none;
+}
+
+.japa-center .small{
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:1.5px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+
+.japa-center .big{
+  font-family:var(--serif);
+  font-size:68px;
+  line-height:.9;
+  letter-spacing:-5px;
+}
+
+.japa-center .slash{
+  color:var(--red);
+  font-family:var(--mono);
+  font-size:10px;
+  margin:6px 0;
+}
+
+.japa-center .percent{
+  font-family:var(--mono);
+  font-size:8px;
+  color:var(--muted);
+}
+
+/* phrase */
+
+.japa-phrase{
+  border-top:1px solid var(--ink);
+  padding:25px 6px 20px;
   position:relative;
 }
 
-.bead{
+.japa-phrase:before{
+  content:"“";
   position:absolute;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:var(--p);
-  border:1px solid var(--ink);
-  transform:translate(-50%,-50%);
-  transition:.15s;
+  top:8px;
+  right:3px;
+  font-family:var(--serif);
+  font-size:56px;
+  color:var(--red);
 }
 
-.bead.active{
-  background:var(--red);
-  border-color:var(--red);
-  transform:translate(-50%,-50%) scale(1.35);
+.phrase-text{
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.65;
+  max-width:390px;
+  padding-right:25px;
 }
 
-.japa-main{
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  border:1px solid var(--ln);
-  background:var(--p);
-  color:var(--ink);
-  font:18px Georgia,serif;
+.phrase-text em{
+  color:var(--red);
 }
+
+.phrase-edit{
+  margin-top:14px;
+  color:var(--muted);
+}
+
+/* japa controls */
 
 .japa-controls{
   display:flex;
-  gap:8px;
-  margin-top:15px;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 6px 0;
 }
 
-.japa-controls .btn{
-  margin:0;
+.japa-controls button{
+  border:0;
+  background:none;
+  padding:8px 0;
+  cursor:pointer;
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
 }
 
-/* TAROT */
+.japa-controls button:first-child{
+  color:var(--red);
+}
 
-.tarot-wrap{
-  perspective:1200px;
-  width:min(270px,78vw);
-  margin:18px auto 22px;
+.japa-controls button:active{
+  transform:scale(.96);
+}
+
+/* completion */
+
+.japa-complete{
+  position:absolute;
+  inset:0;
+  background:rgba(242,237,227,.97);
+  z-index:20;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .5s;
+}
+
+.japa-complete.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.complete-star{
+  font-family:var(--serif);
+  color:var(--red);
+  font-size:70px;
+  line-height:1;
+}
+
+.japa-complete h2{
+  font-family:var(--serif);
+  font-size:35px;
+  font-weight:400;
+  letter-spacing:-1.5px;
+  margin:18px 0 8px;
+}
+
+.japa-complete p{
+  font-family:var(--serif);
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.complete-button{
+  margin-top:28px;
+  border:0;
+  background:none;
+  color:var(--red);
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  border-bottom:1px solid var(--red);
+  padding-bottom:6px;
+}
+
+/* --------------------------------
+   TAROT
+-------------------------------- */
+
+.tarot-page{
+  padding:30px 22px 40px;
+}
+
+.tarot-intro{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.tarot-intro h1{
+  font-family:var(--serif);
+  font-size:39px;
+  font-weight:400;
+  letter-spacing:-2px;
+  margin:8px 0 0;
+}
+
+.tarot-symbol{
+  color:var(--red);
+  font-family:var(--serif);
+  font-size:48px;
+}
+
+.tarot-table{
+  min-height:590px;
+  margin-top:30px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
 }
 
 .tarot-card{
-  position:relative;
-  display:block;
-  width:100%;
-  aspect-ratio:2/3;
+  width:220px;
+  aspect-ratio:2/3.42;
+  perspective:1200px;
   cursor:pointer;
-  transform-style:preserve-3d;
-  transition:transform .7s cubic-bezier(.2,.75,.2,1);
-  border:0;
-  padding:0;
-  background:none;
 }
 
-.tarot-card.flipped{
+.tarot-inner{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .8s cubic-bezier(.2,.75,.2,1);
+}
+
+.tarot-card.flipped .tarot-inner{
   transform:rotateY(180deg);
 }
 
@@ -558,2004 +1005,2545 @@ textarea:focus{
   position:absolute;
   inset:0;
   backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  border-radius:15px;
+  border:1px solid #827666;
   overflow:hidden;
 }
 
 .tarot-back{
-  background:
-    radial-gradient(circle at center,rgba(239,46,34,.12),transparent 42%),
-    var(--ink);
-  border:7px solid var(--p);
-  box-shadow:0 24px 55px rgba(0,0,0,.25);
-  display:grid;
-  place-items:center;
+  background:#191714;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.tarot-back::before{
+.tarot-back:before{
   content:"";
   position:absolute;
-  inset:12px;
-  border:1px solid rgba(255,255,255,.4);
-  border-radius:8px;
+  inset:8px;
+  border:1px solid #b7a98e;
 }
 
-.tarot-back::after{
+.tarot-back:after{
   content:"✦";
+  font-family:var(--serif);
+  font-size:80px;
+  color:#b7a98e;
   position:absolute;
-  width:74%;
-  aspect-ratio:1;
-  border:1px solid rgba(255,255,255,.4);
-  transform:rotate(45deg);
-  display:grid;
-  place-items:center;
-  color:var(--red);
-  font:42px Georgia,serif;
 }
 
-.tarot-back-mark{
-  position:relative;
-  z-index:2;
-  color:#fff;
-  font:400 25px Georgia,serif;
-  letter-spacing:-1px;
+.back-lines{
+  position:absolute;
+  inset:20px;
+  border:1px solid #b7a98e;
+  transform:rotate(45deg);
 }
 
 .tarot-front{
   transform:rotateY(180deg);
-  background:#f7f0e3;
-  color:#181512;
-  border:6px solid #181512;
+  background:#eee6d7;
   padding:8px;
-  box-shadow:0 24px 55px rgba(0,0,0,.25);
 }
 
-.tarot-inner{
+.card-art{
   width:100%;
   height:100%;
-  border:1px solid #181512;
-  display:flex;
-  flex-direction:column;
-  padding:7px;
+  border:1px solid #655b4e;
+  position:relative;
+  overflow:hidden;
 }
 
-.tarot-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font:700 11px/1 Georgia,serif;
-  letter-spacing:.08em;
-}
-
-.tarot-art{
-  flex:1;
-  min-height:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:5px 2px;
-}
-
-.tarot-art svg{
-  width:100%;
-  height:100%;
-  overflow:visible;
-}
-
-.tarot-foot{
+.card-roman{
+  position:absolute;
+  top:8px;
+  left:0;
+  right:0;
   text-align:center;
-  border-top:1px solid #181512;
-  padding:8px 2px 5px;
-  font:700 13px/1 Georgia,serif;
-  letter-spacing:.13em;
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:2px;
 }
 
-.tarot-instruction{
+.card-title{
+  position:absolute;
+  bottom:9px;
+  left:0;
+  right:0;
   text-align:center;
-  color:var(--mu);
-  font-size:12px;
-  margin:-8px 0 18px;
+  font-family:var(--serif);
+  font-size:10px;
+  letter-spacing:.7px;
+}
+
+.card-art svg{
+  position:absolute;
+  inset:25px 10px 25px;
+  width:calc(100% - 20px);
+  height:calc(100% - 50px);
+}
+
+.tarot-prompt{
+  margin-top:30px;
+  text-align:center;
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:1.2px;
+  color:var(--muted);
+  text-transform:uppercase;
 }
 
 .tarot-result{
-  animation:tarotIn .5s ease both;
-}
-
-@keyframes tarotIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:none}
-}
-
-.tarot-meta{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin:4px 0 12px;
-  flex-wrap:wrap;
-}
-
-.tarot-meta span{
-  font-size:11px;
-  color:var(--mu);
-  border:1px solid var(--ln);
-  padding:6px 10px;
-  border-radius:99px;
-}
-
-.tarot-history{
-  display:flex;
-  gap:7px;
-  overflow-x:auto;
-  padding:4px 0 8px;
-  scrollbar-width:none;
-}
-
-.tarot-history::-webkit-scrollbar{
   display:none;
+  padding:28px 0;
+  border-top:1px solid var(--ink);
+  margin-top:10px;
 }
 
-.tarot-history button{
-  flex:0 0 auto;
-  min-width:42px;
-  height:42px;
-  border:1px solid var(--ln);
-  border-radius:50%;
-  background:var(--p);
-  font:14px Georgia,serif;
-  color:var(--ink);
+.tarot-result.show{
+  display:block;
+  animation:pageIn .5s ease;
 }
 
-.tarot-history button.active{
-  background:var(--red);
-  border-color:var(--red);
-  color:#fff;
+.tarot-result h2{
+  font-family:var(--serif);
+  font-size:29px;
+  font-weight:400;
+  margin:0 0 10px;
 }
 
-/* ASTRO */
+.tarot-result .meaning{
+  font-family:var(--serif);
+  font-size:15px;
+  line-height:1.75;
+}
 
-.astro-wheel{
-  width:100%;
+.tarot-question{
+  margin-top:25px;
+  color:var(--red);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.5;
+}
+
+.tarot-draw{
+  margin-top:22px;
+  border:0;
+  background:none;
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--ink);
+  padding:8px 0;
+  cursor:pointer;
+}
+
+/* --------------------------------
+   BATHS
+-------------------------------- */
+
+.baths-page{
+  padding:35px 22px 40px;
+}
+
+.baths-title{
+  min-height:300px;
+  position:relative;
+}
+
+.baths-title .big-title{
+  font-size:62px;
   max-width:350px;
-  margin:15px auto;
-  display:block;
+  margin:60px 0 0;
 }
 
-.astro-list{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.planet{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 14px;
-  border:1px solid var(--ln);
-  border-radius:14px;
-  background:var(--p);
-}
-
-.planet span:first-child{
-  font-family:Georgia,serif;
-}
-
-.planet small{
-  color:var(--mu);
-}
-
-/* MAIS */
-
-.menu-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
-
-.menu-card{
-  min-height:125px;
-  padding:18px;
-  border-radius:20px;
-  border:1px solid var(--ln);
-  background:var(--p);
-  text-align:left;
-  color:var(--ink);
-}
-
-.menu-card b{
-  display:block;
-  font:19px Georgia,serif;
-  margin-bottom:7px;
-}
-
-.menu-card small{
-  color:var(--mu);
-  line-height:1.4;
-}
-
-.danger{
+.baths-title .asterisk{
+  position:absolute;
+  right:0;
+  top:0;
+  font-family:var(--serif);
+  font-size:65px;
   color:var(--red);
 }
 
-/* NAV */
-
-.nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(460px,100%);
-  z-index:30;
-  background:color-mix(in srgb,var(--p) 94%,transparent);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-top:1px solid var(--ln);
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
+.bath-list{
+  border-top:1px solid var(--ink);
 }
 
-.nav button{
-  border:0;
-  background:none;
-  color:var(--mu);
-  padding:7px 2px;
-  border-radius:12px;
+.bath-item{
+  padding:25px 0;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  position:relative;
+}
+
+.bath-item:hover .bath-arrow{
+  transform:translateX(5px);
+}
+
+.bath-number{
+  font-family:var(--mono);
+  color:var(--red);
   font-size:9px;
 }
 
-.nav button span{
-  display:block;
-  font:18px Georgia,serif;
-  margin-bottom:3px;
+.bath-name{
+  font-family:var(--serif);
+  font-size:24px;
+  margin-top:8px;
 }
 
-.nav button.active{
+.bath-desc{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  max-width:330px;
+  margin-top:8px;
+}
+
+.bath-arrow{
+  position:absolute;
+  right:0;
+  top:29px;
+  font-size:20px;
+  transition:transform .25s;
+}
+
+.bath-detail{
+  display:none;
+  padding:20px 0 5px;
+}
+
+.bath-item.open .bath-detail{
+  display:block;
+  animation:pageIn .3s ease;
+}
+
+.bath-detail p{
+  font-family:var(--serif);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.bath-ingredients{
+  font-family:var(--mono);
+  font-size:9px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+/* --------------------------------
+   ASTRO
+-------------------------------- */
+
+.astro-page{
+  padding:35px 22px;
+}
+
+.astro-head{
+  min-height:230px;
+  position:relative;
+}
+
+.astro-head h1{
+  font-family:var(--serif);
+  font-size:53px;
+  font-weight:400;
+  line-height:.95;
+  letter-spacing:-3px;
+  margin:55px 0 0;
+}
+
+.astro-mark{
+  position:absolute;
+  right:0;
+  top:0;
+  color:var(--red);
+  font-size:50px;
+}
+
+.wheel{
+  margin:25px auto 45px;
+  width:min(88vw,390px);
+  aspect-ratio:1;
+}
+
+.wheel svg{
+  width:100%;
+  height:100%;
+}
+
+.astro-copy{
+  border-top:1px solid var(--ink);
+  padding-top:27px;
+}
+
+.astro-copy h2{
+  font-family:var(--serif);
+  font-size:25px;
+  font-weight:400;
+}
+
+.astro-copy p{
+  font-family:var(--serif);
+  font-size:14px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+/* --------------------------------
+   MORE
+-------------------------------- */
+
+.more-page{
+  padding:35px 22px;
+}
+
+.more-page h1{
+  font-family:var(--serif);
+  font-size:58px;
+  font-weight:400;
+  letter-spacing:-3px;
+  margin:70px 0;
+}
+
+.more-list{
+  border-top:1px solid var(--ink);
+}
+
+.more-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:65px;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+}
+
+.more-item span:first-child{
+  font-family:var(--serif);
+  font-size:18px;
+}
+
+.more-item span:last-child{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--muted);
+}
+
+/* --------------------------------
+   NAV
+-------------------------------- */
+
+.bottom-nav{
+  position:fixed;
+  z-index:100;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100%,470px);
+  height:74px;
+  background:rgba(242,237,227,.93);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:1fr 1fr 1.2fr 1fr 1fr;
+  align-items:center;
+  padding:0 9px env(safe-area-inset-bottom);
+}
+
+.nav-btn{
+  height:100%;
+  border:0;
+  background:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  cursor:pointer;
+  color:var(--muted);
+}
+
+.nav-btn .nav-symbol{
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1;
+}
+
+.nav-btn .nav-label{
+  font-family:var(--mono);
+  font-size:7px;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+}
+
+.nav-btn.active{
+  color:var(--ink);
+}
+
+.nav-btn.active .nav-symbol{
   color:var(--red);
 }
 
-/* DARK */
-
-body.dark{
-  --bg:#171614;
-  --p:#22201d;
-  --ink:#f4efe6;
-  --mu:#aaa196;
-  --ln:#3a3631;
-  --red:#ff5145;
-  --rs:#3a211e;
-  --green:#283327;
-  --shadow:rgba(0,0,0,.25);
+.nav-center{
+  position:relative;
 }
 
-body.dark .hero-card{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(239,46,34,.24),transparent 25%),
-    linear-gradient(135deg,#22201d,#302b26);
+.nav-center .nav-symbol{
+  font-size:31px;
+  color:var(--red);
 }
 
-body.dark .tarot-front{
-  background:#eee5d7;
-  color:#181512;
-  border-color:#eee5d7;
+.nav-center .nav-label{
+  margin-top:-2px;
 }
 
-body.dark .tarot-back{
-  border-color:#22201d;
+/* --------------------------------
+   MODAL
+-------------------------------- */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  background:rgba(23,21,18,.72);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
 }
 
-body.dark .scripture{
-  color:#eee;
+.modal.show{
+  display:flex;
 }
 
-body.dark .tarot-art svg{
-  filter:none;
+.modal-inner{
+  width:min(100%,470px);
+  background:var(--paper);
+  padding:25px 22px 35px;
+  animation:sheetUp .35s ease;
 }
 
-/* MOBILE */
+@keyframes sheetUp{
+  from{transform:translateY(100%)}
+  to{transform:none}
+}
+
+.modal-close{
+  float:right;
+  border:0;
+  background:none;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.modal h2{
+  font-family:var(--serif);
+  font-size:27px;
+  font-weight:400;
+  margin:35px 0 20px;
+}
+
+.modal textarea{
+  width:100%;
+  min-height:120px;
+  border:0;
+  border-bottom:1px solid var(--ink);
+  background:none;
+  resize:none;
+  outline:none;
+  font-family:var(--serif);
+  font-size:16px;
+  line-height:1.6;
+}
+
+.modal-save{
+  margin-top:22px;
+  border:0;
+  background:none;
+  color:var(--red);
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--red);
+  padding:7px 0;
+  cursor:pointer;
+}
+
+/* --------------------------------
+   RESPONSIVE
+-------------------------------- */
 
 @media(max-width:370px){
-  .app{
-    padding-left:14px;
-    padding-right:14px;
+  .home-title{
+    font-size:36px;
   }
 
-  h2{
-    font-size:30px;
+  .day-number{
+    font-size:95px;
   }
 
-  .menu-grid{
-    grid-template-columns:1fr;
+  .mala-stage{
+    height:460px;
   }
 
-  .japa-beads{
-    width:240px;
-    height:240px;
+  .japa-center .big{
+    font-size:58px;
   }
-}
 
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .tarot-card{transition:none}
-  .tarot-result{animation:none}
+  .tarot-card{
+    width:195px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app" id="app"></div>
+<div class="app">
 
-<nav class="nav">
-  <button data-a="go" data-v="home">
-    <span>⌂</span>
-    Hoje
+<header class="top">
+  <div class="logo">momento<span>.</span></div>
+  <div class="top-date" id="topDate"></div>
+</header>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<main id="homeView" class="view active">
+
+  <section class="home">
+
+    <div class="home-hero">
+
+      <div class="home-star">*</div>
+
+      <div class="eyebrow">um espaço para voltar a si</div>
+
+      <div class="home-date">
+        <div class="day-number" id="homeDay"></div>
+
+        <div class="day-meta">
+          <strong id="homeMonth"></strong>
+          <span class="eyebrow" id="homeWeekday"></span>
+        </div>
+      </div>
+
+      <h1 class="big-title home-title">
+        um pouco de<br>
+        silêncio para<br>
+        <em>ouvir melhor.</em>
+      </h1>
+
+      <div class="home-bottom">
+        <p class="home-intro">
+          Nem tudo precisa ser resolvido hoje.
+          Algumas coisas só precisam de presença,
+          fé e um pouco de espaço.
+        </p>
+
+        <div class="home-mark">✳</div>
+      </div>
+
+    </div>
+
+    <div class="home-section">
+
+      <div class="section-head">
+        <h2>Hoje</h2>
+        <span class="eyebrow">01 / 07</span>
+      </div>
+
+      <div class="dev-preview" onclick="showView('dev')">
+        <div class="dev-day">DEVOCIONAL DO DIA</div>
+        <h3>Confiar sem precisar controlar tudo</h3>
+        <p>
+          Existe uma diferença entre fazer a sua parte
+          e tentar carregar sozinho aquilo que não depende
+          de você.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="home-section">
+
+      <div class="section-head">
+        <h2>Para este momento</h2>
+        <span class="eyebrow">explorar</span>
+      </div>
+
+      <div class="home-links">
+
+        <div class="home-link" onclick="showView('psalm')">
+          <div class="symbol">18</div>
+          <h3>Salmo 18</h3>
+          <p>força, proteção e caminho.</p>
+        </div>
+
+        <div class="home-link" onclick="showView('japa')">
+          <div class="symbol">◌</div>
+          <h3>Japamala</h3>
+          <p>uma volta de cada vez.</p>
+        </div>
+
+        <div class="home-link" onclick="showView('tarot')">
+          <div class="symbol">✦</div>
+          <h3>Tarot</h3>
+          <p>símbolos para pensar.</p>
+        </div>
+
+        <div class="home-link" onclick="showView('astro')">
+          <div class="symbol">☾</div>
+          <h3>Mapa</h3>
+          <p>astrologia como linguagem simbólica.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================
+     DEVOCIONAL
+========================= -->
+
+<main id="devView" class="view">
+
+<section class="dev-page">
+
+  <div class="dev-topline">
+    <span class="eyebrow">devocional</span>
+    <span class="eyebrow">01 / 07</span>
+  </div>
+
+  <div class="dev-number">01</div>
+
+  <h1 class="big-title">
+    Confiar sem<br>
+    precisar controlar<br>
+    tudo.
+  </h1>
+
+  <section class="scripture">
+    <div class="ref">PROVÉRBIOS 3:5–6</div>
+
+    <blockquote>
+      “Confia no Senhor de todo o teu coração
+      e não te apoies no teu próprio entendimento.”
+    </blockquote>
+  </section>
+
+  <section class="dev-copy">
+
+    <div class="copy-label">01 · entender</div>
+
+    <p>
+      Confiar em Deus não significa abandonar a própria
+      responsabilidade. Significa reconhecer que existe
+      uma parte da vida que não pode ser controlada pela
+      força do pensamento, da ansiedade ou da antecipação.
+    </p>
+
+    <p>
+      Você pode planejar, trabalhar, procurar, insistir,
+      aprender e se movimentar. Mas existe um ponto em que
+      a tentativa de controlar o resultado começa a roubar
+      a paz do caminho.
+    </p>
+
+  </section>
+
+  <section class="reality">
+
+    <div class="asterisk">*</div>
+
+    <div class="copy-label">02 · trazer para a vida</div>
+
+    <h3>
+      Faça a sua parte sem transformar
+      o resultado em uma condição para
+      você acreditar que Deus está agindo.
+    </h3>
+
+    <p>
+      Há coisas acontecendo na sua vida que ainda estão
+      em processo. Nem toda demora é abandono. Nem toda
+      porta fechada é uma sentença. Às vezes o caminho
+      precisa continuar sendo percorrido antes de fazer
+      sentido.
+    </p>
+
+  </section>
+
+  <section class="practice">
+
+    <div class="copy-label">03 · hoje</div>
+
+    <div class="practice-question">
+      O que eu estou tentando controlar
+      que poderia simplesmente colocar
+      nas mãos de Deus hoje?
+    </div>
+
+    <textarea
+      class="note"
+      id="devNote"
+      placeholder="escreva aqui..."
+    ></textarea>
+
+  </section>
+
+  <section class="prayer">
+
+    <div class="copy-label">04 · oração</div>
+
+    <p>
+      Deus, me ajuda a fazer aquilo que está ao meu alcance
+      sem carregar sozinho aquilo que não está. Dá-me
+      coragem para agir, sabedoria para esperar e fé para
+      continuar caminhando mesmo quando ainda não consigo
+      enxergar o resultado. Amém.
+    </p>
+
+  </section>
+
+  <div class="dev-nav">
+    <button class="text-link" onclick="showView('home')">← voltar</button>
+    <button class="text-link" onclick="nextDev()">próximo →</button>
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     SALMO
+========================= -->
+
+<main id="psalmView" class="view">
+
+<section class="psalm-page">
+
+  <div class="psalm-hero">
+
+    <div class="eyebrow">esta semana</div>
+
+    <div class="psalm-number">18</div>
+
+    <div class="psalm-label">
+      SALMO · PROTEÇÃO · CAMINHO
+    </div>
+
+    <div class="psalm-title">
+      “O Senhor é a minha<br>
+      <span class="red">força.</span>”
+    </div>
+
+  </div>
+
+  <div class="psalm-days">
+
+    <button class="psalm-day active" onclick="psalmDay(1)">01</button>
+    <button class="psalm-day" onclick="psalmDay(2)">02</button>
+    <button class="psalm-day" onclick="psalmDay(3)">03</button>
+    <button class="psalm-day" onclick="psalmDay(4)">04</button>
+    <button class="psalm-day" onclick="psalmDay(5)">05</button>
+    <button class="psalm-day" onclick="psalmDay(6)">06</button>
+    <button class="psalm-day" onclick="psalmDay(7)">07</button>
+
+  </div>
+
+  <section class="psalm-content">
+
+    <div class="eyebrow">dia <span id="psalmDayNum">01</span></div>
+
+    <h2 id="psalmTitle">
+      Deus não é apenas o lugar para onde você corre.
+      É também a força com a qual você continua.
+    </h2>
+
+    <div class="psalm-verse" id="psalmVerse">
+      “Eu te amo, ó Senhor, força minha.
+      O Senhor é a minha rocha, a minha fortaleza
+      e o meu libertador.”
+    </div>
+
+    <p id="psalmText">
+      O Salmo 18 começa com uma declaração de confiança.
+      Antes de falar sobre vitória, ele fala sobre quem
+      sustenta o caminho.
+    </p>
+
+    <p>
+      Leia o Salmo 18 inteiro hoje. Não leia apenas procurando
+      uma resposta. Leia tentando perceber onde você ainda
+      precisa lembrar que não está sozinho.
+    </p>
+
+  </section>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     JAPAMALA
+========================= -->
+
+<main id="japaView" class="view">
+
+<section class="japa-page">
+
+  <div class="japa-head">
+
+    <div>
+      <div class="eyebrow">prática</div>
+      <h1>japamala</h1>
+    </div>
+
+    <div class="japa-count">
+      <strong id="japaTopCount">0</strong>
+      <span>de 108</span>
+    </div>
+
+  </div>
+
+  <div class="mala-stage" id="malaStage">
+
+    <svg id="malaSvg"
+         viewBox="0 0 430 510"
+         aria-label="Japamala interativa"
+         role="button">
+
+      <!-- cordão -->
+      <path
+        id="malaCord"
+        d=""
+        fill="none"
+        stroke="#958878"
+        stroke-width="1.1"
+        opacity=".8"
+      />
+
+      <g id="beads"></g>
+
+      <!-- guru -->
+      <g class="guru" transform="translate(215 448)">
+
+        <path
+          d="M-10,-7 C-7,-18 7,-18 10,-7 L8,7 C6,15 -6,15 -8,7 Z"
+          class="guru-main"
+        />
+
+        <circle
+          cx="0"
+          cy="-10"
+          r="6"
+          class="guru-cap"
+        />
+
+        <path
+          d="M-5,13 C-4,25 -3,37 -2,48"
+          class="tassel-thread"
+          fill="none"
+        />
+
+        <path
+          d="M0,13 C1,27 3,38 5,49"
+          class="tassel-thread"
+          fill="none"
+        />
+
+        <path
+          d="M5,13 C7,26 10,37 13,47"
+          class="tassel-line"
+          fill="none"
+        />
+
+        <path
+          d="M-2,14 C-4,26 -8,37 -11,47"
+          class="tassel-line"
+          fill="none"
+        />
+
+      </g>
+
+    </svg>
+
+    <div class="japa-center">
+      <div class="small">volta</div>
+      <div class="big" id="japaBig">0</div>
+      <div class="slash">/ 108</div>
+      <div class="percent" id="japaPercent">0%</div>
+    </div>
+
+    <div class="mala-hint" id="malaHint">
+      toque na mala para continuar
+    </div>
+
+  </div>
+
+  <section class="japa-phrase">
+
+    <div class="eyebrow">mentalização</div>
+
+    <div class="phrase-text" id="phraseText">
+      Eu estou no caminho da prosperidade.
+      Eu sou a prosperidade. <em>Eu sou.</em>
+    </div>
+
+    <button
+      class="text-link phrase-edit"
+      onclick="openPhrase()">
+      editar frase
+    </button>
+
+  </section>
+
+  <div class="japa-controls">
+
+    <button onclick="undoJapa()">
+      ← desfazer
+    </button>
+
+    <button onclick="togglePause()" id="pauseBtn">
+      pausar
+    </button>
+
+    <button onclick="resetJapa()">
+      nova volta
+    </button>
+
+  </div>
+
+  <div class="japa-complete" id="japaComplete">
+
+    <div class="complete-star">✳</div>
+
+    <h2>uma volta completa.</h2>
+
+    <p>
+      Respire.<br>
+      Não precisa correr para a próxima.
+    </p>
+
+    <button
+      class="complete-button"
+      onclick="resetJapa()">
+      começar outra volta
+    </button>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     TAROT
+========================= -->
+
+<main id="tarotView" class="view">
+
+<section class="tarot-page">
+
+  <div class="tarot-intro">
+
+    <div>
+      <div class="eyebrow">símbolos para pensar</div>
+      <h1>tarot</h1>
+    </div>
+
+    <div class="tarot-symbol">✦</div>
+
+  </div>
+
+  <div class="tarot-table">
+
+    <div
+      class="tarot-card"
+      id="tarotCard"
+      onclick="flipTarot()">
+
+      <div class="tarot-inner">
+
+        <div class="tarot-face tarot-back">
+          <div class="back-lines"></div>
+        </div>
+
+        <div class="tarot-face tarot-front">
+
+          <div class="card-art" id="cardArt">
+
+            <div class="card-roman" id="cardRoman">0</div>
+
+            <svg
+              id="cardSvg"
+              viewBox="0 0 180 270">
+            </svg>
+
+            <div class="card-title" id="cardTitle">
+              O LOUCO
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tarot-prompt">
+      toque na carta
+    </div>
+
+  </div>
+
+  <section class="tarot-result" id="tarotResult">
+
+    <div class="eyebrow">carta do momento</div>
+
+    <h2 id="tarotName"></h2>
+
+    <div class="meaning" id="tarotMeaning"></div>
+
+    <div class="tarot-question" id="tarotQuestion"></div>
+
+    <button
+      class="tarot-draw"
+      onclick="drawTarot()">
+      outra carta ↗
+    </button>
+
+  </section>
+
+  <div class="rule"></div>
+
+  <p style="
+    font-family:var(--serif);
+    font-size:12px;
+    line-height:1.7;
+    color:var(--muted);
+    margin-top:22px;
+  ">
+    O tarot aqui é usado como linguagem simbólica e
+    ferramenta de reflexão. Não é previsão nem sentença
+    sobre o futuro.
+  </p>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     BANHOS
+========================= -->
+
+<main id="bathsView" class="view">
+
+<section class="baths-page">
+
+  <div class="baths-title">
+
+    <div class="eyebrow">rituais de autocuidado</div>
+
+    <div class="asterisk">*</div>
+
+    <h1 class="big-title">
+      água,<br>
+      intenção,<br>
+      <span class="red">presença.</span>
+    </h1>
+
+  </div>
+
+  <div class="bath-list">
+
+    <article class="bath-item" onclick="toggleBath(this)">
+      <div class="bath-number">01</div>
+      <div class="bath-name">Descarrego</div>
+      <div class="bath-desc">
+        Um ritual simbólico para marcar encerramentos
+        e deixar para trás aquilo que você não quer carregar.
+      </div>
+      <div class="bath-arrow">↗</div>
+
+      <div class="bath-detail">
+        <p>
+          Banho morno, respiração lenta e uma intenção simples:
+          “eu libero o que não preciso mais carregar”.
+        </p>
+        <div class="bath-ingredients">
+          ALECRIM · MANJERICÃO · ÁGUA MORNA
+        </div>
+      </div>
+    </article>
+
+    <article class="bath-item" onclick="toggleBath(this)">
+      <div class="bath-number">02</div>
+      <div class="bath-name">Prosperidade</div>
+      <div class="bath-desc">
+        Para transformar desejo em intenção e intenção
+        em movimento.
+      </div>
+      <div class="bath-arrow">↗</div>
+
+      <div class="bath-detail">
+        <p>
+          Enquanto prepara o banho, mentalize aquilo que deseja
+          construir, sem transformar o ritual em garantia.
+        </p>
+        <div class="bath-ingredients">
+          LOURO · CANELA · ALECRIM
+        </div>
+      </div>
+    </article>
+
+    <article class="bath-item" onclick="toggleBath(this)">
+      <div class="bath-number">03</div>
+      <div class="bath-name">Acalmar</div>
+      <div class="bath-desc">
+        Um pequeno intervalo para desacelerar o corpo.
+      </div>
+      <div class="bath-arrow">↗</div>
+
+      <div class="bath-detail">
+        <p>
+          Use o banho como uma transição entre o ritmo do dia
+          e um momento de descanso.
+        </p>
+        <div class="bath-ingredients">
+          CAMOMILA · LAVANDA
+        </div>
+      </div>
+    </article>
+
+    <article class="bath-item" onclick="toggleBath(this)">
+      <div class="bath-number">04</div>
+      <div class="bath-name">Abertura</div>
+      <div class="bath-desc">
+        Para começar uma fase nova com presença.
+      </div>
+      <div class="bath-arrow">↗</div>
+
+      <div class="bath-detail">
+        <p>
+          Pense menos no resultado final e mais na pessoa
+          que você deseja ser durante o caminho.
+        </p>
+        <div class="bath-ingredients">
+          MANJERICÃO · ALECRIM · LOURO
+        </div>
+      </div>
+    </article>
+
+    <article class="bath-item" onclick="toggleBath(this)">
+      <div class="bath-number">05</div>
+      <div class="bath-name">Renovação</div>
+      <div class="bath-desc">
+        Um marcador simbólico para começar novamente.
+      </div>
+      <div class="bath-arrow">↗</div>
+
+      <div class="bath-detail">
+        <p>
+          Entre no banho pensando no que você quer levar
+          consigo para a próxima fase e no que decidiu deixar.
+        </p>
+        <div class="bath-ingredients">
+          ALECRIM · HORTELÃ
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     ASTROLOGIA
+========================= -->
+
+<main id="astroView" class="view">
+
+<section class="astro-page">
+
+  <div class="astro-head">
+
+    <div class="eyebrow">linguagem simbólica</div>
+
+    <div class="astro-mark">☾</div>
+
+    <h1>
+      céu de<br>
+      nascimento.
+    </h1>
+
+  </div>
+
+  <div class="wheel">
+
+    <svg viewBox="0 0 400 400">
+
+      <circle
+        cx="200"
+        cy="200"
+        r="185"
+        fill="none"
+        stroke="#9c9181"
+        stroke-width="1"/>
+
+      <circle
+        cx="200"
+        cy="200"
+        r="148"
+        fill="none"
+        stroke="#c8bdad"
+        stroke-width="1"/>
+
+      <circle
+        cx="200"
+        cy="200"
+        r="92"
+        fill="none"
+        stroke="#c8bdad"
+        stroke-width="1"/>
+
+      <g
+        stroke="#b9ad9d"
+        stroke-width="1">
+
+        <line x1="200" y1="15" x2="200" y2="385"/>
+        <line x1="15" y1="200" x2="385" y2="200"/>
+
+        <line x1="69" y1="69" x2="331" y2="331"/>
+        <line x1="331" y1="69" x2="69" y2="331"/>
+
+        <line x1="108" y1="31" x2="292" y2="369"/>
+        <line x1="292" y1="31" x2="108" y2="369"/>
+
+        <line x1="31" y1="108" x2="369" y2="292"/>
+        <line x1="369" y1="108" x2="31" y2="292"/>
+
+      </g>
+
+      <g
+        fill="#181714"
+        font-family="Georgia"
+        font-size="17"
+        text-anchor="middle">
+
+        <text x="200" y="38">♈</text>
+        <text x="280" y="60">♉</text>
+        <text x="340" y="120">♊</text>
+        <text x="362" y="205">♋</text>
+        <text x="340" y="285">♌</text>
+        <text x="280" y="343">♍</text>
+        <text x="200" y="368">♎</text>
+        <text x="120" y="343">♏</text>
+        <text x="60" y="285">♐</text>
+        <text x="38" y="200">♑</text>
+        <text x="60" y="120">♒</text>
+        <text x="120" y="60">♓</text>
+
+      </g>
+
+      <text
+        x="200"
+        y="192"
+        text-anchor="middle"
+        font-family="Georgia"
+        font-size="30"
+        fill="#b51f19">
+        ✳
+      </text>
+
+      <text
+        x="200"
+        y="218"
+        text-anchor="middle"
+        font-family="monospace"
+        font-size="8"
+        letter-spacing="2"
+        fill="#716b61">
+        24 · 05 · 1996
+      </text>
+
+    </svg>
+
+  </div>
+
+  <section class="astro-copy">
+
+    <div class="eyebrow">leitura</div>
+
+    <h2>O céu como espelho, não como sentença.</h2>
+
+    <p>
+      A astrologia aqui aparece como uma linguagem simbólica
+      para observar temas, arquétipos e perguntas pessoais.
+      Sem promessa de previsão.
+    </p>
+
+    <p>
+      Sem horário e local exatos de nascimento, esta leitura
+      permanece propositalmente geral.
+    </p>
+
+  </section>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     MAIS
+========================= -->
+
+<main id="moreView" class="view">
+
+<section class="more-page">
+
+  <div class="eyebrow">momento.</div>
+
+  <h1>
+    mais<br>
+    coisas.
+  </h1>
+
+  <div class="more-list">
+
+    <div class="more-item" onclick="showView('home')">
+      <span>Hoje</span>
+      <span>↗</span>
+    </div>
+
+    <div class="more-item" onclick="showView('dev')">
+      <span>Devocionais</span>
+      <span>07</span>
+    </div>
+
+    <div class="more-item" onclick="showView('psalm')">
+      <span>Salmo 18</span>
+      <span>01</span>
+    </div>
+
+    <div class="more-item" onclick="showView('japa')">
+      <span>Japamala</span>
+      <span>108</span>
+    </div>
+
+    <div class="more-item" onclick="showView('tarot')">
+      <span>Tarot</span>
+      <span>22</span>
+    </div>
+
+    <div class="more-item" onclick="showView('baths')">
+      <span>Banhos</span>
+      <span>05</span>
+    </div>
+
+    <div class="more-item" onclick="showView('astro')">
+      <span>Mapa simbólico</span>
+      <span>☾</span>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" data-view="home" onclick="showView('home')">
+    <span class="nav-symbol">⌂</span>
+    <span class="nav-label">hoje</span>
   </button>
 
-  <button data-a="go" data-v="psalm">
-    <span>☼</span>
-    Salmo 18
+  <button class="nav-btn" data-view="psalm" onclick="showView('psalm')">
+    <span class="nav-symbol">18</span>
+    <span class="nav-label">salmo</span>
   </button>
 
-  <button data-a="go" data-v="baths">
-    <span>✦</span>
-    Banhos
+  <button class="nav-btn nav-center" data-view="tarot" onclick="showView('tarot')">
+    <span class="nav-symbol">✦</span>
+    <span class="nav-label">símbolos</span>
   </button>
 
-  <button data-a="go" data-v="japa">
-    <span>◌</span>
-    Japa
+  <button class="nav-btn" data-view="japa" onclick="showView('japa')">
+    <span class="nav-symbol">◌</span>
+    <span class="nav-label">japa</span>
   </button>
 
-  <button data-a="go" data-v="more">
-    <span>＋</span>
-    Mais
+  <button class="nav-btn" data-view="more" onclick="showView('more')">
+    <span class="nav-symbol">+</span>
+    <span class="nav-label">mais</span>
   </button>
+
 </nav>
+
+</div>
+
+
+<!-- =========================
+     PHRASE MODAL
+========================= -->
+
+<div class="modal" id="phraseModal">
+
+  <div class="modal-inner">
+
+    <button
+      class="modal-close"
+      onclick="closePhrase()">
+      ×
+    </button>
+
+    <div class="eyebrow">sua mentalização</div>
+
+    <h2>
+      uma frase para<br>
+      carregar consigo.
+    </h2>
+
+    <textarea id="phraseInput"></textarea>
+
+    <button
+      class="modal-save"
+      onclick="savePhrase()">
+      guardar frase
+    </button>
+
+  </div>
+
+</div>
+
 
 <script>
 
-/* =========================================================
-   DADOS
-========================================================= */
+/* ==========================================================
+   DATA
+========================================================== */
 
-const D=[
-  [
-    "Confiar sem precisar controlar tudo",
-    "Provérbios 3:5–6",
-    "Confiança não é passividade. É continuar caminhando mesmo quando você ainda não consegue enxergar o caminho inteiro.",
-    "Que parte da sua vida você está tentando controlar porque tem medo do que acontece se soltar?",
-    "Deus, me ensina a confiar sem transformar a necessidade de certeza em prisão. Guia meus passos e me dá serenidade para fazer a minha parte.",
-    "Quando você não tiver todas as respostas, escolha apenas o próximo passo possível."
-  ],
-  [
-    "Prosperar com responsabilidade",
-    "Provérbios 21:5",
-    "Prosperidade também pode ser construída devagar: através de planejamento, constância e escolhas que respeitam o futuro.",
-    "Qual pequena decisão financeira ou profissional de hoje pode facilitar a sua vida daqui a alguns meses?",
-    "Deus, abençoa o trabalho das minhas mãos. Dá-me inteligência, disciplina e oportunidades honestas para construir uma vida próspera.",
-    "Escolha uma coisa concreta que você pode organizar hoje."
-  ],
-  [
-    "Esperar sem confundir demora com abandono",
-    "Salmo 27:14",
-    "Esperar é difícil porque a mente costuma transformar ausência de resultado em ausência de movimento. Mas nem tudo que ainda não apareceu está parado.",
-    "Onde você está interpretando uma demora como se fosse uma resposta negativa?",
-    "Deus, quando eu não enxergar movimento, fortalece meu coração. Que eu saiba esperar sem desistir de mim.",
-    "Troque a pergunta “quando?” por “o que posso fazer enquanto isso?”"
-  ],
-  [
-    "Recomeçar sem ser definido pelo passado",
-    "Isaías 43:18–19",
-    "Recomeços raramente parecem grandiosos no primeiro dia. Às vezes começam simplesmente quando você para de usar o passado como previsão do futuro.",
-    "Que história sobre você mesmo já ficou velha?",
-    "Deus, abre caminhos novos diante de mim. Ajuda-me a reconhecer aquilo que está nascendo sem ficar preso ao que já terminou.",
-    "Escreva uma frase começando com: “Daqui para frente, eu escolho...”"
-  ],
-  [
-    "Descansar sem culpa",
-    "Mateus 11:28",
-    "Descanso não é desistência. Um corpo e uma mente cansados também precisam de espaço para recuperar clareza.",
-    "O que você está tentando resolver agora que talvez precise primeiro de descanso?",
-    "Deus, acalma aquilo que está acelerado dentro de mim. Ensina-me a descansar sem sentir que estou ficando para trás.",
-    "Reserve pelo menos vinte minutos hoje sem produtividade como objetivo."
-  ],
-  [
-    "Coragem mesmo com medo",
-    "Josué 1:9",
-    "Coragem não significa ausência de medo. Muitas vezes significa agir sem deixar que o medo seja quem decide.",
-    "Que atitude você tomaria se o medo não pudesse votar nessa decisão?",
-    "Deus, fortalece meu coração. Que eu possa caminhar com coragem, mesmo quando ainda estiver inseguro.",
-    "Faça hoje uma coisa pequena que você vem adiando por medo."
-  ],
-  [
-    "Não medir a vida pela dos outros",
-    "Gálatas 6:4–5",
-    "Comparação mistura histórias que não possuem o mesmo ponto de partida. Seu caminho precisa ser avaliado pelos valores que você escolheu viver.",
-    "Em qual área você está usando a vida de outra pessoa como régua para medir a sua?",
-    "Deus, devolve meus olhos para o meu próprio caminho. Que eu consiga reconhecer o que já construí e continuar crescendo sem inveja.",
-    "Passe algumas horas sem acompanhar uma pessoa ou perfil que desperta comparação."
-  ]
-];
+const DEVOTIONALS = [
 
-const PR=[
-  [
-    "Abrigo",
-    "Salmo 18",
-    "Eu me lembro de que Deus é minha força, meu rochedo e meu lugar de segurança.",
-    "Em que área da sua vida você precisa parar de carregar tudo sozinho?"
-  ],
-  [
-    "Força",
-    "Salmo 18",
-    "A força que você precisa para continuar não precisa nascer apenas de você.",
-    "Onde você está exigindo de si uma força que precisa também ser recebida?"
-  ],
-  [
-    "Caminho aberto",
-    "Salmo 18",
-    "O Salmo 18 apresenta Deus como aquele que abre caminho, ilumina a escuridão e sustenta quem caminha.",
-    "Que caminho você deseja ver se abrindo?"
-  ],
-  [
-    "Proteção",
-    "Salmo 18",
-    "A imagem de Deus como escudo fala de proteção sem negar que existem dificuldades.",
-    "Que medo você gostaria de colocar diante de Deus hoje?"
-  ],
-  [
-    "Vitória",
-    "Salmo 18",
-    "Vitória também pode significar atravessar uma fase sem perder aquilo que você quer preservar dentro de si.",
-    "O que você quer conquistar sem perder quem você é?"
-  ],
-  [
-    "Confiança",
-    "Salmo 18",
-    "Confiar é continuar reconhecendo a presença de Deus mesmo antes da resolução aparecer.",
-    "Onde você precisa praticar confiança hoje?"
-  ],
-  [
-    "Agradecer",
-    "Salmo 18",
-    "Depois da luta, também existe espaço para reconhecer que você chegou até aqui.",
-    "O que merece ser reconhecido e agradecido nesta semana?"
-  ]
-];
-
-const RT=[
-  [
-    "Banho de descarrego simbólico",
-    "Para marcar encerramentos e recomeços.",
-    ["alecrim","manjericão","água morna"],
-    "Faça seu banho habitual primeiro. Depois, despeje a mistura do pescoço para baixo enquanto mentaliza aquilo que deseja deixar para trás."
-  ],
-  [
-    "Banho de prosperidade",
-    "Um ritual simbólico para colocar intenção em crescimento e organização.",
-    ["louro","canela","água morna"],
-    "Enquanto prepara a mistura, pense em prosperidade como construção: trabalho, oportunidades, disciplina e portas abertas."
-  ],
-  [
-    "Banho de calma",
-    "Para desacelerar e criar uma transição para o descanso.",
-    ["camomila","lavanda","água morna"],
-    "Use como momento de desaceleração. Respire devagar e deixe o banho funcionar como uma pausa."
-  ],
-  [
-    "Banho de abertura",
-    "Para marcar uma nova fase.",
-    ["manjericão","alecrim","água morna"],
-    "Mentalize o que deseja construir, sem transformar o ritual em promessa de resultado."
-  ],
-  [
-    "Banho de autocuidado",
-    "Um pequeno ritual para voltar a atenção para você.",
-    ["camomila","pétalas de rosa","água morna"],
-    "Faça tudo lentamente. O objetivo aqui é cuidado, não performance."
-  ]
-];
-
-/* =========================================================
-   TAROT
-========================================================= */
-
-const T=[
-["O Louco","0","começo e abertura","Que passo novo posso dar sem ter todas as respostas?","caminho"],
-["O Mago","I","iniciativa e recursos","Que recurso já está em minhas mãos e ainda não uso?","mesa"],
-["A Sacerdotisa","II","escuta e discernimento","Que informação precisa de silêncio antes de virar decisão?","colunas"],
-["A Imperatriz","III","cuidado e criação","O que precisa de cuidado constante para amadurecer?","trigo"],
-["O Imperador","IV","estrutura e responsabilidade","Onde uma regra simples melhoraria minha vida?","trono"],
-["O Hierofante","V","aprendizado","Que conhecimento merece uma fonte melhor que um conselho aleatório?","colunas"],
-["Os Enamorados","VI","escolha e alinhamento","Qual valor precisa aparecer na próxima escolha?","duasfiguras"],
-["O Carro","VII","direção e movimento","Onde estou acelerando sem direção clara?","carruagem"],
-["A Força","VIII","coragem e autocontrole","Como posso ser firme sem ser cruel comigo?","leao"],
-["O Eremita","IX","recolhimento e clareza","Que pergunta merece mais silêncio e menos opinião externa?","ermitao"],
-["A Roda da Fortuna","X","mudança e adaptação","O que mudou e pede uma resposta diferente da antiga?","roda"],
-["A Justiça","XI","coerência","Que decisão fica clara quando separo fatos de medo?","balanca"],
-["O Enforcado","XII","nova perspectiva","Que problema muda se eu parar de resolvê-lo do mesmo jeito?","arvore"],
-["A Morte","XIII","encerramento e transformação","O que já terminou, mas ainda ocupa espaço?","cavaleiro"],
-["A Temperança","XIV","equilíbrio","Onde uma medida intermediária seria mais sustentável?","anjol"],
-["O Diabo","XV","apegos e padrões","Que hábito parece escolha, mas funciona no automático?","tocha"],
-["A Torre","XVI","ruptura e verdade","Que crença precisaria de evidência para continuar?","torre"],
-["A Estrela","XVII","esperança","Que esperança vale cuidar sem virar garantia?","estrelas"],
-["A Lua","XVIII","ambiguidade","Onde minha imaginação preenche lacunas de informação?","animais"],
-["O Sol","XIX","clareza e vitalidade","Que assunto fica mais claro se dito sem rodeios?","crianca"],
-["O Julgamento","XX","revisão","O que a experiência recente ensina sobre a próxima fase?","renascimento"],
-["O Mundo","XXI","integração","O que já está completo o bastante para ser reconhecido?","quatrofiguras"]
-];
-
-const PL=[
-  ["☉","Sol","Gêmeos","3°"],
-  ["☽","Lua","Capricórnio","17°"],
-  ["☿","Mercúrio","Touro","15°"],
-  ["♀","Vênus","Gêmeos","18°"],
-  ["♂","Marte","Touro","23°"],
-  ["♃","Júpiter","Capricórnio","17°"],
-  ["♄","Saturno","Áries","6°"],
-  ["♅","Urano","Aquário","4°"],
-  ["♆","Netuno","Capricórnio","27°"],
-  ["♇","Plutão","Sagitário","2°"]
-];
-
-/* =========================================================
-   UTILITÁRIOS
-========================================================= */
-
-const TD=new Date().toISOString().slice(0,10);
-
-const LS={
-  g(k,f){
-    try{
-      const x=localStorage.getItem(k);
-      return x===null?f:JSON.parse(x);
-    }catch{
-      return f;
-    }
+  {
+    title:"Confiar sem precisar controlar tudo",
+    ref:"Provérbios 3:5–6"
   },
-  s(k,v){
-    try{
-      localStorage.setItem(k,JSON.stringify(v));
-    }catch{}
+
+  {
+    title:"Prosperar com responsabilidade",
+    ref:"Provérbios 21:5"
   },
-  d(k){
-    try{
-      localStorage.removeItem(k);
-    }catch{}
+
+  {
+    title:"Esperar sem confundir demora com abandono",
+    ref:"Salmo 27:14"
+  },
+
+  {
+    title:"Recomeçar sem ser definido pelo passado",
+    ref:"Isaías 43:18–19"
+  },
+
+  {
+    title:"Descansar sem culpa",
+    ref:"Mateus 11:28"
+  },
+
+  {
+    title:"Coragem mesmo com medo",
+    ref:"Josué 1:9"
+  },
+
+  {
+    title:"Não medir a vida pela dos outros",
+    ref:"Gálatas 6:4–5"
   }
-};
 
-const st={
-  start:LS.g("start",TD),
-  did:LS.g("did",{}),
-  notes:LS.g("notes",{}),
-  j:LS.g("j",{n:0,r:0,t:108}),
-  th:LS.g("th",null),
-  tarotFlipped:LS.g("tarotFlipped",false),
-  tarotHistory:LS.g("tarotHistory",[]),
-  theme:LS.g("theme","light")
-};
+];
 
-let V="home";
-let A=0;
-let tz=Number(TD.replace(/-/g,""))%22;
-let timer=null;
-let timerSec=0;
 
-/* =========================================================
-   ESCAPE
-========================================================= */
+const PSALMS = [
 
-function esc(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+  {
+    title:"Deus não é apenas o lugar para onde você corre. É também a força com a qual você continua.",
+    verse:"“Eu te amo, ó Senhor, força minha. O Senhor é a minha rocha, a minha fortaleza e o meu libertador.”",
+    text:"O Salmo 18 começa com uma declaração de confiança. Antes de falar sobre vitória, ele fala sobre quem sustenta o caminho."
+  },
 
-function sv(k){
-  LS.s(k,st[k]);
-}
+  {
+    title:"Quando a força parece pequena, lembre-se de onde ela vem.",
+    verse:"“Invocarei o Senhor, digno de ser louvado, e ficarei livre dos meus inimigos.”",
+    text:"A fé não elimina a necessidade de agir. Ela muda de onde você parte para agir."
+  },
 
-function todayIndex(){
-  const a=new Date(st.start);
-  const b=new Date(TD);
-  const diff=Math.floor((b-a)/(1000*60*60*24));
-  return Math.max(0,Math.min(6,diff));
-}
+  {
+    title:"Há caminhos que só aparecem depois que você começa.",
+    verse:"“Ele adestrou minhas mãos para o combate.”",
+    text:"Nem toda preparação parece preparação enquanto acontece. Algumas fases estão construindo dentro de você aquilo que a próxima exigirá."
+  },
 
-function fmtDate(){
-  return new Date().toLocaleDateString("pt-BR",{
-    weekday:"long",
-    day:"numeric",
-    month:"long"
+  {
+    title:"A proteção também pode aparecer como direção.",
+    verse:"“Com o meu Deus salto muralhas.”",
+    text:"O Salmo 18 não apresenta uma vida sem obstáculos. Apresenta uma vida em que os obstáculos não têm a palavra final."
+  },
+
+  {
+    title:"Você não precisa transformar cada dificuldade em identidade.",
+    verse:"“O Senhor recompensa-me segundo a minha justiça.”",
+    text:"Existe uma diferença entre atravessar uma fase difícil e concluir que você é definido por ela."
+  },
+
+  {
+    title:"A força não precisa ser barulho.",
+    verse:"“Tu acendes a minha lâmpada; o Senhor, meu Deus, ilumina as minhas trevas.”",
+    text:"Às vezes a resposta para uma fase escura não é enxergar tudo. É enxergar o próximo passo."
+  },
+
+  {
+    title:"Termine a semana lembrando: você ainda está caminhando.",
+    verse:"“Grandes vitórias ele dá ao seu rei e usa de bondade para com o seu ungido.”",
+    text:"Leia o Salmo inteiro e reconheça não apenas o que ainda falta, mas também aquilo que já foi atravessado."
+  }
+
+];
+
+
+/* ==========================================================
+   VIEW SYSTEM
+========================================================== */
+
+function showView(name){
+
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.remove("active");
   });
+
+  const target = document.getElementById(name+"View");
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.dataset.view === name
+    );
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
+
+  if(name==="japa"){
+    setTimeout(renderMala,50);
+  }
 }
 
-/* =========================================================
-   SVG TAROT
-========================================================= */
 
-function tarotSVG(c){
+/* ==========================================================
+   DATE
+========================================================== */
 
-  const type=c[4];
+const now = new Date();
 
-  const common=`
-    <defs>
-      <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#ef2e22"/>
-        <stop offset="1" stop-color="#8e1711"/>
-      </linearGradient>
-    </defs>
-    <g fill="none"
-       stroke="#181512"
-       stroke-width="1.8"
-       stroke-linecap="round"
-       stroke-linejoin="round">
-  `;
+const months = [
+  "janeiro","fevereiro","março","abril","maio","junho",
+  "julho","agosto","setembro","outubro","novembro","dezembro"
+];
 
-  const sun=`
-    <circle cx="100" cy="55" r="18" fill="#ef2e22"/>
-    ${Array.from({length:12},(_,i)=>{
-      const a=i*Math.PI/6;
-      return `<line x1="${100+25*Math.cos(a)}"
-      y1="${55+25*Math.sin(a)}"
-      x2="${100+32*Math.cos(a)}"
-      y2="${55+32*Math.sin(a)}"/>`
-    }).join("")}
-  `;
+const weekdays = [
+  "domingo","segunda-feira","terça-feira","quarta-feira",
+  "quinta-feira","sexta-feira","sábado"
+];
 
-  const mountain=`
-    <path d="M15 205 L70 125 L110 175 L145 105 L190 205"/>
-    <path d="M15 205 Q100 188 190 205"/>
-  `;
+document.getElementById("homeDay").textContent =
+  String(now.getDate()).padStart(2,"0");
 
-  const star=`
-    <path d="M100 105 l5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1z"
-      fill="#ef2e22"/>
-  `;
+document.getElementById("homeMonth").textContent =
+  months[now.getMonth()];
 
-  const figure=(x,y,scale=1)=>{
-    return `
-      <g transform="translate(${x} ${y}) scale(${scale})">
-        <circle cx="0" cy="-38" r="12" fill="#f7f0e3"/>
-        <path d="M-13 -24 Q0 -32 13 -24 L17 25 Q0 38 -17 25Z"
-          fill="#f7f0e3"/>
-        <line x1="-8" y1="27" x2="-15" y2="58"/>
-        <line x1="8" y1="27" x2="15" y2="58"/>
-        <line x1="-12" y1="-12" x2="-30" y2="12"/>
-        <line x1="12" y1="-12" x2="30" y2="4"/>
-      </g>
-    `;
-  };
+document.getElementById("homeWeekday").textContent =
+  weekdays[now.getDay()];
 
-  let art="";
+document.getElementById("topDate").textContent =
+  `${String(now.getDate()).padStart(2,"0")} · ${String(now.getMonth()+1).padStart(2,"0")}`;
 
-  if(type==="caminho"){
-    art=`
-      ${sun}
-      ${mountain}
-      <path d="M80 205 Q92 165 105 145 Q118 165 130 205"/>
-      ${figure(82,145,.72)}
-      <path d="M102 122 L130 90"/>
-      <circle cx="131" cy="88" r="4"/>
-      <path d="M58 180 Q42 168 47 151 Q60 151 66 166 Q66 178 58 180Z"/>
-    `;
+
+/* ==========================================================
+   DEVOTIONAL
+========================================================== */
+
+let currentDev = 0;
+
+function nextDev(){
+
+  currentDev++;
+
+  if(currentDev >= DEVOTIONALS.length){
+    currentDev = 0;
   }
 
-  if(type==="mesa"){
-    art=`
-      ${sun}
-      <rect x="38" y="145" width="124" height="8" rx="2"/>
-      <line x1="48" y1="153" x2="40" y2="205"/>
-      <line x1="152" y1="153" x2="160" y2="205"/>
-      <circle cx="62" cy="132" r="9"/>
-      <path d="M91 141 L91 122 L101 112 L111 122 L111 141"/>
-      <path d="M127 140 Q138 124 148 140 Q138 151 127 140"/>
-      <path d="M76 88 Q100 72 124 88"/>
-      <path d="M86 78 Q100 64 114 78"/>
-    `;
-  }
-
-  if(type==="colunas"){
-    art=`
-      <path d="M25 205 V80 H65 V205"/>
-      <path d="M135 205 V80 H175 V205"/>
-      <path d="M20 80 H70 M130 80 H180"/>
-      <path d="M65 205 Q100 170 135 205"/>
-      <path d="M82 150 Q100 120 118 150"/>
-      ${star}
-      <path d="M85 115 Q100 100 115 115"/>
-    `;
-  }
-
-  if(type==="trigo"){
-    art=`
-      ${sun}
-      <path d="M20 205 Q100 170 180 205"/>
-      ${Array.from({length:8},(_,i)=>{
-        const x=30+i*21;
-        return `
-          <path d="M${x} 195 Q${x-5} 145 ${x+5} 112"/>
-          <path d="M${x} 155 q-12 -8 -14 -18"/>
-          <path d="M${x} 145 q12 -8 14 -18"/>
-        `;
-      }).join("")}
-      ${figure(100,142,.72)}
-      <path d="M83 113 Q100 88 117 113"/>
-    `;
-  }
-
-  if(type==="trono"){
-    art=`
-      ${mountain}
-      <path d="M58 205 V125 H142 V205"/>
-      <path d="M45 125 H155"/>
-      <path d="M60 105 H140"/>
-      ${figure(100,132,.8)}
-      <path d="M78 102 H122"/>
-    `;
-  }
-
-  if(type==="duasfiguras"){
-    art=`
-      ${sun}
-      ${figure(72,150,.62)}
-      ${figure(128,150,.62)}
-      <path d="M100 72 Q112 83 100 96 Q88 83 100 72Z" fill="#ef2e22"/>
-      <path d="M100 110 Q100 150 100 205"/>
-    `;
-  }
-
-  if(type==="carruagem"){
-    art=`
-      ${sun}
-      <path d="M50 145 H150 L165 190 H35Z"/>
-      <circle cx="55" cy="195" r="13"/>
-      <circle cx="145" cy="195" r="13"/>
-      ${figure(100,135,.65)}
-      <path d="M62 150 Q45 128 58 115"/>
-      <path d="M138 150 Q155 128 142 115"/>
-    `;
-  }
-
-  if(type==="leao"){
-    art=`
-      ${sun}
-      <circle cx="100" cy="145" r="37"/>
-      <circle cx="100" cy="145" r="24"/>
-      <path d="M76 136 L62 124 M124 136 L138 124"/>
-      ${figure(100,112,.62)}
-      <path d="M76 102 Q100 82 124 102"/>
-    `;
-  }
-
-  if(type==="ermitao"){
-    art=`
-      ${mountain}
-      ${figure(92,135,.72)}
-      <path d="M116 108 L138 78"/>
-      <circle cx="138" cy="75" r="9" fill="#ef2e22"/>
-      <path d="M73 184 Q92 174 110 184"/>
-    `;
-  }
-
-  if(type==="roda"){
-    art=`
-      <circle cx="100" cy="125" r="55"/>
-      <circle cx="100" cy="125" r="17"/>
-      <path d="M100 55 V195 M30 125 H170"/>
-      <path d="M60 85 L140 165 M140 85 L60 165"/>
-      ${star}
-    `;
-  }
-
-  if(type==="balanca"){
-    art=`
-      ${figure(100,125,.7)}
-      <path d="M100 92 V185"/>
-      <path d="M63 115 H137"/>
-      <path d="M63 115 L48 148 H78Z"/>
-      <path d="M137 115 L122 148 H152Z"/>
-      <path d="M82 195 H118"/>
-    `;
-  }
-
-  if(type==="arvore"){
-    art=`
-      <path d="M100 205 V75"/>
-      <path d="M100 100 Q70 80 58 58"/>
-      <path d="M100 120 Q130 92 145 65"/>
-      <path d="M100 145 Q72 130 48 115"/>
-      <path d="M100 145 Q130 130 152 110"/>
-      <circle cx="58" cy="58" r="8"/>
-      <circle cx="145" cy="65" r="8"/>
-      ${figure(100,148,.5)}
-    `;
-  }
-
-  if(type==="cavaleiro"){
-    art=`
-      ${mountain}
-      <path d="M55 180 Q100 120 145 180"/>
-      <circle cx="100" cy="108" r="17"/>
-      <path d="M83 123 L117 123 L130 180 H70Z"/>
-      <path d="M119 90 V45"/>
-      <path d="M119 45 L143 58 L119 69Z" fill="#ef2e22"/>
-      ${sun}
-    `;
-  }
-
-  if(type==="anjol"){
-    art=`
-      ${figure(100,120,.85)}
-      <path d="M82 105 Q48 80 35 108 Q60 132 82 128"/>
-      <path d="M118 105 Q152 80 165 108 Q140 132 118 128"/>
-      <path d="M100 76 Q100 55 100 45"/>
-      <circle cx="100" cy="38" r="8" fill="#ef2e22"/>
-      <path d="M74 155 Q100 135 126 155"/>
-      <path d="M75 180 Q100 160 125 180"/>
-    `;
-  }
-
-  if(type==="tocha"){
-    art=`
-      ${figure(100,125,.72)}
-      <path d="M100 90 V45"/>
-      <path d="M100 45 Q115 30 100 18 Q85 30 100 45Z" fill="#ef2e22"/>
-      <path d="M75 160 Q100 145 125 160"/>
-      <path d="M65 185 Q100 170 135 185"/>
-    `;
-  }
-
-  if(type==="torre"){
-    art=`
-      <path d="M55 205 V78 L70 65 L130 65 L145 78 V205Z"/>
-      <path d="M70 65 L62 42 M130 65 L138 42"/>
-      <path d="M95 65 L115 42"/>
-      <path d="M130 100 L155 75"/>
-      <path d="M155 75 L137 90 L168 98 L145 112 L174 120"/>
-      <circle cx="100" cy="145" r="7" fill="#ef2e22"/>
-    `;
-  }
-
-  if(type==="animais"){
-    art=`
-      ${sun}
-      <path d="M20 205 Q100 170 180 205"/>
-      <path d="M45 160 Q35 145 45 132 Q58 138 62 154"/>
-      <path d="M155 160 Q165 145 155 132 Q142 138 138 154"/>
-      <path d="M70 205 Q100 180 130 205"/>
-      ${star}
-    `;
-  }
-
-  if(type==="crianca"){
-    art=`
-      ${sun}
-      ${figure(100,142,.72)}
-      <path d="M100 115 L100 65"/>
-      <circle cx="100" cy="58" r="10" fill="#ef2e22"/>
-      <path d="M45 195 Q100 175 155 195"/>
-      ${Array.from({length:5},(_,i)=>`
-        <path d="M${55+i*22} 190 Q${58+i*22} 165 ${60+i*22} 150"/>
-      `).join("")}
-    `;
-  }
-
-  if(type==="renascimento"){
-    art=`
-      <path d="M35 195 Q100 150 165 195"/>
-      ${figure(65,145,.6)}
-      ${figure(135,145,.6)}
-      <circle cx="100" cy="65" r="18" fill="#ef2e22"/>
-      <path d="M100 42 V15"/>
-      <path d="M87 28 Q100 15 113 28"/>
-    `;
-  }
-
-  if(type==="quatrofiguras"){
-    art=`
-      <ellipse cx="100" cy="130" rx="58" ry="72"/>
-      ${figure(100,128,.55)}
-      <circle cx="100" cy="40" r="10" fill="#ef2e22"/>
-      <path d="M30 205 Q45 180 60 205"/>
-      <path d="M140 205 Q155 180 170 205"/>
-      <path d="M15 70 Q35 50 50 70"/>
-    `;
-  }
-
-  if(!art){
-    art=`${sun}${mountain}${figure(100,140,.7)}`;
-  }
-
-  return `<svg viewBox="0 0 200 220" aria-hidden="true">${common}${art}</g></svg>`;
-}
-
-/* =========================================================
-   VIEWS
-========================================================= */
-
-const VW={
-
-home(){
-
-  const i=todayIndex();
-  const d=D[i];
-  const done=Object.keys(st.did).length;
-  const pct=Math.round((done/7)*100);
-
-  return `
-    <div class="hero">
-      <div class="asterisk">*</div>
-      <div class="tiny">${fmtDate()}</div>
-      <h1>momento.</h1>
-      <p>
-        Um pequeno espaço para parar, respirar, pensar
-        e voltar para o que importa.
-      </p>
-    </div>
-
-    <div class="card hero-card">
-      <div class="date">seu momento de hoje</div>
-      <strong>${esc(d[0])}</strong>
-      <small>${esc(d[1])}</small>
-      <span class="big">*</span>
-    </div>
-
-    <div class="sh">
-      <h3>Seu caminho</h3>
-      <span class="tiny">${done}/7</span>
-    </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;gap:15px">
-        <div>
-          <div class="tiny">semana</div>
-          <div style="font:24px Georgia,serif;margin-top:4px">
-            ${pct}% concluído
-          </div>
-        </div>
-        <div style="font:35px Georgia,serif;color:var(--red)">
-          ${done===7?"✦":"·"}
-        </div>
-      </div>
-
-      <div class="progress">
-        <i style="width:${pct}%"></i>
-      </div>
-    </div>
-
-    <div class="sh">
-      <h3>Hoje</h3>
-      <span class="tiny">dia ${i+1}</span>
-    </div>
-
-    <button class="item" data-a="go" data-v="dev">
-      <span class="ico">✦</span>
-      <span class="copy">
-        <strong>${esc(d[0])}</strong>
-        <small>${esc(d[1])}</small>
-      </span>
-      <span class="arrow">›</span>
-    </button>
-
-    <div class="sh">
-      <h3>Para explorar</h3>
-    </div>
-
-    <div class="list">
-
-      <button class="item" data-a="go" data-v="tarot">
-        <span class="ico">✦</span>
-        <span class="copy">
-          <strong>Tarot do momento</strong>
-          <small>Uma carta para contemplar o presente</small>
-        </span>
-        <span class="arrow">›</span>
-      </button>
-
-      <button class="item" data-a="go" data-v="astro">
-        <span class="ico">☼</span>
-        <span class="copy">
-          <strong>Mapa simbólico</strong>
-          <small>Astrologia como linguagem de reflexão</small>
-        </span>
-        <span class="arrow">›</span>
-      </button>
-
-    </div>
-  `;
-},
-
-dev(){
-
-  const i=todayIndex();
-  const d=D[i];
-  const done=!!st.did[i];
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="home">←</button>
-      <span class="tiny">devocional · ${i+1}/7</span>
-      <button class="ib" data-a="go" data-v="more">⋯</button>
-    </div>
-
-    <div style="padding-top:20px">
-
-      <div class="tiny">${esc(d[1])}</div>
-      <h2 style="margin-top:8px">${esc(d[0])}</h2>
-
-      <div class="scripture">
-        <div class="tiny">escritura</div>
-        <p>${esc(d[1])}</p>
-      </div>
-
-      <div class="blk">
-        <h4>O que essa escritura diz</h4>
-        <p>${esc(d[2])}</p>
-      </div>
-
-      <div class="blk">
-        <h4>Trazendo para o seu momento</h4>
-        <p>
-          Não precisa transformar essa leitura em uma resposta pronta.
-          Use-a como uma pausa para observar o que está acontecendo
-          dentro e ao redor de você.
-        </p>
-      </div>
-
-      <div class="q">
-        ${esc(d[3])}
-      </div>
-
-      <div class="blk">
-        <h4>Um pequeno movimento</h4>
-        <p>${esc(d[5])}</p>
-      </div>
-
-      <div class="blk">
-        <h4>Escreva aqui</h4>
-        <textarea
-          id="note"
-          placeholder="O que essa leitura despertou em você?"
-        >${esc(st.notes[i]||"")}</textarea>
-      </div>
-
-      <div class="prayer">
-        <div class="tiny" style="color:#aaa">oração</div>
-        <p>${esc(d[4])}</p>
-      </div>
-
-      ${
-        done
-        ? `
-          <div class="done">
-            <span>✓</span>
-            <span>Você marcou este momento como concluído.</span>
-          </div>
-        `
-        : `
-          <button class="btn red" data-a="completeDev">
-            Concluir meu momento
-          </button>
-        `
-      }
-
-    </div>
-  `;
-},
-
-psalm(){
-
-  const p=PR[A];
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="home">←</button>
-      <span class="tiny">salmo 18</span>
-      <span></span>
-    </div>
-
-    <div style="padding-top:20px">
-
-      <div class="tiny">uma semana com</div>
-      <h2 style="margin-top:7px">Salmo 18.</h2>
-
-      <p class="mu">
-        Leia o mesmo salmo durante a semana e deixe cada dia
-        chamar sua atenção para uma camada diferente.
-      </p>
-
-      <div class="psalm-days">
-        ${PR.map((_,i)=>`
-          <button
-            class="psalm-day ${i===A?"active":""} ${i<A?"complete":""}"
-            data-a="psalmDay"
-            data-i="${i}"
-          >${i+1}</button>
-        `).join("")}
-      </div>
-
-      <div class="psalm-box">
-
-        <div class="reference">dia ${A+1} · ${esc(p[0])}</div>
-
-        <p class="verse">
-          “O Senhor é a minha força, a minha rocha,
-          o meu lugar de segurança e o meu libertador.”
-        </p>
-
-        <div class="blk">
-          <h4>Meditação</h4>
-          <p>${esc(p[2])}</p>
-        </div>
-
-        <div class="q">
-          ${esc(p[3])}
-        </div>
-
-        <div class="blk">
-          <h4>Frase para mentalizar</h4>
-          <p style="font:20px Georgia,serif;color:var(--ink)">
-            Eu estou no caminho da prosperidade.
-            Eu sou a prosperidade. Eu sou.
-          </p>
-        </div>
-
-      </div>
-
-      <button class="btn red" data-a="nextPsalm">
-        ${A===6?"Recomeçar semana":"Avançar para o próximo dia"}
-      </button>
-
-    </div>
-  `;
-},
-
-baths(){
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="home">←</button>
-      <span class="tiny">rituais de cuidado</span>
-      <span></span>
-    </div>
-
-    <div style="padding-top:20px">
-
-      <div class="tiny">banhos</div>
-      <h2 style="margin-top:7px">Um ritual para marcar a intenção.</h2>
-
-      <p class="mu">
-        Aqui, o banho funciona como um gesto simbólico de autocuidado,
-        presença e encerramento ou início de ciclos.
-      </p>
-
-      ${RT.map((r,i)=>`
-        <div class="bath-card">
-
-          <div class="bath-icon">
-            ${["✦","☼","○","*","♡"][i]}
-          </div>
-
-          <h3>${esc(r[0])}</h3>
-          <p class="mu" style="font-size:13px">${esc(r[1])}</p>
-
-          <div class="ingredients">
-            ${r[2].map(x=>`<span>${esc(x)}</span>`).join("")}
-          </div>
-
-          <div class="blk">
-            <p>${esc(r[3])}</p>
-          </div>
-
-          <button class="btn light" data-a="bathTimer" data-i="${i}">
-            Fazer ritual de 10 min
-          </button>
-
-        </div>
-      `).join("")}
-
-      <div class="card" style="margin-top:18px">
-        <div class="tiny">atenção</div>
-        <p style="font-size:12px;color:var(--mu)">
-          Faça apenas práticas que sejam seguras para você.
-          Evite aplicar ingredientes irritantes diretamente na pele
-          e interrompa se houver qualquer reação.
-        </p>
-      </div>
-
-    </div>
-  `;
-},
-
-japa(){
-
-  const total=st.j.t||108;
-  const n=st.j.n||0;
-  const pct=Math.round((n/total)*100);
-
-  const beads=Array.from({length:108},(_,i)=>{
-
-    const angle=(i/108)*Math.PI*2-Math.PI/2;
-    const r=112;
-
-    const x=135+r*Math.cos(angle);
-    const y=135+r*Math.sin(angle);
-
-    return `
-      <span
-        class="bead ${i<n?"active":""}"
-        style="left:${x}px;top:${y}px"
-      ></span>
-    `;
-  }).join("");
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="home">←</button>
-      <span class="tiny">japamala</span>
-      <span></span>
-    </div>
-
-    <div style="padding-top:20px;text-align:center">
-
-      <div class="tiny">presença</div>
-      <h2 style="margin-top:7px">108 momentos.</h2>
-
-      <p class="mu">
-        Toque no centro a cada repetição da sua oração,
-        mantra ou frase de mentalização.
-      </p>
-
-      <div class="japa-wrap">
-
-        <div class="japa-count">${n}</div>
-        <div class="japa-sub">de ${total} contas · ${pct}%</div>
-
-        <div class="japa-beads">
-          ${beads}
-
-          <button class="japa-main" data-a="japaTap">
-            ${n===108?"completo":"tocar"}
-          </button>
-        </div>
-
-        <div class="japa-controls">
-
-          <button class="btn light" data-a="japaUndo">
-            desfazer
-          </button>
-
-          <button class="btn light" data-a="japaReset">
-            reiniciar
-          </button>
-
-        </div>
-
-        <div class="scripture" style="text-align:left;margin-top:22px">
-          <div class="tiny">mentalização</div>
-          <p>
-            Eu estou no caminho da prosperidade.
-            Eu sou a prosperidade. Eu sou.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  `;
-},
-
-tarot(){
-
-  const c=T[tz];
-  const history=st.tarotHistory||[];
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="more">←</button>
-      <span class="tiny">tarot do momento</span>
-      <span></span>
-    </div>
-
-    <div style="padding-top:20px">
-
-      <div class="tiny">uma carta</div>
-
-      <h2 style="margin-top:7px">
-        Uma carta para hoje.
-      </h2>
-
-      <p class="mu" style="margin:7px 0 2px">
-        Não para prever o futuro. Para olhar o presente
-        por outro ângulo.
-      </p>
-
-      <div class="tarot-wrap">
-
-        <button
-          class="tarot-card ${st.tarotFlipped?"flipped":""}"
-          data-a="flip"
-          aria-label="${st.tarotFlipped?"Carta revelada":"Virar carta"}"
-        >
-
-          <span class="tarot-face tarot-back">
-            <span class="tarot-back-mark">momento.</span>
-          </span>
-
-          <span class="tarot-face tarot-front">
-
-            <span class="tarot-inner">
-
-              <span class="tarot-head">
-                <span>${esc(c[1])}</span>
-                <span>✦</span>
-              </span>
-
-              <span class="tarot-art">
-                ${tarotSVG(c)}
-              </span>
-
-              <span class="tarot-foot">
-                ${esc(c[0])}
-              </span>
-
-            </span>
-
-          </span>
-
-        </button>
-
-      </div>
-
-      <p class="tarot-instruction">
-        ${
-          st.tarotFlipped
-          ?"Toque na carta para virá-la novamente."
-          :"Toque na carta para revelar."
-        }
-      </p>
-
-      ${
-        st.tarotFlipped
-        ? `
-          <div class="tarot-result">
-
-            <div class="tarot-meta">
-              <span>${esc(c[1])}</span>
-              <span>${esc(c[2])}</span>
-            </div>
-
-            <div class="q">
-              ${esc(c[3])}
-            </div>
-
-            <div class="blk">
-              <h4>Para contemplar</h4>
-              <p>
-                Esta carta pode ser usada como uma lente para observar
-                o que já está acontecendo, sem precisar tratá-la como
-                previsão ou resposta definitiva.
-              </p>
-            </div>
-
-            <button class="btn red" data-a="draw">
-              Tirar outra carta
-            </button>
-
-            <p class="tiny" style="margin-top:14px;line-height:1.6;text-align:center">
-              Tarot no momento. é uma prática simbólica de reflexão.
-            </p>
-
-          </div>
-        `
-        :""
-      }
-
-      ${
-        history.length
-        ? `
-          <div class="sh">
-            <h3>Cartas recentes</h3>
-            <span class="tiny">${history.length}</span>
-          </div>
-
-          <div class="tarot-history">
-            ${
-              history.slice().reverse().map(n=>`
-                <button
-                  class="${n===tz?"active":""}"
-                  data-a="tarotPick"
-                  data-i="${n}"
-                  aria-label="${esc(T[n][0])}"
-                >${esc(T[n][1])}</button>
-              `).join("")
-            }
-          </div>
-        `
-        :""
-      }
-
-    </div>
-  `;
-},
-
-astro(){
-
-  const points=[
-    [30,80,"Sol"],
-    [105,45,"Lua"],
-    [155,82,"Mercúrio"],
-    [212,55,"Vênus"],
-    [275,88,"Marte"],
-    [325,140,"Júpiter"],
-    [310,205,"Saturno"],
-    [250,240,"Urano"],
-    [170,245,"Netuno"],
-    [90,215,"Plutão"]
-  ];
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="more">←</button>
-      <span class="tiny">mapa simbólico</span>
-      <span></span>
-    </div>
-
-    <div style="padding-top:20px">
-
-      <div class="tiny">24 · 05 · 1996</div>
-
-      <h2 style="margin-top:7px">
-        Seu céu como linguagem.
-      </h2>
-
-      <p class="mu">
-        Esta leitura usa posições planetárias aproximadas da data
-        de nascimento. Sem horário e local exatos, não representa
-        um mapa natal completo.
-      </p>
-
-      <svg
-        class="astro-wheel"
-        viewBox="0 0 360 360"
-        aria-label="Roda astrológica simbólica"
-      >
-
-        <circle
-          cx="180"
-          cy="180"
-          r="145"
-          fill="none"
-          stroke="currentColor"
-          opacity=".25"
-        />
-
-        <circle
-          cx="180"
-          cy="180"
-          r="105"
-          fill="none"
-          stroke="currentColor"
-          opacity=".18"
-        />
-
-        <circle
-          cx="180"
-          cy="180"
-          r="52"
-          fill="none"
-          stroke="currentColor"
-          opacity=".2"
-        />
-
-        ${Array.from({length:12},(_,i)=>{
-          const a=i*Math.PI/6;
-          const x1=180+105*Math.cos(a);
-          const y1=180+105*Math.sin(a);
-          const x2=180+145*Math.cos(a);
-          const y2=180+145*Math.sin(a);
-          return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="currentColor" opacity=".2"/>`;
-        }).join("")}
-
-        <text x="180" y="186"
-          text-anchor="middle"
-          font-family="Georgia"
-          font-size="18"
-          fill="currentColor">
-          ✦
-        </text>
-
-        ${points.map((p,i)=>`
-          <g>
-            <circle
-              cx="${p[0]}"
-              cy="${p[1]}"
-              r="7"
-              fill="${i===0?"var(--red)":"var(--ink)"}"
-            />
-            <text
-              x="${p[0]}"
-              y="${p[1]-12}"
-              text-anchor="middle"
-              font-size="8"
-              fill="currentColor"
-            >${p[2]}</text>
-          </g>
-        `).join("")}
-
-      </svg>
-
-      <div class="sh">
-        <h3>Posições</h3>
-        <span class="tiny">simbólico</span>
-      </div>
-
-      <div class="astro-list">
-
-        ${PL.map(p=>`
-          <div class="planet">
-            <span>${p[0]} ${p[1]}</span>
-            <small>${p[2]} · ${p[3]}</small>
-          </div>
-        `).join("")}
-
-      </div>
-
-      <div class="card" style="margin-top:18px">
-        <div class="tiny">como usar</div>
-        <p style="font-size:13px;color:var(--mu)">
-          Astrologia aqui funciona como linguagem simbólica:
-          uma maneira de criar perguntas, observar padrões e
-          refletir sobre experiências. Não é tratada como ciência
-          nem como método de previsão.
-        </p>
-      </div>
-
-    </div>
-  `;
-},
-
-more(){
-
-  return `
-    <div class="top">
-      <button class="ib" data-a="go" data-v="home">←</button>
-      <span class="tiny">mais</span>
-      <span></span>
-    </div>
-
-    <div style="padding-top:20px">
-
-      <div class="tiny">momento.</div>
-      <h2 style="margin-top:7px">Mais coisas para você.</h2>
-
-      <div class="menu-grid" style="margin-top:22px">
-
-        <button class="menu-card" data-a="go" data-v="tarot">
-          <b>✦ Tarot</b>
-          <small>Uma carta para reflexão.</small>
-        </button>
-
-        <button class="menu-card" data-a="go" data-v="astro">
-          <b>☼ Astrologia</b>
-          <small>Um mapa simbólico.</small>
-        </button>
-
-        <button class="menu-card" data-a="go" data-v="japa">
-          <b>◌ Japamala</b>
-          <small>108 repetições com presença.</small>
-        </button>
-
-        <button class="menu-card" data-a="go" data-v="baths">
-          <b>✦ Banhos</b>
-          <small>Rituais de autocuidado.</small>
-        </button>
-
-      </div>
-
-      <div class="sh">
-        <h3>Seu espaço</h3>
-      </div>
-
-      <div class="list">
-
-        <button class="item" data-a="export">
-          <span class="ico">↓</span>
-          <span class="copy">
-            <strong>Exportar minhas notas</strong>
-            <small>Salvar suas reflexões em um arquivo</small>
-          </span>
-          <span class="arrow">›</span>
-        </button>
-
-        <button class="item" data-a="theme">
-          <span class="ico">◐</span>
-          <span class="copy">
-            <strong>Alternar aparência</strong>
-            <small>Claro ou escuro</small>
-          </span>
-          <span class="arrow">›</span>
-        </button>
-
-        <button class="item" data-a="restart">
-          <span class="ico danger">↻</span>
-          <span class="copy">
-            <strong>Recomeçar jornada</strong>
-            <small>Apagar progresso dos devocionais</small>
-          </span>
-          <span class="arrow">›</span>
-        </button>
-
-      </div>
-
-      <div class="card" style="margin-top:20px;text-align:center">
-        <div style="font:30px Georgia,serif">✦</div>
-        <p style="font:17px Georgia,serif">
-          “Um momento de pausa também é um momento de cuidado.”
-        </p>
-        <div class="tiny">momento. · seu espaço pessoal</div>
-      </div>
-
-    </div>
-  `
-}
-
-};
-
-/* =========================================================
-   AÇÕES
-========================================================= */
-
-const act={
-
-go:d=>{
-  V=d.v;
-  if(V!=="baths" && timer){
-    clearInterval(timer);
-    timer=null;
-  }
-  draw();
-  window.scrollTo({top:0,behavior:"smooth"});
-},
-
-completeDev:()=>{
-  const i=todayIndex();
-  st.did[i]=true;
-  sv("did");
-  draw();
-},
-
-saveNote:e=>{
-  const i=todayIndex();
-  st.notes[i]=e.target.value;
-  sv("notes");
-},
-
-psalmDay:d=>{
-  A=+d.i;
-  draw();
-},
-
-nextPsalm:()=>{
-
-  if(A===6){
-    A=0;
-  }else{
-    A++;
-  }
-
-  draw();
-},
-
-bathTimer:d=>{
-
-  if(timer){
-    clearInterval(timer);
-  }
-
-  timerSec=600;
-
-  V="baths";
-
-  draw();
-
-  timer=setInterval(()=>{
-
-    timerSec--;
-
-    const el=document.querySelector(".timer-number");
-
-    if(el){
-
-      const m=Math.floor(timerSec/60);
-      const s=String(timerSec%60).padStart(2,"0");
-
-      el.textContent=`${m}:${s}`;
-
-    }
-
-    if(timerSec<=0){
-
-      clearInterval(timer);
-      timer=null;
-
-      const el=document.querySelector(".timer-number");
-
-      if(el){
-        el.textContent="feito.";
-      }
-    }
-
-  },1000);
-
-},
-
-japaTap:()=>{
-
-  if(st.j.n<st.j.t){
-
-    st.j.n++;
-
-    if(st.j.n>108){
-      st.j.n=108;
-    }
-
-    sv("j");
-
-    draw();
-  }
-
-},
-
-japaUndo:()=>{
-
-  if(st.j.n>0){
-
-    st.j.n--;
-
-    sv("j");
-
-    draw();
-  }
-
-},
-
-japaReset:()=>{
-
-  st.j.n=0;
-  sv("j");
-
-  draw();
-},
-
-flip:()=>{
-
-  st.tarotFlipped=!st.tarotFlipped;
-
-  if(st.tarotFlipped){
-
-    st.tarotHistory=st.tarotHistory||[];
-
-    if(!st.tarotHistory.includes(tz)){
-
-      st.tarotHistory.push(tz);
-
-      st.tarotHistory=
-        st.tarotHistory.slice(-8);
-    }
-
-    sv("tarotHistory");
-  }
-
-  sv("tarotFlipped");
-
-  draw();
-},
-
-draw:()=>{
-
-  let n;
-
-  do{
-    n=Math.floor(Math.random()*T.length);
-  }while(n===tz && T.length>1);
-
-  tz=n;
-
-  st.tarotFlipped=false;
-
-  sv("tarotFlipped");
-
-  st.tarotHistory=st.tarotHistory||[];
-
-  if(!st.tarotHistory.includes(tz)){
-
-    st.tarotHistory.push(tz);
-
-    st.tarotHistory=
-      st.tarotHistory.slice(-8);
-  }
-
-  sv("tarotHistory");
-
-  draw();
-
-},
-
-tarotPick:d=>{
-
-  tz=+d.i;
-
-  st.tarotFlipped=true;
-
-  if(!st.tarotHistory.includes(tz)){
-
-    st.tarotHistory.push(tz);
-
-    st.tarotHistory=
-      st.tarotHistory.slice(-8);
-  }
-
-  sv("tarotFlipped");
-  sv("tarotHistory");
-
-  draw();
-},
-
-theme:()=>{
-
-  st.theme=
-    st.theme==="dark"
-    ?"light"
-    :"dark";
-
-  sv("theme");
-
-  applyTheme();
-  draw();
-},
-
-restart:()=>{
-
-  const ok=
-    confirm(
-      "Quer realmente recomeçar a jornada? Suas notas não serão apagadas."
+  const d = DEVOTIONALS[currentDev];
+
+  document.querySelector(".dev-page h1").innerHTML =
+    d.title.replace(
+      " ",
+      " "
     );
 
-  if(!ok)return;
+  document.querySelector(".dev-page .ref").textContent =
+    d.ref;
 
-  st.start=TD;
-  st.did={};
+  showView("dev");
+}
 
-  sv("start");
-  sv("did");
+const savedNote =
+  localStorage.getItem("momento_dev_note");
 
-  draw();
-},
+if(savedNote){
+  document.getElementById("devNote").value = savedNote;
+}
 
-export:()=>{
-
-  const data={
-
-    momento:new Date().toLocaleString("pt-BR"),
-
-    devocionais:st.notes,
-
-    devocionaisConcluidos:st.did,
-
-    cartasTarot:
-      (st.tarotHistory||[])
-      .map(i=>T[i][0])
-
-  };
-
-  const blob=
-    new Blob(
-      [JSON.stringify(data,null,2)],
-      {type:"application/json"}
+document
+  .getElementById("devNote")
+  .addEventListener("input",e=>{
+    localStorage.setItem(
+      "momento_dev_note",
+      e.target.value
     );
+  });
 
-  const url=
-    URL.createObjectURL(blob);
 
-  const a=
-    document.createElement("a");
+/* ==========================================================
+   PSALM
+========================================================== */
 
-  a.href=url;
-  a.download="momento-minhas-notas.json";
+function psalmDay(day){
 
-  a.click();
-
-  URL.revokeObjectURL(url);
-}
-
-};
-
-/* =========================================================
-   EVENTOS
-========================================================= */
-
-document.addEventListener("click",e=>{
-
-  const b=e.target.closest("[data-a]");
-
-  if(!b)return;
-
-  const action=b.dataset.a;
-
-  if(act[action]){
-    act[action](b.dataset);
-  }
-
-});
-
-document.addEventListener("input",e=>{
-
-  if(e.target.id==="note"){
-    act.saveNote(e);
-  }
-
-});
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function draw(){
-
-  const app=
-    document.getElementById("app");
-
-  const fn=
-    VW[V]||VW.home;
-
-  app.innerHTML=
-    fn();
-
-  updateNav();
-}
-
-function updateNav(){
-
-  document.querySelectorAll(".nav button")
-    .forEach(b=>{
-      b.classList.toggle(
-        "active",
-        b.dataset.v===V
-      );
+  document
+    .querySelectorAll(".psalm-day")
+    .forEach((b,i)=>{
+      b.classList.toggle("active",i===day-1);
     });
+
+  const data = PSALMS[day-1];
+
+  document.getElementById("psalmDayNum").textContent =
+    String(day).padStart(2,"0");
+
+  document.getElementById("psalmTitle").textContent =
+    data.title;
+
+  document.getElementById("psalmVerse").textContent =
+    data.verse;
+
+  document.getElementById("psalmText").textContent =
+    data.text;
 }
 
-function applyTheme(){
 
-  document.body.classList.toggle(
-    "dark",
-    st.theme==="dark"
+/* ==========================================================
+   JAPAMALA
+========================================================== */
+
+const TOTAL_BEADS = 108;
+
+let japaCount =
+  parseInt(localStorage.getItem("momento_japa_count") || "0");
+
+let japaPaused =
+  localStorage.getItem("momento_japa_paused") === "true";
+
+let phrase =
+  localStorage.getItem("momento_phrase") ||
+  "Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.";
+
+
+/* organic ellipse points */
+
+function getBeadPoint(index){
+
+  /*
+    Instead of a perfect circle:
+    a large organic oval with slight modulation.
+  */
+
+  const t =
+    (index / TOTAL_BEADS) * Math.PI * 2
+    - Math.PI / 2;
+
+  const rx = 164;
+  const ry = 184;
+
+  const organicX =
+    Math.sin(t * 3.0) * 2.4 +
+    Math.sin(t * 7.0) * 1.15;
+
+  const organicY =
+    Math.sin(t * 2.0) * 2.1 +
+    Math.cos(t * 5.0) * 1.2;
+
+  return {
+    x:215 + Math.cos(t) * rx + organicX,
+    y:238 + Math.sin(t) * ry + organicY
+  };
+}
+
+
+function renderMala(){
+
+  const svg =
+    document.getElementById("malaSvg");
+
+  const beadsGroup =
+    document.getElementById("beads");
+
+  const cord =
+    document.getElementById("malaCord");
+
+  if(!svg || !beadsGroup) return;
+
+  beadsGroup.innerHTML = "";
+
+  const points = [];
+
+  for(let i=0;i<TOTAL_BEADS;i++){
+
+    const p = getBeadPoint(i);
+
+    points.push(p);
+
+  }
+
+  /*
+    cord path
+  */
+
+  let path = "";
+
+  points.forEach((p,i)=>{
+
+    if(i===0){
+      path += `M ${p.x} ${p.y}`;
+    }else{
+      path += ` L ${p.x} ${p.y}`;
+    }
+
+  });
+
+  cord.setAttribute("d",path);
+
+  /*
+    beads
+  */
+
+  points.forEach((p,i)=>{
+
+    const g =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "g"
+      );
+
+    g.setAttribute(
+      "class",
+      `bead mala-bead ${
+        i < japaCount ? "completed" : ""
+      } ${i === japaCount ? "active" : ""}`
+    );
+
+    g.setAttribute(
+      "transform",
+      `translate(${p.x} ${p.y})`
+    );
+
+    const shadow =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "ellipse"
+      );
+
+    shadow.setAttribute("cx","1.5");
+    shadow.setAttribute("cy","2.5");
+    shadow.setAttribute("rx","7.8");
+    shadow.setAttribute("ry","7");
+    shadow.setAttribute("class","bead-shadow");
+
+    const body =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "circle"
+      );
+
+    body.setAttribute("cx","0");
+    body.setAttribute("cy","0");
+    body.setAttribute("r", i%9===0 ? "8.1" : "7.4");
+    body.setAttribute("class","bead-body");
+
+    const highlight =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "ellipse"
+      );
+
+    highlight.setAttribute("cx","-2");
+    highlight.setAttribute("cy","-2.5");
+    highlight.setAttribute("rx","2.1");
+    highlight.setAttribute("ry","1.5");
+    highlight.setAttribute("class","bead-highlight");
+
+    g.appendChild(shadow);
+    g.appendChild(body);
+    g.appendChild(highlight);
+
+    beadsGroup.appendChild(g);
+
+  });
+
+  updateJapaUI();
+}
+
+
+function updateJapaUI(){
+
+  document.getElementById("japaBig").textContent =
+    japaCount;
+
+  document.getElementById("japaTopCount").textContent =
+    japaCount;
+
+  const percent =
+    Math.round((japaCount/TOTAL_BEADS)*100);
+
+  document.getElementById("japaPercent").textContent =
+    `${percent}%`;
+
+  document.getElementById("phraseText").innerHTML =
+    formatPhrase(phrase);
+
+  document.getElementById("pauseBtn").textContent =
+    japaPaused ? "continuar" : "pausar";
+
+  localStorage.setItem(
+    "momento_japa_count",
+    japaCount
   );
 
-  const meta=
-    document.querySelector('meta[name="theme-color"]');
+  localStorage.setItem(
+    "momento_japa_paused",
+    japaPaused
+  );
 
-  if(meta){
-    meta.content=
-      st.theme==="dark"
-      ?" #171614"
-      :"#f4efe6";
+  const hint =
+    document.getElementById("malaHint");
+
+  if(japaCount>0){
+    hint.classList.add("hide");
+  }else{
+    hint.classList.remove("hide");
+  }
+
+  if(japaCount>=TOTAL_BEADS){
+
+    setTimeout(()=>{
+      document
+        .getElementById("japaComplete")
+        .classList.add("show");
+    },350);
+
+  }
+
+  renderMala();
+}
+
+
+function advanceJapa(){
+
+  if(japaPaused) return;
+
+  if(japaCount>=TOTAL_BEADS) return;
+
+  japaCount++;
+
+  /*
+    Haptic feedback when supported.
+  */
+
+  if(
+    navigator.vibrate &&
+    typeof navigator.vibrate === "function"
+  ){
+
+    navigator.vibrate(
+      japaCount % 27 === 0 ? [12,20,12] : 8
+    );
+
+  }
+
+  updateJapaUI();
+}
+
+
+document
+  .getElementById("malaStage")
+  .addEventListener("pointerup",e=>{
+
+    /*
+      Ignore if user tapped the completion layer.
+    */
+
+    if(
+      e.target.closest(".japa-complete")
+    ) return;
+
+    advanceJapa();
+
+  });
+
+
+function undoJapa(){
+
+  if(japaCount<=0) return;
+
+  japaCount--;
+
+  document
+    .getElementById("japaComplete")
+    .classList.remove("show");
+
+  updateJapaUI();
+
+  if(navigator.vibrate){
+    navigator.vibrate(5);
   }
 }
 
-/* =========================================================
-   INÍCIO
-========================================================= */
 
-applyTheme();
-draw();
+function resetJapa(){
+
+  japaCount=0;
+
+  document
+    .getElementById("japaComplete")
+    .classList.remove("show");
+
+  updateJapaUI();
+
+}
+
+
+function togglePause(){
+
+  japaPaused=!japaPaused;
+
+  updateJapaUI();
+
+}
+
+
+function formatPhrase(text){
+
+  const escaped =
+    text
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;");
+
+  return escaped.replace(
+    /Eu sou\.$/i,
+    "<em>Eu sou.</em>"
+  );
+}
+
+
+/* phrase editor */
+
+function openPhrase(){
+
+  document
+    .getElementById("phraseInput")
+    .value = phrase;
+
+  document
+    .getElementById("phraseModal")
+    .classList.add("show");
+
+}
+
+
+function closePhrase(){
+
+  document
+    .getElementById("phraseModal")
+    .classList.remove("show");
+
+}
+
+
+function savePhrase(){
+
+  phrase =
+    document
+      .getElementById("phraseInput")
+      .value
+      .trim();
+
+  if(!phrase){
+
+    phrase =
+      "Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.";
+
+  }
+
+  localStorage.setItem(
+    "momento_phrase",
+    phrase
+  );
+
+  updateJapaUI();
+
+  closePhrase();
+
+}
+
+
+/* ==========================================================
+   TAROT
+========================================================== */
+
+const TAROT = [
+
+  {
+    roman:"0",
+    name:"O Louco",
+    symbol:"✳",
+    meaning:"começo, abertura e disposição para caminhar sem precisar possuir todas as respostas.",
+    question:"Que passo novo posso dar sem ter todas as respostas?"
+  },
+
+  {
+    roman:"I",
+    name:"O Mago",
+    symbol:"✦",
+    meaning:"iniciativa, criatividade e reconhecimento dos recursos que já estão disponíveis.",
+    question:"Que recurso já está em minhas mãos e ainda não uso?"
+  },
+
+  {
+    roman:"II",
+    name:"A Sacerdotisa",
+    symbol:"☾",
+    meaning:"escuta, silêncio e discernimento antes de transformar informação em decisão.",
+    question:"Que informação precisa de silêncio antes de virar decisão?"
+  },
+
+  {
+    roman:"III",
+    name:"A Imperatriz",
+    symbol:"❧",
+    meaning:"cuidado, criação, fertilidade simbólica e aquilo que cresce quando recebe atenção.",
+    question:"O que precisa de cuidado constante para amadurecer?"
+  },
+
+  {
+    roman:"IV",
+    name:"O Imperador",
+    symbol:"◇",
+    meaning:"estrutura, responsabilidade, limites e construção de algo sustentável.",
+    question:"Onde uma regra simples melhoraria minha vida?"
+  },
+
+  {
+    roman:"V",
+    name:"O Hierofante",
+    symbol:"◌",
+    meaning:"aprendizado, tradição, orientação e busca por fontes confiáveis.",
+    question:"Que conhecimento merece uma fonte melhor que um conselho aleatório?"
+  },
+
+  {
+    roman:"VI",
+    name:"Os Enamorados",
+    symbol:"♡",
+    meaning:"escolha, valores e alinhamento entre aquilo que você diz querer e aquilo que pratica.",
+    question:"Qual valor precisa aparecer na próxima escolha?"
+  },
+
+  {
+    roman:"VII",
+    name:"O Carro",
+    symbol:"→",
+    meaning:"direção, movimento e capacidade de conduzir energia para um caminho definido.",
+    question:"Onde estou acelerando sem direção clara?"
+  },
+
+  {
+    roman:"VIII",
+    name:"A Força",
+    symbol:"∞",
+    meaning:"coragem, autocontrole e firmeza sem violência contra si mesmo.",
+    question:"Como posso ser firme sem ser cruel comigo?"
+  },
+
+  {
+    roman:"IX",
+    name:"O Eremita",
+    symbol:"⌂",
+    meaning:"recolhimento, profundidade e espaço para descobrir uma resposta própria.",
+    question:"Que pergunta merece mais silêncio e menos opinião externa?"
+  },
+
+  {
+    roman:"X",
+    name:"A Roda da Fortuna",
+    symbol:"◉",
+    meaning:"mudança, ciclos e necessidade de responder ao presente em vez de repetir automaticamente o passado.",
+    question:"O que mudou e pede uma resposta diferente da antiga?"
+  },
+
+  {
+    roman:"XI",
+    name:"A Justiça",
+    symbol:"⚖",
+    meaning:"coerência, responsabilidade e capacidade de separar fatos de medo.",
+    question:"Que decisão fica clara quando separo fatos de medo?"
+  },
+
+  {
+    roman:"XII",
+    name:"O Enforcado",
+    symbol:"↓",
+    meaning:"pausa e mudança de perspectiva quando insistir no mesmo caminho já não produz clareza.",
+    question:"Que problema muda se eu parar de resolvê-lo do mesmo jeito?"
+  },
+
+  {
+    roman:"XIII",
+    name:"A Morte",
+    symbol:"✕",
+    meaning:"encerramento, transformação e espaço criado quando algo deixa de ocupar a vida.",
+    question:"O que já terminou, mas ainda ocupa espaço?"
+  },
+
+  {
+    roman:"XIV",
+    name:"A Temperança",
+    symbol:"≈",
+    meaning:"equilíbrio, integração e construção de um ritmo que possa realmente ser sustentado.",
+    question:"Onde uma medida intermediária seria mais sustentável?"
+  },
+
+  {
+    roman:"XV",
+    name:"O Diabo",
+    symbol:"△",
+    meaning:"apegos, padrões e hábitos que podem parecer escolhas enquanto funcionam no automático.",
+    question:"Que hábito parece escolha, mas funciona no automático?"
+  },
+
+  {
+    roman:"XVI",
+    name:"A Torre",
+    symbol:"⚡",
+    meaning:"ruptura, revisão e confronto com aquilo que dependia mais de crença do que de realidade.",
+    question:"Que crença precisaria de evidência para continuar?"
+  },
+
+  {
+    roman:"XVII",
+    name:"A Estrela",
+    symbol:"☆",
+    meaning:"esperança, direção e cuidado com aquilo que você deseja construir sem transformar desejo em garantia.",
+    question:"Que esperança vale cuidar sem virar garantia?"
+  },
+
+  {
+    roman:"XVIII",
+    name:"A Lua",
+    symbol:"☽",
+    meaning:"ambiguidade, imaginação e necessidade de distinguir percepção de informação.",
+    question:"Onde minha imaginação preenche lacunas de informação?"
+  },
+
+  {
+    roman:"XIX",
+    name:"O Sol",
+    symbol:"☀",
+    meaning:"clareza, vitalidade e disposição para olhar uma situação sem adicionar camadas desnecessárias.",
+    question:"Que assunto fica mais claro se dito sem rodeios?"
+  },
+
+  {
+    roman:"XX",
+    name:"O Julgamento",
+    symbol:"↟",
+    meaning:"revisão, aprendizado e capacidade de olhar para a própria experiência antes de entrar na próxima fase.",
+    question:"O que a experiência recente ensina sobre a próxima fase?"
+  },
+
+  {
+    roman:"XXI",
+    name:"O Mundo",
+    symbol:"○",
+    meaning:"integração, conclusão e reconhecimento daquilo que já está completo o bastante para ser visto.",
+    question:"O que já está completo o bastante para ser reconhecido?"
+  }
+
+];
+
+let tarotIndex =
+  parseInt(
+    localStorage.getItem("momento_tarot") ||
+    String(Math.floor(Math.random()*22))
+  );
+
+
+function buildTarotArt(card){
+
+  const svg =
+    document.getElementById("cardSvg");
+
+  svg.innerHTML = "";
+
+  /*
+    Original line-art composition.
+    It deliberately avoids copying a specific
+    historical Tarot deck.
+  */
+
+  const NS = "http://www.w3.org/2000/svg";
+
+  function el(tag,attrs={}){
+
+    const x =
+      document.createElementNS(NS,tag);
+
+    Object.entries(attrs).forEach(([k,v])=>{
+      x.setAttribute(k,v);
+    });
+
+    return x;
+
+  }
+
+  const ink="#29251f";
+  const red="#b51f19";
+  const gold="#8f8068";
+
+  const frame =
+    el("rect",{
+      x:5,
+      y:5,
+      width:170,
+      height:260,
+      rx:1,
+      fill:"none",
+      stroke:ink,
+      "stroke-width":1
+    });
+
+  svg.appendChild(frame);
+
+  const inner =
+    el("rect",{
+      x:10,
+      y:10,
+      width:160,
+      height:250,
+      fill:"none",
+      stroke:gold,
+      "stroke-width":.6
+    });
+
+  svg.appendChild(inner);
+
+  /*
+    central archetypal figure
+  */
+
+  const centerX=90;
+  const centerY=133;
+
+  const halo =
+    el("circle",{
+      cx:centerX,
+      cy:centerY-35,
+      r:30,
+      fill:"none",
+      stroke:gold,
+      "stroke-width":1
+    });
+
+  svg.appendChild(halo);
+
+  const head =
+    el("circle",{
+      cx:centerX,
+      cy:centerY-35,
+      r:10,
+      fill:"none",
+      stroke:ink,
+      "stroke-width":1.3
+    });
+
+  svg.appendChild(head);
+
+  const body =
+    el("path",{
+      d:`M90 108 C75 120 70 155 67 193
+         M90 108 C105 120 110 155 113 193
+         M67 193 C82 202 98 202 113 193`,
+      fill:"none",
+      stroke:ink,
+      "stroke-width":1.5,
+      "stroke-linecap":"round"
+    });
+
+  svg.appendChild(body);
+
+  /*
+    arms
+  */
+
+  const arms =
+    el("path",{
+      d:"M78 128 L53 150 M102 128 L127 150",
+      fill:"none",
+      stroke:ink,
+      "stroke-width":1.4,
+      "stroke-linecap":"round"
+    });
+
+  svg.appendChild(arms);
+
+  /*
+    symbol above
+  */
+
+  const symbol =
+    el("text",{
+      x:90,
+      y:70,
+      "text-anchor":"middle",
+      fill:red,
+      "font-family":"Georgia",
+      "font-size":"25"
+    });
+
+  symbol.textContent=card.symbol;
+
+  svg.appendChild(symbol);
+
+  /*
+    botanical details
+  */
+
+  for(let i=0;i<6;i++){
+
+    const angle =
+      (Math.PI*2/6)*i;
+
+    const x =
+      90 + Math.cos(angle)*58;
+
+    const y =
+      145 + Math.sin(angle)*58;
+
+    const leaf =
+      el("path",{
+        d:`M${x} ${y}
+           q ${i%2===0?8:-8} -8
+             ${i%2===0?13: -13} 0
+           q ${i%2===0?-5:5}
+             8
+             ${i%2===0?-13:13} 0`,
+        fill:"none",
+        stroke:gold,
+        "stroke-width":.8
+      });
+
+    svg.appendChild(leaf);
+
+  }
+
+  /*
+    unique lower geometry based on card index
+  */
+
+  const idx = TAROT.indexOf(card);
+
+  if(idx % 3 === 0){
+
+    const circle =
+      el("circle",{
+        cx:90,
+        cy:220,
+        r:18,
+        fill:"none",
+        stroke:red,
+        "stroke-width":1
+      });
+
+    svg.appendChild(circle);
+
+  }else if(idx % 3 === 1){
+
+    const triangle =
+      el("path",{
+        d:"M90 200 L111 235 L69 235 Z",
+        fill:"none",
+        stroke:red,
+        "stroke-width":1
+      });
+
+    svg.appendChild(triangle);
+
+  }else{
+
+    const crescent =
+      el("path",{
+        d:"M82 202 A18 18 0 1 0 101 230 A14 18 0 1 1 82 202",
+        fill:"none",
+        stroke:red,
+        "stroke-width":1
+      });
+
+    svg.appendChild(crescent);
+
+  }
+
+}
+
+
+function renderTarot(){
+
+  const card = TAROT[tarotIndex];
+
+  document.getElementById("cardRoman").textContent =
+    card.roman;
+
+  document.getElementById("cardTitle").textContent =
+    card.name.toUpperCase();
+
+  document.getElementById("tarotName").textContent =
+    card.name;
+
+  document.getElementById("tarotMeaning").textContent =
+    card.meaning;
+
+  document.getElementById("tarotQuestion").textContent =
+    card.question;
+
+  buildTarotArt(card);
+
+}
+
+
+function flipTarot(){
+
+  const card =
+    document.getElementById("tarotCard");
+
+  if(card.classList.contains("flipped")){
+    return;
+  }
+
+  card.classList.add("flipped");
+
+  document
+    .getElementById("tarotResult")
+    .classList.add("show");
+
+}
+
+
+function drawTarot(){
+
+  let next;
+
+  do{
+    next =
+      Math.floor(Math.random()*TAROT.length);
+  }while(next===tarotIndex);
+
+  tarotIndex=next;
+
+  localStorage.setItem(
+    "momento_tarot",
+    tarotIndex
+  );
+
+  const card =
+    document.getElementById("tarotCard");
+
+  card.classList.remove("flipped");
+
+  document
+    .getElementById("tarotResult")
+    .classList.remove("show");
+
+  renderTarot();
+
+}
+
+
+/* ==========================================================
+   BATHS
+========================================================== */
+
+function toggleBath(item){
+
+  const open =
+    item.classList.contains("open");
+
+  document
+    .querySelectorAll(".bath-item")
+    .forEach(i=>{
+      i.classList.remove("open");
+    });
+
+  if(!open){
+    item.classList.add("open");
+  }
+
+}
+
+
+/* ==========================================================
+   INITIALIZATION
+========================================================== */
+
+renderMala();
+renderTarot();
+updateJapaUI();
 
 </script>
 
