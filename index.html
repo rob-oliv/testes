@@ -3,24 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>ROB. RAW EDITION 6.0</title>
+
+<!-- MÁGICA PARA O IPHONE (Web App Capable) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="rob.">
+<title>rob.</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+
+<!-- SCRIPT GERADOR DO ÍCONE "rob." PRO IPHONE -->
+<script>
+    (function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 512;
+        var ctx = canvas.getContext('2d');
+        
+        // Fundo Vermelho
+        ctx.fillStyle = '#E03526';
+        ctx.fillRect(0, 0, 512, 512);
+        
+        // Texto Branco
+        ctx.fillStyle = '#FFFFFF';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        // Usando a fonte do sistema da Apple super grossa para garantir que carregue instantaneamente
+        ctx.font = '800 180px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+        ctx.letterSpacing = '-5px';
+        ctx.fillText('rob.', 256, 276);
+        
+        var link = document.createElement('link');
+        link.rel = 'apple-touch-icon';
+        link.href = canvas.toDataURL('image/png');
+        document.head.appendChild(link);
+    })();
+</script>
+
 <style>
-    /* VARIABLES (Pure Minimalist Palette) */
+    /* VARIABLES (Paleta Acinzentada/Branca) */
     :root {
-        --creme: #E8E4D9;
-        --marrom: #4A3A2C;
-        --vermelho: #E03526;
-        --preto: #1A1A1A;
-        --cinza: #949490;
+        --bg: #F4F4F4;        
+        --branco: #FFFFFF;    
+        --marrom: #3D3D3D;    
+        --vermelho: #E03526;  
+        --preto: #111111;     
+        --cinza: #999999;     
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-        background-color: var(--creme);
+        background-color: var(--bg);
         color: var(--preto);
         font-family: 'Manrope', sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -41,31 +77,19 @@
     .uppercase { text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* VIEWS */
-    .view { display: none; padding: 24px; animation: smoothFade 0.4s ease forwards; }
+    .view { display: none; padding: 24px; animation: smoothFade 0.3s ease forwards; }
     .view.active { display: block; }
     @keyframes smoothFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* HEADER */
-    header { display: flex; justify-content: space-between; align-items: center; padding: max(32px, env(safe-area-inset-top)) 24px 16px 24px; position: sticky; top: 0; background: var(--creme); z-index: 10;}
+    /* HEADER GERAL */
+    header { display: flex; justify-content: space-between; align-items: center; padding: max(32px, env(safe-area-inset-top)) 24px 16px 24px; position: sticky; top: 0; background: var(--bg); z-index: 10;}
     .logo { font-size: 2.4rem; color: var(--preto); line-height: 1; }
-    .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--vermelho); color: var(--creme); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--vermelho); color: var(--branco); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
     .section-title { font-size: 0.75rem; color: var(--marrom); margin-bottom: 24px; font-weight: 800; letter-spacing: 1.5px; }
 
-    /* MARQUEE ANIMATION (WOW FACTOR 1) */
-    .marquee-container {
-        position: absolute; bottom: 10%; left: 0; width: 200%;
-        overflow: hidden; white-space: nowrap; pointer-events: none; z-index: 1; opacity: 0.1;
-    }
-    .marquee-text {
-        display: inline-block; font-family: 'Bricolage Grotesque'; font-size: 5rem; line-height: 1; color: var(--vermelho);
-        animation: marquee 10s linear infinite; text-transform: uppercase;
-    }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
     /* HERO AREA */
-    .workout-hero { margin-top: 24px; margin-bottom: 48px; cursor: pointer; position: relative; overflow: hidden; padding: 24px 0; }
-    .workout-hero-content { position: relative; z-index: 2; }
+    .workout-hero { margin-top: 16px; margin-bottom: 48px; cursor: pointer; position: relative; overflow: hidden; padding: 16px 0; }
     .workout-hero h1 { font-size: 4.5rem; line-height: 0.85; letter-spacing: -2px; margin: 12px 0; color: var(--preto); }
     .workout-hero p { font-size: 1.1rem; color: var(--marrom); }
 
@@ -73,11 +97,19 @@
     .mood-row { display: flex; gap: 12px; margin-bottom: 48px; overflow-x: auto; padding-bottom: 12px; }
     .mood-row::-webkit-scrollbar { display: none; }
     .mood-btn { 
-        background: transparent; border: 2px solid var(--marrom); border-radius: 100px;
+        background: var(--branco); border: 2px solid var(--marrom); border-radius: 100px;
         font-size: 0.9rem; color: var(--marrom); cursor: pointer; transition: all 0.2s; 
         font-weight: 800; padding: 10px 16px; white-space: nowrap; 
     }
-    .mood-btn.selected { background: var(--marrom); color: var(--creme); }
+    .mood-btn.selected { background: var(--marrom); color: var(--branco); }
+
+    /* CALENDÁRIO SEMANAL DA HOME */
+    .weekly-cal { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 32px;}
+    .cal-day { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .cal-lbl { font-size: 0.65rem; font-weight: 800; color: var(--cinza); }
+    .cal-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--marrom); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: transparent; transition: all 0.3s; background: var(--branco);}
+    .cal-day.done .cal-circle { background: var(--vermelho); border-color: var(--vermelho); color: var(--branco); }
+    .cal-day.done .cal-lbl { color: var(--vermelho); }
 
     /* FICHAS CARDS */
     .fichas-grid { display: flex; flex-direction: column; gap: 16px; }
@@ -87,8 +119,9 @@
         min-height: 160px;
     }
     .ficha-card:active { transform: scale(0.97); }
-    .card-light { background: var(--creme); border: 2px solid var(--preto); color: var(--preto); }
-    .card-dark { background: var(--marrom); color: var(--creme); border: 2px solid var(--marrom); }
+    
+    .card-light { background: var(--branco); border: 2px solid var(--preto); color: var(--preto); }
+    .card-dark { background: var(--preto); color: var(--branco); border: 2px solid var(--preto); }
 
     .ficha-bg-graphic {
         position: absolute; right: -10%; bottom: -20%; font-size: 12rem; color: var(--vermelho); opacity: 0.3;
@@ -107,55 +140,56 @@
 
     /* PROGRESS BAR */
     .progress-track { width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 100px; overflow: hidden; z-index: 2; position: relative; margin-bottom: 6px; }
-    .card-dark .progress-track { background: rgba(255,255,255,0.1); }
+    .card-dark .progress-track { background: rgba(255,255,255,0.2); }
     .progress-fill { height: 100%; background: var(--vermelho); border-radius: 100px; width: 0%; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     .progress-lbl { font-size: 0.75rem; font-weight: 800; z-index: 2; position: relative; }
 
-    /* WORKOUT LIST ENGINE */
-    .workout-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; position: sticky; top: 0; background: var(--creme); padding: 24px 0; z-index: 10; border-bottom: 2px solid var(--preto); }
+    /* WORKOUT ENGINE */
+    .workout-header-bar { 
+        margin: -24px -24px 32px -24px; 
+        padding: max(24px, env(safe-area-inset-top)) 24px 16px 24px; 
+        position: sticky; top: 0; background: var(--bg); z-index: 100; 
+        border-bottom: 2px solid var(--preto); 
+    }
+    .workout-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .workout-prog-track { width: 100%; height: 4px; background: rgba(0,0,0,0.1); border-radius: 100px; overflow: hidden; }
+    .workout-prog-fill { width: 0%; height: 100%; background: var(--vermelho); transition: width 0.3s ease; }
     
-    .exercise-item { margin-bottom: 48px; position: relative; }
-    .ex-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px dashed var(--preto); padding-bottom: 12px; margin-bottom: 16px; }
-    .ex-info { flex: 1; padding-right: 16px; }
-    .ex-name { font-size: 1.4rem; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 6px; }
-    .ex-meta { font-size: 0.95rem; color: var(--marrom); }
+    .exercise-card { 
+        background: var(--branco); border: 2px solid var(--preto); border-radius: 16px; 
+        padding: 24px; margin-bottom: 24px; position: relative; transition: all 0.4s ease;
+    }
+    .exercise-card.completed { opacity: 0.4; filter: grayscale(1); border-color: var(--cinza); }
     
-    /* DICA DO EXERCÍCIO COERENTE VISUALMENTE */
+    .ex-index { font-family: 'Bricolage Grotesque'; font-size: 2rem; color: var(--vermelho); line-height: 1; margin-right: 12px; }
+    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .ex-info-wrap { display: flex; align-items: flex-start; flex: 1;}
+    .ex-name { font-size: 1.3rem; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; font-weight: 800;}
+    .ex-meta { font-size: 0.9rem; color: var(--marrom); }
+    
     .ex-tip {
         font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem;
-        color: var(--vermelho); margin-bottom: 20px; display: flex; gap: 6px; align-items: flex-start;
-        line-height: 1.3;
+        color: var(--vermelho); margin-bottom: 20px; display: flex; gap: 6px; align-items: flex-start; line-height: 1.3;
+        border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 16px;
     }
-    .ex-tip-icon { font-weight: 800; font-family: 'Bricolage Grotesque'; transform: translateY(2px); }
 
-    .ex-load { display: flex; align-items: baseline; gap: 4px; }
-    .load-input { width: 44px; background: transparent; border: none; font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.6rem; color: var(--vermelho); text-align: center; outline: none; border-radius: 0; padding: 0;}
+    .ex-load { display: flex; align-items: baseline; gap: 4px; background: transparent; }
+    .load-input { width: 44px; background: transparent; border: none; font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.6rem; color: var(--preto); text-align: center; outline: none; border-radius: 0; padding: 0; border-bottom: 2px solid var(--preto);}
     .load-unit { font-size: 0.8rem; font-weight: 800; color: var(--marrom); }
 
-    /* BUBBLES & MICRO-INTERACTIONS */
+    /* BUBBLES */
     .set-bubbles { display: flex; gap: 12px; flex-wrap: wrap; position: relative; }
     .bubble { 
-        width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--preto); background: transparent; color: var(--preto); 
+        width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--preto); background: var(--bg); color: var(--preto); 
         font-size: 1.2rem; font-weight: 800; font-family: 'Manrope', sans-serif; display: flex; align-items: center; justify-content: center; 
-        cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+        cursor: pointer; transition: all 0.2s ease;
     }
-    .bubble.done { background: var(--vermelho); color: var(--creme); border-color: var(--vermelho); transform: scale(1.08) rotate(-5deg); }
+    .bubble.done { background: var(--vermelho); color: var(--branco); border-color: var(--vermelho); }
     .bubble-cardio { width: auto; padding: 0 24px; border-radius: 100px; font-style: italic; font-family: 'Playfair Display', serif; }
-
-    /* FLOATING +1 ANIMATION (WOW FACTOR 2) */
-    .float-up {
-        position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-        color: var(--vermelho); font-weight: 800; font-size: 1.2rem; font-family: 'Bricolage Grotesque';
-        pointer-events: none; animation: floatUpAnim 0.8s forwards cubic-bezier(0.16, 1, 0.3, 1); z-index: 5;
-    }
-    @keyframes floatUpAnim {
-        0% { transform: translate(-50%, 0) scale(1); opacity: 1; }
-        100% { transform: translate(-50%, -40px) scale(1.5); opacity: 0; }
-    }
 
     /* MASSIVE BUTTON */
     .btn-massive { 
-        width: 100%; padding: 24px; background: var(--preto); color: var(--creme); border: none; border-radius: 100px; 
+        width: 100%; padding: 24px; background: var(--preto); color: var(--branco); border: none; border-radius: 100px; 
         font-size: 1rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; 
         cursor: pointer; transition: transform 0.2s; display: flex; justify-content: center; align-items: center;
     }
@@ -165,39 +199,47 @@
     /* NAV */
     .nav-bar { 
         position: fixed; bottom: max(32px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); 
-        background: rgba(232, 228, 217, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        padding: 8px; border-radius: 100px; display: flex; gap: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); z-index: 100; border: 1px solid rgba(0,0,0,0.05);
+        background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        padding: 8px; border-radius: 100px; display: flex; gap: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); z-index: 100; border: 1px solid rgba(0,0,0,0.05);
     }
     .nav-link { 
         padding: 12px 24px; border-radius: 100px; border: none; background: transparent; color: var(--marrom); font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
     }
-    .nav-link.active { background: var(--marrom); color: var(--creme); }
+    .nav-link.active { background: var(--preto); color: var(--branco); }
 
     /* TOAST */
     .toast-wrapper { position: fixed; top: max(32px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 500; pointer-events: none; }
-    .toast { background: var(--preto); color: var(--creme); padding: 14px 24px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.15);}
+    .toast { background: var(--preto); color: var(--branco); padding: 14px 24px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.15);}
     .toast.show { opacity: 1; transform: translateY(0); }
 
     /* OVERLAYS */
-    .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--vermelho); color: var(--creme); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; cursor: pointer; }
+    .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--vermelho); color: var(--branco); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; cursor: pointer; }
     .overlay.active { opacity: 1; pointer-events: auto; }
     .overlay h1 { font-size: 6rem; line-height: 0.8; letter-spacing: -3px; margin-bottom: 24px; }
     .overlay p { font-size: 1.5rem; opacity: 0.9; }
 
-    /* PERFIL: BRUTALIST CHART (WOW FACTOR 3) */
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
-    .stat-card { background: transparent; border: 2px solid var(--preto); border-radius: 20px; padding: 24px; text-align: center; }
+    /* PERFIL */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .stat-card { background: var(--branco); border: 2px solid var(--preto); border-radius: 20px; padding: 24px; text-align: center; }
     .stat-val { font-family: 'Bricolage Grotesque'; font-size: 3.5rem; color: var(--vermelho); line-height: 1; }
     .stat-lbl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-top: 8px; color: var(--preto); }
 
-    .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; margin-bottom: 32px; border-bottom: 2px solid var(--preto); padding-bottom: 8px; gap: 4px; }
-    .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 8px;}
-    .chart-bar { width: 100%; background: var(--preto); border-radius: 4px 4px 0 0; animation: growBar 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; transform-origin: bottom; transform: scaleY(0); }
-    .chart-bar.red { background: var(--vermelho); }
-    .chart-lbl { font-size: 0.6rem; font-weight: 800; color: var(--marrom); }
-    @keyframes growBar { to { transform: scaleY(1); } }
+    /* Widget: Calculadora de 1RM */
+    .widget-box { background: var(--preto); color: var(--branco); border-radius: 20px; padding: 24px; margin-bottom: 40px; }
+    .widget-title { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; display: flex; justify-content: space-between;}
+    .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .calc-lbl { font-size: 0.65rem; color: var(--cinza); font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
+    .calc-input { width: 100%; background: transparent; border: 1px solid var(--cinza); border-radius: 8px; padding: 14px; color: var(--branco); font-family: 'Bricolage Grotesque'; font-size: 1.3rem; text-align: center; outline: none; }
+    .btn-calc { background: var(--vermelho); color: var(--branco); border: none; border-radius: 8px; padding: 14px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;}
+    .calc-result { margin-top: 20px; font-size: 0.85rem; color: var(--branco); border-top: 1px dashed var(--cinza); padding-top: 20px; display: none; text-align: center;}
+    .calc-result span { font-family: 'Bricolage Grotesque'; font-size: 2.2rem; color: var(--vermelho); display: block; margin: 4px 0;}
 
-    /* TEXT-BASED HEATMAP */
+    /* Widget: Peso Corporal */
+    .weight-log-box { background: var(--branco); border: 2px solid var(--preto); border-radius: 20px; padding: 24px; margin-bottom: 40px; display: flex; align-items: center; justify-content: space-between;}
+    .wl-input { width: 80px; background: transparent; border: none; border-bottom: 2px solid var(--preto); font-family: 'Bricolage Grotesque'; font-size: 2.2rem; color: var(--vermelho); text-align: center; outline: none; }
+    .wl-btn { background: var(--preto); color: var(--branco); padding: 10px 16px; border-radius: 100px; font-weight: 800; font-size: 0.8rem; border: none; cursor: pointer; text-transform: uppercase;}
+
+    /* Heatmap Text-based */
     .heatmap-list { font-family: monospace; font-size: 1rem; color: var(--marrom); margin-bottom: 48px; line-height: 1.6; }
     .heatmap-row { display: flex; justify-content: space-between; }
     .heatmap-bar { color: var(--vermelho); letter-spacing: 1px; }
@@ -216,16 +258,13 @@
 
     <!-- ==================== HOME ==================== -->
     <main id="view-home" class="view active">
-        <div class="section-title uppercase" id="current-location">SEGUNDA, 28 SET · SANTO ESTÊVÃO, BA</div>
+        <div class="section-title uppercase" id="current-location">CARREGANDO LOCAL...</div>
 
-        <!-- HERO WITH MARQUEE TAPE -->
-        <div class="workout-hero" onclick="openWorkout('D')">
-            <div class="marquee-container">
-                <div class="marquee-text">CHAPADO DE ENDORFINA · CHAPADO DE ENDORFINA · </div>
-            </div>
-            <div class="workout-hero-content">
+        <!-- HERO / ATALHO -->
+        <div class="workout-hero" onclick="openWorkout('A')">
+            <div>
                 <p class="serif italic">hoje você vai de</p>
-                <h1 class="display-font">LOWER<br>GLUTES</h1>
+                <h1 class="display-font">PUSH<br>DAY</h1>
                 <p class="uppercase" style="font-size: 0.75rem; color: var(--vermelho); font-weight: 800;">Tocar para amassar →</p>
             </div>
         </div>
@@ -237,19 +276,20 @@
             <button class="mood-btn selected" onclick="setMood(this)">Bora 🔥</button>
             <button class="mood-btn" onclick="setMood(this)">Modo Besta 🚀</button>
         </div>
+
+        <div class="section-title uppercase" style="margin-top: 24px;">SEMANA ATUAL</div>
+        <div class="weekly-cal" id="weekly-cal"></div>
     </main>
 
     <!-- ==================== FICHAS ==================== -->
     <main id="view-fichas" class="view">
         <div class="section-title uppercase">SUAS ROTINAS</div>
-        <div class="fichas-grid" id="fichas-list">
-            <!-- Injetado via JS -->
-        </div>
+        <div class="fichas-grid" id="fichas-list"></div>
     </main>
 
-    <!-- ==================== PERFIL (STATISTICS & WOW FACTORS) ==================== -->
+    <!-- ==================== PERFIL (CENTRAL DE DADOS) ==================== -->
     <main id="view-perfil" class="view">
-        <div class="section-title uppercase">SEU PROGRESSO</div>
+        <div class="section-title uppercase">CENTRAL DE DADOS</div>
         
         <div class="stats-grid">
             <div class="stat-card">
@@ -262,28 +302,61 @@
             </div>
         </div>
 
-        <div class="section-title uppercase">INTENSIDADE (ÚLTIMAS 5 SEMANAS)</div>
-        <div class="chart-container" id="intensity-chart">
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 40%;"></div><div class="chart-lbl">W1</div></div>
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 70%;"></div><div class="chart-lbl">W2</div></div>
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 50%;"></div><div class="chart-lbl">W3</div></div>
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 85%;"></div><div class="chart-lbl">W4</div></div>
-            <div class="chart-bar-wrap"><div class="chart-bar red" id="chart-current" style="height: 0%;"></div><div class="chart-lbl">NOW</div></div>
+        <!-- CALCULADORA DE 1RM -->
+        <div class="widget-box">
+            <div class="widget-title">CALCULADORA DE 1RM <span style="color: var(--vermelho);">✱</span></div>
+            <p style="font-size: 0.8rem; color: var(--cinza); margin-bottom: 24px; line-height: 1.4;">Estime sua carga máxima de 1 repetição (1RM).</p>
+            
+            <div class="calc-row">
+                <div>
+                    <div class="calc-lbl">Carga (kg)</div>
+                    <input type="number" id="rm-peso" class="calc-input">
+                </div>
+                <div>
+                    <div class="calc-lbl">Repetições</div>
+                    <input type="number" id="rm-reps" class="calc-input">
+                </div>
+            </div>
+            
+            <button class="btn-calc" onclick="calcularRM()">CALCULAR MÁXIMA</button>
+            
+            <div class="calc-result" id="rm-result">
+                ESTIMATIVA DE 1RM 
+                <span id="rm-max">0 KG</span>
+                <div style="font-size: 0.75rem; color: var(--cinza); margin-top: 12px; text-transform: uppercase; font-weight: 800;">80% Carga de Trabalho: <strong style="color:var(--branco);" id="rm-80">0 kg</strong></div>
+            </div>
         </div>
 
-        <div class="section-title uppercase">VOLUME CORPORAL (ESTA SEMANA)</div>
-        <div class="heatmap-list" id="heatmap-list">
-            <!-- Injetado via JS -->
+        <!-- TRACKER DE PESO CORPORAL -->
+        <div class="section-title uppercase">PESO CORPORAL</div>
+        <div class="weight-log-box">
+            <div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: var(--marrom);">ÚLTIMO REGISTRO</div>
+                <div style="display: flex; align-items: baseline; gap: 4px;">
+                    <input type="number" id="body-weight-input" class="wl-input" value="82.5">
+                    <span style="font-weight: 800; font-size: 1rem; color: var(--marrom);">kg</span>
+                </div>
+            </div>
+            <button class="wl-btn" onclick="saveBodyWeight()">Salvar</button>
         </div>
+
+        <div class="section-title uppercase">VOLUME CORPORAL (SEMANA)</div>
+        <div class="heatmap-list" id="heatmap-list"></div>
+
+        <button class="btn-massive outline" onclick="resetFichas()">RESETAR DADOS DA SEMANA ↺</button>
     </main>
 
     <!-- ==================== WORKOUT ENGINE ==================== -->
     <main id="view-workout" class="view" style="padding-top: 0;">
         <div class="workout-header-bar">
-            <div class="section-title uppercase" style="margin: 0;" id="workout-copy">BORA FICAR GOSTOSO?</div>
-            <button style="background: none; border: none; font-size: 0.8rem; font-weight: 800; text-decoration: underline; cursor: pointer; color: var(--marrom);" onclick="abortWorkout()">Vazar</button>
+            <div class="workout-header-top">
+                <div class="section-title uppercase" style="margin: 0;" id="workout-copy">BORA FICAR GOSTOSO?</div>
+                <button style="background: none; border: none; font-size: 0.8rem; font-weight: 800; text-decoration: underline; cursor: pointer; color: var(--marrom);" onclick="abortWorkout()">Vazar</button>
+            </div>
+            <div class="workout-prog-track">
+                <div class="workout-prog-fill" id="workout-prog-fill"></div>
+            </div>
         </div>
-
         <div id="exercise-list"></div>
     </main>
 
@@ -291,36 +364,35 @@
     <nav class="nav-bar" id="nav">
         <button class="nav-link active" onclick="switchView('home', this)">Hoje</button>
         <button class="nav-link" onclick="switchView('fichas', this)">Fichas</button>
-        <button class="nav-link" onclick="switchView('perfil', this)">Perfil</button>
+        <button class="nav-link" onclick="switchView('perfil', this)">Central</button>
     </nav>
 
     <!-- ==================== OVERLAYS ==================== -->
     <div id="done-overlay" class="overlay" onclick="closeOverlay()">
         <h1 class="display-font">VOCÊ<br>FOI.</h1>
         <p class="serif italic" id="finish-quote">Pagou o preço. Pode descansar.</p>
-        <div style="font-size: 1.2rem; font-weight: 800; margin-top: 24px; color: var(--creme);" id="finish-time">⏱ 0 MINUTOS</div>
+        <div style="font-size: 1.2rem; font-weight: 800; margin-top: 24px; color: var(--branco);" id="finish-time">⏱ 0 MINUTOS</div>
         <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; margin-top: 48px; opacity: 0.5;">TOCAR PARA VOLTAR</div>
     </div>
 
     <div id="week-overlay" class="overlay" style="background: var(--preto);" onclick="closeOverlay()">
         <h1 class="display-font">SEMANA<br>ZERADA.</h1>
         <p class="serif italic" style="color: var(--vermelho);">Você amassou 5/5. Impecável.</p>
-        <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; margin-top: 48px; opacity: 0.5; color: var(--creme);">PROGRESSO RESETADO AUTOMATICAMENTE</div>
+        <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; margin-top: 48px; opacity: 0.5; color: var(--branco);">PROGRESSO RESETADO AUTOMATICAMENTE</div>
     </div>
 
 </div>
 
 <script>
-    /* 1. DADOS ORIGINAIS + DICAS EDITORIAIS (TIPS) */
     const routines = {
         'A': {
             title: 'push day', sub: 'Peito, Ombro & Tríceps', style: 'card-light', graphic: true,
             exercises: [
-                { id: 'a1', name: 'Supino reto', sets: 4, defWeight: 80, isCardio: false, tip: 'Pés firmes no chão, escápulas cravadas no banco.' },
-                { id: 'a2', name: 'Supino inclinado', sets: 4, defWeight: 28, isCardio: false, tip: 'Foca na contração do peitoral superior.' },
+                { id: 'a1', name: 'Supino reto c/ barra', sets: 4, defWeight: 80, isCardio: false, tip: 'Pés firmes no chão, escápulas cravadas no banco.' },
+                { id: 'a2', name: 'Supino inclinado halt.', sets: 4, defWeight: 28, isCardio: false, tip: 'Foca na contração do peitoral superior.' },
                 { id: 'a3', name: 'Crucifixo máq.', sets: 3, defWeight: 50, isCardio: false, tip: 'Imagina abraçar um tronco de árvore.' },
-                { id: 'a4', name: 'Desenvolvimento', sets: 3, defWeight: 24, isCardio: false, tip: 'Desça até a orelha. Controle absoluto.' },
-                { id: 'a5', name: 'Elevação lateral', sets: 3, defWeight: 12, isCardio: false, tip: 'Cotovelos levemente flexionados, jogue para os lados.' },
+                { id: 'a4', name: 'Desenvolvimento halt.', sets: 3, defWeight: 24, isCardio: false, tip: 'Desça até a orelha. Controle absoluto.' },
+                { id: 'a5', name: 'Elevação lateral', sets: 3, defWeight: 12, isCardio: false, tip: 'Cotovelos flexionados, jogue para os lados.' },
                 { id: 'a6', name: 'Tríceps corda', sets: 3, defWeight: 25, isCardio: false, tip: 'Abre a corda no final do movimento pra esmagar.' },
                 { id: 'a7', name: 'Abs bicicleta', sets: 3, defWeight: 0, isCardio: false, tip: 'Rotação real de tronco, sem puxar a nuca.' },
                 { id: 'a8', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Mantém a constância. Suor limpo.' }
@@ -332,7 +404,7 @@
                 { id: 'b1', name: 'Elevação pélvica', sets: 4, defWeight: 100, isCardio: false, tip: 'Olhar pra frente, contrai o glúteo no topo.' },
                 { id: 'b2', name: 'Stiff', sets: 4, defWeight: 32, isCardio: false, tip: 'Joga o quadril pra trás. Sente rasgar o posterior.' },
                 { id: 'b3', name: 'Mesa flexora', sets: 3, defWeight: 30, isCardio: false, tip: 'Pelve colada no banco o tempo todo.' },
-                { id: 'b4', name: 'Afundo', sets: 3, defWeight: 14, isCardio: false, tip: 'Passada longa pra ativar mais o glúteo.' },
+                { id: 'b4', name: 'Afundo passada longa', sets: 3, defWeight: 14, isCardio: false, tip: 'Passada longa pra ativar mais o glúteo.' },
                 { id: 'b5', name: 'Cadeira abdutora', sets: 3, defWeight: 40, isCardio: false, tip: 'Tronco levemente pra frente pra focar no alvo.' },
                 { id: 'b6', name: 'Panturrilha', sets: 4, defWeight: 30, isCardio: false, tip: 'Amplitude máxima, desce alongando tudo.' },
                 { id: 'b7', name: 'Cardio Final', sets: 1, time: '20 min', isCardio: true, tip: 'Solta a perna na esteira leve.' }
@@ -341,34 +413,39 @@
         'C': {
             title: 'pull day', sub: 'Costas & Bíceps', style: 'card-light', graphic: true,
             exercises: [
-                { id: 'c1', name: 'Puxada aberta', sets: 4, defWeight: 55, isCardio: false, tip: 'Puxe com os cotovelos. Peito estufado.' },
+                { id: 'c1', name: 'Puxada frente aberta', sets: 4, defWeight: 55, isCardio: false, tip: 'Puxe com os cotovelos. Peito estufado.' },
                 { id: 'c2', name: 'Remada baixa', sets: 4, defWeight: 50, isCardio: false, tip: 'Alongue as costas na ida e esmague na volta.' },
                 { id: 'c3', name: 'Remada unilateral', sets: 3, defWeight: 22, isCardio: false, tip: 'Puxe em direção ao quadril, não ao peito.' },
-                { id: 'c4', name: 'Rosca barra', sets: 3, defWeight: 15, isCardio: false, tip: 'Cotovelo fixo na costela. Sem roubar com o corpo.' },
+                { id: 'c4', name: 'Rosca direta barra', sets: 3, defWeight: 15, isCardio: false, tip: 'Cotovelo fixo na costela. Sem roubar com o corpo.' },
                 { id: 'c5', name: 'Rosca martelo', sets: 3, defWeight: 14, isCardio: false, tip: 'Pegada neutra pra esmagar braquial.' },
-                { id: 'c6', name: 'Prancha', sets: 3, defWeight: 0, isCardio: false, tip: 'Glúteo contraído e umbigo nas costas.' },
-                { id: 'c7', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Mantém a frequência tranquila.' }
+                { id: 'c6', name: 'Rosca inclinada halt.', sets: 3, defWeight: 12, isCardio: false, tip: 'Sinta o bíceps alongar no fim do movimento.' },
+                { id: 'c7', name: 'Prancha', sets: 3, defWeight: 0, isCardio: false, tip: 'Glúteo contraído e umbigo nas costas.' },
+                { id: 'c8', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Mantém a frequência tranquila.' }
             ]
         },
         'D': {
             title: 'lower glutes', sub: 'Foco em Glúteos', style: 'card-dark', graphic: false,
             exercises: [
                 { id: 'd1', name: 'Agachamento halt.', sets: 4, defWeight: 24, isCardio: false, tip: 'Joelho acompanha a ponta do pé na descida.' },
-                { id: 'd2', name: 'Leg press', sets: 4, defWeight: 140, isCardio: false, tip: 'Pés mais altos pra dar ênfase em posterior/glúteo.' },
+                { id: 'd2', name: 'Leg press 45', sets: 4, defWeight: 140, isCardio: false, tip: 'Pés mais altos pra dar ênfase em glúteo.' },
                 { id: 'd3', name: 'Cadeira extensora', sets: 3, defWeight: 45, isCardio: false, tip: 'Pico de contração em cima, controla a volta.' },
                 { id: 'd4', name: 'Elevação pélvica', sets: 4, defWeight: 105, isCardio: false, tip: 'Um segundo de pausa no topo da contração.' },
                 { id: 'd5', name: 'Coice no cabo', sets: 3, defWeight: 17, isCardio: false, tip: 'Movimento limpo, não precisa chutar o teto.' },
-                { id: 'd6', name: 'Panturrilha sentada', sets: 4, defWeight: 35, isCardio: false, tip: 'Sobe rápido, desce lento. Foco no solear.' }
+                { id: 'd6', name: 'Panturrilha sentada', sets: 4, defWeight: 35, isCardio: false, tip: 'Sobe rápido, desce lento. Foco no solear.' },
+                { id: 'd7', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Ritmo constante.' }
             ]
         },
         'E': {
             title: 'upper body', sub: 'Peito & Braços', style: 'card-light', graphic: true,
             exercises: [
-                { id: 'e1', name: 'Supino inclinado', sets: 4, defWeight: 28, isCardio: false, tip: 'Foco no clavicular. Cadência é tudo.' },
+                { id: 'e1', name: 'Supino inclinado halt.', sets: 4, defWeight: 28, isCardio: false, tip: 'Foco no clavicular. Cadência é tudo.' },
                 { id: 'e2', name: 'Crossover polia', sets: 3, defWeight: 20, isCardio: false, tip: 'Cruze os cabos no final pra maior contração.' },
                 { id: 'e3', name: 'Rosca direta', sets: 3, defWeight: 14, isCardio: false, tip: 'Movimento completo, sem encurtar embaixo.' },
                 { id: 'e4', name: 'Rosca martelo', sets: 3, defWeight: 12, isCardio: false, tip: 'Trabalho focado no antebraço e braquiorradial.' },
-                { id: 'e5', name: 'Tríceps corda', sets: 3, defWeight: 25, isCardio: false, tip: 'Puxa pra baixo e separa as mãos no final.' }
+                { id: 'e5', name: 'Tríceps corda', sets: 3, defWeight: 25, isCardio: false, tip: 'Puxa pra baixo e separa as mãos no final.' },
+                { id: 'e6', name: 'Tríceps francês', sets: 3, defWeight: 20, isCardio: false, tip: 'Alongamento máximo atrás da cabeça.' },
+                { id: 'e7', name: 'Abs infra', sets: 3, defWeight: 0, isCardio: false, tip: 'Foco no abdômen, não balance a perna.' },
+                { id: 'e8', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Suor limpo pra fechar a semana.' }
             ]
         }
     };
@@ -377,25 +454,54 @@
         "Seu eu de amanhã vai agradecer.",
         "Pagou o preço. Pode descansar.",
         "Endorfina no talo.",
-        "O shape não vai sozinho.",
-        "Tá feito. Pode tomar o whey."
+        "O shape não vai sozinho."
     ];
 
     let activeWorkoutKey = null;
     let workoutStartTime = 0;
 
-    /* INICIALIZAÇÃO */
     document.addEventListener("DOMContentLoaded", () => {
         renderFichas();
         updateProfileStats();
+        setupHome();
         
-        const d = new Date();
-        const days = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
-        const months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
-        document.getElementById('current-location').innerText = `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} · SANTO ESTÊVÃO, BA`;
+        const savedW = localStorage.getItem('rob_body_weight');
+        if(savedW) document.getElementById('body-weight-input').value = savedW;
     });
 
-    /* NAVEGAÇÃO */
+    function setupHome() {
+        const days = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
+        const months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+        const d = new Date();
+        const dateStr = `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
+        
+        document.getElementById('current-location').innerText = `${dateStr} · SANTO ESTÊVÃO, BA · ...°C`;
+
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=-12.43&longitude=-39.25&current_weather=true')
+            .then(res => res.json())
+            .then(data => {
+                const temp = Math.round(data.current_weather.temperature);
+                document.getElementById('current-location').innerText = `${dateStr} · SANTO ESTÊVÃO, BA · ${temp}°C`;
+            }).catch(() => {
+                document.getElementById('current-location').innerText = `${dateStr} · SANTO ESTÊVÃO, BA`;
+            });
+            
+        renderWeeklyCalendar();
+    }
+
+    function renderWeeklyCalendar() {
+        const historyDays = JSON.parse(localStorage.getItem('rob_history_v8') || '[]');
+        const calContainer = document.getElementById('weekly-cal');
+        const dayLabels = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+        
+        let html = '';
+        for(let i=0; i<7; i++) {
+            const isDone = historyDays.includes(i) ? 'done' : '';
+            html += `<div class="cal-day ${isDone}"><div class="cal-lbl">${dayLabels[i]}</div><div class="cal-circle">✓</div></div>`;
+        }
+        calContainer.innerHTML = html;
+    }
+
     function switchView(viewId, btn) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
@@ -413,10 +519,9 @@
         showToast("Energia registrada. Só vai!");
     }
 
-    /* RENDERIZAÇÃO FICHAS */
     function renderFichas() {
         const list = document.getElementById('fichas-list');
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v6') || '{}');
+        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
         
         let html = '';
         Object.keys(routines).forEach(key => {
@@ -456,29 +561,29 @@
         list.innerHTML = html;
     }
 
-    /* ENGINE DO TREINO */
     function openWorkout(key) {
         workoutStartTime = Date.now();
         activeWorkoutKey = key;
         const routine = routines[key];
         const container = document.getElementById('exercise-list');
-        const savedLoads = JSON.parse(localStorage.getItem('rob_loads_v6') || '{}');
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v6') || '{}');
+        const savedLoads = JSON.parse(localStorage.getItem('rob_loads_v8') || '{}');
+        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
         
         if (!state[key]) state[key] = {}; 
 
         let html = '';
-        routine.exercises.forEach((ex) => {
+        routine.exercises.forEach((ex, index) => {
             const doneArray = state[key][ex.id] || [];
+            const isExDone = doneArray.length === ex.sets; 
+            
             let bubblesHtml = '';
-
             if (ex.isCardio) {
                 const isDone = doneArray.includes(1) ? 'done' : '';
-                bubblesHtml = `<button class="bubble bubble-cardio ${isDone}" onclick="markSet(this, '${ex.id}', 1)">${ex.time}</button>`;
+                bubblesHtml = `<button class="bubble bubble-cardio ${isDone}" onclick="markSet(this, '${ex.id}', 1, ${ex.sets})">${ex.time}</button>`;
             } else {
                 for(let i = 1; i <= ex.sets; i++) {
                     const isDone = doneArray.includes(i) ? 'done' : '';
-                    bubblesHtml += `<button class="bubble ${isDone}" onclick="markSet(this, '${ex.id}', ${i})">${i}</button>`;
+                    bubblesHtml += `<button class="bubble ${isDone}" onclick="markSet(this, '${ex.id}', ${i}, ${ex.sets})">${i}</button>`;
                 }
             }
 
@@ -493,20 +598,23 @@
                 `;
             }
 
-            // DICA EDITORIAL POR EXERCÍCIO
             const tipHtml = `<div class="ex-tip"><span class="ex-tip-icon">✱</span><span>${ex.tip}</span></div>`;
+            const indexStr = String(index + 1).padStart(2, '0');
 
             html += `
-                <div class="exercise-item">
+                <div class="exercise-card ${isExDone ? 'completed' : ''}" id="wrap-${ex.id}">
                     <div class="ex-header">
-                        <div class="ex-info">
-                            <div class="ex-name display-font uppercase">${ex.name}</div>
-                            <div class="ex-meta serif italic">${ex.isCardio ? '1 sessão' : ex.sets + ' séries'}</div>
+                        <div class="ex-info-wrap">
+                            <div class="ex-index">${indexStr}</div>
+                            <div>
+                                <div class="ex-name">${ex.name}</div>
+                                <div class="ex-meta serif italic">${ex.isCardio ? '1 sessão' : ex.sets + ' séries'}</div>
+                            </div>
                         </div>
                         ${loadHtml}
                     </div>
                     ${tipHtml}
-                    <div class="set-bubbles" id="bubbles-wrap-${ex.id}">
+                    <div class="set-bubbles">
                         ${bubblesHtml}
                     </div>
                 </div>
@@ -524,42 +632,43 @@
     }
 
     function saveLoad(exId, val) {
-        const savedLoads = JSON.parse(localStorage.getItem('rob_loads_v6') || '{}');
+        const savedLoads = JSON.parse(localStorage.getItem('rob_loads_v8') || '{}');
         savedLoads[exId] = val;
-        localStorage.setItem('rob_loads_v6', JSON.stringify(savedLoads));
+        localStorage.setItem('rob_loads_v8', JSON.stringify(savedLoads));
     }
 
-    /* MARCAR SÉRIES + FLOATING +1 ANIMATION */
-    function markSet(btn, exId, setNum) {
+    function markSet(btn, exId, setNum, totalSetsInEx) {
         btn.classList.toggle('done');
         const isNowDone = btn.classList.contains('done');
         
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v6') || '{}');
+        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
         if (!state[activeWorkoutKey]) state[activeWorkoutKey] = {};
         if (!state[activeWorkoutKey][exId]) state[activeWorkoutKey][exId] = [];
         
         if (isNowDone) {
             if (!state[activeWorkoutKey][exId].includes(setNum)) state[activeWorkoutKey][exId].push(setNum);
-            
-            // Floating animation creation
-            const floater = document.createElement('div');
-            floater.className = 'float-up';
-            floater.innerText = '+1';
-            btn.appendChild(floater);
-            setTimeout(() => floater.remove(), 800);
-            
         } else {
             state[activeWorkoutKey][exId] = state[activeWorkoutKey][exId].filter(n => n !== setNum);
         }
         
-        localStorage.setItem('rob_workout_state_v6', JSON.stringify(state));
+        const exWrap = document.getElementById(`wrap-${exId}`);
+        if (state[activeWorkoutKey][exId].length === totalSetsInEx) {
+            exWrap.classList.add('completed');
+            showToast("Exercício finalizado.");
+        } else {
+            exWrap.classList.remove('completed');
+        }
+
+        localStorage.setItem('rob_workout_state_v8', JSON.stringify(state));
         updateWorkoutCopy();
     }
 
     function updateWorkoutCopy() {
         const total = document.querySelectorAll('.bubble').length;
         const done = document.querySelectorAll('.bubble.done').length;
-        const pct = done / total;
+        const pct = total > 0 ? done / total : 0;
+
+        document.getElementById('workout-prog-fill').style.width = `${pct * 100}%`;
 
         let copy = "BORA FICAR GOSTOSO?";
         if (pct === 1) copy = "TREINO MATADO.";
@@ -573,11 +682,17 @@
         }
     }
 
-    /* AUTO-RESET E OVERLAYS */
     function triggerFinishOverlay() {
         const durationMin = Math.max(1, Math.round((Date.now() - workoutStartTime) / 60000));
         
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v6') || '{}');
+        const historyDays = JSON.parse(localStorage.getItem('rob_history_v8') || '[]');
+        const todayIdx = new Date().getDay();
+        if(!historyDays.includes(todayIdx)) {
+            historyDays.push(todayIdx);
+            localStorage.setItem('rob_history_v8', JSON.stringify(historyDays));
+        }
+
+        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
         let completedWorkouts = 0;
         
         Object.keys(routines).forEach(k => {
@@ -590,9 +705,9 @@
         });
 
         if (completedWorkouts === 5) {
-            // WOW FACTOR: Semana Zerada Auto Reset
             document.getElementById('week-overlay').classList.add('active');
-            localStorage.setItem('rob_workout_state_v6', '{}'); // AUTO RESET MAGIC
+            localStorage.setItem('rob_workout_state_v8', '{}');
+            localStorage.setItem('rob_history_v8', '[]');
         } else {
             document.getElementById('finish-quote').innerText = finishQuotes[Math.floor(Math.random() * finishQuotes.length)];
             document.getElementById('finish-time').innerText = `⏱ ${durationMin} MINUTOS`;
@@ -611,24 +726,23 @@
 
     function abortWorkout() {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-fichas').classList.add('active');
+        document.getElementById('view-home').classList.add('active'); 
         document.getElementById('header').style.display = 'flex';
         document.getElementById('nav').style.display = 'flex';
         
         document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.nav-link')[1].classList.add('active'); 
+        document.querySelectorAll('.nav-link')[0].classList.add('active'); 
         
         renderFichas();
+        setupHome(); 
         updateProfileStats();
     }
 
-    /* UPDATE PROFILE CHARTS & STATS */
     function updateProfileStats() {
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v6') || '{}');
+        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
         let completedWorkouts = 0;
         let totalDoneSets = 0;
         
-        // Heatmap mapping
         const bodyMap = { 'Glúteos': 0, 'Pernas': 0, 'Peito': 0, 'Costas': 0, 'Braços': 0 };
 
         Object.keys(routines).forEach(k => {
@@ -639,7 +753,6 @@
                     let setsAmassadas = state[k][ex.id].length;
                     dSets += setsAmassadas;
                     
-                    // Simple heatmap logic based on routine
                     if(k === 'B' || k === 'D') bodyMap['Glúteos'] += setsAmassadas * 1.5;
                     if(k === 'B' || k === 'D') bodyMap['Pernas'] += setsAmassadas;
                     if(k === 'A' || k === 'E') bodyMap['Peito'] += setsAmassadas;
@@ -654,12 +767,6 @@
         document.getElementById('profile-treinos').innerText = completedWorkouts;
         document.getElementById('profile-series').innerText = totalDoneSets;
 
-        // Animação da barra brutalista
-        const maxExpectedSets = 110; // Total na semana aproxx
-        const intensityPct = Math.min(100, Math.round((totalDoneSets / maxExpectedSets) * 100));
-        document.getElementById('chart-current').style.height = `${intensityPct}%`;
-
-        // Renderiza Heatmap em Modo Texto (WOW FACTOR)
         const heatmapContainer = document.getElementById('heatmap-list');
         let heatHtml = '';
         Object.keys(bodyMap).forEach(muscle => {
@@ -676,6 +783,39 @@
             `;
         });
         heatmapContainer.innerHTML = heatHtml;
+    }
+
+    function calcularRM() {
+        const peso = parseFloat(document.getElementById('rm-peso').value);
+        const reps = parseInt(document.getElementById('rm-reps').value);
+        
+        if(peso && reps) {
+            const rm = Math.round(peso * (1 + reps / 30));
+            document.getElementById('rm-max').innerText = `${rm} KG`;
+            document.getElementById('rm-80').innerText = `${Math.round(rm * 0.8)} kg`;
+            document.getElementById('rm-result').style.display = 'block';
+        } else {
+            showToast("Preencha carga e repetições.");
+        }
+    }
+
+    function saveBodyWeight() {
+        const w = document.getElementById('body-weight-input').value;
+        if(w) {
+            localStorage.setItem('rob_body_weight', w);
+            showToast("Peso salvo com sucesso.");
+        }
+    }
+
+    function resetFichas() {
+        if(confirm("Zerar as fichas e calendário da semana? Suas cargas continuarão salvas.")) {
+            localStorage.setItem('rob_workout_state_v8', '{}');
+            localStorage.setItem('rob_history_v8', '[]');
+            showToast("Semana resetada.");
+            updateProfileStats();
+            setupHome();
+            if(document.getElementById('view-fichas').classList.contains('active')) renderFichas();
+        }
     }
 
     function showToast(msg) {
