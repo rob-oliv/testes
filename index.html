@@ -2,28 +2,28 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f3eee5">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eee8dc">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>momento.</title>
+
+<title>Japamala</title>
 
 <style>
 :root{
-  --bg:#f3eee5;
-  --paper:#faf7f0;
+  --bg:#eee8dc;
+  --paper:#f5f0e7;
   --ink:#191815;
-  --muted:#756f66;
-  --line:#d8d0c3;
-  --soft:#e7dfd2;
-  --red:#b51e19;
-  --red-light:#ead0ca;
-  --green:#526452;
-  --green-light:#d9dfd5;
-  --white:#fffdf8;
-  --shadow:rgba(25,24,21,.08);
-  --serif: Georgia, "Times New Roman", serif;
-  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --muted:#81796d;
+  --red:#d9362d;
+  --red-dark:#b92b24;
+  --green:#64745e;
+  --green-dark:#4f5f4a;
+  --bead:#d8d0c3;
+  --bead-light:#e5ded3;
+  --line:rgba(25,24,21,.14);
+  --white:rgba(255,255,255,.52);
 }
 
 *{
@@ -31,1535 +31,663 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-html{
+html,
+body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
   background:var(--bg);
-  scroll-behavior:smooth;
+  color:var(--ink);
 }
 
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--sans);
-  min-height:100dvh;
-  overflow-x:hidden;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    system-ui,
+    sans-serif;
 }
 
 button,
-input,
-textarea{
+input{
   font:inherit;
 }
 
 button{
+  border:0;
+  padding:0;
+  background:none;
   color:inherit;
-}
-
-::selection{
-  background:var(--ink);
-  color:var(--bg);
 }
 
 #app{
   width:100%;
-  max-width:520px;
-  min-height:100dvh;
+  height:100svh;
+  height:100dvh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* =========================================================
+   SETUP
+========================================================= */
+
+.setup{
+  width:100%;
+  height:100%;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:
+    calc(env(safe-area-inset-top) + 28px)
+    25px
+    calc(env(safe-area-inset-bottom) + 36px);
+}
+
+.setup-inner{
+  width:min(100%, 500px);
+  min-height:100%;
   margin:auto;
-  position:relative;
-  padding-bottom:88px;
-}
-
-/* ─────────────────────────
-   BASE
-───────────────────────── */
-
-.view{
-  display:none;
-  min-height:calc(100dvh - 88px);
-  animation:appear .35s ease both;
-}
-
-.view.active{
-  display:block;
-}
-
-@keyframes appear{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-button{
-  border:0;
-  background:none;
-  padding:0;
-  cursor:pointer;
-}
-
-.eyebrow{
-  font-size:10px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  font-weight:700;
-  color:var(--muted);
-}
-
-.serif{
-  font-family:var(--serif);
-}
-
-/* ─────────────────────────
-   HEADER
-───────────────────────── */
-
-.top{
-  height:68px;
-  padding:0 22px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:relative;
-  z-index:5;
-}
-
-.logo{
-  font-family:var(--serif);
-  font-size:22px;
-  letter-spacing:-.04em;
-}
-
-.logo span{
-  color:var(--red);
-}
-
-.top-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.today-mini{
-  font-size:10px;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.star{
-  font-family:var(--serif);
-  font-size:28px;
-  line-height:1;
-  transform:rotate(-8deg);
-}
-
-/* ─────────────────────────
-   HOME
-───────────────────────── */
-
-.home{
-  padding:0 22px;
-}
-
-.date-hero{
-  min-height:340px;
-  position:relative;
-  padding-top:15px;
-  overflow:hidden;
-}
-
-.date-kicker{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  position:relative;
-  z-index:2;
-}
-
-.date-location{
-  font-size:10px;
-  letter-spacing:.17em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.date-big{
-  font-family:var(--serif);
-  font-size:clamp(145px,42vw,220px);
-  line-height:.72;
-  letter-spacing:-.1em;
-  margin-left:-12px;
-  margin-top:62px;
-  font-weight:400;
-  position:relative;
-  z-index:1;
-}
-
-.date-month{
-  position:absolute;
-  left:8px;
-  bottom:48px;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.24em;
-  text-transform:uppercase;
-  transform:rotate(-90deg);
-  transform-origin:left top;
-  color:var(--muted);
-}
-
-.date-year{
-  position:absolute;
-  right:5px;
-  bottom:43px;
-  font-family:var(--serif);
-  font-size:19px;
-  color:var(--muted);
-}
-
-.date-asterisk{
-  position:absolute;
-  right:8px;
-  top:73px;
-  font-family:var(--serif);
-  font-size:80px;
-  line-height:1;
-  color:var(--red);
-  transform:rotate(13deg);
-  z-index:2;
-}
-
-.home-rule{
-  height:1px;
-  background:var(--line);
-  margin-bottom:34px;
-}
-
-/* DEVOCIONAL DE HOJE */
-
-.daily{
-  padding-bottom:36px;
-}
-
-.daily-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  margin-bottom:18px;
-}
-
-.daily-heading span:first-child{
-  font-size:10px;
-  letter-spacing:.18em;
-  font-weight:700;
-  text-transform:uppercase;
-}
-
-.daily-heading span:last-child{
-  font-size:11px;
-  color:var(--muted);
-}
-
-.daily-title{
-  font-family:var(--serif);
-  font-size:clamp(35px,9vw,48px);
-  line-height:.98;
-  letter-spacing:-.045em;
-  font-weight:400;
-  max-width:430px;
-  margin:0 0 23px;
-}
-
-.daily-scripture{
-  border-left:2px solid var(--red);
-  padding:2px 0 2px 17px;
-  margin-bottom:27px;
-}
-
-.daily-scripture small{
-  display:block;
-  font-size:9px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--red);
-  font-weight:700;
-  margin-bottom:8px;
-}
-
-.daily-scripture p{
-  margin:0;
-  font-family:var(--serif);
-  font-size:18px;
-  line-height:1.35;
-}
-
-.editorial-link{
-  width:100%;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:16px 0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  font-weight:700;
-}
-
-.editorial-link .arrow{
-  font-family:var(--serif);
-  font-size:22px;
-  font-weight:400;
-  transition:transform .2s;
-}
-
-.editorial-link:active .arrow{
-  transform:translateX(5px);
-}
-
-/* WEEK */
-
-.week-strip{
-  border-top:1px solid var(--line);
-  padding:22px 0 33px;
-}
-
-.week-top{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:15px;
-}
-
-.week-top span{
-  font-size:9px;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.days{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-}
-
-.day{
-  width:36px;
-  text-align:center;
-  position:relative;
-  cursor:pointer;
-}
-
-.day-name{
-  display:block;
-  font-size:8px;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:8px;
-}
-
-.day-number{
-  display:block;
-  font-family:var(--serif);
-  font-size:20px;
-}
-
-.day.current .day-number{
-  color:var(--red);
-}
-
-.day.current:after{
-  content:"";
-  width:4px;
-  height:4px;
-  border-radius:50%;
-  background:var(--red);
-  position:absolute;
-  bottom:-9px;
-  left:50%;
-  transform:translateX(-50%);
-}
-
-.day.done .day-number{
-  text-decoration:line-through;
-  text-decoration-thickness:1px;
-}
-
-/* SECONDARY HOME */
-
-.home-links{
-  padding-bottom:28px;
-}
-
-.home-link{
-  display:grid;
-  grid-template-columns:48px 1fr 24px;
-  align-items:center;
-  min-height:74px;
-  border-top:1px solid var(--line);
-}
-
-.home-link:last-child{
-  border-bottom:1px solid var(--line);
-}
-
-.home-link-index{
-  font-family:var(--serif);
-  font-size:15px;
-  color:var(--muted);
-}
-
-.home-link-main strong{
-  display:block;
-  font-family:var(--serif);
-  font-size:20px;
-  font-weight:400;
-  margin-bottom:3px;
-}
-
-.home-link-main span{
-  font-size:9px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.home-link-arrow{
-  font-family:var(--serif);
-  font-size:22px;
-}
-
-/* PHRASE */
-
-.phrase-home{
-  padding:35px 0 12px;
-  text-align:center;
-}
-
-.phrase-home .asterisk{
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:31px;
-  display:block;
-  margin-bottom:13px;
-}
-
-.phrase-home p{
-  margin:0 auto;
-  max-width:350px;
-  font-family:var(--serif);
-  font-size:17px;
-  line-height:1.4;
-}
-
-/* ─────────────────────────
-   DEVOTIONAL
-───────────────────────── */
-
-.inner{
-  padding:0 22px;
-}
-
-.inner-head{
-  padding:12px 0 35px;
-}
-
-.back{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  font-weight:700;
-  color:var(--muted);
-  margin-bottom:28px;
-}
-
-.back span{
-  font-size:17px;
-  line-height:1;
-}
-
-.dev-number{
-  font-family:var(--serif);
-  font-size:105px;
-  line-height:.75;
-  letter-spacing:-.08em;
-  margin-left:-8px;
-  color:var(--soft);
-}
-
-.dev-label{
-  margin-top:17px;
-}
-
-.dev-title{
-  font-family:var(--serif);
-  font-size:42px;
-  line-height:1;
-  letter-spacing:-.045em;
-  font-weight:400;
-  margin:9px 0 0;
-}
-
-.dev-section{
-  border-top:1px solid var(--line);
-  padding:25px 0 31px;
-}
-
-.section-label{
-  font-size:9px;
-  letter-spacing:.17em;
-  text-transform:uppercase;
-  color:var(--red);
-  font-weight:700;
-  margin-bottom:14px;
-}
-
-.scripture-large{
-  font-family:var(--serif);
-  font-size:24px;
-  line-height:1.3;
-  margin:0;
-}
-
-.body-copy{
-  font-size:15px;
-  line-height:1.65;
-  color:#39352f;
-  margin:0;
-}
-
-.context{
-  font-family:var(--serif);
-  font-size:22px;
-  line-height:1.35;
-  margin:0;
-}
-
-.exercise{
-  padding:22px 0;
-}
-
-.exercise-number{
-  font-family:var(--serif);
-  font-size:42px;
-  color:var(--red);
-  margin-bottom:6px;
-}
-
-.exercise p{
-  margin:0;
-  font-family:var(--serif);
-  font-size:21px;
-  line-height:1.35;
-}
-
-.question{
-  font-family:var(--serif);
-  font-size:27px;
-  line-height:1.25;
-  margin:0;
-}
-
-.question-line{
-  height:42px;
-  border-bottom:1px solid var(--ink);
-  margin-top:15px;
-}
-
-.prayer{
-  margin:0 -22px;
-  padding:40px 22px 43px;
-  background:var(--ink);
-  color:var(--paper);
-  position:relative;
-  overflow:hidden;
-}
-
-.prayer .asterisk-big{
-  position:absolute;
-  right:-6px;
-  top:-27px;
-  font-family:var(--serif);
-  font-size:120px;
-  color:var(--red);
-  opacity:.8;
-}
-
-.prayer .section-label{
-  position:relative;
-}
-
-.prayer-text{
-  font-family:var(--serif);
-  font-size:22px;
-  line-height:1.45;
-  max-width:440px;
-  position:relative;
-  margin:0;
-}
-
-.note-area{
-  border-top:1px solid var(--line);
-  padding:27px 0 35px;
-}
-
-.note-area textarea{
-  width:100%;
-  min-height:130px;
-  resize:none;
-  border:0;
-  outline:0;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 31px,
-      var(--line) 32px
-    );
-  font-family:var(--serif);
-  font-size:17px;
-  line-height:32px;
-  color:var(--ink);
-}
-
-.note-area textarea::placeholder{
-  color:#a39b90;
-}
-
-.complete-button{
-  width:100%;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:19px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-
-.complete-mark{
-  width:20px;
-  height:20px;
-  border:1px solid var(--ink);
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:var(--serif);
-  font-size:13px;
-}
-
-.complete-button.done .complete-mark{
-  background:var(--green);
-  border-color:var(--green);
-  color:white;
-}
-
-/* ─────────────────────────
-   SALMO 18
-───────────────────────── */
-
-.psalm-hero{
-  position:relative;
-  padding:18px 0 45px;
-  overflow:hidden;
-}
-
-.psalm-big{
-  font-family:var(--serif);
-  font-size:220px;
-  line-height:.7;
-  letter-spacing:-.12em;
-  color:var(--soft);
-  margin-left:-18px;
-}
-
-.psalm-title{
-  position:relative;
-  margin-top:-4px;
-}
-
-.psalm-title h1{
-  font-family:var(--serif);
-  font-size:52px;
-  line-height:.9;
-  font-weight:400;
-  letter-spacing:-.05em;
-  margin:0;
-}
-
-.psalm-title p{
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  margin:13px 0 0;
-}
-
-.psalm-intro{
-  border-top:1px solid var(--line);
-  padding:28px 0;
-}
-
-.psalm-intro p{
-  font-family:var(--serif);
-  font-size:22px;
-  line-height:1.4;
-  margin:0;
-}
-
-.psalm-reading{
-  border-top:1px solid var(--line);
-  padding:25px 0;
-}
-
-.psalm-verse{
-  display:grid;
-  grid-template-columns:35px 1fr;
-  gap:8px;
-  padding:17px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.psalm-verse-number{
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:14px;
-}
-
-.psalm-verse p{
-  margin:0;
-  font-family:var(--serif);
-  font-size:18px;
-  line-height:1.45;
-}
-
-.psalm-focus{
-  margin-top:35px;
-  padding:32px 0;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-
-.psalm-focus h2{
-  font-family:var(--serif);
-  font-size:31px;
-  line-height:1;
-  font-weight:400;
-  margin:0 0 16px;
-}
-
-.psalm-focus p{
-  font-size:14px;
-  line-height:1.65;
-  margin:0;
-  color:#454039;
-}
-
-/* ─────────────────────────
-   BANHOS
-───────────────────────── */
-
-.ritual-intro{
-  padding:14px 0 35px;
-}
-
-.ritual-intro h1{
-  font-family:var(--serif);
-  font-size:54px;
-  line-height:.88;
-  font-weight:400;
-  letter-spacing:-.06em;
-  margin:20px 0;
-}
-
-.ritual-intro p{
-  font-size:14px;
-  line-height:1.6;
-  color:var(--muted);
-  max-width:400px;
-}
-
-.ritual-list{
-  border-top:1px solid var(--line);
-}
-
-.ritual{
-  border-bottom:1px solid var(--line);
-}
-
-.ritual-trigger{
-  width:100%;
-  min-height:92px;
-  display:grid;
-  grid-template-columns:48px 1fr 20px;
-  align-items:center;
-  text-align:left;
-}
-
-.ritual-number{
-  font-family:var(--serif);
-  font-size:15px;
-  color:var(--muted);
-}
-
-.ritual-name{
-  font-family:var(--serif);
-  font-size:23px;
-}
-
-.ritual-symbol{
-  font-family:var(--serif);
-  font-size:20px;
-  transition:transform .25s;
-}
-
-.ritual.open .ritual-symbol{
-  transform:rotate(45deg);
-}
-
-.ritual-content{
-  display:none;
-  padding:0 0 28px 48px;
-}
-
-.ritual.open .ritual-content{
-  display:block;
-  animation:appear .25s ease;
-}
-
-.ritual-content p{
-  font-size:14px;
-  line-height:1.6;
-  color:#454039;
-  margin:0 0 17px;
-}
-
-.ingredients{
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-
-.ingredients li{
-  border-top:1px solid var(--line);
-  padding:11px 0;
-  font-family:var(--serif);
-  font-size:16px;
-}
-
-/* ─────────────────────────
-   JAPAMALA
-───────────────────────── */
-
-.japa-view{
-  min-height:calc(100dvh - 88px);
   display:flex;
   flex-direction:column;
 }
 
-.japa-top{
-  padding:15px 22px 0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:relative;
-  z-index:20;
-}
-
-.japa-top-title{
-  font-size:10px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  font-weight:700;
-}
-
-.japa-mode-label{
-  font-family:var(--serif);
-  font-size:15px;
-}
-
-.japa-intro{
-  padding:35px 22px 22px;
-}
-
-.japa-intro h1{
-  font-family:var(--serif);
-  font-size:49px;
-  line-height:.9;
-  font-weight:400;
-  letter-spacing:-.055em;
-  margin:0 0 17px;
-}
-
-.japa-intro p{
-  font-size:13px;
-  line-height:1.55;
-  color:var(--muted);
-  margin:0;
-  max-width:360px;
-}
-
-.japa-settings{
-  padding:12px 22px 22px;
-}
-
-.setting-row{
-  border-top:1px solid var(--line);
-  padding:17px 0;
-}
-
-.setting-label{
-  display:block;
-  font-size:9px;
+.kicker{
+  font-size:11px;
   letter-spacing:.16em;
   text-transform:uppercase;
   color:var(--muted);
-  margin-bottom:12px;
 }
 
-.mode-options{
-  display:flex;
-  gap:22px;
+.setup-title{
+  margin-top:24px;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(54px, 15vw, 82px);
+  line-height:.88;
+  letter-spacing:-.055em;
 }
 
-.mode-option{
-  font-family:var(--serif);
-  font-size:22px;
+.setup-star{
+  color:var(--red);
+  font-family:Georgia, serif;
+}
+
+.setup-copy{
+  margin-top:25px;
+  max-width:390px;
+  font-size:16px;
+  line-height:1.55;
+  color:#514b43;
+}
+
+.setup-section{
+  margin-top:48px;
+}
+
+.setup-label{
+  display:block;
+  margin-bottom:13px;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
   color:var(--muted);
-  position:relative;
 }
 
-.mode-option.active{
+.mantra-input{
+  width:100%;
+  border:0;
+  border-bottom:1px solid var(--line);
+  border-radius:0;
+  background:transparent;
+  padding:12px 0 14px;
+  outline:none;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:25px;
+  line-height:1.2;
   color:var(--ink);
 }
 
-.mode-option.active:after{
+.mantra-input::placeholder{
+  color:#aaa195;
+}
+
+.targets{
+  display:flex;
+  gap:27px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:14px;
+}
+
+.target{
+  position:relative;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:25px;
+  color:#aaa195;
+  cursor:pointer;
+}
+
+.target.active{
+  color:var(--ink);
+}
+
+.target.active::after{
   content:"";
   position:absolute;
   left:0;
   right:0;
-  bottom:-4px;
-  height:1px;
+  bottom:-15px;
+  height:2px;
   background:var(--red);
 }
 
-.phrase-input{
-  width:100%;
-  background:transparent;
-  border:0;
-  border-bottom:1px solid var(--ink);
-  padding:7px 0;
-  outline:none;
-  font-family:var(--serif);
-  font-size:18px;
-  color:var(--ink);
-}
-
-.phrase-input:focus{
-  border-color:var(--red);
-}
-
-.japa-start{
-  margin:5px 22px 30px;
-  width:calc(100% - 44px);
-  padding:18px 0;
-  border-top:1px solid var(--ink);
-  border-bottom:1px solid var(--ink);
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  font-size:10px;
-  font-weight:700;
+.start{
+  margin-top:auto;
+  padding-top:60px;
   display:flex;
+  align-items:center;
   justify-content:space-between;
+  cursor:pointer;
 }
 
-/* PRACTICE */
-
-.japa-practice{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  background:var(--bg);
-  display:none;
-  flex-direction:column;
-  touch-action:none;
-  overscroll-behavior:none;
+.start-text{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:28px;
 }
 
-.japa-practice.active{
-  display:flex;
-}
-
-.practice-head{
-  padding:
-    max(18px, env(safe-area-inset-top))
-    20px
-    0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-shrink:0;
-  z-index:10;
-}
-
-.practice-head-left{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-}
-
-.practice-head-left strong{
-  font-size:9px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-}
-
-.practice-head-left span{
-  font-family:var(--serif);
-  font-size:14px;
-}
-
-.practice-close{
-  font-family:var(--serif);
-  font-size:27px;
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.practice-stage{
-  flex:1;
-  min-height:0;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.mala-svg{
-  width:min(92vw,430px);
-  height:min(68vh,600px);
-  overflow:visible;
-}
-
-.mala-cord{
-  fill:none;
-  stroke:#9e9487;
-  stroke-width:1.5;
-  opacity:.65;
-}
-
-.bead{
-  fill:#d9d0c4;
-  stroke:#bcb1a4;
-  stroke-width:1;
+.start-mark{
+  width:44px;
+  height:44px;
+  border:1px solid var(--ink);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
   transition:
-    fill .2s,
-    stroke .2s,
-    opacity .2s,
-    transform .25s;
+    background .2s ease,
+    color .2s ease,
+    transform .2s ease;
 }
 
-.bead-shine{
-  fill:rgba(255,255,255,.58);
-  pointer-events:none;
+.start:active .start-mark{
+  transform:scale(.94);
+  background:var(--ink);
+  color:var(--paper);
 }
 
-.bead.completed{
-  fill:var(--green);
-  stroke:#405341;
+.start-arrow{
+  width:8px;
+  height:8px;
+  border-top:1px solid currentColor;
+  border-right:1px solid currentColor;
+  transform:rotate(45deg);
+  margin-left:-3px;
 }
 
-.bead.current{
-  fill:var(--red);
-  stroke:#8e1714;
-  stroke-width:1.5;
-  animation:beadPulse 1.25s ease-in-out infinite;
-}
 
-.bead.ghost{
-  opacity:.22;
-}
+/* =========================================================
+   PRACTICE
+========================================================= */
 
-@keyframes beadPulse{
-  0%,100%{filter:drop-shadow(0 0 0 rgba(181,30,25,0))}
-  50%{filter:drop-shadow(0 0 8px rgba(181,30,25,.28))}
-}
-
-.bead-shine.current-shine{
-  fill:rgba(255,255,255,.4);
-}
-
-.guru{
-  fill:var(--red);
-  stroke:#8e1714;
-  stroke-width:2;
-}
-
-.guru-shine{
-  fill:rgba(255,255,255,.42);
-}
-
-.tassel{
-  stroke:var(--red);
-  stroke-width:1.4;
-  fill:none;
-  stroke-linecap:round;
-}
-
-.practice-center{
+.practice{
   position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:150px;
-  text-align:center;
-  pointer-events:none;
-  z-index:3;
+  inset:0;
+  display:none;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 50% 43%,
+      rgba(255,255,255,.25),
+      transparent 42%
+    ),
+    var(--bg);
+  touch-action:none;
 }
+
+.practice.visible{
+  display:block;
+}
+
+#canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  touch-action:none;
+}
+
+/* top information */
+
+.topbar{
+  position:absolute;
+  z-index:10;
+  top:0;
+  left:0;
+  right:0;
+  padding:
+    calc(env(safe-area-inset-top) + 18px)
+    20px
+    10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  pointer-events:none;
+}
+
+.top-left,
+.top-right{
+  pointer-events:auto;
+}
+
+.top-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.mala-name{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:var(--muted);
+}
+
+.round-label{
+  font-family:Georgia, serif;
+  font-size:15px;
+}
+
+.top-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:4px;
+}
+
+.timer{
+  font-variant-numeric:tabular-nums;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.target-label{
+  font-family:Georgia, serif;
+  font-size:15px;
+}
+
+/* center counter */
 
 .counter{
-  font-family:var(--serif);
-  font-size:44px;
-  letter-spacing:-.06em;
-  line-height:1;
-}
-
-.counter-target{
-  color:var(--muted);
-  font-size:19px;
-}
-
-.counter-label{
-  margin-top:10px;
-  font-size:8px;
-  letter-spacing:.17em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.practice-phrase{
   position:absolute;
-  bottom:19%;
+  z-index:5;
+  top:50%;
   left:50%;
-  transform:translateX(-50%);
-  width:75%;
+  transform:translate(-50%, -50%);
   text-align:center;
-  font-family:var(--serif);
-  font-size:15px;
-  line-height:1.3;
-  color:#4b463e;
   pointer-events:none;
-  opacity:.9;
+  width:220px;
 }
 
-.tap-hint{
-  position:absolute;
-  bottom:10%;
-  left:50%;
-  transform:translateX(-50%);
-  white-space:nowrap;
-  font-size:8px;
-  letter-spacing:.16em;
+.counter-number{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(74px, 20vw, 112px);
+  line-height:.78;
+  letter-spacing:-.065em;
+  font-variant-numeric:oldstyle-nums;
+}
+
+.counter-number.small{
+  font-size:74px;
+}
+
+.counter-total{
+  margin-top:13px;
+  font-size:11px;
+  letter-spacing:.18em;
+  color:var(--muted);
   text-transform:uppercase;
-  color:#92897d;
-  pointer-events:none;
-  transition:opacity .3s;
 }
 
-.tap-hint.hidden{
-  opacity:0;
+.mantra{
+  margin:21px auto 0;
+  max-width:230px;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:15px;
+  line-height:1.35;
+  color:#5c554c;
+  min-height:21px;
+  transition:
+    opacity .15s ease,
+    transform .15s ease;
 }
 
-.float-word{
+.mantra.flash{
+  opacity:.18;
+  transform:translateY(4px);
+}
+
+/* floating tap feedback */
+
+.tap-word{
   position:absolute;
-  left:50%;
-  top:38%;
-  transform:translate(-50%,0);
-  font-family:var(--serif);
-  font-size:18px;
-  color:var(--red);
-  pointer-events:none;
-  animation:floatWord 1s ease forwards;
   z-index:20;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  pointer-events:none;
+  opacity:0;
+  font-family:Georgia, serif;
+  font-size:17px;
+  color:var(--red);
+  white-space:nowrap;
 }
 
-@keyframes floatWord{
-  from{
+.tap-word.show{
+  animation:tapWord .58s ease-out forwards;
+}
+
+@keyframes tapWord{
+  0%{
     opacity:0;
-    transform:translate(-50%,10px);
+    transform:translate(-50%, -30%);
   }
   20%{
     opacity:1;
   }
-  to{
+  100%{
     opacity:0;
-    transform:translate(-50%,-42px);
+    transform:translate(-50%, -100%);
   }
 }
 
-.practice-bottom{
-  flex-shrink:0;
-  border-top:1px solid var(--line);
+/* bottom controls */
+
+.bottom{
+  position:absolute;
+  z-index:15;
+  left:0;
+  right:0;
+  bottom:0;
   padding:
-    13px
-    20px
-    max(15px, env(safe-area-inset-bottom));
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
+    12px 20px
+    calc(env(safe-area-inset-bottom) + 20px);
+  display:flex;
   align-items:center;
-  z-index:10;
+  justify-content:space-between;
+  pointer-events:none;
 }
 
-.practice-control{
-  font-size:9px;
-  letter-spacing:.13em;
+.bottom button{
+  pointer-events:auto;
+}
+
+.control{
+  min-width:70px;
+  font-size:11px;
+  letter-spacing:.08em;
   text-transform:uppercase;
-  font-weight:700;
   color:var(--muted);
+  padding:13px 5px;
 }
 
-.practice-control.center{
-  font-family:var(--serif);
-  font-size:18px;
-  text-transform:none;
-  letter-spacing:0;
+.control.center{
   color:var(--ink);
 }
 
-.practice-control.right{
-  text-align:right;
+.control:active{
+  opacity:.45;
 }
 
-.pause-label{
-  color:var(--red);
-}
+/* little progress line */
 
-.paused-overlay{
+.progress{
   position:absolute;
+  z-index:11;
+  left:20px;
+  right:20px;
+  bottom:calc(env(safe-area-inset-bottom) + 74px);
+  height:1px;
+  background:rgba(25,24,21,.10);
+  pointer-events:none;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:var(--red);
+  transform-origin:left center;
+  transition:width .18s ease;
+}
+
+/* pause */
+
+.paused{
+  position:absolute;
+  z-index:30;
   inset:0;
-  background:rgba(243,238,229,.68);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
   display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:15;
+  place-items:center;
+  background:rgba(238,232,220,.82);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
 }
 
-.paused-overlay.active{
-  display:flex;
+.paused.visible{
+  display:grid;
 }
 
-.paused-overlay strong{
-  font-family:var(--serif);
-  font-size:43px;
-  font-weight:400;
+.paused-inner{
+  text-align:center;
 }
 
-.paused-overlay span{
-  margin-top:10px;
-  font-size:9px;
+.paused-label{
+  font-family:Georgia, serif;
+  font-size:38px;
+  letter-spacing:-.04em;
+}
+
+.paused-sub{
+  margin-top:12px;
+  font-size:11px;
   text-transform:uppercase;
-  letter-spacing:.15em;
+  letter-spacing:.13em;
   color:var(--muted);
 }
 
-/* COMPLETION */
+/* =========================================================
+   COMPLETE
+========================================================= */
 
-.complete-overlay{
+.complete{
   position:absolute;
+  z-index:50;
   inset:0;
-  background:var(--ink);
-  color:var(--paper);
-  z-index:30;
   display:none;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:30px;
-}
-
-.complete-overlay.active{
-  display:flex;
-  animation:fadeIn .35s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
-}
-
-.completion-inner{
-  position:relative;
-}
-
-.completion-star{
-  color:var(--red);
-  font-family:var(--serif);
-  font-size:58px;
-  display:block;
-  margin-bottom:22px;
-}
-
-.completion-number{
-  font-family:var(--serif);
-  font-size:120px;
-  line-height:.7;
-  letter-spacing:-.1em;
-}
-
-.completion-inner h2{
-  font-family:var(--serif);
-  font-size:36px;
-  font-weight:400;
-  margin:35px 0 10px;
-}
-
-.completion-inner p{
-  font-size:11px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:#aaa39a;
-}
-
-.completion-close{
-  margin-top:34px;
-  color:var(--paper);
-  border-bottom:1px solid var(--paper);
-  padding-bottom:6px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-}
-
-/* ─────────────────────────
-   MAIS
-───────────────────────── */
-
-.more-head{
-  padding:15px 0 42px;
-}
-
-.more-head h1{
-  font-family:var(--serif);
-  font-size:58px;
-  line-height:.85;
-  font-weight:400;
-  letter-spacing:-.07em;
-  margin:25px 0 0;
-}
-
-.more-list{
-  border-top:1px solid var(--line);
-}
-
-.more-item{
-  min-height:76px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.more-item strong{
-  font-family:var(--serif);
-  font-size:21px;
-  font-weight:400;
-}
-
-.more-item span{
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  color:var(--muted);
-}
-
-.theme-toggle{
-  display:flex;
-  gap:15px;
-  align-items:center;
-}
-
-.theme-choice{
-  font-family:var(--serif);
-  font-size:17px;
-  color:var(--muted);
-}
-
-.theme-choice.active{
-  color:var(--ink);
-  text-decoration:underline;
-  text-decoration-color:var(--red);
-  text-underline-offset:5px;
-}
-
-/* ─────────────────────────
-   BOTTOM NAV
-───────────────────────── */
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(520px,100%);
-  height:76px;
-  padding-bottom:env(safe-area-inset-bottom);
-  background:rgba(243,238,229,.94);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-top:1px solid var(--line);
-  z-index:50;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-}
-
-.nav-item{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:5px;
-  color:#928a7f;
-}
-
-.nav-item .nav-icon{
-  font-family:var(--serif);
-  font-size:17px;
-  line-height:1;
-}
-
-.nav-item .nav-label{
-  font-size:8px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-}
-
-.nav-item.active{
-  color:var(--ink);
-}
-
-.nav-item.active .nav-icon{
-  color:var(--red);
-}
-
-/* ─────────────────────────
-   TOAST
-───────────────────────── */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:100px;
-  transform:translate(-50%,12px);
-  background:var(--ink);
-  color:var(--paper);
-  padding:11px 17px;
-  font-size:10px;
-  letter-spacing:.05em;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:200;
-  white-space:nowrap;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* ─────────────────────────
-   DARK THEME
-───────────────────────── */
-
-body.dark{
-  --bg:#171614;
-  --paper:#211f1b;
-  --ink:#f1ece2;
-  --muted:#999187;
-  --line:#3b3731;
-  --soft:#2b2823;
-  --white:#24211d;
-  --shadow:rgba(0,0,0,.25);
-}
-
-body.dark .bottom-nav{
-  background:rgba(23,22,20,.94);
-}
-
-body.dark .daily-scripture{
-  border-color:var(--red);
-}
-
-body.dark .japa-practice{
+  padding:
+    calc(env(safe-area-inset-top) + 30px)
+    28px
+    calc(env(safe-area-inset-bottom) + 30px);
   background:var(--bg);
 }
 
-body.dark .paused-overlay{
-  background:rgba(23,22,20,.7);
+.complete.visible{
+  display:flex;
 }
 
-body.dark .bead{
-  fill:#4b463f;
-  stroke:#686158;
+.complete-star{
+  font-family:Georgia, serif;
+  font-size:55px;
+  color:var(--red);
+  line-height:1;
 }
 
-body.dark .bead.ghost{
-  opacity:.2;
+.complete-title{
+  margin-top:25px;
+  font-family:Georgia, serif;
+  font-size:45px;
+  line-height:.95;
+  letter-spacing:-.05em;
 }
 
-body.dark .mala-cord{
-  stroke:#756d62;
+.complete-copy{
+  max-width:300px;
+  margin-top:19px;
+  font-size:14px;
+  line-height:1.55;
+  color:var(--muted);
 }
 
-body.dark .phrase-input{
-  color:var(--ink);
+.complete-stats{
+  margin-top:35px;
+  display:flex;
+  gap:36px;
 }
 
-/* ─────────────────────────
-   DESKTOP
-───────────────────────── */
+.stat{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
 
-@media (min-width:700px){
-  body{
-    background:#ddd7cc;
+.stat-number{
+  font-family:Georgia, serif;
+  font-size:25px;
+}
+
+.stat-label{
+  font-size:9px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.complete-actions{
+  margin-top:52px;
+  width:min(100%, 330px);
+  display:flex;
+  flex-direction:column;
+}
+
+.complete-action{
+  padding:17px 0;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:Georgia, serif;
+  font-size:20px;
+  text-align:left;
+}
+
+.complete-action:last-child{
+  border-bottom:1px solid var(--line);
+}
+
+.complete-action .arrow{
+  width:8px;
+  height:8px;
+  border-top:1px solid currentColor;
+  border-right:1px solid currentColor;
+  transform:rotate(45deg);
+}
+
+/* =========================================================
+   EDIT MANTRA
+========================================================= */
+
+.edit-mantra{
+  position:absolute;
+  z-index:40;
+  inset:auto 0 0;
+  padding:
+    20px
+    22px
+    calc(env(safe-area-inset-bottom) + 25px);
+  background:var(--paper);
+  border-top:1px solid var(--line);
+  transform:translateY(100%);
+  transition:transform .28s cubic-bezier(.22,.7,.25,1);
+}
+
+.edit-mantra.visible{
+  transform:translateY(0);
+}
+
+.edit-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.edit-title{
+  font-family:Georgia, serif;
+  font-size:22px;
+}
+
+.close{
+  width:32px;
+  height:32px;
+  position:relative;
+}
+
+.close::before,
+.close::after{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:1px;
+  background:var(--ink);
+  top:50%;
+  left:50%;
+}
+
+.close::before{
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.close::after{
+  transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.save-mantra{
+  margin-top:18px;
+  width:100%;
+  padding:15px 0;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  text-align:left;
+  font-family:Georgia, serif;
+  font-size:18px;
+}
+
+/* =========================================================
+   MICRO MOTION
+========================================================= */
+
+.practice.counting .counter-number{
+  animation:countPulse .18s ease-out;
+}
+
+@keyframes countPulse{
+  0%{
+    transform:scale(.96);
   }
-
-  #app{
-    background:var(--bg);
-    box-shadow:0 0 60px rgba(0,0,0,.08);
+  100%{
+    transform:scale(1);
   }
 }
-
-/* ─────────────────────────
-   REDUCED MOTION
-───────────────────────── */
 
 @media (prefers-reduced-motion:reduce){
   *,
   *::before,
   *::after{
-    animation-duration:.01ms !important;
-    animation-iteration-count:1 !important;
-    scroll-behavior:auto !important;
+    animation:none !important;
     transition:none !important;
   }
 }
@@ -1570,2373 +698,2066 @@ body.dark .phrase-input{
 
 <div id="app">
 
-  <!-- ═══════════════════════════════
-       HOME
-  ═══════════════════════════════ -->
+  <!-- =====================================================
+       SETUP
+  ====================================================== -->
 
-  <section id="view-home" class="view active">
+  <section class="setup" id="setup">
+    <div class="setup-inner">
 
-    <header class="top">
-      <div class="logo">momento<span>.</span></div>
+      <div class="kicker">um momento com Deus</div>
+
+      <div class="setup-title">
+        japamala<span class="setup-star">*</span>
+      </div>
+
+      <div class="setup-copy">
+        Um espaço silencioso para repetir uma intenção,
+        respirar e permanecer presente.
+      </div>
+
+      <div class="setup-section">
+        <label class="setup-label" for="mantraInput">
+          sua frase
+        </label>
+
+        <input
+          id="mantraInput"
+          class="mantra-input"
+          type="text"
+          maxlength="90"
+          value="Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou."
+          autocomplete="off"
+          spellcheck="false"
+        >
+      </div>
+
+      <div class="setup-section">
+        <div class="setup-label">volta</div>
+
+        <div class="targets">
+          <button class="target" data-target="27" type="button">27</button>
+          <button class="target" data-target="54" type="button">54</button>
+          <button class="target active" data-target="108" type="button">108</button>
+        </div>
+      </div>
+
+      <button class="start" id="startButton" type="button">
+        <span class="start-text">começar</span>
+        <span class="start-mark">
+          <span class="start-arrow"></span>
+        </span>
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       PRACTICE
+  ====================================================== -->
+
+  <section class="practice" id="practice">
+
+    <canvas id="canvas"></canvas>
+
+    <div class="topbar">
+
+      <div class="top-left">
+        <div class="mala-name">japamala</div>
+        <div class="round-label" id="roundLabel">volta 01</div>
+      </div>
 
       <div class="top-right">
-        <span class="today-mini" id="topDate"></span>
-        <span class="star">*</span>
-      </div>
-    </header>
-
-    <main class="home">
-
-      <section class="date-hero">
-
-        <div class="date-kicker">
-          <span class="date-location">um momento com Deus</span>
-          <span class="eyebrow" id="dayOfWeek"></span>
-        </div>
-
-        <div class="date-big" id="bigDate">29</div>
-
-        <div class="date-month" id="bigMonth">SETEMBRO</div>
-        <div class="date-year" id="bigYear">2026</div>
-
-        <div class="date-asterisk">*</div>
-
-      </section>
-
-      <div class="home-rule"></div>
-
-      <!-- DEVOCIONAL DO DIA -->
-
-      <section class="daily">
-
-        <div class="daily-heading">
-          <span>devocional de hoje</span>
-          <span id="dailyDay">dia 01 / 07</span>
-        </div>
-
-        <h1 class="daily-title" id="dailyTitle"></h1>
-
-        <div class="daily-scripture">
-          <small id="dailyReference"></small>
-          <p id="dailyVerse"></p>
-        </div>
-
-        <button class="editorial-link" onclick="openDevotional(currentDay)">
-          <span>entrar no devocional</span>
-          <span class="arrow">↗</span>
-        </button>
-
-      </section>
-
-      <!-- SEMANA -->
-
-      <section class="week-strip">
-
-        <div class="week-top">
-          <span>sua semana</span>
-          <span>7 momentos</span>
-        </div>
-
-        <div class="days" id="weekDays"></div>
-
-      </section>
-
-      <!-- CAMINHOS -->
-
-      <section class="home-links">
-
-        <button class="home-link" onclick="showView('psalm')">
-          <span class="home-link-index">01</span>
-          <span class="home-link-main">
-            <strong>Salmo 18</strong>
-            <span>leitura da semana</span>
-          </span>
-          <span class="home-link-arrow">↗</span>
-        </button>
-
-        <button class="home-link" onclick="showView('japa')">
-          <span class="home-link-index">02</span>
-          <span class="home-link-main">
-            <strong>Japamala</strong>
-            <span>oração · presença · repetição</span>
-          </span>
-          <span class="home-link-arrow">↗</span>
-        </button>
-
-        <button class="home-link" onclick="showView('rituals')">
-          <span class="home-link-index">03</span>
-          <span class="home-link-main">
-            <strong>Banhos</strong>
-            <span>rituais simbólicos de cuidado</span>
-          </span>
-          <span class="home-link-arrow">↗</span>
-        </button>
-
-      </section>
-
-      <section class="phrase-home">
-        <span class="asterisk">*</span>
-        <p>“Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.”</p>
-      </section>
-
-    </main>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════
-       DEVOCIONAL
-  ═══════════════════════════════ -->
-
-  <section id="view-devotional" class="view">
-
-    <header class="top">
-      <div class="logo">momento<span>.</span></div>
-      <span class="star">*</span>
-    </header>
-
-    <main class="inner">
-
-      <div class="inner-head">
-
-        <button class="back" onclick="showView('home')">
-          <span>←</span>
-          voltar
-        </button>
-
-        <div class="dev-number" id="devNumber">01</div>
-
-        <div class="dev-label eyebrow">devocional</div>
-
-        <h1 class="dev-title" id="devTitle"></h1>
-
-      </div>
-
-      <section class="dev-section">
-
-        <div class="section-label">escritura</div>
-
-        <p class="scripture-large" id="devScripture"></p>
-
-      </section>
-
-      <section class="dev-section">
-
-        <div class="section-label">o que essa palavra diz</div>
-
-        <p class="body-copy" id="devExplanation"></p>
-
-      </section>
-
-      <section class="dev-section">
-
-        <div class="section-label">trazendo para a sua vida</div>
-
-        <p class="context" id="devContext"></p>
-
-      </section>
-
-      <section class="dev-section">
-
-        <div class="section-label">um pequeno movimento</div>
-
-        <div class="exercise">
-          <div class="exercise-number">01</div>
-          <p id="devExercise"></p>
-        </div>
-      </section>
-
-      <section class="dev-section">
-
-        <div class="section-label">para levar com você</div>
-
-        <p class="question" id="devQuestion"></p>
-
-        <div class="question-line"></div>
-
-      </section>
-
-      <section class="prayer">
-
-        <div class="asterisk-big">*</div>
-
-        <div class="section-label">oração</div>
-
-        <p class="prayer-text" id="devPrayer"></p>
-
-      </section>
-
-      <section class="note-area">
-
-        <div class="section-label">anotações</div>
-
-        <textarea
-          id="devNotes"
-          placeholder="Escreva o que ficou no seu coração..."
-        ></textarea>
-
-      </section>
-
-      <button class="complete-button" id="completeButton" onclick="toggleComplete()">
-
-        <span id="completeText">marcar este momento como concluído</span>
-
-        <span class="complete-mark" id="completeMark"></span>
-
-      </button>
-
-      <div style="height:35px"></div>
-
-    </main>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════
-       SALMO 18
-  ═══════════════════════════════ -->
-
-  <section id="view-psalm" class="view">
-
-    <header class="top">
-      <button class="back" onclick="showView('home')" style="margin:0">
-        <span>←</span>
-        voltar
-      </button>
-      <span class="star">*</span>
-    </header>
-
-    <main class="inner">
-
-      <section class="psalm-hero">
-
-        <div class="psalm-big">18</div>
-
-        <div class="psalm-title">
-          <h1>Salmo<br>18</h1>
-          <p>força · proteção · caminho</p>
-        </div>
-
-      </section>
-
-      <section class="psalm-intro">
-
-        <p>
-          Esta é a leitura que acompanha a sua semana:
-          uma lembrança de que Deus pode ser abrigo,
-          força e direção enquanto você atravessa
-          o que ainda não consegue enxergar inteiro.
-        </p>
-
-      </section>
-
-      <section class="psalm-reading">
-
-        <div class="section-label">para meditar</div>
-
-        <div class="psalm-verse">
-          <span class="psalm-verse-number">01</span>
-          <p>
-            “Eu te amo, Senhor, minha força. O Senhor é a minha rocha,
-            minha fortaleza e aquele em quem encontro segurança.”
-          </p>
-        </div>
-
-        <div class="psalm-verse">
-          <span class="psalm-verse-number">02</span>
-          <p>
-            Deus não é apenas o lugar para onde você corre quando
-            tudo dá errado. Ele também pode ser a base sobre a qual
-            você constrói o que está começando.
-          </p>
-        </div>
-
-        <div class="psalm-verse">
-          <span class="psalm-verse-number">03</span>
-          <p>
-            “Invoco o Senhor, digno de louvor, e sou salvo dos meus
-            inimigos.” A imagem central é de alguém que não precisa
-            carregar sozinho aquilo que ultrapassa suas forças.
-          </p>
-        </div>
-
-        <div class="psalm-verse">
-          <span class="psalm-verse-number">04</span>
-          <p>
-            Há também movimento: Deus firma os pés, abre caminho,
-            ensina as mãos para a batalha e conduz para um lugar
-            mais amplo.
-          </p>
-        </div>
-
-        <div class="psalm-verse">
-          <span class="psalm-verse-number">05</span>
-          <p>
-            Leia o Salmo 18 completo na sua Bíblia e volte para ele
-            todos os dias desta semana. Não leia apenas para terminar.
-            Leia para permanecer.
-          </p>
-        </div>
-
-      </section>
-
-      <section class="psalm-focus">
-
-        <h2>O que eu preciso lembrar hoje?</h2>
-
-        <p>
-          Nem todo caminho precisa estar visível para que você dê
-          o próximo passo. Você pode pedir direção, fazer a sua parte
-          e deixar que Deus cuide daquilo que não está sob o seu controle.
-        </p>
-
-      </section>
-
-      <section class="phrase-home">
-
-        <span class="asterisk">*</span>
-
-        <p>
-          Eu estou no caminho da prosperidade.<br>
-          Eu sou a prosperidade.<br>
-          Eu sou.
-        </p>
-
-      </section>
-
-      <div style="height:30px"></div>
-
-    </main>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════
-       BANHOS
-  ═══════════════════════════════ -->
-
-  <section id="view-rituals" class="view">
-
-    <header class="top">
-      <button class="back" onclick="showView('home')" style="margin:0">
-        <span>←</span>
-        voltar
-      </button>
-      <span class="star">*</span>
-    </header>
-
-    <main class="inner">
-
-      <section class="ritual-intro">
-
-        <div class="eyebrow">cuidado simbólico</div>
-
-        <h1>Banhos &<br>rituais.</h1>
-
-        <p>
-          Pequenos rituais podem funcionar como uma pausa consciente:
-          um momento para desacelerar, colocar uma intenção e cuidar de si.
-          Aqui eles são apresentados de forma simbólica, sem promessa
-          sobrenatural ou terapêutica.
-        </p>
-
-      </section>
-
-      <section class="ritual-list">
-
-        <article class="ritual">
-
-          <button class="ritual-trigger" onclick="toggleRitual(this)">
-            <span class="ritual-number">01</span>
-            <span class="ritual-name">Abertura de caminhos</span>
-            <span class="ritual-symbol">+</span>
-          </button>
-
-          <div class="ritual-content">
-
-            <p>
-              Um ritual simbólico para marcar um recomeço e lembrar
-              que caminho aberto também exige movimento.
-            </p>
-
-            <ul class="ingredients">
-              <li>alecrim</li>
-              <li>manjericão</li>
-              <li>água morna</li>
-            </ul>
-
-          </div>
-
-        </article>
-
-        <article class="ritual">
-
-          <button class="ritual-trigger" onclick="toggleRitual(this)">
-            <span class="ritual-number">02</span>
-            <span class="ritual-name">Prosperidade</span>
-            <span class="ritual-symbol">+</span>
-          </button>
-
-          <div class="ritual-content">
-
-            <p>
-              Um momento para agradecer pelo que existe e mentalizar
-              responsabilidade, trabalho, oportunidades e crescimento.
-            </p>
-
-            <ul class="ingredients">
-              <li>alecrim</li>
-              <li>manjericão</li>
-              <li>folhas de louro</li>
-              <li>água morna</li>
-            </ul>
-
-          </div>
-
-        </article>
-
-        <article class="ritual">
-
-          <button class="ritual-trigger" onclick="toggleRitual(this)">
-            <span class="ritual-number">03</span>
-            <span class="ritual-name">Descarrego simbólico</span>
-            <span class="ritual-symbol">+</span>
-          </button>
-
-          <div class="ritual-content">
-
-            <p>
-              Pense no banho como um marcador de encerramento:
-              “isso aconteceu, mas não precisa continuar ocupando
-              o meu corpo e a minha atenção”.
-            </p>
-
-            <ul class="ingredients">
-              <li>camomila</li>
-              <li>alecrim</li>
-              <li>água morna</li>
-            </ul>
-
-          </div>
-
-        </article>
-
-        <article class="ritual">
-
-          <button class="ritual-trigger" onclick="toggleRitual(this)">
-            <span class="ritual-number">04</span>
-            <span class="ritual-name">Calma</span>
-            <span class="ritual-symbol">+</span>
-          </button>
-
-          <div class="ritual-content">
-
-            <p>
-              Um banho pensado como transição entre o ritmo do dia
-              e um estado mais tranquilo de presença.
-            </p>
-
-            <ul class="ingredients">
-              <li>camomila</li>
-              <li>lavanda culinária própria para uso em banho</li>
-              <li>água morna</li>
-            </ul>
-
-          </div>
-
-        </article>
-
-        <article class="ritual">
-
-          <button class="ritual-trigger" onclick="toggleRitual(this)">
-            <span class="ritual-number">05</span>
-            <span class="ritual-name">Renovação</span>
-            <span class="ritual-symbol">+</span>
-          </button>
-
-          <div class="ritual-content">
-
-            <p>
-              Para marcar simbolicamente a passagem de uma fase para outra.
-              O foco é a intenção: deixar espaço para o que vem depois.
-            </p>
-
-            <ul class="ingredients">
-              <li>alecrim</li>
-              <li>hortelã</li>
-              <li>água morna</li>
-            </ul>
-
-          </div>
-
-        </article>
-
-      </section>
-
-      <div style="height:40px"></div>
-
-    </main>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════
-       JAPAMALA SETUP
-  ═══════════════════════════════ -->
-
-  <section id="view-japa" class="view">
-
-    <header class="top">
-      <button class="back" onclick="showView('home')" style="margin:0">
-        <span>←</span>
-        voltar
-      </button>
-      <span class="star">*</span>
-    </header>
-
-    <main class="inner japa-view">
-
-      <section class="japa-intro">
-
-        <div class="eyebrow">oração repetida</div>
-
-        <h1>Uma conta.<br>Uma respiração.<br>Um momento.</h1>
-
-        <p>
-          A japamala foi pensada para funcionar sem precisar olhar para
-          a tela o tempo todo. Durante a prática, toque em qualquer lugar
-          para avançar uma conta.
-        </p>
-
-      </section>
-
-      <section class="japa-settings">
-
-        <div class="setting-row">
-
-          <span class="setting-label">quantidade</span>
-
-          <div class="mode-options">
-
-            <button class="mode-option" data-mode="27" onclick="selectMode(27)">
-              27
-            </button>
-
-            <button class="mode-option" data-mode="54" onclick="selectMode(54)">
-              54
-            </button>
-
-            <button class="mode-option active" data-mode="108" onclick="selectMode(108)">
-              108
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="setting-row">
-
-          <span class="setting-label">frase / mantra</span>
-
-          <input
-            class="phrase-input"
-            id="phraseInput"
-            data-no-count
-            value="Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou."
-          >
-
-        </div>
-
-      </section>
-
-      <button class="japa-start" onclick="startJapa()">
-        <span>começar a prática</span>
-        <span>→</span>
-      </button>
-
-      <div class="setting-row" style="margin:0 22px">
-
-        <span class="setting-label">sua prática</span>
-
-        <div style="display:flex;justify-content:space-between;align-items:baseline">
-
-          <span style="font-family:var(--serif);font-size:27px">
-            <span id="japaLifetime">0</span> contas
-          </span>
-
-          <span style="font-size:10px;color:var(--muted)">
-            hoje: <span id="japaToday">0</span>
-          </span>
-
-        </div>
-
-      </div>
-
-    </main>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════
-       MAIS
-  ═══════════════════════════════ -->
-
-  <section id="view-more" class="view">
-
-    <header class="top">
-      <button class="back" onclick="showView('home')" style="margin:0">
-        <span>←</span>
-        voltar
-      </button>
-      <span class="star">*</span>
-    </header>
-
-    <main class="inner">
-
-      <section class="more-head">
-
-        <div class="eyebrow">o que existe aqui</div>
-
-        <h1>mais.</h1>
-
-      </section>
-
-      <section class="more-list">
-
-        <div class="more-item">
-
-          <div>
-            <strong>Aparência</strong>
-          </div>
-
-          <div class="theme-toggle">
-
-            <button class="theme-choice active" data-theme="light" onclick="setTheme('light')">
-              claro
-            </button>
-
-            <button class="theme-choice" data-theme="dark" onclick="setTheme('dark')">
-              escuro
-            </button>
-
-          </div>
-
-        </div>
-
-        <button class="more-item" onclick="showAbout()">
-
-          <strong>Sobre o momento.</strong>
-
-          <span>ler →</span>
-
-        </button>
-
-        <div class="more-item">
-
-          <div>
-            <strong>Seu momento</strong>
-          </div>
-
-          <span>Deus no centro.</span>
-
-        </div>
-
-      </section>
-
-      <section style="padding:45px 0;text-align:center">
-
-        <div style="
-          font-family:var(--serif);
-          font-size:65px;
-          color:var(--red);
-          line-height:.8;
-          margin-bottom:20px;
-        ">*</div>
-
-        <p style="
-          font-family:var(--serif);
-          font-size:20px;
-          line-height:1.4;
-          margin:0 auto;
-          max-width:330px;
-        ">
-          “Aquietai-vos e sabei que eu sou Deus.”
-        </p>
-
-      </section>
-
-    </main>
-
-  </section>
-
-
-  <!-- ═══════════════════════════════
-       NAVEGAÇÃO
-  ═══════════════════════════════ -->
-
-  <nav class="bottom-nav">
-
-    <button class="nav-item active" data-view="home" onclick="showView('home')">
-      <span class="nav-icon">•</span>
-      <span class="nav-label">hoje</span>
-    </button>
-
-    <button class="nav-item" data-view="psalm" onclick="showView('psalm')">
-      <span class="nav-icon">18</span>
-      <span class="nav-label">salmo</span>
-    </button>
-
-    <button class="nav-item" data-view="japa" onclick="showView('japa')">
-      <span class="nav-icon">○</span>
-      <span class="nav-label">japa</span>
-    </button>
-
-    <button class="nav-item" data-view="rituals" onclick="showView('rituals')">
-      <span class="nav-icon">*</span>
-      <span class="nav-label">banhos</span>
-    </button>
-
-    <button class="nav-item" data-view="more" onclick="showView('more')">
-      <span class="nav-icon">+</span>
-      <span class="nav-label">mais</span>
-    </button>
-
-  </nav>
-
-</div>
-
-
-<!-- ═══════════════════════════════
-     JAPAMALA FULLSCREEN
-═══════════════════════════════ -->
-
-<div class="japa-practice" id="japaPractice">
-
-  <div class="practice-head">
-
-    <div class="practice-head-left">
-
-      <strong>japamala</strong>
-
-      <span id="practiceMode">108 contas</span>
-
-    </div>
-
-    <button
-      class="practice-close"
-      data-no-count
-      onclick="closeJapa()"
-      aria-label="Fechar"
-    >
-      ×
-    </button>
-
-  </div>
-
-
-  <div
-    class="practice-stage"
-    id="practiceStage"
-  >
-
-    <svg
-      class="mala-svg"
-      id="malaSvg"
-      viewBox="0 0 360 520"
-      aria-label="Japamala digital"
-    ></svg>
-
-
-    <div class="practice-center">
-
-      <div class="counter">
-        <span id="japaCount">0</span>
-        <span class="counter-target">/ <span id="japaTarget">108</span></span>
-      </div>
-
-      <div class="counter-label">
-        contas percorridas
+        <div class="timer" id="timer">00:00</div>
+        <div class="target-label" id="targetLabel">108 contas</div>
       </div>
 
     </div>
 
+    <div class="counter">
 
-    <div class="practice-phrase" id="practicePhrase">
-      Eu estou no caminho da prosperidade.
+      <div
+        class="counter-number"
+        id="counterNumber"
+      >000</div>
+
+      <div
+        class="counter-total"
+        id="counterTotal"
+      >de 108</div>
+
+      <div
+        class="mantra"
+        id="mantra"
+      >
+        Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.
+      </div>
+
     </div>
 
-    <div class="tap-hint" id="tapHint">
-      toque em qualquer lugar para contar
+    <div class="tap-word" id="tapWord">
+      eu sou
     </div>
 
+    <div class="progress">
+      <div
+        class="progress-fill"
+        id="progressFill"
+      ></div>
+    </div>
 
-    <div class="paused-overlay" id="pausedOverlay">
+    <div class="bottom">
 
-      <strong>pausado.</strong>
+      <button
+        class="control"
+        id="undoButton"
+        type="button"
+      >
+        desfazer
+      </button>
 
-      <span>toque em continuar abaixo</span>
+      <button
+        class="control center"
+        id="pauseButton"
+        type="button"
+      >
+        pausar
+      </button>
+
+      <button
+        class="control"
+        id="menuButton"
+        type="button"
+      >
+        frase
+      </button>
 
     </div>
 
+    <div class="paused" id="paused">
 
-    <div class="complete-overlay" id="completeOverlay">
+      <div class="paused-inner">
 
-      <div class="completion-inner">
+        <div class="paused-label">
+          pausado
+        </div>
 
-        <span class="completion-star">*</span>
+        <div class="paused-sub">
+          toque para continuar
+        </div>
 
-        <div class="completion-number" id="completionNumber">108</div>
+      </div>
 
-        <h2>uma volta concluída.</h2>
+    </div>
 
-        <p>que essa oração permaneça em você.</p>
+    <div class="edit-mantra" id="editMantra">
+
+      <div class="edit-head">
+
+        <div class="edit-title">
+          sua frase
+        </div>
 
         <button
-          class="completion-close"
-          data-no-count
-          onclick="closeCompletion()"
-        >
-          continuar em silêncio
-        </button>
+          class="close"
+          id="closeEdit"
+          type="button"
+          aria-label="Fechar"
+        ></button>
 
+      </div>
+
+      <input
+        id="editInput"
+        class="mantra-input"
+        type="text"
+        maxlength="90"
+        autocomplete="off"
+        spellcheck="false"
+      >
+
+      <button
+        class="save-mantra"
+        id="saveMantra"
+        type="button"
+      >
+        salvar frase
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       COMPLETE
+  ====================================================== -->
+
+  <section class="complete" id="complete">
+
+    <div class="complete-star">*</div>
+
+    <div class="complete-title">
+      uma volta<br>concluída
+    </div>
+
+    <div class="complete-copy">
+      Você chegou ao fim desta volta.
+      Antes de continuar, respire e perceba
+      como você está agora.
+    </div>
+
+    <div class="complete-stats">
+
+      <div class="stat">
+        <div class="stat-number" id="completeCount">
+          108
+        </div>
+        <div class="stat-label">
+          contas
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="completeTime">
+          00:00
+        </div>
+        <div class="stat-label">
+          tempo
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="completeRounds">
+          01
+        </div>
+        <div class="stat-label">
+          voltas
+        </div>
       </div>
 
     </div>
 
-  </div>
+    <div class="complete-actions">
 
+      <button
+        class="complete-action"
+        id="continueButton"
+        type="button"
+      >
+        <span>continuar</span>
+        <span class="arrow"></span>
+      </button>
 
-  <div class="practice-bottom">
+      <button
+        class="complete-action"
+        id="finishButton"
+        type="button"
+      >
+        <span>encerrar</span>
+        <span class="arrow"></span>
+      </button>
 
-    <button
-      class="practice-control"
-      data-no-count
-      onclick="undoJapa()"
-    >
-      desfazer
-    </button>
+    </div>
 
-    <button
-      class="practice-control center"
-      data-no-count
-      id="pauseButton"
-      onclick="togglePause()"
-    >
-      pausar
-    </button>
-
-    <button
-      class="practice-control right"
-      data-no-count
-      onclick="restartJapa()"
-    >
-      recomeçar
-    </button>
-
-  </div>
+  </section>
 
 </div>
-
-
-<div class="toast" id="toast"></div>
 
 
 <script>
-/* ═══════════════════════════════════
-   MOMENTO.
-   estado principal
-═══════════════════════════════════ */
+/* =========================================================
+   MOMENTO / JAPAMALA
+========================================================= */
 
-const DEVOTIONALS = [
+(function(){
 
-  {
-    title:"Confiar sem precisar controlar tudo.",
-    reference:"Provérbios 3:5–6",
-    verse:"Confia no Senhor de todo o teu coração e não te apoies somente no que você consegue entender.",
-    explanation:"Existe uma diferença entre responsabilidade e controle. Responsabilidade é fazer a sua parte. Controle é tentar garantir o resultado inteiro. A fé começa justamente naquele espaço em que você reconhece que não consegue prever tudo.",
-    context:"Você está vivendo uma fase cheia de mudanças. Trabalho, dinheiro, casa, Salvador, novos caminhos. É natural querer organizar cada detalhe para sentir segurança. Mas talvez Deus esteja te ensinando uma segurança diferente: fazer o que está ao seu alcance e não transformar o restante em peso.",
-    exercise:"Hoje, escolha uma coisa que está tentando controlar demais. Faça a parte que realmente depende de você e entregue conscientemente o restante a Deus.",
-    question:"O que eu estou tentando resolver sozinho que talvez precise ser colocado nas mãos de Deus?",
-    prayer:"Deus, eu não quero viver tentando controlar cada detalhe da minha vida. Dá-me sabedoria para reconhecer o que depende de mim e fé para entregar o que não depende. Guia meus passos, abre as portas certas e me ensina a caminhar sem medo. Amém."
-  },
+  "use strict";
 
-  {
-    title:"Prosperar com responsabilidade.",
-    reference:"Provérbios 21:5",
-    verse:"Os planos de quem trabalha com diligência conduzem à abundância, mas a pressa pode levar à falta.",
-    explanation:"Prosperidade, na Bíblia, não precisa ser entendida como dinheiro caindo do céu. Existe planejamento, trabalho, disciplina e paciência. Fé não elimina ação. Ela pode dar sentido à ação.",
-    context:"Você tem falado muito sobre construir uma vida mais próspera. Talvez prosperidade, para você agora, seja conseguir se estabelecer, trabalhar bem, morar onde deseja e construir uma reserva. Não precisa acontecer tudo de uma vez.",
-    exercise:"Pegue uma pequena decisão financeira ou profissional de hoje e faça pensando no Robson de seis meses no futuro, não apenas no alívio imediato.",
-    question:"Que escolha pequena hoje pode deixar minha vida mais organizada amanhã?",
-    prayer:"Deus, abençoa o trabalho das minhas mãos. Dá-me inteligência para administrar o que chega, coragem para buscar novas oportunidades e paciência para construir sem desespero. Que prosperidade venha acompanhada de sabedoria. Amém."
-  },
+  const STORAGE_KEY = "momento_japamala_v1";
 
-  {
-    title:"Esperar sem confundir demora com abandono.",
-    reference:"Salmo 27:14",
-    verse:"Espera no Senhor. Sê forte, corajoso, e espera no Senhor.",
-    explanation:"Esperar não significa ficar parado. Existe uma espera ativa: continuar vivendo, trabalhando, procurando, preparando e acreditando enquanto o resultado ainda não apareceu.",
-    context:"Nem tudo acontece no ritmo que você gostaria. Às vezes uma resposta demora, uma oportunidade muda, um apartamento não dá certo ou uma porta parece fechar. Isso não transforma automaticamente o caminho inteiro em fracasso.",
-    exercise:"Hoje, faça uma coisa que prepare a próxima oportunidade em vez de gastar energia tentando descobrir quando ela vai chegar.",
-    question:"O que posso preparar enquanto espero?",
-    prayer:"Deus, quando eu não enxergar o próximo passo, sustenta minha coragem. Não permita que uma demora me faça acreditar que fui esquecido. Ensina-me a esperar trabalhando, vivendo e confiando. Amém."
-  },
+  const DEFAULT_MANTRA =
+    "Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.";
 
-  {
-    title:"Recomeçar sem ser definido pelo passado.",
-    reference:"Isaías 43:18–19",
-    verse:"Não fique preso ao que passou. Estou fazendo uma coisa nova; ela já está começando a aparecer.",
-    explanation:"Recomeço não apaga a história. Ele muda o lugar que a história ocupa. O que aconteceu pode ensinar, mas não precisa decidir quem você será daqui para frente.",
-    context:"Você está reconstruindo várias partes da sua vida ao mesmo tempo. Talvez algumas perdas ainda tenham voz dentro de você. Mas existe uma diferença entre lembrar de onde veio e continuar morando emocionalmente lá.",
-    exercise:"Escreva uma frase começando com: “A partir de agora, eu escolho...” e complete sem pensar demais.",
-    question:"Quem eu quero ser quando essa fase de reconstrução terminar?",
-    prayer:"Deus, ajuda-me a não transformar o passado em sentença. Dá-me coragem para reconhecer o que acabou e sensibilidade para perceber o que está nascendo. Que eu não tenha medo de começar novamente. Amém."
-  },
+  const state = {
+    target:108,
+    count:0,
+    rounds:0,
+    total:0,
+    mantra:DEFAULT_MANTRA,
+    sessionStartedAt:null,
+    sessionElapsed:0
+  };
 
-  {
-    title:"Descansar sem culpa.",
-    reference:"Mateus 11:28",
-    verse:"Venham a mim todos vocês que estão cansados e sobrecarregados, e eu darei descanso.",
-    explanation:"Descanso não é prêmio para quem terminou tudo. É parte da vida. Jesus não chama apenas quem conseguiu dar conta. Ele chama justamente quem está cansado.",
-    context:"Você pode estar acostumado a pensar que precisa resolver tudo para finalmente respirar. Mas sempre haverá outra tarefa, outra mensagem, outro boleto, outro plano. Descansar também pode ser uma forma de confiar.",
-    exercise:"Separe hoje pelo menos alguns minutos sem produtividade. Sem resolver a vida. Apenas fique presente.",
-    question:"Eu consigo descansar sem acreditar que estou ficando para trás?",
-    prayer:"Deus, aquieta aquilo que está acelerado dentro de mim. Ensina-me que descanso não é fracasso. Que eu consiga parar sem culpa e lembrar que minha vida não depende de eu controlar todas as coisas ao mesmo tempo. Amém."
-  },
+  let audioContext = null;
+  let wakeLock = null;
 
-  {
-    title:"Coragem mesmo com medo.",
-    reference:"Josué 1:9",
-    verse:"Sê forte e corajoso. Não tenha medo, porque o Senhor teu Deus estará contigo por onde você andar.",
-    explanation:"Coragem não significa ausência de medo. A ordem para ser corajoso só faz sentido porque existe algo que poderia assustar. A promessa não é de uma vida sem desafios, mas de presença no caminho.",
-    context:"Você não precisa esperar se sentir completamente pronto para dar passos importantes. Pode existir medo junto com coragem. Pode existir insegurança junto com fé.",
-    exercise:"Faça hoje uma pequena coisa que você está adiando porque está com medo de não conseguir.",
-    question:"Qual passo eu daria se acreditasse que Deus está comigo mesmo sem saber exatamente como tudo vai terminar?",
-    prayer:"Deus, coloca coragem onde existe medo. Quando eu olhar para o tamanho dos desafios, lembra-me do tamanho da Tua presença. Que eu não confunda insegurança com incapacidade. Caminha comigo. Amém."
-  },
+  let canvas;
+  let ctx;
 
-  {
-    title:"Não medir a sua vida pela dos outros.",
-    reference:"Gálatas 6:4–5",
-    verse:"Cada pessoa examine a própria caminhada, sem precisar se comparar com a caminhada de outra.",
-    explanation:"Comparação rouba contexto. Você vê o capítulo de alguém e compara com o capítulo em que está. Deus não precisa repetir a história de outra pessoa para construir uma história boa com você.",
-    context:"Existe uma vida que é sua: seus desejos, seus recomeços, seu trabalho, seus planos, sua relação com Deus. O fato de outra pessoa estar em outro lugar não significa que você esteja atrasado.",
-    exercise:"Hoje, quando perceber uma comparação, substitua “eu deveria estar...” por “eu estou construindo...”.",
-    question:"O que existe na minha vida que eu deveria aprender a valorizar mais?",
-    prayer:"Deus, livra meu coração da comparação que me faz esquecer o que já existe. Dá-me olhos para perceber meu próprio caminho e coragem para continuar construindo sem precisar competir com a vida de ninguém. Amém."
-  }
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
 
-];
+  let points = [];
+  let guru = null;
 
+  let animationFrame = null;
+  let animationUntil = 0;
 
-/* ═══════════════════════════════════
-   STORAGE
-═══════════════════════════════════ */
+  let pointerDownX = 0;
+  let pointerDownY = 0;
+  let pointerDownTime = 0;
 
-const STORAGE = {
-  start:"momento_start",
-  done:"momento_done",
-  notes:"momento_notes",
-  theme:"momento_theme",
-  japa:"momento_japa_v3"
-};
+  let timerInterval = null;
 
+  let selectedTarget = 108;
 
-let currentDay = getCurrentDay();
+  const $ = id => document.getElementById(id);
 
-let selectedMode = 108;
+  const setup = $("setup");
+  const practice = $("practice");
+  const complete = $("complete");
 
-let japaState = {
-  mode:108,
-  count:0,
-  lifetime:0,
-  today:0,
-  rounds:0,
-  phrase:"Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.",
-  lastDate:getDateKey(),
-  paused:false
-};
+  const mantraInput = $("mantraInput");
 
+  const counterNumber = $("counterNumber");
+  const counterTotal = $("counterTotal");
 
-/* ═══════════════════════════════════
-   DATA
-═══════════════════════════════════ */
+  const mantraElement = $("mantra");
 
-function getDateKey(){
-  const d = new Date();
+  const progressFill = $("progressFill");
 
-  return [
-    d.getFullYear(),
-    String(d.getMonth()+1).padStart(2,"0"),
-    String(d.getDate()).padStart(2,"0")
-  ].join("-");
-}
+  const timerElement = $("timer");
 
+  const roundLabel = $("roundLabel");
+  const targetLabel = $("targetLabel");
 
-function loadStorage(){
+  const canvasElement = $("canvas");
 
-  try{
+  const pausedElement = $("paused");
 
-    const savedDone = JSON.parse(
-      localStorage.getItem(STORAGE.done) || "{}"
-    );
+  const tapWord = $("tapWord");
 
-    window.doneState = savedDone;
+  const editMantra = $("editMantra");
+  const editInput = $("editInput");
 
-  }catch{
-    window.doneState = {};
-  }
+  /* =======================================================
+     STORAGE
+  ======================================================= */
 
-
-  try{
-
-    const savedNotes = JSON.parse(
-      localStorage.getItem(STORAGE.notes) || "{}"
-    );
-
-    window.notesState = savedNotes;
-
-  }catch{
-    window.notesState = {};
-  }
-
-
-  try{
-
-    const savedJapa = JSON.parse(
-      localStorage.getItem(STORAGE.japa) || "null"
-    );
-
-    if(savedJapa){
-      japaState = {
-        ...japaState,
-        ...savedJapa
-      };
-    }
-
-  }catch{}
-
-
-  if(japaState.lastDate !== getDateKey()){
-
-    japaState.today = 0;
-    japaState.lastDate = getDateKey();
-
-    saveJapa();
-  }
-
-}
-
-
-function saveDone(){
-  localStorage.setItem(
-    STORAGE.done,
-    JSON.stringify(window.doneState)
-  );
-}
-
-
-function saveNotes(){
-  localStorage.setItem(
-    STORAGE.notes,
-    JSON.stringify(window.notesState)
-  );
-}
-
-
-function saveJapa(){
-
-  localStorage.setItem(
-    STORAGE.japa,
-    JSON.stringify(japaState)
-  );
-
-}
-
-
-/* ═══════════════════════════════════
-   DATA / DATE
-═══════════════════════════════════ */
-
-function getCurrentDay(){
-
-  const saved = localStorage.getItem(STORAGE.start);
-
-  if(!saved){
-
-    const today = getDateKey();
-
-    localStorage.setItem(
-      STORAGE.start,
-      today
-    );
-
-    return 0;
-  }
-
-  const start = new Date(saved + "T12:00:00");
-  const now = new Date();
-
-  const diff = Math.floor(
-    (now - start) / 86400000
-  );
-
-  return Math.max(
-    0,
-    Math.min(6,diff)
-  );
-
-}
-
-
-function updateDate(){
-
-  const now = new Date();
-
-  const day = now.getDate();
-
-  const month = now.toLocaleDateString(
-    "pt-BR",
-    {month:"long"}
-  );
-
-  const year = now.getFullYear();
-
-  const weekday = now.toLocaleDateString(
-    "pt-BR",
-    {weekday:"long"}
-  );
-
-  document.getElementById("bigDate").textContent =
-    String(day).padStart(2,"0");
-
-  document.getElementById("bigMonth").textContent =
-    month.toUpperCase();
-
-  document.getElementById("bigYear").textContent =
-    year;
-
-  document.getElementById("dayOfWeek").textContent =
-    weekday;
-
-  document.getElementById("topDate").textContent =
-    `${String(day).padStart(2,"0")} · ${month.slice(0,3)}`;
-
-}
-
-
-/* ═══════════════════════════════════
-   HOME
-═══════════════════════════════════ */
-
-function renderHome(){
-
-  const d = DEVOTIONALS[currentDay];
-
-  document.getElementById("dailyDay").textContent =
-    `dia ${String(currentDay+1).padStart(2,"0")} / 07`;
-
-  document.getElementById("dailyTitle").textContent =
-    d.title;
-
-  document.getElementById("dailyReference").textContent =
-    d.reference;
-
-  document.getElementById("dailyVerse").textContent =
-    `“${d.verse}”`;
-
-  renderWeek();
-
-}
-
-
-function renderWeek(){
-
-  const container =
-    document.getElementById("weekDays");
-
-  container.innerHTML = "";
-
-  const names = [
-    "seg","ter","qua","qui","sex","sáb","dom"
-  ];
-
-  for(let i=0;i<7;i++){
-
-    const el = document.createElement("button");
-
-    el.className = "day";
-
-    if(i === currentDay){
-      el.classList.add("current");
-    }
-
-    if(window.doneState[i]){
-      el.classList.add("done");
-    }
-
-    const dateNumber = i + 1;
-
-    el.innerHTML = `
-      <span class="day-name">${names[i]}</span>
-      <span class="day-number">${String(dateNumber).padStart(2,"0")}</span>
-    `;
-
-    el.onclick = () => {
-
-      currentDay = i;
-
-      renderHome();
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    };
-
-    container.appendChild(el);
-
-  }
-
-}
-
-
-/* ═══════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════ */
-
-function showView(view){
-
-  document.querySelectorAll(".view")
-    .forEach(v => v.classList.remove("active"));
-
-  const target =
-    document.getElementById(`view-${view}`);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-item")
-    .forEach(item => {
-
-      item.classList.toggle(
-        "active",
-        item.dataset.view === view
-      );
-
-    });
-
-  window.scrollTo({
-    top:0,
-    behavior:"instant"
-  });
-
-  if(view === "home"){
-    renderHome();
-  }
-
-  if(view === "japa"){
-    updateJapaHome();
-  }
-
-}
-
-
-/* ═══════════════════════════════════
-   DEVOCIONAL
-═══════════════════════════════════ */
-
-function openDevotional(index){
-
-  currentDay = index;
-
-  const d = DEVOTIONALS[index];
-
-  document.getElementById("devNumber").textContent =
-    String(index+1).padStart(2,"0");
-
-  document.getElementById("devTitle").textContent =
-    d.title;
-
-  document.getElementById("devScripture").textContent =
-    `“${d.reference}”\n\n${d.verse}`;
-
-  document.getElementById("devExplanation").textContent =
-    d.explanation;
-
-  document.getElementById("devContext").textContent =
-    d.context;
-
-  document.getElementById("devExercise").textContent =
-    d.exercise;
-
-  document.getElementById("devQuestion").textContent =
-    d.question;
-
-  document.getElementById("devPrayer").textContent =
-    d.prayer;
-
-  const notes =
-    window.notesState[index] || "";
-
-  document.getElementById("devNotes").value =
-    notes;
-
-  updateCompleteButton();
-
-  showView("devotional");
-
-}
-
-
-function toggleComplete(){
-
-  window.doneState[currentDay] =
-    !window.doneState[currentDay];
-
-  saveDone();
-
-  updateCompleteButton();
-
-  renderHome();
-
-  if(window.doneState[currentDay]){
-    showToast("momento concluído ✦");
-  }
-
-}
-
-
-function updateCompleteButton(){
-
-  const done =
-    !!window.doneState[currentDay];
-
-  const button =
-    document.getElementById("completeButton");
-
-  const mark =
-    document.getElementById("completeMark");
-
-  const text =
-    document.getElementById("completeText");
-
-  button.classList.toggle("done",done);
-
-  mark.textContent =
-    done ? "✓" : "";
-
-  text.textContent =
-    done
-      ? "este momento está guardado"
-      : "marcar este momento como concluído";
-
-}
-
-
-/* notas */
-
-document.getElementById("devNotes")
-  .addEventListener("input",function(){
-
-    window.notesState[currentDay] =
-      this.value;
-
-    saveNotes();
-
-  });
-
-
-/* ═══════════════════════════════════
-   RITUAIS
-═══════════════════════════════════ */
-
-function toggleRitual(button){
-
-  const ritual =
-    button.parentElement;
-
-  const currentlyOpen =
-    ritual.classList.contains("open");
-
-  document.querySelectorAll(".ritual")
-    .forEach(item => item.classList.remove("open"));
-
-  if(!currentlyOpen){
-    ritual.classList.add("open");
-  }
-
-}
-
-
-/* ═══════════════════════════════════
-   TEMA
-═══════════════════════════════════ */
-
-function setTheme(theme){
-
-  if(theme === "dark"){
-    document.body.classList.add("dark");
-  }else{
-    document.body.classList.remove("dark");
-  }
-
-  localStorage.setItem(
-    STORAGE.theme,
-    theme
-  );
-
-  document.querySelectorAll(".theme-choice")
-    .forEach(button => {
-
-      button.classList.toggle(
-        "active",
-        button.dataset.theme === theme
-      );
-
-    });
-
-}
-
-
-function loadTheme(){
-
-  const theme =
-    localStorage.getItem(STORAGE.theme) || "light";
-
-  setTheme(theme);
-
-}
-
-
-/* ═══════════════════════════════════
-   ABOUT
-═══════════════════════════════════ */
-
-function showAbout(){
-
-  showToast(
-    "momento. · um pequeno lugar para voltar a Deus."
-  );
-
-}
-
-
-/* ═══════════════════════════════════
-   TOAST
-═══════════════════════════════════ */
-
-let toastTimer;
-
-function showToast(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent =
-    message;
-
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer =
-    setTimeout(() => {
-
-      toast.classList.remove("show");
-
-    },2200);
-
-}
-
-
-/* ═══════════════════════════════════
-   JAPAMALA
-═══════════════════════════════════ */
-
-let beads = [];
-
-function loadJapa(){
-
-  selectedMode =
-    japaState.mode || 108;
-
-  const input =
-    document.getElementById("phraseInput");
-
-  if(input){
-    input.value =
-      japaState.phrase;
-  }
-
-  updateModeButtons();
-  updateJapaHome();
-
-}
-
-
-function selectMode(mode){
-
-  selectedMode = mode;
-
-  updateModeButtons();
-
-}
-
-
-function updateModeButtons(){
-
-  document.querySelectorAll(".mode-option")
-    .forEach(button => {
-
-      button.classList.toggle(
-        "active",
-        Number(button.dataset.mode) === selectedMode
-      );
-
-    });
-
-}
-
-
-function updateJapaHome(){
-
-  document.getElementById("japaLifetime")
-    .textContent = japaState.lifetime;
-
-  document.getElementById("japaToday")
-    .textContent = japaState.today;
-
-}
-
-
-function startJapa(){
-
-  const phrase =
-    document.getElementById("phraseInput").value.trim();
-
-  if(phrase){
-    japaState.phrase = phrase;
-  }
-
-  japaState.mode = selectedMode;
-  japaState.paused = false;
-
-  saveJapa();
-
-  openJapaPractice();
-
-}
-
-
-function openJapaPractice(){
-
-  const practice =
-    document.getElementById("japaPractice");
-
-  practice.classList.add("active");
-
-  document.getElementById("practiceMode")
-    .textContent =
-    `${japaState.mode} contas`;
-
-  document.getElementById("japaTarget")
-    .textContent =
-    japaState.mode;
-
-  document.getElementById("practicePhrase")
-    .textContent =
-    japaState.phrase;
-
-  document.getElementById("japaCount")
-    .textContent =
-    japaState.count;
-
-  document.getElementById("tapHint")
-    .classList.toggle(
-      "hidden",
-      japaState.count > 0
-    );
-
-  document.getElementById("pausedOverlay")
-    .classList.remove("active");
-
-  document.getElementById("pauseButton")
-    .textContent = "pausar";
-
-  buildMala();
-
-  updateMala();
-
-  document.body.style.overflow = "hidden";
-
-}
-
-
-function closeJapa(){
-
-  document
-    .getElementById("japaPractice")
-    .classList.remove("active");
-
-  document.body.style.overflow = "";
-
-  saveJapa();
-
-  updateJapaHome();
-
-}
-
-
-/* ═══════════════════════════════════
-   CONSTRUÇÃO DA MALA
-═══════════════════════════════════ */
-
-function buildMala(){
-
-  const svg =
-    document.getElementById("malaSvg");
-
-  svg.innerHTML = "";
-
-  beads = [];
-
-
-  /* cordão orgânico */
-
-  let path = "";
-
-  const total = 108;
-
-  const points = [];
-
-  for(let i=0;i<=108;i++){
-
-    const angle =
-      -Math.PI/2 +
-      (Math.PI*2*i/108);
-
-    const noiseX =
-      Math.sin(i * 1.73) * 5 +
-      Math.sin(i * .37) * 3;
-
-    const noiseY =
-      Math.cos(i * 1.19) * 5 +
-      Math.sin(i * .61) * 2;
-
-    const rx = 126 + noiseX;
-    const ry = 193 + noiseY;
-
-    const x =
-      180 +
-      Math.cos(angle) * rx;
-
-    const y =
-      260 +
-      Math.sin(angle) * ry;
-
-    points.push({x,y});
-  }
-
-
-  points.forEach((p,i) => {
-
-    if(i === 0){
-      path += `M ${p.x} ${p.y}`;
-    }else{
-      const prev = points[i-1];
-
-      const cx =
-        (prev.x+p.x)/2 +
-        Math.sin(i)*2;
-
-      const cy =
-        (prev.y+p.y)/2 +
-        Math.cos(i)*2;
-
-      path += ` Q ${cx} ${cy} ${p.x} ${p.y}`;
-    }
-
-  });
-
-
-  const cord =
-    document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "path"
-    );
-
-  cord.setAttribute("d",path);
-  cord.setAttribute("class","mala-cord");
-
-  svg.appendChild(cord);
-
-
-  /* contas */
-
-  for(let i=0;i<108;i++){
-
-    const p = points[i];
-
-    const group =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "g"
-      );
-
-    group.dataset.index = i;
-
-
-    const radius =
-      7.3 +
-      Math.sin(i*2.31)*.8;
-
-
-    const shadow =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
-      );
-
-    shadow.setAttribute("cx",p.x+1.2);
-    shadow.setAttribute("cy",p.y+1.8);
-    shadow.setAttribute("r",radius);
-    shadow.setAttribute("fill","rgba(40,35,30,.11)");
-
-    group.appendChild(shadow);
-
-
-    const bead =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
-      );
-
-    bead.setAttribute("cx",p.x);
-    bead.setAttribute("cy",p.y);
-    bead.setAttribute("r",radius);
-    bead.setAttribute("class","bead");
-
-    group.appendChild(bead);
-
-
-    const shine =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "ellipse"
-      );
-
-    shine.setAttribute("cx",p.x-2);
-    shine.setAttribute("cy",p.y-2.5);
-    shine.setAttribute("rx",radius*.34);
-    shine.setAttribute("ry",radius*.23);
-    shine.setAttribute("class","bead-shine");
-
-    group.appendChild(shine);
-
-
-    svg.appendChild(group);
-
-    beads.push({
-      group,
-      bead,
-      shine
-    });
-
-  }
-
-
-  /* guru / meru */
-
-  const guruGroup =
-    document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "g"
-    );
-
-  const guru =
-    document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "circle"
-    );
-
-  guru.setAttribute("cx","180");
-  guru.setAttribute("cy","56");
-  guru.setAttribute("r","14");
-  guru.setAttribute("class","guru");
-
-  guruGroup.appendChild(guru);
-
-
-  const guruShine =
-    document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "ellipse"
-    );
-
-  guruShine.setAttribute("cx","176");
-  guruShine.setAttribute("cy","52");
-  guruShine.setAttribute("rx","4");
-  guruShine.setAttribute("ry","3");
-  guruShine.setAttribute("class","guru-shine");
-
-  guruGroup.appendChild(guruShine);
-
-
-  /* tassel */
-
-  for(let i=-4;i<=4;i++){
-
-    const tassel =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "path"
-      );
-
-    tassel.setAttribute(
-      "d",
-      `M ${180+i*2.2} 70
-       Q ${178+i*2.2} 92 ${174+i*2.2} 111`
-    );
-
-    tassel.setAttribute(
-      "class",
-      "tassel"
-    );
-
-    guruGroup.appendChild(tassel);
-
-  }
-
-
-  svg.appendChild(guruGroup);
-
-}
-
-
-/* ═══════════════════════════════════
-   ATUALIZAÇÃO VISUAL
-═══════════════════════════════════ */
-
-function updateMala(){
-
-  const count =
-    japaState.count;
-
-  const target =
-    japaState.mode;
-
-
-  beads.forEach((item,i) => {
-
-    item.bead.classList.remove(
-      "completed",
-      "current",
-      "ghost"
-    );
-
-    item.shine.classList.remove(
-      "current-shine"
-    );
-
-
-    if(i >= target){
-
-      item.bead.classList.add("ghost");
-
-    }else if(i < count){
-
-      item.bead.classList.add("completed");
-
-    }else if(i === count && count < target){
-
-      item.bead.classList.add("current");
-
-      item.shine.classList.add(
-        "current-shine"
-      );
-
-    }
-
-  });
-
-
-  document.getElementById("japaCount")
-    .textContent = count;
-
-
-  document.getElementById("japaTarget")
-    .textContent = target;
-
-
-  document.getElementById("tapHint")
-    .classList.toggle(
-      "hidden",
-      count > 0
-    );
-
-
-  document.getElementById("practicePhrase")
-    .textContent =
-    japaState.phrase;
-
-
-  document.getElementById("practiceMode")
-    .textContent =
-    `${target} contas`;
-
-}
-
-
-/* ═══════════════════════════════════
-   CONTAGEM
-═══════════════════════════════════ */
-
-let pointerStart = null;
-
-const practiceStage =
-  document.getElementById("practiceStage");
-
-
-practiceStage.addEventListener(
-  "pointerdown",
-  event => {
-
-    if(
-      event.target.closest("[data-no-count]")
-    ){
-      return;
-    }
-
-    pointerStart = {
-      x:event.clientX,
-      y:event.clientY
-    };
-
-  },
-  {passive:true}
-);
-
-
-practiceStage.addEventListener(
-  "pointerup",
-  event => {
-
-    if(
-      event.target.closest("[data-no-count]")
-    ){
-      return;
-    }
-
-    if(!pointerStart){
-      return;
-    }
-
-    const dx =
-      event.clientX-pointerStart.x;
-
-    const dy =
-      event.clientY-pointerStart.y;
-
-    const distance =
-      Math.sqrt(dx*dx+dy*dy);
-
-    pointerStart = null;
-
-    if(distance > 18){
-      return;
-    }
-
-    countJapa();
-
-  },
-  {passive:true}
-);
-
-
-function countJapa(){
-
-  if(japaState.paused){
-    return;
-  }
-
-  if(japaState.count >= japaState.mode){
-    return;
-  }
-
-
-  japaState.count++;
-
-  japaState.lifetime++;
-  japaState.today++;
-
-
-  updateMala();
-
-  saveJapa();
-
-  vibrate(8);
-
-
-  /* palavra flutuando */
-
-  showFloatingWord();
-
-
-  /* primeiros segundos */
-
-  if(japaState.count === 1){
-
-    document
-      .getElementById("tapHint")
-      .classList.add("hidden");
-
-  }
-
-
-  /* marcos */
-
-  const milestones =
-    [27,54,81,108];
-
-  if(
-    milestones.includes(japaState.count) &&
-    japaState.count < japaState.mode
-  ){
-
-    vibrate([10,35,10]);
-
-  }
-
-
-  /* conclusão */
-
-  if(
-    japaState.count >= japaState.mode
-  ){
-
-    completeJapa();
-
-  }
-
-}
-
-
-function showFloatingWord(){
-
-  const words =
-    [
-      "presença",
-      "confiança",
-      "fé",
-      "entrega",
-      "prosperidade",
-      "paz"
-    ];
-
-  const word =
-    words[
-      Math.floor(
-        Math.random()*words.length
-      )
-    ];
-
-  const el =
-    document.createElement("div");
-
-  el.className =
-    "float-word";
-
-  el.textContent =
-    word;
-
-  practiceStage.appendChild(el);
-
-  setTimeout(
-    () => el.remove(),
-    1000
-  );
-
-}
-
-
-/* ═══════════════════════════════════
-   HAPTIC
-═══════════════════════════════════ */
-
-function vibrate(pattern){
-
-  if(
-    "vibrate" in navigator
-  ){
+  function loadState(){
 
     try{
-      navigator.vibrate(pattern);
-    }catch{}
+
+      const saved =
+        JSON.parse(
+          localStorage.getItem(STORAGE_KEY) || "null"
+        );
+
+      if(saved){
+
+        state.target =
+          Number(saved.target) || 108;
+
+        state.count =
+          Number(saved.count) || 0;
+
+        state.rounds =
+          Number(saved.rounds) || 0;
+
+        state.total =
+          Number(saved.total) || 0;
+
+        state.mantra =
+          saved.mantra ||
+          DEFAULT_MANTRA;
+
+        state.sessionStartedAt =
+          saved.sessionStartedAt || null;
+
+        state.sessionElapsed =
+          Number(saved.sessionElapsed) || 0;
+
+      }
+
+    }catch(error){
+
+      console.warn("Não foi possível carregar a japamala.", error);
+
+    }
 
   }
 
-}
+  function saveState(){
 
+    try{
 
-/* ═══════════════════════════════════
-   DESFAZER
-═══════════════════════════════════ */
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+      );
 
-function undoJapa(){
+    }catch(error){
 
-  if(japaState.count <= 0){
-    return;
+      console.warn("Não foi possível salvar a japamala.", error);
+
+    }
+
   }
 
-  japaState.count--;
 
-  japaState.lifetime =
-    Math.max(
+  /* =======================================================
+     CANVAS
+  ======================================================= */
+
+  function setupCanvas(){
+
+    canvas = canvasElement;
+    ctx = canvas.getContext("2d", {
+      alpha:true,
+      desynchronized:true
+    });
+
+    resizeCanvas();
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas,
+      {passive:true}
+    );
+
+    if(window.visualViewport){
+
+      window.visualViewport.addEventListener(
+        "resize",
+        resizeCanvas,
+        {passive:true}
+      );
+
+    }
+
+  }
+
+  function resizeCanvas(){
+
+    if(!canvas || !ctx) return;
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+    width = rect.width;
+    height = rect.height;
+
+    dpr = Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
+
+    canvas.width =
+      Math.round(width * dpr);
+
+    canvas.height =
+      Math.round(height * dpr);
+
+    ctx.setTransform(
+      dpr,
       0,
-      japaState.lifetime-1
-    );
-
-  japaState.today =
-    Math.max(
       0,
-      japaState.today-1
+      dpr,
+      0,
+      0
     );
 
+    createMalaGeometry();
+    drawMala();
 
-  document
-    .getElementById("completeOverlay")
-    .classList.remove("active");
-
-
-  updateMala();
-  saveJapa();
-
-  vibrate(5);
-
-}
-
-
-/* ═══════════════════════════════════
-   RECOMEÇAR
-═══════════════════════════════════ */
-
-function restartJapa(){
-
-  const confirmed =
-    japaState.count === 0 ||
-    confirm(
-      "Recomeçar esta volta? O progresso das contas desta prática será zerado."
-    );
-
-  if(!confirmed){
-    return;
   }
+
 
   /*
-    Subtrai as contas da prática atual
-    do total salvo.
+    A mala não é desenhada como uma circunferência.
+
+    Ela é uma curva vertical assimétrica.
+    Isso cria a sensação de uma mala pendurada,
+    com a parte inferior mais pesada.
   */
 
-  japaState.lifetime =
-    Math.max(
+  function createMalaGeometry(){
+
+    points = [];
+
+    const cx = width * .5;
+
+    /*
+      A mala ocupa aproximadamente 66% da altura.
+      Em telas muito pequenas, reduzimos um pouco.
+    */
+
+    const available =
+      Math.min(
+        height * .68,
+        width * 1.08
+      );
+
+    const top =
+      height * .20;
+
+    const bottom =
+      top + available;
+
+    const centerY =
+      (top + bottom) / 2;
+
+    const radiusX =
+      Math.min(width * .29, 148);
+
+    const radiusY =
+      available * .48;
+
+    for(let i = 0; i < 108; i++){
+
+      /*
+        theta começa em cima e percorre a mala
+        no sentido horário.
+
+        Não usamos uma elipse perfeita.
+      */
+
+      const t =
+        i / 107;
+
+      const theta =
+        Math.PI * (1.06 + t * 1.88);
+
+      const organic =
+        1
+        + Math.sin(i * 1.731) * .018
+        + Math.sin(i * .371) * .012;
+
+      const verticalWeight =
+        1
+        + Math.sin(theta) * .035;
+
+      let x =
+        cx
+        + Math.cos(theta)
+        * radiusX
+        * organic;
+
+      let y =
+        centerY
+        + Math.sin(theta)
+        * radiusY
+        * verticalWeight;
+
+      /*
+        Pequena inclinação na parte superior.
+        Faz a mala parecer menos "desenhada com compasso".
+      */
+
+      x +=
+        Math.sin(t * Math.PI * 2.4)
+        * width
+        * .018;
+
+      y +=
+        Math.sin(i * .47)
+        * 1.8;
+
+      points.push({
+        x,
+        y,
+        index:i
+      });
+
+    }
+
+    /*
+      Guru bead.
+      Ela fica separada da última conta,
+      no ponto inferior da composição.
+    */
+
+    guru = {
+      x:cx,
+      y:bottom + 25
+    };
+
+  }
+
+
+  function roundedPath(pointsArray){
+
+    if(!pointsArray.length) return;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      pointsArray[0].x,
+      pointsArray[0].y
+    );
+
+    for(let i = 1; i < pointsArray.length; i++){
+
+      const previous =
+        pointsArray[i - 1];
+
+      const current =
+        pointsArray[i];
+
+      const midX =
+        (previous.x + current.x) / 2;
+
+      const midY =
+        (previous.y + current.y) / 2;
+
+      ctx.quadraticCurveTo(
+        previous.x,
+        previous.y,
+        midX,
+        midY
+      );
+
+    }
+
+    const last =
+      pointsArray[pointsArray.length - 1];
+
+    ctx.lineTo(last.x, last.y);
+  }
+
+
+  function drawCord(){
+
+    if(points.length < 2) return;
+
+    /*
+      O cordão fica discretíssimo.
+    */
+
+    ctx.save();
+
+    ctx.strokeStyle =
+      "rgba(75,68,58,.32)";
+
+    ctx.lineWidth = 1.1;
+
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    roundedPath(points);
+
+    ctx.stroke();
+
+    /*
+      Pequena linha entre última conta e guru.
+    */
+
+    const last =
+      points[points.length - 1];
+
+    ctx.beginPath();
+
+    ctx.moveTo(last.x, last.y);
+
+    ctx.quadraticCurveTo(
+      guru.x + 4,
+      guru.y - 13,
+      guru.x,
+      guru.y
+    );
+
+    ctx.stroke();
+
+    ctx.restore();
+
+  }
+
+
+  function beadSize(index){
+
+    const base =
+      Math.max(
+        7.5,
+        Math.min(width * .024, 11)
+      );
+
+    /*
+      Pequena irregularidade individual.
+    */
+
+    const organic =
+      Math.sin(index * 2.13) * .7
+      +
+      Math.sin(index * .71) * .45;
+
+    return base + organic;
+
+  }
+
+
+  function drawBead(point, index){
+
+    let radius =
+      beadSize(index);
+
+    const completed =
+      index < state.count;
+
+    const current =
+      index === state.count;
+
+    const future =
+      index > state.count;
+
+    if(current){
+
+      radius *= 1.45;
+
+    }
+
+    /*
+      Current bead pulsa muito suavemente.
+    */
+
+    if(
+      current &&
+      performance.now() < animationUntil
+    ){
+
+      const elapsed =
+        animationUntil - performance.now();
+
+      const pulse =
+        Math.sin(
+          (1 - elapsed / 800)
+          * Math.PI
+        );
+
+      radius *=
+        1 + pulse * .13;
+
+    }
+
+    ctx.save();
+
+    /*
+      Sombra simples.
+      Nada de shadowBlur, porque isso pesa no GPU.
+    */
+
+    if(current){
+
+      ctx.beginPath();
+
+      ctx.arc(
+        point.x + 1.5,
+        point.y + 2,
+        radius + 1,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fillStyle =
+        "rgba(80,55,45,.13)";
+
+      ctx.fill();
+
+    }
+
+    /*
+      Cor da conta.
+    */
+
+    let fill;
+
+    if(current){
+
+      fill = "#d9362d";
+
+    }else if(completed){
+
+      fill = "#64745e";
+
+    }else if(future){
+
+      fill = "#d8d0c3";
+
+    }
+
+    ctx.beginPath();
+
+    ctx.arc(
+      point.x,
+      point.y,
+      radius,
       0,
-      japaState.lifetime-japaState.count
+      Math.PI * 2
     );
 
-  japaState.today =
-    Math.max(
+    ctx.fillStyle = fill;
+    ctx.fill();
+
+    /*
+      Pequeno brilho.
+    */
+
+    const highlight =
+      Math.max(1.2, radius * .18);
+
+    ctx.beginPath();
+
+    ctx.arc(
+      point.x - radius * .28,
+      point.y - radius * .3,
+      highlight,
       0,
-      japaState.today-japaState.count
+      Math.PI * 2
     );
 
-  japaState.count = 0;
+    ctx.fillStyle =
+      current
+        ? "rgba(255,255,255,.40)"
+        : "rgba(255,255,255,.26)";
 
-  japaState.paused = false;
+    ctx.fill();
 
-  document
-    .getElementById("completeOverlay")
-    .classList.remove("active");
+    ctx.restore();
 
-  document
-    .getElementById("pausedOverlay")
-    .classList.remove("active");
-
-  document
-    .getElementById("pauseButton")
-    .textContent = "pausar";
-
-  updateMala();
-  saveJapa();
-
-}
+  }
 
 
-/* ═══════════════════════════════════
-   PAUSA
-═══════════════════════════════════ */
+  function drawGuru(){
 
-function togglePause(){
+    if(!guru) return;
 
-  japaState.paused =
-    !japaState.paused;
+    ctx.save();
 
+    /*
+      Cordão abaixo da guru.
+    */
 
-  const overlay =
-    document.getElementById(
-      "pausedOverlay"
+    ctx.beginPath();
+
+    ctx.moveTo(
+      guru.x,
+      guru.y + 8
     );
 
-  const button =
-    document.getElementById(
-      "pauseButton"
+    ctx.lineTo(
+      guru.x,
+      guru.y + 34
     );
 
+    ctx.strokeStyle =
+      "rgba(75,68,58,.38)";
 
-  overlay.classList.toggle(
-    "active",
-    japaState.paused
+    ctx.lineWidth = 1;
+
+    ctx.stroke();
+
+    /*
+      Guru bead.
+    */
+
+    ctx.beginPath();
+
+    ctx.arc(
+      guru.x,
+      guru.y,
+      12,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle =
+      "#64745e";
+
+    ctx.fill();
+
+    /*
+      Nó abaixo da guru.
+    */
+
+    ctx.beginPath();
+
+    ctx.arc(
+      guru.x,
+      guru.y + 36,
+      2.2,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle =
+      "#64745e";
+
+    ctx.fill();
+
+    /*
+      Tassel.
+      Quatro fios finos.
+    */
+
+    ctx.strokeStyle =
+      "rgba(75,68,58,.48)";
+
+    ctx.lineWidth = 1;
+
+    const tasselY =
+      guru.y + 41;
+
+    for(let i = -2; i <= 2; i++){
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        guru.x + i * 2,
+        guru.y + 36
+      );
+
+      ctx.quadraticCurveTo(
+        guru.x + i * 3,
+        guru.y + 46,
+        guru.x + i * 2.6,
+        tasselY + Math.abs(i) * 3
+      );
+
+      ctx.stroke();
+
+    }
+
+    ctx.restore();
+
+  }
+
+
+  function drawMala(){
+
+    if(!ctx) return;
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+    drawCord();
+
+    for(let i = 0; i < points.length; i++){
+
+      drawBead(
+        points[i],
+        i
+      );
+
+    }
+
+    drawGuru();
+
+    if(
+      animationUntil > performance.now()
+    ){
+
+      if(!animationFrame){
+
+        animationFrame =
+          requestAnimationFrame(
+            animationLoop
+          );
+
+      }
+
+    }
+
+  }
+
+
+  function animationLoop(){
+
+    animationFrame = null;
+
+    drawMala();
+
+  }
+
+
+  /* =======================================================
+     SESSION
+  ======================================================= */
+
+  function formatTime(seconds){
+
+    seconds =
+      Math.max(
+        0,
+        Math.floor(seconds)
+      );
+
+    const minutes =
+      Math.floor(seconds / 60);
+
+    const secs =
+      seconds % 60;
+
+    return (
+      String(minutes).padStart(2,"0")
+      +
+      ":"
+      +
+      String(secs).padStart(2,"0")
+    );
+
+  }
+
+
+  function getElapsed(){
+
+    if(!state.sessionStartedAt){
+
+      return state.sessionElapsed;
+
+    }
+
+    return (
+      state.sessionElapsed
+      +
+      (
+        Date.now()
+        -
+        state.sessionStartedAt
+      ) / 1000
+    );
+
+  }
+
+
+  function updateTimer(){
+
+    timerElement.textContent =
+      formatTime(getElapsed());
+
+  }
+
+
+  function startTimer(){
+
+    clearInterval(timerInterval);
+
+    if(!state.sessionStartedAt){
+
+      state.sessionStartedAt =
+        Date.now();
+
+    }
+
+    timerInterval =
+      setInterval(
+        updateTimer,
+        1000
+      );
+
+    updateTimer();
+
+  }
+
+
+  function stopTimer(){
+
+    if(state.sessionStartedAt){
+
+      state.sessionElapsed =
+        getElapsed();
+
+    }
+
+    state.sessionStartedAt = null;
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+    updateTimer();
+
+  }
+
+
+  /* =======================================================
+     WAKE LOCK
+  ======================================================= */
+
+  async function requestWakeLock(){
+
+    if(!("wakeLock" in navigator)) return;
+
+    try{
+
+      wakeLock =
+        await navigator.wakeLock.request(
+          "screen"
+        );
+
+    }catch(error){
+
+      wakeLock = null;
+
+    }
+
+  }
+
+
+  async function releaseWakeLock(){
+
+    if(!wakeLock) return;
+
+    try{
+
+      await wakeLock.release();
+
+    }catch(error){}
+
+    wakeLock = null;
+
+  }
+
+
+  document.addEventListener(
+    "visibilitychange",
+    function(){
+
+      if(
+        document.visibilityState === "visible"
+        &&
+        practice.classList.contains("visible")
+        &&
+        !pausedElement.classList.contains("visible")
+      ){
+
+        requestWakeLock();
+
+      }
+
+    }
   );
 
 
-  button.textContent =
-    japaState.paused
-      ? "continuar"
-      : "pausar";
+  /* =======================================================
+     AUDIO
+  ======================================================= */
+
+  /*
+    Som não é obrigatório.
+
+    No iPhone, o AudioContext precisa nascer de uma
+    interação do usuário. Por isso criamos somente no
+    primeiro toque real.
+  */
+
+  function ensureAudio(){
+
+    if(audioContext) return;
+
+    try{
+
+      const AudioCtx =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+      if(!AudioCtx) return;
+
+      audioContext =
+        new AudioCtx();
+
+    }catch(error){
+
+      audioContext = null;
+
+    }
+
+  }
 
 
-  saveJapa();
+  function tinyTone(){
 
-}
+    /*
+      De propósito, o som é MUITO discreto.
+      Ele pode simplesmente não existir em Safari.
+    */
+
+    if(!audioContext) return;
+
+    try{
+
+      if(
+        audioContext.state === "suspended"
+      ){
+
+        audioContext.resume();
+
+      }
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+      oscillator.type = "sine";
+
+      oscillator.frequency.value =
+        392;
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        audioContext.currentTime
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.018,
+        audioContext.currentTime + .008
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        audioContext.currentTime + .065
+      );
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      oscillator.start();
+
+      oscillator.stop(
+        audioContext.currentTime + .07
+      );
+
+    }catch(error){}
+
+  }
 
 
-/* ═══════════════════════════════════
-   COMPLETION
-═══════════════════════════════════ */
+  /* =======================================================
+     UI
+  ======================================================= */
 
-function completeJapa(){
+  function updateUI(){
 
-  japaState.rounds++;
+    const current =
+      Math.min(
+        state.count,
+        state.target
+      );
 
-  saveJapa();
+    counterNumber.textContent =
+      String(current).padStart(3,"0");
 
-  vibrate([
-    18,
-    50,
-    18,
-    70,
-    35
-  ]);
+    counterTotal.textContent =
+      "de " + state.target;
+
+    targetLabel.textContent =
+      state.target + " contas";
+
+    roundLabel.textContent =
+      "volta " +
+      String(state.rounds + 1).padStart(2,"0");
+
+    mantraElement.textContent =
+      state.mantra;
+
+    progressFill.style.width =
+      (
+        current / state.target * 100
+      ) + "%";
+
+    /*
+      Quando chega em 100, a última conta
+      ainda aparece como concluída.
+    */
+
+    drawMala();
+
+  }
 
 
-  document.getElementById(
-    "completionNumber"
-  ).textContent =
-    japaState.mode;
+  function setTarget(value){
 
-
-  setTimeout(() => {
+    selectedTarget =
+      Number(value);
 
     document
-      .getElementById("completeOverlay")
-      .classList.add("active");
+      .querySelectorAll(".target")
+      .forEach(button => {
 
-  },180);
+        button.classList.toggle(
+          "active",
+          Number(button.dataset.target)
+          === selectedTarget
+        );
 
-}
+      });
 
-
-function closeCompletion(){
-
-  document
-    .getElementById("completeOverlay")
-    .classList.remove("active");
-
-}
+  }
 
 
-/* ═══════════════════════════════════
-   TECLADO
-═══════════════════════════════════ */
+  function startSession(){
 
-document.addEventListener(
-  "keydown",
-  event => {
+    state.target =
+      selectedTarget;
 
-    const practice =
-      document
-        .getElementById("japaPractice")
-        .classList.contains("active");
+    state.count = 0;
 
-    if(!practice){
+    state.sessionElapsed = 0;
+
+    state.sessionStartedAt =
+      Date.now();
+
+    saveState();
+
+    setup.style.display = "none";
+
+    complete.classList.remove("visible");
+
+    practice.classList.add("visible");
+
+    pausedElement.classList.remove("visible");
+
+    resizeCanvas();
+
+    updateUI();
+
+    startTimer();
+
+    requestWakeLock();
+
+  }
+
+
+  function exitSession(){
+
+    stopTimer();
+
+    releaseWakeLock();
+
+    saveState();
+
+    practice.classList.remove("visible");
+
+    complete.classList.remove("visible");
+
+    pausedElement.classList.remove("visible");
+
+    editMantra.classList.remove("visible");
+
+    setup.style.display = "";
+
+  }
+
+
+  function togglePause(){
+
+    const isPaused =
+      pausedElement.classList.contains(
+        "visible"
+      );
+
+    if(isPaused){
+
+      pausedElement.classList.remove(
+        "visible"
+      );
+
+      state.sessionStartedAt =
+        Date.now();
+
+      startTimer();
+
+      requestWakeLock();
+
       return;
+
     }
 
+    state.sessionElapsed =
+      getElapsed();
+
+    state.sessionStartedAt = null;
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+    pausedElement.classList.add(
+      "visible"
+    );
+
+    releaseWakeLock();
+
+    saveState();
+
+  }
+
+
+  function undo(){
+
     if(
-      event.target.tagName === "INPUT" ||
-      event.target.tagName === "TEXTAREA" ||
-      event.target.tagName === "BUTTON"
+      state.count <= 0 ||
+      pausedElement.classList.contains("visible")
     ){
+
       return;
+
     }
 
+    state.count--;
+
+    state.total =
+      Math.max(
+        0,
+        state.total - 1
+      );
+
+    updateUI();
+
+    saveState();
+
+    animate();
+
+  }
+
+
+  function animate(){
+
+    animationUntil =
+      performance.now() + 800;
+
+    if(!animationFrame){
+
+      animationFrame =
+        requestAnimationFrame(
+          animationLoop
+        );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     COUNT
+  ======================================================= */
+
+  function countBead(){
+
     if(
-      event.code === "Space" ||
-      event.code === "Enter"
+      pausedElement.classList.contains(
+        "visible"
+      )
+    ){
+
+      togglePause();
+
+      return;
+
+    }
+
+    /*
+      O áudio só nasce aqui, dentro de um
+      gesto real do usuário.
+    */
+
+    ensureAudio();
+
+    if(state.count >= state.target){
+
+      return;
+
+    }
+
+    state.count++;
+
+    state.total++;
+
+    animate();
+
+    updateUI();
+
+    /*
+      Microfeedback.
+
+      navigator.vibrate não é confiável no Safari,
+      então é apenas opcional.
+    */
+
+    if(
+      navigator.vibrate &&
+      typeof navigator.vibrate === "function"
+    ){
+
+      try{
+
+        navigator.vibrate(
+          state.count === state.target
+            ? [8,18,8]
+            : 5
+        );
+
+      }catch(error){}
+
+    }
+
+    tinyTone();
+
+    /*
+      Frase aparece de forma sutil.
+    */
+
+    flashMantra();
+
+    saveState();
+
+    /*
+      Última conta.
+    */
+
+    if(
+      state.count === state.target
+    ){
+
+      setTimeout(
+        completeRound,
+        240
+      );
+
+    }
+
+  }
+
+
+  function flashMantra(){
+
+    mantraElement.classList.remove(
+      "flash"
+    );
+
+    /*
+      force reflow proposital e pequeno
+      para reiniciar a animação.
+    */
+
+    void mantraElement.offsetWidth;
+
+    mantraElement.classList.add(
+      "flash"
+    );
+
+    clearTimeout(
+      mantraElement._flashTimer
+    );
+
+    mantraElement._flashTimer =
+      setTimeout(
+        function(){
+
+          mantraElement.classList.remove(
+            "flash"
+          );
+
+        },
+        170
+      );
+
+  }
+
+
+  /* =======================================================
+     COMPLETE
+  ======================================================= */
+
+  function completeRound(){
+
+    stopTimer();
+
+    releaseWakeLock();
+
+    state.rounds++;
+
+    saveState();
+
+    $("completeCount").textContent =
+      state.target;
+
+    $("completeTime").textContent =
+      formatTime(
+        state.sessionElapsed
+      );
+
+    $("completeRounds").textContent =
+      String(
+        state.rounds
+      ).padStart(2,"0");
+
+    complete.classList.add(
+      "visible"
+    );
+
+  }
+
+
+  function continueRound(){
+
+    state.count = 0;
+
+    state.sessionElapsed = 0;
+
+    state.sessionStartedAt =
+      Date.now();
+
+    complete.classList.remove(
+      "visible"
+    );
+
+    pausedElement.classList.remove(
+      "visible"
+    );
+
+    startTimer();
+
+    requestWakeLock();
+
+    updateUI();
+
+    saveState();
+
+  }
+
+
+  function finishSession(){
+
+    /*
+      A sessão termina, mas mantemos total e voltas.
+    */
+
+    stopTimer();
+
+    releaseWakeLock();
+
+    saveState();
+
+    complete.classList.remove(
+      "visible"
+    );
+
+    practice.classList.remove(
+      "visible"
+    );
+
+    setup.style.display = "";
+
+    /*
+      Ao voltar ao setup, oferecemos a mesma
+      quantidade e a mesma frase.
+    */
+
+    mantraInput.value =
+      state.mantra;
+
+  }
+
+
+  /* =======================================================
+     TOUCH / POINTER
+  ======================================================= */
+
+  function onPointerDown(event){
+
+    /*
+      Ignora botões e áreas de controle.
+    */
+
+    if(
+      event.target.closest("button") ||
+      event.target.closest("input") ||
+      event.target.closest(".edit-mantra")
+    ){
+
+      return;
+
+    }
+
+    pointerDownX =
+      event.clientX;
+
+    pointerDownY =
+      event.clientY;
+
+    pointerDownTime =
+      performance.now();
+
+    /*
+      Evita que o Safari interprete o gesto
+      como scroll/zoom.
+    */
+
+    if(
+      event.pointerType === "touch"
     ){
 
       event.preventDefault();
 
-      countJapa();
-
     }
 
   }
-);
 
 
-/* ═══════════════════════════════════
-   PHRASE
-═══════════════════════════════════ */
+  function onPointerUp(event){
 
-document
-  .getElementById("phraseInput")
-  .addEventListener(
-    "input",
+    if(
+      event.target.closest("button") ||
+      event.target.closest("input") ||
+      event.target.closest(".edit-mantra")
+    ){
+
+      return;
+
+    }
+
+    const dx =
+      event.clientX - pointerDownX;
+
+    const dy =
+      event.clientY - pointerDownY;
+
+    const distance =
+      Math.sqrt(
+        dx * dx + dy * dy
+      );
+
+    const duration =
+      performance.now()
+      -
+      pointerDownTime;
+
+    /*
+      Só conta um toque.
+      Swipe não conta.
+    */
+
+    if(
+      distance > 22 ||
+      duration > 650
+    ){
+
+      return;
+
+    }
+
+    countBead();
+
+    /*
+      Feedback visual onde tocou.
+    */
+
+    showTapFeedback(
+      event.clientX,
+      event.clientY
+    );
+
+  }
+
+
+  function showTapFeedback(x,y){
+
+    tapWord.style.left =
+      x + "px";
+
+    tapWord.style.top =
+      y + "px";
+
+    tapWord.classList.remove(
+      "show"
+    );
+
+    void tapWord.offsetWidth;
+
+    tapWord.classList.add(
+      "show"
+    );
+
+  }
+
+
+  /* =======================================================
+     MANTRA EDITOR
+  ======================================================= */
+
+  function openMantraEditor(){
+
+    editInput.value =
+      state.mantra;
+
+    editMantra.classList.add(
+      "visible"
+    );
+
+    setTimeout(
+      function(){
+
+        editInput.focus();
+
+      },
+      260
+    );
+
+  }
+
+
+  function closeMantraEditor(){
+
+    editMantra.classList.remove(
+      "visible"
+    );
+
+    document.activeElement?.blur();
+
+  }
+
+
+  function saveMantraValue(){
+
+    const value =
+      editInput.value.trim();
+
+    if(value){
+
+      state.mantra =
+        value;
+
+    }else{
+
+      state.mantra =
+        DEFAULT_MANTRA;
+
+    }
+
+    mantraInput.value =
+      state.mantra;
+
+    updateUI();
+
+    saveState();
+
+    closeMantraEditor();
+
+  }
+
+
+  /* =======================================================
+     EVENTS
+  ======================================================= */
+
+  document
+    .querySelectorAll(".target")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          setTarget(
+            this.dataset.target
+          );
+
+        }
+      );
+
+    });
+
+
+  $("startButton").addEventListener(
+    "click",
     function(){
 
-      japaState.phrase =
-        this.value;
+      const value =
+        mantraInput.value.trim();
 
-      saveJapa();
+      state.mantra =
+        value || DEFAULT_MANTRA;
+
+      startSession();
 
     }
   );
 
 
-/* ═══════════════════════════════════
-   INICIALIZAÇÃO
-═══════════════════════════════════ */
+  $("undoButton").addEventListener(
+    "click",
+    function(event){
 
-function init(){
+      event.stopPropagation();
 
-  loadStorage();
+      undo();
 
-  updateDate();
-
-  renderHome();
-
-  loadTheme();
-
-  loadJapa();
-
-}
+    }
+  );
 
 
-init();
+  $("pauseButton").addEventListener(
+    "click",
+    function(event){
 
+      event.stopPropagation();
+
+      togglePause();
+
+      this.textContent =
+        pausedElement.classList.contains("visible")
+          ? "continuar"
+          : "pausar";
+
+    }
+  );
+
+
+  $("menuButton").addEventListener(
+    "click",
+    function(event){
+
+      event.stopPropagation();
+
+      openMantraEditor();
+
+    }
+  );
+
+
+  $("closeEdit").addEventListener(
+    "click",
+    function(){
+
+      closeMantraEditor();
+
+    }
+  );
+
+
+  $("saveMantra").addEventListener(
+    "click",
+    function(){
+
+      saveMantraValue();
+
+    }
+  );
+
+
+  $("continueButton").addEventListener(
+    "click",
+    function(){
+
+      continueRound();
+
+    }
+  );
+
+
+  $("finishButton").addEventListener(
+    "click",
+    function(){
+
+      finishSession();
+
+    }
+  );
+
+
+  pausedElement.addEventListener(
+    "pointerup",
+    function(event){
+
+      /*
+        Tocar no centro da tela pausada
+        continua a sessão.
+      */
+
+      if(
+        event.target === pausedElement ||
+        event.target.closest(".paused-inner")
+      ){
+
+        togglePause();
+
+        $("pauseButton").textContent =
+          "pausar";
+
+      }
+
+    }
+  );
+
+
+  canvasElement.addEventListener(
+    "pointerdown",
+    onPointerDown,
+    {passive:false}
+  );
+
+
+  canvasElement.addEventListener(
+    "pointerup",
+    onPointerUp,
+    {passive:false}
+  );
+
+
+  /*
+    Se o usuário sair do navegador durante uma sessão,
+    salvamos o estado.
+  */
+
+  window.addEventListener(
+    "pagehide",
+    function(){
+
+      if(
+        practice.classList.contains("visible")
+      ){
+
+        state.sessionElapsed =
+          getElapsed();
+
+        state.sessionStartedAt =
+          null;
+
+        saveState();
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     INIT
+  ======================================================= */
+
+  loadState();
+
+  selectedTarget =
+    state.target || 108;
+
+  mantraInput.value =
+    state.mantra;
+
+  setTarget(
+    selectedTarget
+  );
+
+  setupCanvas();
+
+})();
 </script>
 
 </body>
