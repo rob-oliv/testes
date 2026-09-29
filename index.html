@@ -1,829 +1,4549 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-<!-- MÁGICA PARA O IPHONE (Web App Capable) -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="rob.">
-<title>rob.</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<meta
+    name="theme-color"
+    content="#F5EBDD"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+>
+
+<meta
+    name="mobile-web-app-capable"
+    content="yes"
+>
+
+<title>Momento</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 
-<!-- SCRIPT GERADOR DO ÍCONE "rob." PRO IPHONE -->
-<script>
-    (function() {
-        var canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 512;
-        var ctx = canvas.getContext('2d');
-        
-        // Fundo Vermelho
-        ctx.fillStyle = '#E03526';
-        ctx.fillRect(0, 0, 512, 512);
-        
-        // Texto Branco
-        ctx.fillStyle = '#FFFFFF';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        // Usando a fonte do sistema da Apple super grossa para garantir que carregue instantaneamente
-        ctx.font = '800 180px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-        ctx.letterSpacing = '-5px';
-        ctx.fillText('rob.', 256, 276);
-        
-        var link = document.createElement('link');
-        link.rel = 'apple-touch-icon';
-        link.href = canvas.toDataURL('image/png');
-        document.head.appendChild(link);
-    })();
-</script>
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
 <style>
-    /* VARIABLES (Paleta Acinzentada/Branca) */
-    :root {
-        --bg: #F4F4F4;        
-        --branco: #FFFFFF;    
-        --marrom: #3D3D3D;    
-        --vermelho: #E03526;  
-        --preto: #111111;     
-        --cinza: #999999;     
+
+/* =========================================================
+   MOMENTO
+   COLOR SYSTEM
+========================================================= */
+
+:root{
+
+    --paper:#F5EBDD;
+    --paper-light:#FFF9F2;
+
+    --ink:#171313;
+
+    --orange:#F26A32;
+    --blue:#2457F5;
+    --brown:#5A3428;
+    --pink:#E94F86;
+    --yellow:#F5C84B;
+
+    --cream:#F8E8D4;
+    --white:#FFFDF9;
+
+    --display:"Space Grotesk", sans-serif;
+    --sans:"DM Sans", sans-serif;
+    --serif:"Instrument Serif", serif;
+    --mono:"DM Mono", monospace;
+
+    --radius:28px;
+
+    --safe-top:env(safe-area-inset-top);
+    --safe-bottom:env(safe-area-inset-bottom);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    background:var(--paper);
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;
+}
+
+body{
+    min-height:100svh;
+
+    margin:0;
+
+    background:var(--paper);
+    color:var(--ink);
+
+    font-family:var(--sans);
+
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+
+    overflow-x:hidden;
+}
+
+button{
+    font:inherit;
+    color:inherit;
+    border:0;
+    background:none;
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+button,
+a{
+    touch-action:manipulation;
+}
+
+::selection{
+    background:var(--yellow);
+    color:var(--ink);
+}
+
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+    min-height:100svh;
+    position:relative;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+
+    position:fixed;
+
+    z-index:50;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:
+        calc(
+            62px +
+            var(--safe-top)
+        );
+
+    padding:
+        var(--safe-top)
+        18px
+        0;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:
+        rgba(245,235,221,.88);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-bottom:
+        1px solid
+        rgba(23,19,19,.07);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.logo-mark{
+
+    width:29px;
+    height:29px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:var(--ink);
+    color:var(--paper);
+
+    font-family:var(--display);
+    font-size:12px;
+    font-weight:700;
+
+}
+
+.logo-name{
+
+    font-family:var(--display);
+    font-size:16px;
+    font-weight:700;
+
+    letter-spacing:-.05em;
+}
+
+.top-date{
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.5;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+.home{
+
+    min-height:100svh;
+
+    padding-top:
+        calc(
+            84px +
+            var(--safe-top)
+        );
+
+    padding-bottom:
+        calc(
+            96px +
+            var(--safe-bottom)
+        );
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    padding:
+        18px
+        20px
+        34px;
+}
+
+.hero-kicker{
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    margin-bottom:19px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.09em;
+
+    opacity:.52;
+}
+
+.hero-kicker span{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
+}
+
+.hero-title{
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            57px,
+            17vw,
+            105px
+        );
+
+    line-height:.82;
+
+    letter-spacing:-.08em;
+
+    font-weight:700;
+}
+
+.hero-title em{
+
+    font-family:var(--serif);
+
+    font-weight:400;
+
+    color:var(--blue);
+
+    letter-spacing:-.04em;
+
+}
+
+.hero-meta{
+
+    margin-top:27px;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+}
+
+.hero-copy{
+
+    max-width:245px;
+
+    font-size:12px;
+    line-height:1.45;
+
+    color:
+        rgba(23,19,19,.62);
+}
+
+.hero-count{
+
+    font-family:var(--display);
+
+    font-size:13px;
+    font-weight:600;
+
+}
+
+
+/* =========================================================
+   CAROUSEL HEADER
+========================================================= */
+
+.carousel-header{
+
+    padding:
+        0
+        20px
+        14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.section-label{
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.48;
+}
+
+.carousel-arrows{
+    display:flex;
+    gap:7px;
+}
+
+.arrow{
+
+    width:35px;
+    height:35px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(23,19,19,.15);
+
+    border-radius:50%;
+
+}
+
+.arrow:active{
+
+    background:var(--ink);
+    color:var(--paper);
+
+    transform:scale(.93);
+
+}
+
+.arrow.disabled{
+
+    opacity:.2;
+    pointer-events:none;
+
+}
+
+
+/* =========================================================
+   CAROUSEL
+========================================================= */
+
+.carousel{
+    width:100%;
+    overflow:hidden;
+}
+
+.carousel-track{
+
+    display:flex;
+
+    gap:12px;
+
+    padding:
+        0
+        20px;
+
+    transition:
+        transform
+        .55s
+        cubic-bezier(.22,.8,.25,1);
+
+    will-change:transform;
+
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+
+    flex:
+        0 0
+        calc(
+            100vw - 68px
+        );
+
+    max-width:390px;
+
+    min-height:475px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px;
+
+    border:
+        1px solid
+        rgba(23,19,19,.12);
+
+    border-radius:var(--radius);
+
+    user-select:none;
+    -webkit-user-select:none;
+
+    transition:
+        transform .45s cubic-bezier(.22,.8,.25,1),
+        opacity .45s ease;
+
+}
+
+.card:not(.active){
+
+    opacity:.4;
+
+    transform:scale(.94);
+
+}
+
+.card.active{
+
+    opacity:1;
+
+    transform:scale(1);
+
+}
+
+
+/* =========================================================
+   CARD COLORS
+========================================================= */
+
+.card:nth-child(4n+1){
+
+    background:var(--orange);
+    color:var(--ink);
+
+}
+
+.card:nth-child(4n+2){
+
+    background:var(--blue);
+    color:var(--white);
+
+}
+
+.card:nth-child(4n+3){
+
+    background:var(--brown);
+    color:var(--cream);
+
+}
+
+.card:nth-child(4n+4){
+
+    background:var(--pink);
+    color:var(--ink);
+
+}
+
+.card:nth-child(4n+1) .card-open{
+
+    background:var(--ink);
+    color:var(--orange);
+
+}
+
+.card:nth-child(4n+2) .card-open{
+
+    background:var(--yellow);
+    color:var(--ink);
+
+}
+
+.card:nth-child(4n+3) .card-open{
+
+    background:var(--pink);
+    color:var(--ink);
+
+}
+
+.card:nth-child(4n+4) .card-open{
+
+    background:var(--white);
+    color:var(--ink);
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card-top{
+
+    position:relative;
+    z-index:3;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+.card-date{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.06em;
+
+}
+
+.card-date strong{
+
+    font-family:var(--display);
+    font-size:12px;
+
+}
+
+.card-ref{
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    opacity:.6;
+
+}
+
+.card-number{
+
+    position:absolute;
+
+    top:61px;
+    left:-12px;
+
+    font-family:var(--display);
+    font-size:190px;
+
+    line-height:.75;
+
+    font-weight:700;
+
+    letter-spacing:-.12em;
+
+    opacity:.12;
+
+    pointer-events:none;
+
+}
+
+.card-plus{
+
+    position:absolute;
+
+    right:25px;
+    top:45%;
+
+    font-family:var(--display);
+    font-size:25px;
+
+    opacity:.5;
+
+}
+
+.card-line{
+
+    position:absolute;
+
+    right:-20px;
+    bottom:92px;
+
+    width:130px;
+    height:1px;
+
+    background:currentColor;
+
+    opacity:.25;
+
+    transform:rotate(-45deg);
+
+}
+
+.card-body{
+
+    position:relative;
+    z-index:2;
+
+    margin-top:auto;
+
+}
+
+.card-index{
+
+    margin-bottom:12px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    opacity:.55;
+
+}
+
+.card-title{
+
+    max-width:330px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            37px,
+            11vw,
+            58px
+        );
+
+    line-height:.89;
+
+    letter-spacing:-.065em;
+
+    font-weight:700;
+
+}
+
+.card-title em{
+
+    font-family:var(--serif);
+
+    font-weight:400;
+
+}
+
+.card-bottom{
+
+    margin-top:26px;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+}
+
+.card-intro{
+
+    max-width:235px;
+
+    font-size:12px;
+    line-height:1.35;
+
+    opacity:.76;
+
+}
+
+.card-open{
+
+    width:47px;
+    height:47px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+}
+
+.card-open svg{
+
+    width:17px;
+    height:17px;
+
+}
+
+.today-pill{
+
+    position:absolute;
+
+    top:20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:6px 9px;
+
+    border-radius:30px;
+
+    background:
+        rgba(255,255,255,.45);
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    backdrop-filter:blur(5px);
+
+}
+
+.completed-mark{
+
+    position:absolute;
+
+    top:19px;
+    right:20px;
+
+    width:25px;
+    height:25px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.62);
+
+    font-size:12px;
+
+    opacity:0;
+
+}
+
+.card.completed .completed-mark{
+    opacity:1;
+}
+
+
+/* =========================================================
+   CAROUSEL FOOT
+========================================================= */
+
+.carousel-foot{
+
+    padding:
+        15px
+        20px
+        0;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+.dots{
+
+    display:flex;
+    gap:5px;
+    align-items:center;
+
+}
+
+.dot{
+
+    width:4px;
+    height:4px;
+
+    border-radius:50%;
+
+    background:
+        rgba(23,19,19,.2);
+
+    transition:.25s ease;
+
+}
+
+.dot.active{
+
+    width:18px;
+
+    border-radius:10px;
+
+    background:var(--ink);
+
+}
+
+.swipe-hint{
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    opacity:.38;
+
+}
+
+
+/* =========================================================
+   DAILY NOTE
+========================================================= */
+
+.daily-note{
+
+    margin:
+        58px
+        20px
+        0;
+
+    padding:
+        22px
+        0;
+
+    border-top:
+        1px solid
+        rgba(23,19,19,.12);
+
+    border-bottom:
+        1px solid
+        rgba(23,19,19,.12);
+
+}
+
+.daily-note-label{
+
+    margin-bottom:15px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.45;
+
+}
+
+.daily-note-text{
+
+    max-width:350px;
+
+    font-family:var(--serif);
+
+    font-size:29px;
+    line-height:1;
+
+    letter-spacing:-.025em;
+
+}
+
+.daily-note-text span{
+    color:var(--orange);
+}
+
+
+/* =========================================================
+   READING
+========================================================= */
+
+.reading{
+
+    display:none;
+
+    min-height:100svh;
+
+    padding-bottom:
+        calc(
+            80px +
+            var(--safe-bottom)
+        );
+
+    background:var(--paper);
+
+}
+
+.reading.visible{
+    display:block;
+}
+
+
+/* =========================================================
+   READING HEADER
+========================================================= */
+
+.reading-header{
+
+    position:sticky;
+
+    z-index:40;
+
+    top:0;
+
+    height:
+        calc(
+            62px +
+            var(--safe-top)
+        );
+
+    padding:
+        var(--safe-top)
+        18px
+        0;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+    align-items:center;
+
+    background:
+        rgba(245,235,221,.9);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-bottom:
+        1px solid
+        rgba(23,19,19,.07);
+
+}
+
+.back-button{
+
+    width:38px;
+    height:38px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(23,19,19,.15);
+
+    border-radius:50%;
+
+    justify-self:start;
+
+}
+
+.back-button svg{
+    width:17px;
+}
+
+.reading-counter{
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    opacity:.48;
+
+}
+
+.reading-status{
+
+    justify-self:end;
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.48;
+
+}
+
+
+/* =========================================================
+   READING HERO
+========================================================= */
+
+.reading-content{
+
+    position:relative;
+
+    max-width:760px;
+
+    margin:0 auto;
+
+    padding:
+        48px
+        20px
+        80px;
+
+}
+
+.reading-eyebrow{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    margin-bottom:20px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.09em;
+
+    opacity:.5;
+
+}
+
+.reading-eyebrow span{
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
+}
+
+.reading-title{
+
+    max-width:680px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            58px,
+            17vw,
+            110px
+        );
+
+    line-height:.8;
+
+    letter-spacing:-.08em;
+
+    font-weight:700;
+
+}
+
+.reading-title em{
+
+    font-family:var(--serif);
+
+    font-weight:400;
+
+    color:var(--blue);
+
+}
+
+.reading-intro{
+
+    max-width:550px;
+
+    margin-top:30px;
+
+    font-family:var(--serif);
+
+    font-size:
+        clamp(
+            28px,
+            7vw,
+            42px
+        );
+
+    line-height:1;
+
+    letter-spacing:-.025em;
+
+}
+
+.reference-row{
+
+    margin-top:30px;
+
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+}
+
+.reference-number{
+
+    font-family:var(--display);
+    font-size:13px;
+    font-weight:700;
+
+}
+
+.reference-line{
+
+    width:38px;
+    height:1px;
+
+    background:currentColor;
+
+    opacity:.22;
+
+}
+
+.reference-name{
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.45;
+
+}
+
+
+/* =========================================================
+   GIANT ASTERISK
+========================================================= */
+
+.star{
+
+    position:absolute;
+
+    z-index:0;
+
+    font-family:var(--display);
+
+    font-weight:700;
+
+    line-height:.6;
+
+    pointer-events:none;
+
+    user-select:none;
+
+}
+
+.star.hero-star{
+
+    top:110px;
+    right:-22px;
+
+    font-size:170px;
+
+    color:var(--orange);
+
+    opacity:.9;
+
+    transform:rotate(12deg);
+
+}
+
+.star.section-star{
+
+    position:relative;
+
+    top:auto;
+    right:auto;
+
+    display:block;
+
+    margin:
+        5px
+        0
+        -7px
+        -7px;
+
+    font-size:72px;
+
+    color:var(--pink);
+
+    opacity:.95;
+
+}
+
+
+/* =========================================================
+   SECTION DIVIDER
+========================================================= */
+
+.section-divider{
+
+    margin:
+        65px
+        0
+        0;
+
+    padding-top:25px;
+
+    border-top:
+        1px solid
+        rgba(23,19,19,.13);
+
+}
+
+.section-number{
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.43;
+
+}
+
+.section-heading{
+
+    margin-top:11px;
+
+    font-family:var(--display);
+
+    font-size:34px;
+
+    line-height:.95;
+
+    letter-spacing:-.055em;
+
+    font-weight:700;
+
+}
+
+
+/* =========================================================
+   SCRIPTURE
+========================================================= */
+
+.verse-card{
+
+    position:relative;
+
+    margin-top:24px;
+
+    padding:
+        29px
+        24px
+        34px;
+
+    background:var(--blue);
+    color:var(--white);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+}
+
+.verse-label{
+
+    margin-bottom:25px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.6;
+
+}
+
+.verse-text{
+
+    position:relative;
+    z-index:2;
+
+    font-family:var(--serif);
+
+    font-size:
+        clamp(
+            30px,
+            8vw,
+            42px
+        );
+
+    line-height:.98;
+
+    letter-spacing:-.025em;
+
+}
+
+.verse-reference{
+
+    margin-top:25px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    opacity:.62;
+
+}
+
+.verse-number{
+
+    position:absolute;
+
+    right:-15px;
+    bottom:-55px;
+
+    font-family:var(--display);
+
+    font-size:180px;
+
+    line-height:1;
+
+    opacity:.11;
+
+}
+
+
+/* =========================================================
+   EXPLANATION
+========================================================= */
+
+.explanation{
+
+    margin-top:28px;
+
+}
+
+.explanation p{
+
+    margin-bottom:21px;
+
+    font-size:17px;
+    line-height:1.58;
+
+    letter-spacing:-.01em;
+
+}
+
+.explanation p:last-child{
+    margin-bottom:0;
+}
+
+
+/* =========================================================
+   CONTEXT
+========================================================= */
+
+.context-card{
+
+    position:relative;
+
+    margin-top:25px;
+
+    padding:28px 24px 31px;
+
+    background:var(--brown);
+    color:var(--cream);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+}
+
+.context-label{
+
+    margin-bottom:24px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.55;
+
+}
+
+.context-title{
+
+    font-family:var(--display);
+
+    font-size:29px;
+
+    line-height:.95;
+
+    letter-spacing:-.05em;
+
+    font-weight:600;
+
+}
+
+.context-text{
+
+    margin-top:22px;
+
+    font-size:15px;
+    line-height:1.55;
+
+    opacity:.86;
+
+}
+
+.context-star{
+
+    position:absolute;
+
+    right:-15px;
+    bottom:-35px;
+
+    font-family:var(--display);
+
+    font-size:130px;
+
+    opacity:.1;
+
+}
+
+
+/* =========================================================
+   PERSONAL CONNECTION
+========================================================= */
+
+.personal{
+
+    margin-top:70px;
+
+}
+
+.personal-label{
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.45;
+
+}
+
+.personal-label span{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
+}
+
+.personal-title{
+
+    margin-top:14px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            37px,
+            10vw,
+            55px
+        );
+
+    line-height:.9;
+
+    letter-spacing:-.065em;
+
+    font-weight:700;
+
+}
+
+.personal-title em{
+
+    font-family:var(--serif);
+    font-weight:400;
+
+    color:var(--pink);
+
+}
+
+.personal-text{
+
+    margin-top:23px;
+
+    font-size:17px;
+    line-height:1.58;
+
+}
+
+.personal-quote{
+
+    margin-top:27px;
+
+    padding:
+        23px
+        21px;
+
+    background:var(--orange);
+
+    border-radius:23px;
+
+    font-family:var(--display);
+
+    font-size:22px;
+    line-height:1;
+
+    letter-spacing:-.04em;
+
+    font-weight:600;
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+
+    position:relative;
+
+    margin-top:70px;
+
+    padding:
+        31px
+        24px
+        34px;
+
+    background:var(--pink);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+}
+
+.highlight-label{
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.5;
+
+}
+
+.highlight-star{
+
+    position:absolute;
+
+    top:-20px;
+    right:-12px;
+
+    font-family:var(--display);
+    font-size:115px;
+
+    line-height:1;
+
+    opacity:.14;
+
+}
+
+.highlight-text{
+
+    position:relative;
+    z-index:2;
+
+    margin-top:22px;
+
+    font-family:var(--display);
+
+    font-size:
+        clamp(
+            29px,
+            8vw,
+            43px
+        );
+
+    line-height:.94;
+
+    letter-spacing:-.055em;
+
+    font-weight:600;
+
+}
+
+
+/* =========================================================
+   REFLECTION
+========================================================= */
+
+.reflection{
+
+    margin-top:18px;
+
+    padding:28px 24px 31px;
+
+    background:var(--yellow);
+
+    border-radius:25px;
+
+}
+
+.reflection-label{
+
+    margin-bottom:20px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.5;
+
+}
+
+.reflection-text{
+
+    font-family:var(--serif);
+
+    font-size:
+        clamp(
+            29px,
+            8vw,
+            40px
+        );
+
+    line-height:.98;
+
+}
+
+
+/* =========================================================
+   PRAYER
+========================================================= */
+
+.prayer{
+
+    position:relative;
+
+    margin-top:18px;
+
+    padding:31px 24px 34px;
+
+    background:var(--ink);
+    color:var(--paper);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+}
+
+.prayer-label{
+
+    margin-bottom:23px;
+
+    font-family:var(--mono);
+    font-size:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+
+    opacity:.45;
+
+}
+
+.prayer-text{
+
+    position:relative;
+    z-index:2;
+
+    font-size:16px;
+    line-height:1.58;
+
+}
+
+.prayer-star{
+
+    position:absolute;
+
+    right:-13px;
+    bottom:-35px;
+
+    font-family:var(--display);
+
+    font-size:140px;
+
+    color:var(--orange);
+
+    opacity:.14;
+
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final-note{
+
+    margin-top:75px;
+
+    text-align:center;
+
+}
+
+.final-star{
+
+    font-family:var(--display);
+
+    font-size:80px;
+
+    line-height:.5;
+
+    color:var(--blue);
+
+}
+
+.final-note p{
+
+    margin-top:18px;
+
+    font-family:var(--serif);
+
+    font-size:25px;
+
+    line-height:1;
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-wrap{
+
+    position:fixed;
+
+    z-index:100;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    height:3px;
+
+    display:none;
+
+    background:transparent;
+
+}
+
+.progress-wrap.visible{
+    display:block;
+}
+
+.progress-bar{
+
+    width:0%;
+    height:100%;
+
+    background:var(--orange);
+
+}
+
+.progress-percent{
+
+    position:fixed;
+
+    z-index:80;
+
+    top:
+        calc(
+            71px +
+            var(--safe-top)
+        );
+
+    right:18px;
+
+    padding:6px 8px;
+
+    border-radius:20px;
+
+    background:var(--ink);
+    color:var(--paper);
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    opacity:0;
+
+    transition:.2s ease;
+
+}
+
+.progress-percent.visible{
+    opacity:1;
+}
+
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav{
+
+    position:fixed;
+
+    z-index:50;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:
+        9px
+        18px
+        calc(
+            9px +
+            var(--safe-bottom)
+        );
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(245,235,221,1),
+            rgba(245,235,221,.92)
+        );
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-top:
+        1px solid
+        rgba(23,19,19,.07);
+
+}
+
+.nav-inner{
+
+    width:100%;
+    max-width:410px;
+
+    margin:auto;
+
+    display:flex;
+    justify-content:space-around;
+
+}
+
+.nav-item{
+
+    min-width:64px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:4px;
+
+    font-family:var(--mono);
+    font-size:7px;
+
+    text-transform:uppercase;
+    letter-spacing:.06em;
+
+    opacity:.38;
+
+}
+
+.nav-item.active{
+    opacity:1;
+}
+
+.nav-icon{
+
+    width:30px;
+    height:23px;
+
+    display:grid;
+    place-items:center;
+
+}
+
+.nav-icon svg{
+
+    width:17px;
+    height:17px;
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+
+    position:fixed;
+
+    z-index:200;
+
+    inset:0;
+
+    display:none;
+    align-items:flex-end;
+
+    padding:
+        18px
+        18px
+        calc(
+            18px +
+            var(--safe-bottom)
+        );
+
+    background:
+        rgba(23,19,19,.4);
+
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+}
+
+.modal.visible{
+    display:flex;
+}
+
+.modal-card{
+
+    width:100%;
+    max-width:500px;
+
+    margin:auto;
+
+    padding:30px;
+
+    background:var(--paper);
+
+    border-radius:30px;
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.2);
+
+    animation:
+        modalIn
+        .4s
+        cubic-bezier(.22,.8,.25,1);
+
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(25px)
+            scale(.97);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    body {
-        background-color: var(--bg);
-        color: var(--preto);
-        font-family: 'Manrope', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        display: flex; justify-content: center;
-        min-height: 100vh;
+    to{
+        opacity:1;
+        transform:none;
     }
 
-    .app-frame {
-        width: 100%; max-width: 440px; min-height: 100vh;
-        position: relative; padding-bottom: 120px;
-        display: flex; flex-direction: column;
+}
+
+.modal-mark{
+
+    width:46px;
+    height:46px;
+
+    display:grid;
+    place-items:center;
+
+    margin-bottom:27px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
+    font-size:19px;
+
+}
+
+.modal-title{
+
+    font-family:var(--display);
+
+    font-size:40px;
+
+    line-height:.9;
+
+    letter-spacing:-.06em;
+
+}
+
+.modal-text{
+
+    margin-top:15px;
+
+    font-family:var(--serif);
+
+    font-size:22px;
+
+    line-height:1.05;
+
+    opacity:.7;
+
+}
+
+.modal-actions{
+
+    display:grid;
+    gap:8px;
+
+    margin-top:29px;
+
+}
+
+.modal-button{
+
+    min-height:54px;
+
+    border-radius:18px;
+
+    border:
+        1px solid
+        rgba(23,19,19,.14);
+
+    font-family:var(--display);
+
+    font-size:13px;
+    font-weight:600;
+
+}
+
+.modal-button.primary{
+
+    background:var(--ink);
+    color:var(--paper);
+
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width:760px){
+
+    .hero{
+        padding-left:8vw;
+        padding-right:8vw;
     }
 
-    /* TYPOGRAPHY */
-    .display-font { font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -1px; }
-    .serif { font-family: 'Playfair Display', serif; }
-    .italic { font-style: italic; }
-    .uppercase { text-transform: uppercase; letter-spacing: 0.5px; }
-
-    /* VIEWS */
-    .view { display: none; padding: 24px; animation: smoothFade 0.3s ease forwards; }
-    .view.active { display: block; }
-    @keyframes smoothFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* HEADER GERAL */
-    header { display: flex; justify-content: space-between; align-items: center; padding: max(32px, env(safe-area-inset-top)) 24px 16px 24px; position: sticky; top: 0; background: var(--bg); z-index: 10;}
-    .logo { font-size: 2.4rem; color: var(--preto); line-height: 1; }
-    .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--vermelho); color: var(--branco); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-
-    .section-title { font-size: 0.75rem; color: var(--marrom); margin-bottom: 24px; font-weight: 800; letter-spacing: 1.5px; }
-
-    /* HERO AREA */
-    .workout-hero { margin-top: 16px; margin-bottom: 48px; cursor: pointer; position: relative; overflow: hidden; padding: 16px 0; }
-    .workout-hero h1 { font-size: 4.5rem; line-height: 0.85; letter-spacing: -2px; margin: 12px 0; color: var(--preto); }
-    .workout-hero p { font-size: 1.1rem; color: var(--marrom); }
-
-    /* MOOD TRACKER */
-    .mood-row { display: flex; gap: 12px; margin-bottom: 48px; overflow-x: auto; padding-bottom: 12px; }
-    .mood-row::-webkit-scrollbar { display: none; }
-    .mood-btn { 
-        background: var(--branco); border: 2px solid var(--marrom); border-radius: 100px;
-        font-size: 0.9rem; color: var(--marrom); cursor: pointer; transition: all 0.2s; 
-        font-weight: 800; padding: 10px 16px; white-space: nowrap; 
-    }
-    .mood-btn.selected { background: var(--marrom); color: var(--branco); }
-
-    /* CALENDÁRIO SEMANAL DA HOME */
-    .weekly-cal { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 32px;}
-    .cal-day { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .cal-lbl { font-size: 0.65rem; font-weight: 800; color: var(--cinza); }
-    .cal-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--marrom); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: transparent; transition: all 0.3s; background: var(--branco);}
-    .cal-day.done .cal-circle { background: var(--vermelho); border-color: var(--vermelho); color: var(--branco); }
-    .cal-day.done .cal-lbl { color: var(--vermelho); }
-
-    /* FICHAS CARDS */
-    .fichas-grid { display: flex; flex-direction: column; gap: 16px; }
-    .ficha-card {
-        border-radius: 20px; padding: 24px; position: relative; overflow: hidden; cursor: pointer;
-        transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between;
-        min-height: 160px;
-    }
-    .ficha-card:active { transform: scale(0.97); }
-    
-    .card-light { background: var(--branco); border: 2px solid var(--preto); color: var(--preto); }
-    .card-dark { background: var(--preto); color: var(--branco); border: 2px solid var(--preto); }
-
-    .ficha-bg-graphic {
-        position: absolute; right: -10%; bottom: -20%; font-size: 12rem; color: var(--vermelho); opacity: 0.3;
-        font-family: 'Bricolage Grotesque'; line-height: 0.8; pointer-events: none; filter: blur(14px); transform: scale(1.2);
-    }
-    .ficha-meta { display: flex; justify-content: space-between; align-items: center; z-index: 2; position: relative; margin-bottom: 8px;}
-    .ficha-meta-text { font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; opacity: 0.7; }
-    .ficha-title { font-size: 2.8rem; line-height: 0.9; margin-bottom: 24px; z-index: 2; position: relative; text-transform: uppercase; }
-    
-    .tag-concluido {
-        background: transparent; color: var(--vermelho); font-weight: 800; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
-        padding: 4px 10px; border-radius: 100px; border: 1px solid var(--vermelho); display: none; align-items: center; gap: 4px;
-    }
-    .ficha-card.is-done .tag-concluido { display: inline-flex; }
-    .ficha-card.is-done { opacity: 0.8; }
-
-    /* PROGRESS BAR */
-    .progress-track { width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 100px; overflow: hidden; z-index: 2; position: relative; margin-bottom: 6px; }
-    .card-dark .progress-track { background: rgba(255,255,255,0.2); }
-    .progress-fill { height: 100%; background: var(--vermelho); border-radius: 100px; width: 0%; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-    .progress-lbl { font-size: 0.75rem; font-weight: 800; z-index: 2; position: relative; }
-
-    /* WORKOUT ENGINE */
-    .workout-header-bar { 
-        margin: -24px -24px 32px -24px; 
-        padding: max(24px, env(safe-area-inset-top)) 24px 16px 24px; 
-        position: sticky; top: 0; background: var(--bg); z-index: 100; 
-        border-bottom: 2px solid var(--preto); 
-    }
-    .workout-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .workout-prog-track { width: 100%; height: 4px; background: rgba(0,0,0,0.1); border-radius: 100px; overflow: hidden; }
-    .workout-prog-fill { width: 0%; height: 100%; background: var(--vermelho); transition: width 0.3s ease; }
-    
-    .exercise-card { 
-        background: var(--branco); border: 2px solid var(--preto); border-radius: 16px; 
-        padding: 24px; margin-bottom: 24px; position: relative; transition: all 0.4s ease;
-    }
-    .exercise-card.completed { opacity: 0.4; filter: grayscale(1); border-color: var(--cinza); }
-    
-    .ex-index { font-family: 'Bricolage Grotesque'; font-size: 2rem; color: var(--vermelho); line-height: 1; margin-right: 12px; }
-    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-    .ex-info-wrap { display: flex; align-items: flex-start; flex: 1;}
-    .ex-name { font-size: 1.3rem; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; font-weight: 800;}
-    .ex-meta { font-size: 0.9rem; color: var(--marrom); }
-    
-    .ex-tip {
-        font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem;
-        color: var(--vermelho); margin-bottom: 20px; display: flex; gap: 6px; align-items: flex-start; line-height: 1.3;
-        border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 16px;
+    .carousel-header,
+    .carousel-foot{
+        padding-left:8vw;
+        padding-right:8vw;
     }
 
-    .ex-load { display: flex; align-items: baseline; gap: 4px; background: transparent; }
-    .load-input { width: 44px; background: transparent; border: none; font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.6rem; color: var(--preto); text-align: center; outline: none; border-radius: 0; padding: 0; border-bottom: 2px solid var(--preto);}
-    .load-unit { font-size: 0.8rem; font-weight: 800; color: var(--marrom); }
+    .carousel-track{
+        padding-left:8vw;
+        padding-right:8vw;
 
-    /* BUBBLES */
-    .set-bubbles { display: flex; gap: 12px; flex-wrap: wrap; position: relative; }
-    .bubble { 
-        width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--preto); background: var(--bg); color: var(--preto); 
-        font-size: 1.2rem; font-weight: 800; font-family: 'Manrope', sans-serif; display: flex; align-items: center; justify-content: center; 
-        cursor: pointer; transition: all 0.2s ease;
+        gap:18px;
     }
-    .bubble.done { background: var(--vermelho); color: var(--branco); border-color: var(--vermelho); }
-    .bubble-cardio { width: auto; padding: 0 24px; border-radius: 100px; font-style: italic; font-family: 'Playfair Display', serif; }
 
-    /* MASSIVE BUTTON */
-    .btn-massive { 
-        width: 100%; padding: 24px; background: var(--preto); color: var(--branco); border: none; border-radius: 100px; 
-        font-size: 1rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; 
-        cursor: pointer; transition: transform 0.2s; display: flex; justify-content: center; align-items: center;
+    .card{
+        flex-basis:390px;
+        min-height:540px;
     }
-    .btn-massive:active { transform: scale(0.96); }
-    .btn-outline { background: transparent; border: 2px solid var(--preto); color: var(--preto); margin-top: 16px; }
 
-    /* NAV */
-    .nav-bar { 
-        position: fixed; bottom: max(32px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); 
-        background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        padding: 8px; border-radius: 100px; display: flex; gap: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); z-index: 100; border: 1px solid rgba(0,0,0,0.05);
+    .daily-note{
+        margin-left:8vw;
+        margin-right:8vw;
     }
-    .nav-link { 
-        padding: 12px 24px; border-radius: 100px; border: none; background: transparent; color: var(--marrom); font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+
+    .bottom-nav{
+        display:none;
     }
-    .nav-link.active { background: var(--preto); color: var(--branco); }
 
-    /* TOAST */
-    .toast-wrapper { position: fixed; top: max(32px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 500; pointer-events: none; }
-    .toast { background: var(--preto); color: var(--branco); padding: 14px 24px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.15);}
-    .toast.show { opacity: 1; transform: translateY(0); }
+    .reading-content{
+        padding-top:80px;
+    }
 
-    /* OVERLAYS */
-    .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--vermelho); color: var(--branco); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; cursor: pointer; }
-    .overlay.active { opacity: 1; pointer-events: auto; }
-    .overlay h1 { font-size: 6rem; line-height: 0.8; letter-spacing: -3px; margin-bottom: 24px; }
-    .overlay p { font-size: 1.5rem; opacity: 0.9; }
+}
 
-    /* PERFIL */
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
-    .stat-card { background: var(--branco); border: 2px solid var(--preto); border-radius: 20px; padding: 24px; text-align: center; }
-    .stat-val { font-family: 'Bricolage Grotesque'; font-size: 3.5rem; color: var(--vermelho); line-height: 1; }
-    .stat-lbl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-top: 8px; color: var(--preto); }
 
-    /* Widget: Calculadora de 1RM */
-    .widget-box { background: var(--preto); color: var(--branco); border-radius: 20px; padding: 24px; margin-bottom: 40px; }
-    .widget-title { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; display: flex; justify-content: space-between;}
-    .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .calc-lbl { font-size: 0.65rem; color: var(--cinza); font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
-    .calc-input { width: 100%; background: transparent; border: 1px solid var(--cinza); border-radius: 8px; padding: 14px; color: var(--branco); font-family: 'Bricolage Grotesque'; font-size: 1.3rem; text-align: center; outline: none; }
-    .btn-calc { background: var(--vermelho); color: var(--branco); border: none; border-radius: 8px; padding: 14px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;}
-    .calc-result { margin-top: 20px; font-size: 0.85rem; color: var(--branco); border-top: 1px dashed var(--cinza); padding-top: 20px; display: none; text-align: center;}
-    .calc-result span { font-family: 'Bricolage Grotesque'; font-size: 2.2rem; color: var(--vermelho); display: block; margin: 4px 0;}
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 
-    /* Widget: Peso Corporal */
-    .weight-log-box { background: var(--branco); border: 2px solid var(--preto); border-radius: 20px; padding: 24px; margin-bottom: 40px; display: flex; align-items: center; justify-content: space-between;}
-    .wl-input { width: 80px; background: transparent; border: none; border-bottom: 2px solid var(--preto); font-family: 'Bricolage Grotesque'; font-size: 2.2rem; color: var(--vermelho); text-align: center; outline: none; }
-    .wl-btn { background: var(--preto); color: var(--branco); padding: 10px 16px; border-radius: 100px; font-weight: 800; font-size: 0.8rem; border: none; cursor: pointer; text-transform: uppercase;}
+@media(prefers-reduced-motion:reduce){
 
-    /* Heatmap Text-based */
-    .heatmap-list { font-family: monospace; font-size: 1rem; color: var(--marrom); margin-bottom: 48px; line-height: 1.6; }
-    .heatmap-row { display: flex; justify-content: space-between; }
-    .heatmap-bar { color: var(--vermelho); letter-spacing: 1px; }
+    *,
+    *::before,
+    *::after{
+
+        scroll-behavior:auto!important;
+
+        animation:none!important;
+
+        transition:none!important;
+
+    }
+
+}
 
 </style>
 </head>
+
+
 <body>
 
-<div class="app-frame">
-    <div class="toast-wrapper"><div class="toast" id="toast"></div></div>
+<div class="app">
 
-    <header id="header">
-        <div class="logo display-font">rob.</div>
-        <div class="avatar display-font">R</div>
-    </header>
 
-    <!-- ==================== HOME ==================== -->
-    <main id="view-home" class="view active">
-        <div class="section-title uppercase" id="current-location">CARREGANDO LOCAL...</div>
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
 
-        <!-- HERO / ATALHO -->
-        <div class="workout-hero" onclick="openWorkout('A')">
-            <div>
-                <p class="serif italic">hoje você vai de</p>
-                <h1 class="display-font">PUSH<br>DAY</h1>
-                <p class="uppercase" style="font-size: 0.75rem; color: var(--vermelho); font-weight: 800;">Tocar para amassar →</p>
-            </div>
+<header class="topbar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            M
         </div>
 
-        <div class="section-title uppercase">TÁ NO PIQUE?</div>
-        <div class="mood-row">
-            <button class="mood-btn" onclick="setMood(this)">Mortão 😵</button>
-            <button class="mood-btn" onclick="setMood(this)">Suave 😐</button>
-            <button class="mood-btn selected" onclick="setMood(this)">Bora 🔥</button>
-            <button class="mood-btn" onclick="setMood(this)">Modo Besta 🚀</button>
+        <div class="logo-name">
+            momento
         </div>
 
-        <div class="section-title uppercase" style="margin-top: 24px;">SEMANA ATUAL</div>
-        <div class="weekly-cal" id="weekly-cal"></div>
-    </main>
-
-    <!-- ==================== FICHAS ==================== -->
-    <main id="view-fichas" class="view">
-        <div class="section-title uppercase">SUAS ROTINAS</div>
-        <div class="fichas-grid" id="fichas-list"></div>
-    </main>
-
-    <!-- ==================== PERFIL (CENTRAL DE DADOS) ==================== -->
-    <main id="view-perfil" class="view">
-        <div class="section-title uppercase">CENTRAL DE DADOS</div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-val" id="profile-treinos">0</div>
-                <div class="stat-lbl">Treinos<br>Pagos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="profile-series">0</div>
-                <div class="stat-lbl">Séries<br>Amassadas</div>
-            </div>
-        </div>
-
-        <!-- CALCULADORA DE 1RM -->
-        <div class="widget-box">
-            <div class="widget-title">CALCULADORA DE 1RM <span style="color: var(--vermelho);">✱</span></div>
-            <p style="font-size: 0.8rem; color: var(--cinza); margin-bottom: 24px; line-height: 1.4;">Estime sua carga máxima de 1 repetição (1RM).</p>
-            
-            <div class="calc-row">
-                <div>
-                    <div class="calc-lbl">Carga (kg)</div>
-                    <input type="number" id="rm-peso" class="calc-input">
-                </div>
-                <div>
-                    <div class="calc-lbl">Repetições</div>
-                    <input type="number" id="rm-reps" class="calc-input">
-                </div>
-            </div>
-            
-            <button class="btn-calc" onclick="calcularRM()">CALCULAR MÁXIMA</button>
-            
-            <div class="calc-result" id="rm-result">
-                ESTIMATIVA DE 1RM 
-                <span id="rm-max">0 KG</span>
-                <div style="font-size: 0.75rem; color: var(--cinza); margin-top: 12px; text-transform: uppercase; font-weight: 800;">80% Carga de Trabalho: <strong style="color:var(--branco);" id="rm-80">0 kg</strong></div>
-            </div>
-        </div>
-
-        <!-- TRACKER DE PESO CORPORAL -->
-        <div class="section-title uppercase">PESO CORPORAL</div>
-        <div class="weight-log-box">
-            <div>
-                <div style="font-size: 0.75rem; font-weight: 800; color: var(--marrom);">ÚLTIMO REGISTRO</div>
-                <div style="display: flex; align-items: baseline; gap: 4px;">
-                    <input type="number" id="body-weight-input" class="wl-input" value="82.5">
-                    <span style="font-weight: 800; font-size: 1rem; color: var(--marrom);">kg</span>
-                </div>
-            </div>
-            <button class="wl-btn" onclick="saveBodyWeight()">Salvar</button>
-        </div>
-
-        <div class="section-title uppercase">VOLUME CORPORAL (SEMANA)</div>
-        <div class="heatmap-list" id="heatmap-list"></div>
-
-        <button class="btn-massive outline" onclick="resetFichas()">RESETAR DADOS DA SEMANA ↺</button>
-    </main>
-
-    <!-- ==================== WORKOUT ENGINE ==================== -->
-    <main id="view-workout" class="view" style="padding-top: 0;">
-        <div class="workout-header-bar">
-            <div class="workout-header-top">
-                <div class="section-title uppercase" style="margin: 0;" id="workout-copy">BORA FICAR GOSTOSO?</div>
-                <button style="background: none; border: none; font-size: 0.8rem; font-weight: 800; text-decoration: underline; cursor: pointer; color: var(--marrom);" onclick="abortWorkout()">Vazar</button>
-            </div>
-            <div class="workout-prog-track">
-                <div class="workout-prog-fill" id="workout-prog-fill"></div>
-            </div>
-        </div>
-        <div id="exercise-list"></div>
-    </main>
-
-    <!-- ==================== NAV INFERIOR ==================== -->
-    <nav class="nav-bar" id="nav">
-        <button class="nav-link active" onclick="switchView('home', this)">Hoje</button>
-        <button class="nav-link" onclick="switchView('fichas', this)">Fichas</button>
-        <button class="nav-link" onclick="switchView('perfil', this)">Central</button>
-    </nav>
-
-    <!-- ==================== OVERLAYS ==================== -->
-    <div id="done-overlay" class="overlay" onclick="closeOverlay()">
-        <h1 class="display-font">VOCÊ<br>FOI.</h1>
-        <p class="serif italic" id="finish-quote">Pagou o preço. Pode descansar.</p>
-        <div style="font-size: 1.2rem; font-weight: 800; margin-top: 24px; color: var(--branco);" id="finish-time">⏱ 0 MINUTOS</div>
-        <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; margin-top: 48px; opacity: 0.5;">TOCAR PARA VOLTAR</div>
     </div>
 
-    <div id="week-overlay" class="overlay" style="background: var(--preto);" onclick="closeOverlay()">
-        <h1 class="display-font">SEMANA<br>ZERADA.</h1>
-        <p class="serif italic" style="color: var(--vermelho);">Você amassou 5/5. Impecável.</p>
-        <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; margin-top: 48px; opacity: 0.5; color: var(--branco);">PROGRESSO RESETADO AUTOMATICAMENTE</div>
+    <div
+        class="top-date"
+        id="topDate"
+    >
+        SET · 2026
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<main
+    class="home"
+    id="home"
+>
+
+<section class="hero">
+
+    <div class="hero-kicker">
+
+        <span></span>
+
+        um momento com Deus
+
+    </div>
+
+    <h1 class="hero-title">
+
+        pare.<br>
+
+        <em>respire.</em><br>
+
+        continue.
+
+    </h1>
+
+    <div class="hero-meta">
+
+        <p class="hero-copy">
+
+            Um pequeno espaço do seu dia
+            para desacelerar, ouvir a Palavra
+            e lembrar que você não está sozinho.
+
+        </p>
+
+        <div
+            class="hero-count"
+            id="heroCount"
+        >
+            01 / 14
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="carousel-header">
+
+    <div class="section-label">
+        devocionais
+    </div>
+
+    <div class="carousel-arrows">
+
+        <button
+            class="arrow"
+            id="prevBtn"
+            aria-label="Devocional anterior"
+        >
+            ←
+        </button>
+
+        <button
+            class="arrow"
+            id="nextBtn"
+            aria-label="Próximo devocional"
+        >
+            →
+        </button>
+
     </div>
 
 </div>
 
-<script>
-    const routines = {
-        'A': {
-            title: 'push day', sub: 'Peito, Ombro & Tríceps', style: 'card-light', graphic: true,
-            exercises: [
-                { id: 'a1', name: 'Supino reto c/ barra', sets: 4, defWeight: 80, isCardio: false, tip: 'Pés firmes no chão, escápulas cravadas no banco.' },
-                { id: 'a2', name: 'Supino inclinado halt.', sets: 4, defWeight: 28, isCardio: false, tip: 'Foca na contração do peitoral superior.' },
-                { id: 'a3', name: 'Crucifixo máq.', sets: 3, defWeight: 50, isCardio: false, tip: 'Imagina abraçar um tronco de árvore.' },
-                { id: 'a4', name: 'Desenvolvimento halt.', sets: 3, defWeight: 24, isCardio: false, tip: 'Desça até a orelha. Controle absoluto.' },
-                { id: 'a5', name: 'Elevação lateral', sets: 3, defWeight: 12, isCardio: false, tip: 'Cotovelos flexionados, jogue para os lados.' },
-                { id: 'a6', name: 'Tríceps corda', sets: 3, defWeight: 25, isCardio: false, tip: 'Abre a corda no final do movimento pra esmagar.' },
-                { id: 'a7', name: 'Abs bicicleta', sets: 3, defWeight: 0, isCardio: false, tip: 'Rotação real de tronco, sem puxar a nuca.' },
-                { id: 'a8', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Mantém a constância. Suor limpo.' }
-            ]
-        },
-        'B': {
-            title: 'lower post.', sub: 'Glúteo & Posterior', style: 'card-dark', graphic: false,
-            exercises: [
-                { id: 'b1', name: 'Elevação pélvica', sets: 4, defWeight: 100, isCardio: false, tip: 'Olhar pra frente, contrai o glúteo no topo.' },
-                { id: 'b2', name: 'Stiff', sets: 4, defWeight: 32, isCardio: false, tip: 'Joga o quadril pra trás. Sente rasgar o posterior.' },
-                { id: 'b3', name: 'Mesa flexora', sets: 3, defWeight: 30, isCardio: false, tip: 'Pelve colada no banco o tempo todo.' },
-                { id: 'b4', name: 'Afundo passada longa', sets: 3, defWeight: 14, isCardio: false, tip: 'Passada longa pra ativar mais o glúteo.' },
-                { id: 'b5', name: 'Cadeira abdutora', sets: 3, defWeight: 40, isCardio: false, tip: 'Tronco levemente pra frente pra focar no alvo.' },
-                { id: 'b6', name: 'Panturrilha', sets: 4, defWeight: 30, isCardio: false, tip: 'Amplitude máxima, desce alongando tudo.' },
-                { id: 'b7', name: 'Cardio Final', sets: 1, time: '20 min', isCardio: true, tip: 'Solta a perna na esteira leve.' }
-            ]
-        },
-        'C': {
-            title: 'pull day', sub: 'Costas & Bíceps', style: 'card-light', graphic: true,
-            exercises: [
-                { id: 'c1', name: 'Puxada frente aberta', sets: 4, defWeight: 55, isCardio: false, tip: 'Puxe com os cotovelos. Peito estufado.' },
-                { id: 'c2', name: 'Remada baixa', sets: 4, defWeight: 50, isCardio: false, tip: 'Alongue as costas na ida e esmague na volta.' },
-                { id: 'c3', name: 'Remada unilateral', sets: 3, defWeight: 22, isCardio: false, tip: 'Puxe em direção ao quadril, não ao peito.' },
-                { id: 'c4', name: 'Rosca direta barra', sets: 3, defWeight: 15, isCardio: false, tip: 'Cotovelo fixo na costela. Sem roubar com o corpo.' },
-                { id: 'c5', name: 'Rosca martelo', sets: 3, defWeight: 14, isCardio: false, tip: 'Pegada neutra pra esmagar braquial.' },
-                { id: 'c6', name: 'Rosca inclinada halt.', sets: 3, defWeight: 12, isCardio: false, tip: 'Sinta o bíceps alongar no fim do movimento.' },
-                { id: 'c7', name: 'Prancha', sets: 3, defWeight: 0, isCardio: false, tip: 'Glúteo contraído e umbigo nas costas.' },
-                { id: 'c8', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Mantém a frequência tranquila.' }
-            ]
-        },
-        'D': {
-            title: 'lower glutes', sub: 'Foco em Glúteos', style: 'card-dark', graphic: false,
-            exercises: [
-                { id: 'd1', name: 'Agachamento halt.', sets: 4, defWeight: 24, isCardio: false, tip: 'Joelho acompanha a ponta do pé na descida.' },
-                { id: 'd2', name: 'Leg press 45', sets: 4, defWeight: 140, isCardio: false, tip: 'Pés mais altos pra dar ênfase em glúteo.' },
-                { id: 'd3', name: 'Cadeira extensora', sets: 3, defWeight: 45, isCardio: false, tip: 'Pico de contração em cima, controla a volta.' },
-                { id: 'd4', name: 'Elevação pélvica', sets: 4, defWeight: 105, isCardio: false, tip: 'Um segundo de pausa no topo da contração.' },
-                { id: 'd5', name: 'Coice no cabo', sets: 3, defWeight: 17, isCardio: false, tip: 'Movimento limpo, não precisa chutar o teto.' },
-                { id: 'd6', name: 'Panturrilha sentada', sets: 4, defWeight: 35, isCardio: false, tip: 'Sobe rápido, desce lento. Foco no solear.' },
-                { id: 'd7', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Ritmo constante.' }
-            ]
-        },
-        'E': {
-            title: 'upper body', sub: 'Peito & Braços', style: 'card-light', graphic: true,
-            exercises: [
-                { id: 'e1', name: 'Supino inclinado halt.', sets: 4, defWeight: 28, isCardio: false, tip: 'Foco no clavicular. Cadência é tudo.' },
-                { id: 'e2', name: 'Crossover polia', sets: 3, defWeight: 20, isCardio: false, tip: 'Cruze os cabos no final pra maior contração.' },
-                { id: 'e3', name: 'Rosca direta', sets: 3, defWeight: 14, isCardio: false, tip: 'Movimento completo, sem encurtar embaixo.' },
-                { id: 'e4', name: 'Rosca martelo', sets: 3, defWeight: 12, isCardio: false, tip: 'Trabalho focado no antebraço e braquiorradial.' },
-                { id: 'e5', name: 'Tríceps corda', sets: 3, defWeight: 25, isCardio: false, tip: 'Puxa pra baixo e separa as mãos no final.' },
-                { id: 'e6', name: 'Tríceps francês', sets: 3, defWeight: 20, isCardio: false, tip: 'Alongamento máximo atrás da cabeça.' },
-                { id: 'e7', name: 'Abs infra', sets: 3, defWeight: 0, isCardio: false, tip: 'Foco no abdômen, não balance a perna.' },
-                { id: 'e8', name: 'Cardio Final', sets: 1, time: '15 min', isCardio: true, tip: 'Suor limpo pra fechar a semana.' }
-            ]
-        }
-    };
 
-    const finishQuotes = [
-        "Seu eu de amanhã vai agradecer.",
-        "Pagou o preço. Pode descansar.",
-        "Endorfina no talo.",
-        "O shape não vai sozinho."
+<section class="carousel">
+
+    <div
+        class="carousel-track"
+        id="carouselTrack"
+    ></div>
+
+</section>
+
+
+<div class="carousel-foot">
+
+    <div
+        class="dots"
+        id="dots"
+    ></div>
+
+    <div class="swipe-hint">
+        arraste para explorar
+    </div>
+
+</div>
+
+
+<section class="daily-note">
+
+    <div class="daily-note-label">
+        lembrete de hoje
+    </div>
+
+    <div class="daily-note-text">
+
+        Você não precisa saber
+        <span>como tudo termina</span>
+        para continuar.
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     READING
+===================================================== -->
+
+<main
+    class="reading"
+    id="reading"
+>
+
+<header class="reading-header">
+
+    <button
+        class="back-button"
+        id="backButton"
+        aria-label="Voltar"
+    >
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+        >
+
+            <path d="M15 18l-6-6 6-6"/>
+
+        </svg>
+
+    </button>
+
+    <div
+        class="reading-counter"
+        id="readingCounter"
+    >
+        17 · SET
+    </div>
+
+    <div class="reading-status">
+        devocional
+    </div>
+
+</header>
+
+
+<div class="reading-content">
+
+
+    <!-- =================================================
+         INTRO
+    ================================================= -->
+
+    <div class="reading-eyebrow">
+
+        <span></span>
+
+        um momento com Deus
+
+    </div>
+
+
+    <span class="star hero-star">
+        *
+    </span>
+
+
+    <h1
+        class="reading-title"
+        id="readingTitle"
+    >
+        Não tenha <em>medo</em>
+    </h1>
+
+
+    <div
+        class="reading-intro"
+        id="readingIntro"
+    ></div>
+
+
+    <div class="reference-row">
+
+        <div
+            class="reference-number"
+            id="reference"
+        ></div>
+
+        <div class="reference-line"></div>
+
+        <div class="reference-name">
+            escritura para hoje
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         01 · ESCRITURA
+    ================================================= -->
+
+    <section class="section-divider">
+
+        <div class="section-number">
+            01 · escritura
+        </div>
+
+        <h2 class="section-heading">
+            leia a Palavra.
+        </h2>
+
+    </section>
+
+
+    <section class="verse-card">
+
+        <div class="verse-label">
+            a Palavra diz
+        </div>
+
+        <div
+            class="verse-text"
+            id="verseText"
+        ></div>
+
+        <div
+            class="verse-reference"
+            id="verseReference"
+        ></div>
+
+        <div
+            class="verse-number"
+            id="verseNumber"
+        >
+            10
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         02 · ENTENDENDO
+    ================================================= -->
+
+    <section class="section-divider">
+
+        <div class="section-number">
+            02 · entendendo
+        </div>
+
+        <h2 class="section-heading">
+            o que Deus está dizendo?
+        </h2>
+
+    </section>
+
+
+    <article
+        class="explanation"
+        id="explanation"
+    ></article>
+
+
+    <!-- =================================================
+         03 · CONTEXTO
+    ================================================= -->
+
+    <section class="section-divider">
+
+        <div class="section-number">
+            03 · contexto
+        </div>
+
+        <h2 class="section-heading">
+            antes de aplicar,
+            entenda.
+        </h2>
+
+    </section>
+
+
+    <section class="context-card">
+
+        <div class="context-label">
+            colocando a escritura no lugar certo
+        </div>
+
+        <div
+            class="context-title"
+            id="contextTitle"
+        ></div>
+
+        <div
+            class="context-text"
+            id="contextText"
+        ></div>
+
+        <div class="context-star">
+            *
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         04 · SUA VIDA
+    ================================================= -->
+
+    <section class="personal">
+
+        <div class="personal-label">
+
+            <span></span>
+
+            04 · trazendo para hoje
+
+        </div>
+
+
+        <h2
+            class="personal-title"
+            id="personalTitle"
+        >
+            e o que isso tem a ver
+            com <em>você?</em>
+        </h2>
+
+
+        <div
+            class="personal-text"
+            id="personalText"
+        ></div>
+
+
+        <div
+            class="personal-quote"
+            id="personalQuote"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         05 · DESTAQUE
+    ================================================= -->
+
+    <section class="highlight">
+
+        <div class="highlight-label">
+            guarde isso
+        </div>
+
+        <div class="highlight-star">
+            *
+        </div>
+
+        <div
+            class="highlight-text"
+            id="highlightText"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         06 · REFLEXÃO
+    ================================================= -->
+
+    <section class="reflection">
+
+        <div class="reflection-label">
+            05 · responda a Deus
+        </div>
+
+        <div
+            class="reflection-text"
+            id="reflectionText"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         ORAÇÃO
+    ================================================= -->
+
+    <section class="prayer">
+
+        <div class="prayer-label">
+            uma oração para terminar
+        </div>
+
+        <div
+            class="prayer-text"
+            id="prayerText"
+        ></div>
+
+        <div class="prayer-star">
+            *
+        </div>
+
+    </section>
+
+
+    <div class="final-note">
+
+        <div class="final-star">
+            *
+        </div>
+
+        <p>
+            agora, vá viver o seu dia.
+        </p>
+
+    </div>
+
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     PROGRESS
+===================================================== -->
+
+<div
+    class="progress-wrap"
+    id="progressWrap"
+>
+
+    <div
+        class="progress-bar"
+        id="progressBar"
+    ></div>
+
+</div>
+
+
+<div
+    class="progress-percent"
+    id="progressPercent"
+>
+    0%
+</div>
+
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <div class="nav-inner">
+
+        <button
+            class="nav-item active"
+            id="navHome"
+        >
+
+            <div class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                >
+
+                    <path d="M3 11.5L12 4l9 7.5"/>
+                    <path d="M5.5 10v9h13v-9"/>
+
+                </svg>
+
+            </div>
+
+            hoje
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            id="navDevotionals"
+        >
+
+            <div class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                >
+
+                    <path d="M5 4h14v16H5z"/>
+                    <path d="M8 8h8M8 12h8M8 16h5"/>
+
+                </svg>
+
+            </div>
+
+            devocionais
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            id="navProgress"
+        >
+
+            <div class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                >
+
+                    <path d="
+                        M12 3
+                        l2.7 5.5
+                        L21 9.4
+                        l-4.5 4.4
+                        1.1 6.2
+                        L12 17.1
+                        6.4 20
+                        7.5 13.8
+                        3 9.4
+                        9.3 8.5
+                        12 3z
+                    "/>
+
+                </svg>
+
+            </div>
+
+            progresso
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="completionModal"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-mark">
+            ✓
+        </div>
+
+        <h2 class="modal-title">
+            você chegou<br>
+            até o fim.
+        </h2>
+
+        <p class="modal-text">
+            Guarde o que fez sentido para você hoje.
+            Amanhã existe um novo momento.
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-button primary"
+                id="continueButton"
+            >
+                continuar aqui
+            </button>
+
+            <button
+                class="modal-button"
+                id="homeButton"
+            >
+                voltar para início
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DEVOCIONAIS
+========================================================= */
+
+const devotionals = {
+
+17:{
+    title:"Não tenha medo",
+
+    intro:
+        "Quando o medo aparecer, lembre-se de quem está caminhando com você.",
+
+    reference:
+        "Isaías 41:10",
+
+    verse:
+        "Não tenha medo, pois eu estou com você; não fique assustado, pois eu sou o seu Deus. Eu lhe dou forças e o ajudo.",
+
+    explanation:[
+        "Isaías 41 foi escrito para um povo que atravessava um período de insegurança e ameaça. Israel precisava lembrar de quem Deus era e, principalmente, de que a presença dEle não dependia das circunstâncias.",
+        "Perceba que Deus não começa dizendo que não haverá dificuldade. Ele começa dizendo: 'Eu estou com você'. A promessa não é uma vida sem medo. É uma vida em que o medo não precisa ocupar o lugar de Deus.",
+        "Quando a Bíblia diz 'Eu lhe dou forças e o ajudo', ela desloca o peso da nossa capacidade para a fidelidade de Deus. Você continua caminhando, mas não precisa acreditar que tudo depende exclusivamente de você."
+    ],
+
+    contextTitle:
+        "A promessa não é ausência de medo. É presença.",
+
+    contextText:
+        "Esse versículo não foi dado para alguém que estava vivendo uma vida perfeitamente tranquila. Foi dado justamente no meio da insegurança. Por isso ele continua tão atual: Deus não espera você resolver tudo para então estar perto.",
+
+    personalTitle:
+        "Rob, talvez você esteja tentando enxergar o caminho inteiro.",
+
+    personalText:
+        "Tem muita coisa acontecendo ao mesmo tempo: trabalho, dinheiro, mudança, Salvador, casa, futuro, carreira e a vontade de reconstruir uma vida que tenha mais a sua cara. É natural olhar para tudo isso e pensar: 'E se não der certo?'.",
+
+    personalQuote:
+        "Você não precisa saber exatamente como chegar. Só precisa confiar o próximo passo a Deus.",
+
+    highlight:
+        "Você não precisa enxergar todo o caminho para dar o próximo passo.",
+
+    reflection:
+        "Qual medo sobre o seu futuro você precisa colocar nas mãos de Deus hoje?",
+
+    prayer:
+        "Deus, Tu sabes tudo aquilo que eu ainda não consigo enxergar. Conheces meus planos, minhas preocupações e também aquilo que eu desejo construir. Quando o medo aparecer, lembra-me de que eu não estou caminhando sozinho. Dá-me coragem para fazer o que está ao meu alcance e confiança para entregar a Ti aquilo que não está. Amém."
+},
+
+18:{
+    title:"Um dia de cada vez",
+
+    intro:
+        "Nem tudo precisa ser resolvido hoje.",
+
+    reference:
+        "Mateus 6:34",
+
+    verse:
+        "Portanto, não fiquem preocupados com o dia de amanhã, pois o dia de amanhã terá as suas próprias preocupações.",
+
+    explanation:[
+        "Jesus está falando sobre ansiedade dentro do Sermão do Monte. Pouco antes, Ele fala sobre alimento, roupa e as necessidades básicas da vida. A questão não é deixar de planejar. É não permitir que a preocupação com o futuro consuma o presente.",
+        "Existe uma diferença importante entre responsabilidade e ansiedade. Responsabilidade pergunta: 'O que posso fazer hoje?'. Ansiedade pergunta: 'E se tudo der errado depois?'.",
+        "Jesus traz a gente de volta para o tamanho real do dia. O amanhã ainda não chegou. O único lugar onde você consegue agir é aqui."
+    ],
+
+    contextTitle:
+        "Jesus está ensinando presença, não passividade.",
+
+    contextText:
+        "Você pode continuar fazendo planos, organizando dinheiro, procurando apartamento, trabalhando e construindo sua carreira. A diferença está em não tentar viver todos esses futuros ao mesmo tempo.",
+
+    personalTitle:
+        "Você está tentando morar no futuro antes de chegar lá.",
+
+    personalText:
+        "É fácil transformar a mudança para Salvador em uma espécie de prova final: 'Quando eu estiver lá, tudo precisa dar certo'. Mas sua vida não começa em novembro. Ela já está acontecendo agora.",
+
+    personalQuote:
+        "O próximo passo é mais importante que o próximo ano.",
+
+    highlight:
+        "O futuro será vivido quando chegar. Hoje, você só precisa viver hoje.",
+
+    reflection:
+        "O que você está tentando resolver antes da hora?",
+
+    prayer:
+        "Senhor, ensina-me a viver o dia que Tu colocaste diante de mim. Ajuda-me a planejar sem me consumir, trabalhar sem me desesperar e esperar sem transformar o futuro em uma ameaça. Que eu consiga viver hoje com a paz que vem de Ti. Amém."
+},
+
+19:{
+    title:"Deus abre caminhos",
+
+    intro:
+        "Às vezes a porta ainda não apareceu porque o caminho ainda está sendo preparado.",
+
+    reference:
+        "Salmos 37:5",
+
+    verse:
+        "Ponha a sua vida nas mãos do Senhor, confie nele, e ele o ajudará.",
+
+    explanation:[
+        "O Salmo 37 fala sobre confiança em Deus em meio a um cenário em que parece que as coisas estão injustas ou fora do lugar. Davi não está dizendo para a pessoa simplesmente esperar. Ele fala de confiar, fazer o bem, permanecer firme e entregar o caminho ao Senhor.",
+        "Entregar o caminho não significa abandonar a responsabilidade. Significa parar de acreditar que precisamos controlar cada detalhe para que Deus possa agir.",
+        "Existe uma paz diferente quando fazemos nossa parte sem transformar cada resultado em uma medida do nosso valor."
+    ],
+
+    contextTitle:
+        "Confiar também é continuar agindo.",
+
+    contextText:
+        "Você pode procurar apartamento, enviar proposta, trabalhar, fazer contatos, organizar seu dinheiro e planejar a mudança. Fé não substitui movimento. Fé muda o lugar de onde você se movimenta.",
+
+    personalTitle:
+        "Você não precisa fabricar a porta.",
+
+    personalText:
+        "Talvez uma oportunidade profissional apareça de um jeito que você não imaginava. Talvez um apartamento que parecia impossível tenha uma condição diferente. Talvez alguma solução surja quando você já estava cansado de procurar.",
+
+    personalQuote:
+        "Faça sua parte. Deus continua cuidando do que você não consegue controlar.",
+
+    highlight:
+        "O caminho pode estar sendo preparado mesmo quando você ainda não consegue vê-lo.",
+
+    reflection:
+        "Em que área da sua vida você precisa agir mais e controlar menos?",
+
+    prayer:
+        "Deus, coloco meus caminhos diante de Ti. Dá-me iniciativa para fazer minha parte e serenidade para aceitar aquilo que não posso controlar. Se uma porta precisar se abrir, prepara o caminho. Se outra precisar permanecer fechada, dá-me discernimento para não insistir nela. Amém."
+},
+
+20:{
+    title:"Você pode continuar",
+
+    intro:
+        "Cansaço não significa fracasso.",
+
+    reference:
+        "Gálatas 6:9",
+
+    verse:
+        "Não nos cansemos de fazer o bem, pois, se não desanimarmos, chegará o tempo certo em que faremos a colheita.",
+
+    explanation:[
+        "Paulo está falando sobre perseverança. A imagem da colheita é importante porque existe um intervalo entre plantar e colher. Nesse intervalo, pode parecer que nada está acontecendo.",
+        "A Bíblia não romantiza o cansaço. O próprio texto reconhece que podemos nos cansar. O convite é não transformar o cansaço em uma conclusão sobre a nossa história.",
+        "Às vezes você não precisa de uma nova estratégia. Precisa descansar, recuperar forças e continuar depois."
+    ],
+
+    contextTitle:
+        "Existe um tempo entre plantar e colher.",
+
+    contextText:
+        "Esse espaço pode ser frustrante porque você trabalha hoje e nem sempre vê resultado hoje. Mas crescimento profissional, estabilidade, uma mudança de vida e até uma vida espiritual mais profunda são construídos em camadas.",
+
+    personalTitle:
+        "Você já recomeçou mais vezes do que reconhece.",
+
+    personalText:
+        "Você já mudou de trabalho, recomeçou projetos, voltou a treinar, reorganizou planos e continua tentando construir uma vida que faça sentido para você. Isso não é pouca coisa.",
+
+    personalQuote:
+        "Descansar não apaga o caminho que você já percorreu.",
+
+    highlight:
+        "Você pode descansar sem desistir.",
+
+    reflection:
+        "Onde você precisa de descanso e onde precisa apenas perseverar mais um pouco?",
+
+    prayer:
+        "Pai, renova minhas forças. Tira de mim a necessidade de provar todos os dias que estou avançando. Ensina-me a respeitar meu ritmo sem abandonar aquilo que é importante. Quando eu precisar parar, dá-me descanso. Quando for hora de continuar, dá-me coragem. Amém."
+},
+
+21:{
+    title:"Há propósito no caminho",
+
+    intro:
+        "Nem toda parte da história faz sentido enquanto estamos vivendo.",
+
+    reference:
+        "Romanos 8:28",
+
+    verse:
+        "Pois sabemos que todas as coisas trabalham juntas para o bem daqueles que amam a Deus.",
+
+    explanation:[
+        "Romanos 8:28 aparece em um capítulo que fala sobre sofrimento, espera, fraqueza e esperança. Por isso, 'todas as coisas' não significa que tudo o que acontece seja bom.",
+        "A promessa é diferente: Deus pode trabalhar até dentro de circunstâncias que não escolheríamos.",
+        "Isso muda a forma de olhar para uma fase difícil. Não precisamos chamar uma perda de coisa boa. Podemos simplesmente confiar que ela não precisa ser a última palavra."
+    ],
+
+    contextTitle:
+        "Deus pode trabalhar dentro de histórias que você não escolheu.",
+
+    contextText:
+        "A fé cristã não exige que você finja que tudo foi fácil. Existem coisas que doem, portas que decepcionam e mudanças que ninguém teria escolhido. Esperança não apaga isso. Ela impede que isso seja o fim da história.",
+
+    personalTitle:
+        "Essa fase não precisa ser o resumo da sua vida.",
+
+    personalText:
+        "O que aconteceu com trabalho, relacionamentos, dinheiro, planos e mudanças pode parecer grande quando você está dentro da situação. Mas você está vendo um capítulo. Deus vê o livro inteiro.",
+
+    personalQuote:
+        "O capítulo atual não é a história inteira.",
+
+    highlight:
+        "Você está vivendo um capítulo, não a história inteira.",
+
+    reflection:
+        "O que hoje parece confuso você gostaria de conseguir entregar à perspectiva de Deus?",
+
+    prayer:
+        "Senhor, ajuda-me a não transformar uma fase difícil em uma sentença sobre meu futuro. Dá-me coragem para reconhecer o que doeu e fé para acreditar que Tu ainda podes trabalhar dentro da minha história. Amém."
+},
+
+22:{
+    title:"Quando faltar força",
+
+    intro:
+        "Você não precisa ser forte o tempo inteiro.",
+
+    reference:
+        "Salmos 46:1",
+
+    verse:
+        "Deus é o nosso refúgio e a nossa força; ele é socorro que não falta em tempos de aflição.",
+
+    explanation:[
+        "O Salmo 46 começa reconhecendo que existem momentos em que a terra treme, os montes se movem e as águas se agitam. É uma linguagem forte para falar de instabilidade.",
+        "Mesmo nesse cenário, a primeira afirmação é sobre Deus: Ele é refúgio e força.",
+        "Refúgio não é um lugar onde você precisa chegar fingindo estar bem. É justamente o lugar para onde você corre quando não consegue mais sustentar tudo sozinho."
+    ],
+
+    contextTitle:
+        "Deus não precisa da sua performance para cuidar de você.",
+
+    contextText:
+        "Você pode chegar diante de Deus cansado, frustrado, inseguro ou sem saber qual decisão tomar. A oração não precisa ser bonita. Às vezes ela pode ser simplesmente: 'Deus, fica comigo'.",
+
+    personalTitle:
+        "Você não precisa provar que aguenta tudo.",
+
+    personalText:
+        "Tem uma diferença entre ser forte e nunca admitir que alguma coisa pesa. Talvez parte da sua próxima fase não seja aprender a carregar mais. Talvez seja aprender a entregar melhor.",
+
+    personalQuote:
+        "A sua fraqueza não assusta Deus.",
+
+    highlight:
+        "Você não precisa ser forte para ser sustentado.",
+
+    reflection:
+        "O que você está tentando carregar sozinho?",
+
+    prayer:
+        "Deus, eu não quero fingir que consigo controlar tudo. Recebe aquilo que está pesado em mim. Sê meu refúgio quando eu estiver cansado e minha força quando eu não souber como continuar. Amém."
+},
+
+23:{
+    title:"Confie no processo",
+
+    intro:
+        "Nem tudo precisa acontecer imediatamente para estar acontecendo.",
+
+    reference:
+        "Eclesiastes 3:1",
+
+    verse:
+        "Tudo neste mundo tem o seu tempo; cada coisa tem a sua ocasião.",
+
+    explanation:[
+        "Eclesiastes 3 apresenta uma série de tempos diferentes: nascer e morrer, plantar e colher, chorar e rir, buscar e perder. A vida é apresentada como movimento.",
+        "Isso não significa que devemos ficar parados esperando o tempo perfeito. Significa reconhecer que algumas coisas não podem ser aceleradas apenas porque estamos ansiosos.",
+        "Existe um tipo de sabedoria em fazer o que cabe a nós e aceitar que o restante também depende do tempo."
+    ],
+
+    contextTitle:
+        "Nem tudo que demora está dando errado.",
+
+    contextText:
+        "A ansiedade costuma interpretar demora como fracasso. Mas algumas coisas simplesmente precisam de tempo para ganhar forma: uma carreira, uma mudança, uma casa, estabilidade financeira, maturidade e até nossa relação com Deus.",
+
+    personalTitle:
+        "Você quer chegar logo na próxima versão da sua vida.",
+
+    personalText:
+        "E eu entendo. Você já consegue imaginar Salvador, sua casa, sua rotina, seu trabalho e a sensação de finalmente estar em um lugar que combina com você. Mas existe uma parte da história que precisa ser vivida antes da chegada.",
+
+    personalQuote:
+        "O processo também é parte da resposta.",
+
+    highlight:
+        "O tempo de espera não é necessariamente tempo perdido.",
+
+    reflection:
+        "O que você gostaria que acontecesse mais rápido?",
+
+    prayer:
+        "Senhor, dá-me sabedoria para reconhecer quando é hora de agir e quando é hora de esperar. Livra-me da pressa que me faz desprezar o processo. Ensina-me a perceber que Tu também estás presente enquanto eu ainda não cheguei. Amém."
+},
+
+24:{
+    title:"Deus conhece você",
+
+    intro:
+        "Você não é invisível para Deus.",
+
+    reference:
+        "Salmos 139:1",
+
+    verse:
+        "Ó Senhor Deus, tu me examinas e me conheces.",
+
+    explanation:[
+        "O Salmo 139 é uma oração de alguém profundamente consciente da presença de Deus. Deus conhece quando a pessoa se senta, se levanta, pensa, caminha e descansa.",
+        "Esse conhecimento não é apresentado como vigilância ameaçadora. É apresentado como intimidade. Deus conhece aquilo que ninguém mais consegue conhecer completamente.",
+        "Isso significa que você não precisa editar sua vida antes de conversar com Ele."
+    ],
+
+    contextTitle:
+        "Você não precisa explicar tudo para ser conhecido.",
+
+    contextText:
+        "Existe liberdade em saber que Deus conhece inclusive aquilo que você ainda não consegue organizar em palavras. Fé também pode ser honestidade.",
+
+    personalTitle:
+        "Deus conhece o Rob por trás dos planos.",
+
+    personalText:
+        "Ele conhece o desejo de voltar para Salvador, a vontade de ter estabilidade, o medo de faltar dinheiro, a ambição profissional, as inseguranças e também as coisas bonitas que você espera viver.",
+
+    personalQuote:
+        "Você pode chegar a Deus exatamente como está.",
+
+    highlight:
+        "Você pode ser completamente honesto com Deus.",
+
+    reflection:
+        "Existe algo que você tem dificuldade de falar com Deus?",
+
+    prayer:
+        "Pai, obrigado porque Tu me conheces profundamente. Não preciso esconder de Ti aquilo que sinto nem fingir que tenho todas as respostas. Ensina-me a conversar contigo com honestidade e confiança. Amém."
+},
+
+25:{
+    title:"Recomeços",
+
+    intro:
+        "Um novo começo não apaga o passado. Ele mostra que a história continua.",
+
+    reference:
+        "Isaías 43:19",
+
+    verse:
+        "Vejam! Estou fazendo uma coisa nova; ela está surgindo agora e vocês não percebem?",
+
+    explanation:[
+        "Isaías 43 fala para um povo que conhecia a experiência de perda, deslocamento e espera. Deus lembra aquilo que já fez, mas logo chama a atenção para algo novo.",
+        "Existe uma tensão bonita aqui: lembrar o passado sem ficar preso a ele.",
+        "Um recomeço não exige que você finja que nada aconteceu. Ele permite que você leve os aprendizados sem precisar carregar os pesos."
+    ],
+
+    contextTitle:
+        "Deus não está limitado ao capítulo anterior.",
+
+    contextText:
+        "A novidade anunciada por Isaías acontece depois de uma história difícil. Isso é importante: o novo não precisa nascer de uma vida perfeita. Pode nascer justamente depois de uma ruptura.",
+
+    personalTitle:
+        "Talvez você esteja entrando exatamente nessa fase.",
+
+    personalText:
+        "A mudança para Salvador não é só trocar de endereço. Para você, ela representa uma tentativa de reconstruir rotina, carreira, independência e uma vida que tenha mais sentido. É normal sentir medo junto com a esperança.",
+
+    personalQuote:
+        "Você pode levar sua história sem precisar morar nela.",
+
+    highlight:
+        "O que terminou não precisa definir o que começa agora.",
+
+    reflection:
+        "Que novo começo você gostaria de viver?",
+
+    prayer:
+        "Deus, dá-me coragem para começar de novo sem apagar aquilo que aprendi. Ajuda-me a não carregar para o futuro pesos que pertencem ao passado. Abre meus olhos para reconhecer as coisas novas que Tu estás colocando diante de mim. Amém."
+},
+
+26:{
+    title:"A paz que permanece",
+
+    intro:
+        "Paz não é ausência de problemas. É presença de Deus no meio deles.",
+
+    reference:
+        "João 14:27",
+
+    verse:
+        "Deixo com vocês a minha paz; a minha paz lhes dou.",
+
+    explanation:[
+        "Jesus diz essas palavras aos discípulos pouco antes de sua morte. Isso muda completamente o peso da promessa: Ele fala de paz justamente quando os discípulos estavam prestes a enfrentar uma enorme mudança.",
+        "A paz de Jesus não depende de circunstâncias perfeitamente organizadas.",
+        "Por isso, paz cristã não significa nunca sentir ansiedade, tristeza ou preocupação. Significa ter um lugar para colocar essas coisas."
+    ],
+
+    contextTitle:
+        "Jesus oferece paz antes de oferecer respostas.",
+
+    contextText:
+        "Às vezes queremos que Deus primeiro resolva a situação para depois conseguirmos descansar. Aqui, Jesus apresenta outra possibilidade: receber a paz enquanto a situação ainda está acontecendo.",
+
+    personalTitle:
+        "Você não precisa esperar Salvador para começar a respirar.",
+
+    personalText:
+        "É fácil pensar: 'quando eu mudar, quando eu estiver empregado, quando o dinheiro estiver organizado, quando tudo estiver resolvido...'. Mas sempre existirá alguma coisa depois dessa lista.",
+
+    personalQuote:
+        "Sua paz não precisa ficar presa ao próximo capítulo.",
+
+    highlight:
+        "Você não precisa esperar tudo ficar perfeito para experimentar paz.",
+
+    reflection:
+        "O que está roubando sua paz neste momento?",
+
+    prayer:
+        "Jesus, coloca Tua paz dentro de mim antes mesmo que todas as coisas estejam resolvidas. Acalma aquilo que está agitado e ensina-me a confiar em Ti enquanto continuo fazendo minha parte. Amém."
+},
+
+27:{
+    title:"Continue acreditando",
+
+    intro:
+        "A esperança também é uma forma de coragem.",
+
+    reference:
+        "Romanos 15:13",
+
+    verse:
+        "Que Deus, a fonte da esperança, os encha de toda alegria e paz.",
+
+    explanation:[
+        "Paulo chama Deus de fonte da esperança. Isso é diferente de dizer que precisamos fabricar esperança sozinhos.",
+        "A esperança cristã não é negar a realidade. É reconhecer a realidade e ainda assim acreditar que Deus não terminou de agir.",
+        "Por isso ela exige coragem. Esperar significa continuar aberto para aquilo que ainda não conseguimos ver."
+    ],
+
+    contextTitle:
+        "Esperança não é ingenuidade.",
+
+    contextText:
+        "Você pode reconhecer que algo está difícil e ainda acreditar que pode mudar. Pode olhar para sua conta bancária, sua carreira ou sua situação atual e continuar acreditando que essa não é a fotografia definitiva da sua vida.",
+
+    personalTitle:
+        "Não transforme a demora em desistência.",
+
+    personalText:
+        "Você tem sonhos bem concretos: estabilidade, uma boa oportunidade profissional, sua casa, Salvador, uma rotina que faça sentido. Alguns podem demorar mais do que você gostaria. Isso não transforma automaticamente o sonho em erro.",
+
+    personalQuote:
+        "Demorar não significa que nunca vai acontecer.",
+
+    highlight:
+        "A esperança também é uma forma de coragem.",
+
+    reflection:
+        "Qual sonho você precisa voltar a colocar diante de Deus?",
+
+    prayer:
+        "Senhor, protege minha esperança. Quando eu estiver cansado de esperar, lembra-me de que a demora de uma resposta não significa abandono. Dá-me discernimento para continuar aquilo que devo continuar e sabedoria para mudar aquilo que precisa mudar. Amém."
+},
+
+28:{
+    title:"Você já chegou longe",
+
+    intro:
+        "Antes de olhar para o que falta, reconheça o caminho que você já percorreu.",
+
+    reference:
+        "Salmos 40:2",
+
+    verse:
+        "Ele me tirou de uma cova perigosa, de um lugar de lama e de desespero.",
+
+    explanation:[
+        "O Salmo 40 usa uma imagem muito concreta: alguém preso em um lugar instável é colocado sobre uma rocha. É uma imagem de resgate e recomeço.",
+        "A pessoa não diz apenas 'eu cheguei'. Ela reconhece que foi tirada de algum lugar.",
+        "Existe uma disciplina espiritual importante nisso: lembrar de onde Deus já nos trouxe."
+    ],
+
+    contextTitle:
+        "Memória também pode ser uma forma de fé.",
+
+    contextText:
+        "Quando olhamos apenas para o que ainda falta, nossa história parece pequena. Quando lembramos do que já atravessamos, conseguimos perceber que nem todo caminho foi perdido.",
+
+    personalTitle:
+        "Olha quanta coisa você já atravessou.",
+
+    personalText:
+        "Você já passou por mudanças profissionais, perdas, recomeços e períodos em que precisou se reorganizar. Mesmo assim, continua fazendo planos. Continua trabalhando. Continua sonhando. Continua procurando um lugar para chamar de casa.",
+
+    personalQuote:
+        "Não diminua a distância que você já percorreu.",
+
+    highlight:
+        "Você não está começando do zero. Está começando de tudo que aprendeu.",
+
+    reflection:
+        "Qual dificuldade do passado prova que você consegue atravessar momentos difíceis?",
+
+    prayer:
+        "Deus, obrigado por todas as vezes em que me sustentaste sem que eu percebesse. Ajuda-me a lembrar da minha própria caminhada quando eu estiver olhando apenas para aquilo que ainda falta. Que a memória do Teu cuidado fortaleça minha esperança. Amém."
+},
+
+29:{
+    title:"Entrega",
+
+    intro:
+        "Algumas coisas precisam sair das nossas mãos para encontrarem descanso.",
+
+    reference:
+        "1 Pedro 5:7",
+
+    verse:
+        "Entreguem todas as suas preocupações a Deus, pois ele cuida de vocês.",
+
+    explanation:[
+        "Pedro escreve para pessoas que estavam enfrentando dificuldades. A orientação não é 'pare de sentir preocupação'. É colocar essas preocupações diante de Deus.",
+        "A palavra entrega carrega a ideia de lançar sobre alguém um peso que você não precisa continuar carregando.",
+        "Isso não elimina responsabilidade. Você continua fazendo o que pode. Mas deixa de carregar emocionalmente aquilo que não pode resolver."
+    ],
+
+    contextTitle:
+        "Entrega não é desistência. É confiança.",
+
+    contextText:
+        "Existe uma diferença entre abrir mão dos seus sonhos e abrir mão da necessidade de controlar exatamente como eles vão acontecer. Você pode continuar desejando, planejando e trabalhando sem carregar o mundo inteiro nas costas.",
+
+    personalTitle:
+        "Talvez você esteja segurando coisas demais.",
+
+    personalText:
+        "O apartamento, o dinheiro, o trabalho, a mudança, as decisões e o futuro podem virar uma única grande preocupação. Separe as coisas. Faça uma por vez. E entregue a Deus aquilo que não cabe nas suas mãos.",
+
+    personalQuote:
+        "Faça o que está ao seu alcance. O resto, entregue.",
+
+    highlight:
+        "Nem tudo precisa estar nas suas mãos.",
+
+    reflection:
+        "Qual preocupação você pode entregar a Deus hoje?",
+
+    prayer:
+        "Pai, eu entrego a Ti aquilo que não consigo controlar. Entrego meus planos, minhas preocupações e aquilo que ainda não sei como resolver. Dá-me responsabilidade para agir e fé para soltar aquilo que não depende de mim. Amém."
+},
+
+30:{
+    title:"Amanhã existe",
+
+    intro:
+        "O fim de um mês também pode ser o começo de uma nova expectativa.",
+
+    reference:
+        "Lamentações 3:22-23",
+
+    verse:
+        "O amor do Senhor Deus não se acaba, e a sua bondade não tem fim. Esse amor e essa bondade são novos todas as manhãs.",
+
+    explanation:[
+        "Lamentações é um livro marcado pela dor. Isso torna essa declaração ainda mais poderosa. A esperança aparece não porque tudo está bem, mas porque, mesmo no meio da destruição, a misericórdia de Deus continua.",
+        "A frase 'novos todas as manhãs' fala de renovação. Deus não exige que você carregue ontem como se fosse uma sentença.",
+        "Cada manhã apresenta uma possibilidade nova de caminhar, aprender, corrigir, tentar e confiar."
+    ],
+
+    contextTitle:
+        "A misericórdia de Deus não termina no dia ruim.",
+
+    contextText:
+        "Um ciclo pode terminar com coisas incompletas. Você pode não ter todas as respostas. Ainda assim, existe um amanhã. E existe Deus dentro dele.",
+
+    personalTitle:
+        "Você não precisa entrar no próximo ciclo com todas as respostas.",
+
+    personalText:
+        "Talvez você ainda não saiba exatamente como será sua mudança, sua casa, seu trabalho ou os próximos meses. Tudo bem. Você não precisa conhecer o roteiro inteiro para entrar no próximo capítulo.",
+
+    personalQuote:
+        "Amanhã não precisa repetir ontem.",
+
+    highlight:
+        "Você chegou até aqui. E ainda existe amanhã.",
+
+    reflection:
+        "Com que expectativa você gostaria de entrar no próximo ciclo?",
+
+    prayer:
+        "Senhor, obrigado por me trazer até aqui. Obrigado pelo que deu certo, pelo que me ensinou e até pelo que ainda não entendo. Entrego a Ti o próximo ciclo da minha vida. Que eu entre nele com coragem, sabedoria, esperança e um coração aberto para aquilo que Tu ainda vais fazer. Amém."
+}
+
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const days =
+    Object.keys(devotionals)
+    .map(Number);
+
+let currentIndex = 0;
+let currentDay = days[0];
+
+let touchStartX = 0;
+let pointerStartX = 0;
+let isDragging = false;
+
+let completionTriggered = false;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const home =
+    document.getElementById("home");
+
+const reading =
+    document.getElementById("reading");
+
+const track =
+    document.getElementById("carouselTrack");
+
+const dots =
+    document.getElementById("dots");
+
+const prevBtn =
+    document.getElementById("prevBtn");
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+const heroCount =
+    document.getElementById("heroCount");
+
+const topDate =
+    document.getElementById("topDate");
+
+const readingTitle =
+    document.getElementById("readingTitle");
+
+const readingIntro =
+    document.getElementById("readingIntro");
+
+const reference =
+    document.getElementById("reference");
+
+const verseText =
+    document.getElementById("verseText");
+
+const verseReference =
+    document.getElementById("verseReference");
+
+const verseNumber =
+    document.getElementById("verseNumber");
+
+const explanation =
+    document.getElementById("explanation");
+
+const contextTitle =
+    document.getElementById("contextTitle");
+
+const contextText =
+    document.getElementById("contextText");
+
+const personalTitle =
+    document.getElementById("personalTitle");
+
+const personalText =
+    document.getElementById("personalText");
+
+const personalQuote =
+    document.getElementById("personalQuote");
+
+const highlightText =
+    document.getElementById("highlightText");
+
+const reflectionText =
+    document.getElementById("reflectionText");
+
+const prayerText =
+    document.getElementById("prayerText");
+
+const readingCounter =
+    document.getElementById("readingCounter");
+
+const backButton =
+    document.getElementById("backButton");
+
+const navHome =
+    document.getElementById("navHome");
+
+const navDevotionals =
+    document.getElementById("navDevotionals");
+
+const navProgress =
+    document.getElementById("navProgress");
+
+const progressWrap =
+    document.getElementById("progressWrap");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const progressPercent =
+    document.getElementById("progressPercent");
+
+const completionModal =
+    document.getElementById("completionModal");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const homeButton =
+    document.getElementById("homeButton");
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function getCompleted(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "devotionalCompleted"
+            ) || "[]"
+        );
+
+    }catch{
+
+        return [];
+
+    }
+
+}
+
+
+function markCompleted(day){
+
+    const completed =
+        getCompleted();
+
+    if(!completed.includes(day)){
+
+        completed.push(day);
+
+        localStorage.setItem(
+            "devotionalCompleted",
+            JSON.stringify(completed)
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function getTodayIndex(){
+
+    const now =
+        new Date();
+
+    const month =
+        now.getMonth() + 1;
+
+    const date =
+        now.getDate();
+
+    if(
+        month === 9 &&
+        date >= 17 &&
+        date <= 30
+    ){
+
+        return date - 17;
+
+    }
+
+    return 0;
+
+}
+
+
+function formatDate(){
+
+    const now =
+        new Date();
+
+    const months = [
+        "JAN",
+        "FEV",
+        "MAR",
+        "ABR",
+        "MAI",
+        "JUN",
+        "JUL",
+        "AGO",
+        "SET",
+        "OUT",
+        "NOV",
+        "DEZ"
     ];
 
-    let activeWorkoutKey = null;
-    let workoutStartTime = 0;
+    return `
+        ${String(now.getDate()).padStart(2,"0")}
+        ·
+        ${months[now.getMonth()]}
+        ·
+        ${now.getFullYear()}
+    `;
 
-    document.addEventListener("DOMContentLoaded", () => {
-        renderFichas();
-        updateProfileStats();
-        setupHome();
-        
-        const savedW = localStorage.getItem('rob_body_weight');
-        if(savedW) document.getElementById('body-weight-input').value = savedW;
-    });
+}
 
-    function setupHome() {
-        const days = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
-        const months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
-        const d = new Date();
-        const dateStr = `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
-        
-        document.getElementById('current-location').innerText = `${dateStr} · SANTO ESTÊVÃO, BA · ...°C`;
 
-        fetch('https://api.open-meteo.com/v1/forecast?latitude=-12.43&longitude=-39.25&current_weather=true')
-            .then(res => res.json())
-            .then(data => {
-                const temp = Math.round(data.current_weather.temperature);
-                document.getElementById('current-location').innerText = `${dateStr} · SANTO ESTÊVÃO, BA · ${temp}°C`;
-            }).catch(() => {
-                document.getElementById('current-location').innerText = `${dateStr} · SANTO ESTÊVÃO, BA`;
-            });
-            
-        renderWeeklyCalendar();
+/* =========================================================
+   TITLE
+========================================================= */
+
+function formatTitle(title){
+
+    const words =
+        title.split(" ");
+
+    if(words.length < 2){
+        return title;
     }
 
-    function renderWeeklyCalendar() {
-        const historyDays = JSON.parse(localStorage.getItem('rob_history_v8') || '[]');
-        const calContainer = document.getElementById('weekly-cal');
-        const dayLabels = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
-        
-        let html = '';
-        for(let i=0; i<7; i++) {
-            const isDone = historyDays.includes(i) ? 'done' : '';
-            html += `<div class="cal-day ${isDone}"><div class="cal-lbl">${dayLabels[i]}</div><div class="cal-circle">✓</div></div>`;
-        }
-        calContainer.innerHTML = html;
-    }
+    const last =
+        words.pop();
 
-    function switchView(viewId, btn) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-        document.getElementById(`view-${viewId}`).classList.add('active');
-        if (btn) btn.classList.add('active');
-        window.scrollTo(0,0);
-        
-        if(viewId === 'fichas') renderFichas(); 
-        if(viewId === 'perfil') updateProfileStats();
-    }
+    return `
+        ${words.join(" ")}
+        <em>${last}</em>
+    `;
 
-    function setMood(btn) {
-        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        showToast("Energia registrada. Só vai!");
-    }
+}
 
-    function renderFichas() {
-        const list = document.getElementById('fichas-list');
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
-        
-        let html = '';
-        Object.keys(routines).forEach(key => {
-            const r = routines[key];
-            let totalSets = 0; let doneSets = 0;
-            
-            r.exercises.forEach(ex => {
-                totalSets += ex.sets;
-                if (state[key] && state[key][ex.id]) doneSets += state[key][ex.id].length;
-            });
 
-            const progressPct = totalSets === 0 ? 0 : Math.round((doneSets / totalSets) * 100);
-            const isCompleted = progressPct === 100;
-            
-            const tagHtml = isCompleted ? '<div class="tag-concluido">✓ PAGO</div>' : '';
-            const graphicHtml = r.graphic ? '<div class="ficha-bg-graphic">✱</div>' : '';
-            
-            html += `
-                <div class="ficha-card ${r.style} ${isCompleted ? 'is-done' : ''}" onclick="openWorkout('${key}')">
-                    ${graphicHtml}
-                    <div>
-                        <div class="ficha-meta">
-                            <span class="ficha-meta-text uppercase">0${Object.keys(routines).indexOf(key) + 1} — ${r.exercises.length} EXERCÍCIOS</span>
-                            ${tagHtml}
-                        </div>
-                        <h2 class="display-font ficha-title">${r.title}</h2>
-                    </div>
-                    <div>
-                        <div class="progress-track">
-                            <div class="progress-fill" style="width: ${progressPct}%;"></div>
-                        </div>
-                        <div class="progress-lbl uppercase">${doneSets}/${totalSets} séries</div>
-                    </div>
-                </div>
-            `;
-        });
-        list.innerHTML = html;
-    }
+/* =========================================================
+   CARDS
+========================================================= */
 
-    function openWorkout(key) {
-        workoutStartTime = Date.now();
-        activeWorkoutKey = key;
-        const routine = routines[key];
-        const container = document.getElementById('exercise-list');
-        const savedLoads = JSON.parse(localStorage.getItem('rob_loads_v8') || '{}');
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
-        
-        if (!state[key]) state[key] = {}; 
+function renderCards(){
 
-        let html = '';
-        routine.exercises.forEach((ex, index) => {
-            const doneArray = state[key][ex.id] || [];
-            const isExDone = doneArray.length === ex.sets; 
-            
-            let bubblesHtml = '';
-            if (ex.isCardio) {
-                const isDone = doneArray.includes(1) ? 'done' : '';
-                bubblesHtml = `<button class="bubble bubble-cardio ${isDone}" onclick="markSet(this, '${ex.id}', 1, ${ex.sets})">${ex.time}</button>`;
-            } else {
-                for(let i = 1; i <= ex.sets; i++) {
-                    const isDone = doneArray.includes(i) ? 'done' : '';
-                    bubblesHtml += `<button class="bubble ${isDone}" onclick="markSet(this, '${ex.id}', ${i}, ${ex.sets})">${i}</button>`;
-                }
+    const completed =
+        getCompleted();
+
+    track.innerHTML = "";
+
+    days.forEach(
+        (day,index)=>{
+
+            const d =
+                devotionals[day];
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "card";
+
+            card.dataset.index =
+                index;
+
+            card.dataset.day =
+                day;
+
+            if(
+                completed.includes(day)
+            ){
+
+                card.classList.add(
+                    "completed"
+                );
+
             }
 
-            let currentVal = savedLoads[ex.id] !== undefined ? savedLoads[ex.id] : ex.defWeight;
-            let loadHtml = '';
-            if(!ex.isCardio && ex.defWeight !== 0) {
-                loadHtml = `
-                    <div class="ex-load">
-                        <input type="number" value="${currentVal}" class="load-input" onchange="saveLoad('${ex.id}', this.value)" />
-                        <span class="load-unit">kg</span>
+            const isToday =
+                index === getTodayIndex();
+
+            card.innerHTML = `
+
+                ${
+                    isToday
+                    ? `
+                        <div class="today-pill">
+                            hoje
+                        </div>
+                    `
+                    : ""
+                }
+
+                <div class="completed-mark">
+                    ✓
+                </div>
+
+                <div class="card-top">
+
+                    <div class="card-date">
+
+                        <strong>
+                            ${String(day).padStart(2,"0")}
+                        </strong>
+
+                        <span>
+                            setembro 2026
+                        </span>
+
                     </div>
-                `;
+
+                    <div class="card-ref">
+                        ${d.reference}
+                    </div>
+
+                </div>
+
+                <div class="card-number">
+                    ${String(day).padStart(2,"0")}
+                </div>
+
+                <div class="card-plus">
+                    *
+                </div>
+
+                <div class="card-line"></div>
+
+                <div class="card-body">
+
+                    <div class="card-index">
+                        ${String(index + 1).padStart(2,"0")}
+                        /
+                        ${String(days.length).padStart(2,"0")}
+                    </div>
+
+                    <h2 class="card-title">
+                        ${formatTitle(d.title)}
+                    </h2>
+
+                    <div class="card-bottom">
+
+                        <p class="card-intro">
+                            ${d.intro}
+                        </p>
+
+                        <button
+                            class="card-open"
+                            aria-label="Abrir devocional"
+                        >
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+
+                                <path d="M5 12h13"/>
+
+                                <path d="
+                                    M13 6
+                                    l6 6
+                                    -6 6
+                                "/>
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+            card.addEventListener(
+                "click",
+                event=>{
+
+                    if(
+                        event.target.closest(
+                            ".card-open"
+                        ) ||
+                        card.classList.contains(
+                            "active"
+                        )
+                    ){
+
+                        openDevotional(day);
+
+                    }else{
+
+                        setActiveIndex(index);
+
+                    }
+
+                }
+            );
+
+            track.appendChild(card);
+
+        }
+    );
+
+    renderDots();
+
+    updateCarousel();
+
+}
+
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+function renderDots(){
+
+    dots.innerHTML = "";
+
+    days.forEach(
+        (_,index)=>{
+
+            const dot =
+                document.createElement("button");
+
+            dot.className =
+                "dot";
+
+            dot.setAttribute(
+                "aria-label",
+                `Ir para devocional ${index + 1}`
+            );
+
+            dot.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+            dot.addEventListener(
+                "click",
+                ()=>{
+                    setActiveIndex(index);
+                }
+            );
+
+            dots.appendChild(dot);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CAROUSEL
+========================================================= */
+
+function getCardWidth(){
+
+    const card =
+        track.querySelector(".card");
+
+    if(!card){
+        return 0;
+    }
+
+    return card.offsetWidth + 12;
+
+}
+
+
+function updateCarousel(){
+
+    const cards =
+        [
+            ...track.querySelectorAll(".card")
+        ];
+
+    if(!cards.length){
+        return;
+    }
+
+    cards.forEach(
+        (card,index)=>{
+
+            card.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+        }
+    );
+
+    const cardWidth =
+        getCardWidth();
+
+    const viewportWidth =
+        window.innerWidth;
+
+    const card =
+        cards[currentIndex];
+
+    const cardCenter =
+        currentIndex * cardWidth +
+        card.offsetWidth / 2;
+
+    const offset =
+        viewportWidth / 2 -
+        cardCenter;
+
+    track.style.transform =
+        `translateX(${offset}px)`;
+
+    prevBtn.classList.toggle(
+        "disabled",
+        currentIndex === 0
+    );
+
+    nextBtn.classList.toggle(
+        "disabled",
+        currentIndex === days.length - 1
+    );
+
+    heroCount.textContent =
+        `${String(currentIndex + 1).padStart(2,"0")} / ${String(days.length).padStart(2,"0")}`;
+
+    [
+        ...dots.children
+    ].forEach(
+        (dot,index)=>{
+
+            dot.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+        }
+    );
+
+}
+
+
+function setActiveIndex(index){
+
+    index =
+        Math.max(
+            0,
+            Math.min(
+                days.length - 1,
+                index
+            )
+        );
+
+    currentIndex =
+        index;
+
+    currentDay =
+        days[index];
+
+    updateCarousel();
+
+}
+
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+prevBtn.addEventListener(
+    "click",
+    ()=>{
+        setActiveIndex(
+            currentIndex - 1
+        );
+    }
+);
+
+nextBtn.addEventListener(
+    "click",
+    ()=>{
+        setActiveIndex(
+            currentIndex + 1
+        );
+    }
+);
+
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+track.addEventListener(
+    "touchstart",
+    event=>{
+
+        touchStartX =
+            event.changedTouches[0].clientX;
+
+    },
+    {passive:true}
+);
+
+track.addEventListener(
+    "touchend",
+    event=>{
+
+        const endX =
+            event.changedTouches[0].clientX;
+
+        const distance =
+            endX - touchStartX;
+
+        if(
+            Math.abs(distance) < 45
+        ){
+            return;
+        }
+
+        if(distance < 0){
+
+            setActiveIndex(
+                currentIndex + 1
+            );
+
+        }else{
+
+            setActiveIndex(
+                currentIndex - 1
+            );
+
+        }
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   POINTER
+========================================================= */
+
+track.addEventListener(
+    "pointerdown",
+    event=>{
+
+        pointerStartX =
+            event.clientX;
+
+        isDragging = true;
+
+    }
+);
+
+track.addEventListener(
+    "pointerup",
+    event=>{
+
+        if(!isDragging){
+            return;
+        }
+
+        const distance =
+            event.clientX -
+            pointerStartX;
+
+        isDragging = false;
+
+        if(
+            Math.abs(distance) < 45
+        ){
+            return;
+        }
+
+        if(distance < 0){
+
+            setActiveIndex(
+                currentIndex + 1
+            );
+
+        }else{
+
+            setActiveIndex(
+                currentIndex - 1
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            reading.classList.contains(
+                "visible"
+            )
+        ){
+
+            if(
+                event.key === "Escape"
+            ){
+
+                goHome();
+
             }
 
-            const tipHtml = `<div class="ex-tip"><span class="ex-tip-icon">✱</span><span>${ex.tip}</span></div>`;
-            const indexStr = String(index + 1).padStart(2, '0');
+            return;
 
-            html += `
-                <div class="exercise-card ${isExDone ? 'completed' : ''}" id="wrap-${ex.id}">
-                    <div class="ex-header">
-                        <div class="ex-info-wrap">
-                            <div class="ex-index">${indexStr}</div>
-                            <div>
-                                <div class="ex-name">${ex.name}</div>
-                                <div class="ex-meta serif italic">${ex.isCardio ? '1 sessão' : ex.sets + ' séries'}</div>
-                            </div>
-                        </div>
-                        ${loadHtml}
-                    </div>
-                    ${tipHtml}
-                    <div class="set-bubbles">
-                        ${bubblesHtml}
-                    </div>
-                </div>
-            `;
-        });
-
-        container.innerHTML = html;
-        updateWorkoutCopy();
-        
-        document.getElementById('header').style.display = 'none';
-        document.getElementById('nav').style.display = 'none';
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-workout').classList.add('active');
-        window.scrollTo(0,0);
-    }
-
-    function saveLoad(exId, val) {
-        const savedLoads = JSON.parse(localStorage.getItem('rob_loads_v8') || '{}');
-        savedLoads[exId] = val;
-        localStorage.setItem('rob_loads_v8', JSON.stringify(savedLoads));
-    }
-
-    function markSet(btn, exId, setNum, totalSetsInEx) {
-        btn.classList.toggle('done');
-        const isNowDone = btn.classList.contains('done');
-        
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
-        if (!state[activeWorkoutKey]) state[activeWorkoutKey] = {};
-        if (!state[activeWorkoutKey][exId]) state[activeWorkoutKey][exId] = [];
-        
-        if (isNowDone) {
-            if (!state[activeWorkoutKey][exId].includes(setNum)) state[activeWorkoutKey][exId].push(setNum);
-        } else {
-            state[activeWorkoutKey][exId] = state[activeWorkoutKey][exId].filter(n => n !== setNum);
-        }
-        
-        const exWrap = document.getElementById(`wrap-${exId}`);
-        if (state[activeWorkoutKey][exId].length === totalSetsInEx) {
-            exWrap.classList.add('completed');
-            showToast("Exercício finalizado.");
-        } else {
-            exWrap.classList.remove('completed');
         }
 
-        localStorage.setItem('rob_workout_state_v8', JSON.stringify(state));
-        updateWorkoutCopy();
-    }
+        if(
+            event.key === "ArrowRight"
+        ){
 
-    function updateWorkoutCopy() {
-        const total = document.querySelectorAll('.bubble').length;
-        const done = document.querySelectorAll('.bubble.done').length;
-        const pct = total > 0 ? done / total : 0;
+            setActiveIndex(
+                currentIndex + 1
+            );
 
-        document.getElementById('workout-prog-fill').style.width = `${pct * 100}%`;
-
-        let copy = "BORA FICAR GOSTOSO?";
-        if (pct === 1) copy = "TREINO MATADO.";
-        else if (pct >= 0.8) copy = "SÓ MAIS UM POUCO.";
-        else if (pct >= 0.5) copy = "METADE JÁ FOI.";
-        
-        document.getElementById('workout-copy').innerText = copy;
-
-        if (done === total && total > 0) {
-            setTimeout(() => { triggerFinishOverlay(); }, 400);
-        }
-    }
-
-    function triggerFinishOverlay() {
-        const durationMin = Math.max(1, Math.round((Date.now() - workoutStartTime) / 60000));
-        
-        const historyDays = JSON.parse(localStorage.getItem('rob_history_v8') || '[]');
-        const todayIdx = new Date().getDay();
-        if(!historyDays.includes(todayIdx)) {
-            historyDays.push(todayIdx);
-            localStorage.setItem('rob_history_v8', JSON.stringify(historyDays));
         }
 
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
-        let completedWorkouts = 0;
-        
-        Object.keys(routines).forEach(k => {
-            let tSets = 0; let dSets = 0;
-            routines[k].exercises.forEach(ex => {
-                tSets += ex.sets;
-                if (state[k] && state[k][ex.id]) dSets += state[k][ex.id].length;
-            });
-            if(tSets === dSets && tSets > 0) completedWorkouts++;
-        });
+        if(
+            event.key === "ArrowLeft"
+        ){
 
-        if (completedWorkouts === 5) {
-            document.getElementById('week-overlay').classList.add('active');
-            localStorage.setItem('rob_workout_state_v8', '{}');
-            localStorage.setItem('rob_history_v8', '[]');
-        } else {
-            document.getElementById('finish-quote').innerText = finishQuotes[Math.floor(Math.random() * finishQuotes.length)];
-            document.getElementById('finish-time').innerText = `⏱ ${durationMin} MINUTOS`;
-            document.getElementById('done-overlay').classList.add('active');
+            setActiveIndex(
+                currentIndex - 1
+            );
+
         }
 
-        window.finishTimeout = setTimeout(() => { closeOverlay(); }, 3500);
-    }
+        if(
+            event.key === "Enter"
+        ){
 
-    function closeOverlay() {
-        clearTimeout(window.finishTimeout);
-        document.getElementById('done-overlay').classList.remove('active');
-        document.getElementById('week-overlay').classList.remove('active');
-        abortWorkout();
-    }
+            openDevotional(
+                days[currentIndex]
+            );
 
-    function abortWorkout() {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-home').classList.add('active'); 
-        document.getElementById('header').style.display = 'flex';
-        document.getElementById('nav').style.display = 'flex';
-        
-        document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.nav-link')[0].classList.add('active'); 
-        
-        renderFichas();
-        setupHome(); 
-        updateProfileStats();
-    }
-
-    function updateProfileStats() {
-        const state = JSON.parse(localStorage.getItem('rob_workout_state_v8') || '{}');
-        let completedWorkouts = 0;
-        let totalDoneSets = 0;
-        
-        const bodyMap = { 'Glúteos': 0, 'Pernas': 0, 'Peito': 0, 'Costas': 0, 'Braços': 0 };
-
-        Object.keys(routines).forEach(k => {
-            let tSets = 0; let dSets = 0;
-            routines[k].exercises.forEach(ex => {
-                tSets += ex.sets;
-                if (state[k] && state[k][ex.id]) {
-                    let setsAmassadas = state[k][ex.id].length;
-                    dSets += setsAmassadas;
-                    
-                    if(k === 'B' || k === 'D') bodyMap['Glúteos'] += setsAmassadas * 1.5;
-                    if(k === 'B' || k === 'D') bodyMap['Pernas'] += setsAmassadas;
-                    if(k === 'A' || k === 'E') bodyMap['Peito'] += setsAmassadas;
-                    if(k === 'A' || k === 'E' || k === 'C') bodyMap['Braços'] += setsAmassadas;
-                    if(k === 'C') bodyMap['Costas'] += setsAmassadas * 2;
-                }
-            });
-            totalDoneSets += dSets;
-            if(tSets === dSets && tSets > 0) completedWorkouts++;
-        });
-
-        document.getElementById('profile-treinos').innerText = completedWorkouts;
-        document.getElementById('profile-series').innerText = totalDoneSets;
-
-        const heatmapContainer = document.getElementById('heatmap-list');
-        let heatHtml = '';
-        Object.keys(bodyMap).forEach(muscle => {
-            const val = bodyMap[muscle];
-            const maxVal = 40; 
-            const blocks = Math.min(10, Math.round((val / maxVal) * 10));
-            const barStr = '█'.repeat(blocks) + '░'.repeat(10 - blocks);
-            
-            heatHtml += `
-                <div class="heatmap-row">
-                    <span style="width: 80px;">${muscle.toUpperCase()}</span>
-                    <span class="heatmap-bar">${barStr}</span>
-                </div>
-            `;
-        });
-        heatmapContainer.innerHTML = heatHtml;
-    }
-
-    function calcularRM() {
-        const peso = parseFloat(document.getElementById('rm-peso').value);
-        const reps = parseInt(document.getElementById('rm-reps').value);
-        
-        if(peso && reps) {
-            const rm = Math.round(peso * (1 + reps / 30));
-            document.getElementById('rm-max').innerText = `${rm} KG`;
-            document.getElementById('rm-80').innerText = `${Math.round(rm * 0.8)} kg`;
-            document.getElementById('rm-result').style.display = 'block';
-        } else {
-            showToast("Preencha carga e repetições.");
         }
+
+    }
+);
+
+
+/* =========================================================
+   OPEN DEVOTIONAL
+========================================================= */
+
+function openDevotional(day){
+
+    const d =
+        devotionals[day];
+
+    currentDay =
+        day;
+
+    completionTriggered =
+        false;
+
+    readingTitle.innerHTML =
+        formatTitle(
+            d.title
+        );
+
+    readingIntro.textContent =
+        d.intro;
+
+    reference.textContent =
+        d.reference;
+
+    verseText.textContent =
+        d.verse;
+
+    verseReference.textContent =
+        d.reference;
+
+    verseNumber.textContent =
+        d.reference.match(/\d+/)?.[0] || "";
+
+    explanation.innerHTML =
+        d.explanation
+            .map(
+                paragraph =>
+                    `<p>${paragraph}</p>`
+            )
+            .join("");
+
+    contextTitle.textContent =
+        d.contextTitle;
+
+    contextText.textContent =
+        d.contextText;
+
+    personalTitle.innerHTML =
+        d.personalTitle;
+
+    personalText.textContent =
+        d.personalText;
+
+    personalQuote.textContent =
+        d.personalQuote;
+
+    highlightText.textContent =
+        d.highlight;
+
+    reflectionText.textContent =
+        d.reflection;
+
+    prayerText.textContent =
+        d.prayer;
+
+    readingCounter.textContent =
+        `${String(day).padStart(2,"0")} · SET`;
+
+    home.style.display =
+        "none";
+
+    reading.classList.add(
+        "visible"
+    );
+
+    progressWrap.classList.add(
+        "visible"
+    );
+
+    progressPercent.classList.add(
+        "visible"
+    );
+
+    document.body.style.overflowY =
+        "auto";
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+    updateReadingProgress();
+
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function goHome(){
+
+    reading.classList.remove(
+        "visible"
+    );
+
+    progressWrap.classList.remove(
+        "visible"
+    );
+
+    progressPercent.classList.remove(
+        "visible"
+    );
+
+    completionModal.classList.remove(
+        "visible"
+    );
+
+    home.style.display =
+        "block";
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+    renderCards();
+
+}
+
+
+/* =========================================================
+   READING PROGRESS
+========================================================= */
+
+function updateReadingProgress(){
+
+    if(
+        !reading.classList.contains(
+            "visible"
+        )
+    ){
+        return;
     }
 
-    function saveBodyWeight() {
-        const w = document.getElementById('body-weight-input').value;
-        if(w) {
-            localStorage.setItem('rob_body_weight', w);
-            showToast("Peso salvo com sucesso.");
+    const scrollTop =
+        window.scrollY;
+
+    const documentHeight =
+        document.documentElement.scrollHeight;
+
+    const viewportHeight =
+        window.innerHeight;
+
+    const maxScroll =
+        Math.max(
+            1,
+            documentHeight -
+            viewportHeight
+        );
+
+    let percent =
+        (
+            scrollTop /
+            maxScroll
+        ) * 100;
+
+    percent =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                percent
+            )
+        );
+
+    progressBar.style.width =
+        `${percent}%`;
+
+    progressPercent.textContent =
+        `${Math.round(percent)}%`;
+
+    if(
+        percent >= 99.4 &&
+        !completionTriggered
+    ){
+
+        completionTriggered =
+            true;
+
+        completeDevotional();
+
+    }
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateReadingProgress,
+    {
+        passive:true
+    }
+);
+
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+function completeDevotional(){
+
+    markCompleted(
+        currentDay
+    );
+
+    setTimeout(
+        ()=>{
+            completionModal.classList.add(
+                "visible"
+            );
+        },
+        350
+    );
+
+}
+
+
+continueButton.addEventListener(
+    "click",
+    ()=>{
+        completionModal.classList.remove(
+            "visible"
+        );
+    }
+);
+
+homeButton.addEventListener(
+    "click",
+    goHome
+);
+
+completionModal.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            event.target ===
+            completionModal
+        ){
+
+            completionModal.classList.remove(
+                "visible"
+            );
+
         }
-    }
 
-    function resetFichas() {
-        if(confirm("Zerar as fichas e calendário da semana? Suas cargas continuarão salvas.")) {
-            localStorage.setItem('rob_workout_state_v8', '{}');
-            localStorage.setItem('rob_history_v8', '[]');
-            showToast("Semana resetada.");
-            updateProfileStats();
-            setupHome();
-            if(document.getElementById('view-fichas').classList.contains('active')) renderFichas();
-        }
     }
+);
 
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); }, 2000);
+
+/* =========================================================
+   NAV
+========================================================= */
+
+backButton.addEventListener(
+    "click",
+    goHome
+);
+
+navHome.addEventListener(
+    "click",
+    goHome
+);
+
+navDevotionals.addEventListener(
+    "click",
+    ()=>{
+        goHome();
+        window.scrollTo(
+            0,
+            300
+        );
     }
+);
+
+navProgress.addEventListener(
+    "click",
+    ()=>{
+        goHome();
+        window.scrollTo(
+            0,
+            document.body.scrollHeight
+        );
+    }
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    updateCarousel
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+currentIndex =
+    getTodayIndex();
+
+currentDay =
+    days[currentIndex];
+
+topDate.textContent =
+    formatDate();
+
+renderCards();
+
 </script>
+
 </body>
 </html>
+```
