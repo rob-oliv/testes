@@ -464,6 +464,11 @@ main{position:absolute;inset:0;z-index:1}
 @keyframes spark{from{transform:translate(-50%,-50%) scale(.2) rotate(0);opacity:1}to{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1) rotate(var(--r));opacity:0}}
 .seg-row{display:flex;gap:6px}
 
+/* menos asteriscos: ficam só o card de hoje, a pausa, a sequência, as gratidões e a comemoração */
+.sec-h .h2::before,.rise>.cap:first-child::before{content:none}
+.tab.on::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue);top:5px;right:calc(50% - 16px);box-shadow:0 0 8px var(--blue)}
+.mood .ast,.pi .ast,.cl.aff .bigast{display:none}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .cl{transform:none!important}
@@ -553,20 +558,20 @@ main{position:absolute;inset:0;z-index:1}
       <div class="stack">
         <div class="me rise" style="--i:0">
           <div class="av">R</div>
-          <div style="flex:1;min-width:0"><div class="nm">Rob</div><div class="cap" style="margin-top:6px">Membro desde: 2023</div></div>
+          <div style="flex:1;min-width:0"><div class="nm">Rob</div><div class="cap" style="margin-top:6px">Membro desde <span id="since"></span></div></div>
           <button class="ib" id="gear" aria-label="Configurações"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>
         </div>
         <div class="sec rise" style="--i:1">
-          <div class="streak"><span class="cap" style="position:relative;color:rgba(255,255,255,.7)">Sequência</span><div class="n" id="strN">6<small>dias seguidos</small></div><div class="row" id="strRow"></div></div>
+          <div class="streak"><span class="cap" style="position:relative;color:rgba(255,255,255,.7)">Sequência</span><div class="n" id="strN">0<small>dias</small></div><div class="row" id="strRow"></div></div>
           <div class="sec-h" style="margin-top:14px"><h2 class="h2">Como você <i>chegou</i></h2><span class="cap">7 dias</span></div>
           <div class="mweek" id="mweek"></div>
         </div>
         <div class="sec rise" style="--i:2">
           <h2 class="h2">Sua jornada <i>espiritual</i></h2>
           <div class="stats">
-            <div class="stat b"><b id="stDev">14</b><span>Devocionais completos</span></div>
-            <div class="stat"><b id="stOr">28</b><span>Dias de oração</span></div>
-            <div class="stat"><b id="stPr">5</b><span>Práticas realizadas</span></div>
+            <div class="stat b"><b id="stDev">0</b><span>Devocionais completos</span></div>
+            <div class="stat"><b id="stOr">0</b><span>Dias de oração</span></div>
+            <div class="stat"><b id="stPr">0</b><span>Práticas realizadas</span></div>
           </div>
           <div class="hcard">
             <span class="cap">Últimas 12 semanas</span>
@@ -840,11 +845,8 @@ const DAYS=[
  ora:'O Senhor vive. Bendito seja o meu rochedo. Obrigado por esta semana, pelos lugares espaçosos e pelas candeias acesas. Eu sigo contigo. Amém.'}];
 
 /* state */
-const KEY='momento-18-v3';
-let S={done:[1,2],verses:[1,19,28],refl:[
-  {day:1,d:'Domingo',a:'Deus foi o meu rochedo quando perdi o emprego em 2021.',b:'Que ele seja a minha paz nesta mudança.'},
-  {day:2,d:'Ontem',a:'O prazo do projeto e a conversa difícil com meu pai.',b:'Que eu estou cansado e preciso de ajuda.'}],
-  dev:14,or:28,pr:5,rounds:0,sound:true};
+const KEY='momento-app-v1';
+let S={done:[],verses:[],refl:[],dev:0,or:0,pr:0,rounds:0,sound:true};
 try{const r=localStorage.getItem(KEY); if(r) S=Object.assign(S,JSON.parse(r));}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const curDay=()=>{for(let i=1;i<=7;i++) if(!S.done.includes(i)) return i; return 7;};
@@ -935,7 +937,7 @@ const practice=[
  {go:'japamala',t:'Japa<i>mala</i>',s:'108 contas para a sua intenção',mini:()=>'<div class="ringb">'+Array.from({length:27},(_,i)=>{const a=i/27*Math.PI*2;return '<i class="'+(i===0?'b':'')+'" style="transform:translate('+(Math.cos(a)*92).toFixed(1)+'px,'+(Math.sin(a)*92).toFixed(1)+'px)"></i>';}).join('')+'</div>'},
  {go:'respirar',t:'Res<i>pirar</i>',s:'inspire 4, segure 4, solte 6',mini:()=>'<div class="bre"></div>'},
  {go:'oracao',t:'Ora<i>ção</i>',s:'guiada em três movimentos',mini:()=>'<div class="lines"><i></i><i></i><i></i></div>'},
- {go:'pedidos',t:'Pedi<i>dos</i>',s:'o que você está entregando',mini:()=>'<div style="font-family:var(--serif);font-size:170px;line-height:.7;color:var(--blue);text-shadow:0 0 30px var(--blue),0 0 70px var(--blue);animation:spin 30s linear infinite">*</div>'},
+ {go:'pedidos',t:'Pedi<i>dos</i>',s:'o que você está entregando',mini:()=>'<div style="width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,var(--glow2),transparent 68%)"></div>'},
  {go:'ficar',t:'Ficar <i>aqui</i>',s:'silêncio com tempo marcado',mini:()=>'<svg class="arcm" viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="none" stroke="var(--line)" stroke-width="2"/><circle class="p" cx="100" cy="100" r="92" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" transform="rotate(-90 100 100)"/></svg>'}];
 const pracCard=p=>'<button class="cl prac" data-go="'+p.go+'"><div class="mini par">'+p.mini()+'</div><div class="top"><span class="cap">Prática</span></div><div class="bot"><div><div class="ct">'+p.t+'</div><div class="cs">'+p.s+'</div></div><span class="go">'+ARR+'</span></div></button>';
 
@@ -1037,7 +1039,7 @@ $('#stNext').onclick=()=>stGo(1); $('#stPrev').onclick=()=>stGo(-1);
 $('#stClose').onclick=closeStory;
 $('#ambBtn').onclick=()=>{ if(amb) ambientOff(); else {ambientOn();toast('Som ambiente ligado');}};
 function complete(){
-  if(!S.done.includes(SD)){S.done.push(SD);S.done.sort((a,b)=>a-b);S.dev++;save();}
+  if(!S.done.includes(SD)){S.done.push(SD);S.done.sort((a,b)=>a-b);S.dev++;S.log[dk()]=2;save();}
   chime(); rebuild(); markActive();
   const next=SD<7?SD+1:0;
   $('#doneCap').textContent='Dia '+SD+' concluído · '+S.done.length+' de 7';
@@ -1092,11 +1094,7 @@ $('#tBtn').onclick=()=>{ if(tRun){pauseTimer();return;} if(tLeft<=0) tLeft=tTot;
 $('#themes').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('#themes .chip').forEach(c=>c.classList.toggle('on',c===b));toast('Planos sobre '+b.textContent);};
 
 /* você */
-(function(){const N=84,lv=new Array(N).fill(0);let s=11;const r=()=>{s=(s*9301+49297)%233280;return s/233280;};
-  const p=[];while(p.length<28){const i=Math.floor(Math.pow(r(),.55)*N);if(!p.includes(i))p.push(i);}
-  p.forEach(i=>lv[i]=1);p.sort((a,b)=>b-a).slice(0,14).forEach(i=>lv[i]=2);
-  let h='';for(let w=0;w<12;w++){h+='<div class="col">';for(let d=0;d<7;d++){const i=w*7+d;h+='<span class="cell'+(lv[i]?' l'+lv[i]:'')+(i===N-1?' today':'')+'" style="--k:'+i+'"></span>';}h+='</div>';}
-  $('#heat').innerHTML=h;})();
+function paintHeat(){ if(!S.log) return; const N=84; let h=''; for(let w=0;w<12;w++){h+='<div class="col">';for(let d=0;d<7;d++){const i=w*7+d,dt=new Date();dt.setDate(dt.getDate()-(N-1-i));const lv=S.log[dk(dt)]||0;h+='<span class="cell'+(lv?' l'+lv:'')+(i===N-1?' today':'')+'" style="--k:'+i+'"></span>';}h+='</div>';} $('#heat').innerHTML=h;}
 function counts(){ if($('#cGrat')&&S.grat&&S.peds){$('#cGrat').textContent=Object.values(S.grat).reduce((a,g)=>a+g.filter(Boolean).length,0);$('#cPed').textContent=S.peds.length;} $('#stDev').textContent=S.dev;$('#stOr').textContent=S.or;$('#stPr').textContent=S.pr;$('#cVerses').textContent=S.verses.length;$('#cRefl').textContent=S.refl.length;}
 $('#openVerses').onclick=()=>sheet('<h2 class="h2">Escrituras <i>salvas</i></h2>'+(S.verses.length?S.verses.map(n=>'<div class="note"><span class="k">Salmo 18:'+n+'</span><span class="v">'+PS[n-1]+'</span></div>').join(''):'<p class="lede">Toque em um versículo no Salmo 18 para salvar.</p>'));
 $('#openRefl').onclick=()=>{const l=[...S.refl].sort((a,b)=>a.day-b.day);
@@ -1118,12 +1116,10 @@ $('#gear').onclick=()=>{sheet('<h2 class="h2">Ajustes</h2>'+
 /* ===== bem-estar ===== */
 const dk=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const dayOff=n=>{const d=new Date();d.setDate(d.getDate()-n);return dk(d);};
-S.moods=S.moods||{[dayOff(6)]:'Cansado',[dayOff(5)]:'Ansioso',[dayOff(4)]:'Em paz',[dayOff(3)]:'Grato',[dayOff(2)]:'Ansioso',[dayOff(1)]:'Em paz'};
-S.grat=S.grat||{[dayOff(1)]:['O café da manhã com calma','Uma conversa boa com a minha mãe','Ter terminado o relatório']};
-S.peds=S.peds||[{id:1,t:'Direção na mudança de trabalho',d:dayOff(12),a:null},{id:2,t:'Saúde do meu pai',d:dayOff(5),a:null},{id:3,t:'Paz para dormir bem',d:dayOff(20),a:dayOff(3)}];
-S.exam=S.exam||[]; S.streak=S.streak||6; S.last=S.last||dayOff(1); S.fs=S.fs||1; if(S.theme===undefined) S.theme='';
+S.moods=S.moods||{}; S.grat=S.grat||{}; S.peds=S.peds||[]; S.exam=S.exam||[]; S.log=S.log||{};
+S.streak=S.streak||0; S.last=S.last||null; S.fs=S.fs||1; if(S.theme===undefined) S.theme=''; if(!S.since){S.since=new Date().toISOString();save();}
 function applyPrefs(){const r=document.documentElement; if(S.theme) r.setAttribute('data-theme',S.theme); else r.removeAttribute('data-theme'); r.style.setProperty('--fs',S.fs);}
-function markActive(){const t=dk(); if(S.last!==t){S.streak=(S.last===dayOff(1))?S.streak+1:1;S.last=t;save();paintStreak();toast('* Sequência de '+S.streak+' dias');}}
+function markActive(){const t=dk(); S.log[t]=Math.max(S.log[t]||0,1); if(typeof paintHeat==='function') paintHeat(); if(S.last!==t){S.streak=(S.last===dayOff(1))?S.streak+1:1;S.last=t;save();paintStreak();toast('Sequência de '+S.streak+(S.streak===1?' dia':' dias'));}}
 
 /* luz: segue o dedo e clarão ao tocar */
 document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.cl');if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');},{passive:true});
@@ -1170,7 +1166,7 @@ $('#pedOpen').addEventListener('click',e=>{const b=e.target.closest('[data-ans]'
   setTimeout(()=>{const p=S.peds.find(x=>x.id===id);p.a=dk();save();paintPeds();toast('Graças a Deus. Guardado em Respondidos.');},450);});
 
 /* encerrar o dia */
-function examenCard(){return '<button class="cl" data-examen style="background:var(--night);color:#fff"><span class="bigast" aria-hidden="true" style="font-size:240px;right:-40px;top:-10px;color:#5A76FF;text-shadow:0 0 40px #3F5EF5,0 0 90px #3F5EF5">*</span><div class="top"><span class="cap" style="color:rgba(255,255,255,.7)">Antes de dormir</span></div><div class="par"><div class="ct">Encerrar <i>o dia</i></div><div class="cs" style="color:rgba(255,255,255,.65)">três perguntas para soltar o dia</div></div><div class="bot"><span class="cap" style="color:rgba(255,255,255,.7)">3 min</span><span class="go" style="background:#fff;color:#060818">'+ARR+'</span></div></button>';}
+function examenCard(){return '<button class="cl" data-examen style="background:var(--night);color:#fff"><span class="blob a" style="background:radial-gradient(circle,rgba(63,94,245,.55),transparent 65%)"></span><div class="top"><span class="cap" style="color:rgba(255,255,255,.7)">Antes de dormir</span></div><div class="par"><div class="ct">Encerrar <i>o dia</i></div><div class="cs" style="color:rgba(255,255,255,.65)">três perguntas para soltar o dia</div></div><div class="bot"><span class="cap" style="color:rgba(255,255,255,.7)">3 min</span><span class="go" style="background:#fff;color:#060818">'+ARR+'</span></div></button>';}
 function openExamen(){sheet('<span class="cap"><span class="ast">*</span> Encerrar o dia</span><h2 class="h2">Três perguntas antes de <i>dormir</i></h2>'+
   '<div class="fld"><label for="e1">Onde eu senti Deus hoje?</label><textarea id="e1" rows="2"></textarea></div>'+
   '<div class="fld"><label for="e2">O que ainda pesa em mim?</label><textarea id="e2" rows="2"></textarea></div>'+
@@ -1204,12 +1200,12 @@ function sosWord(){$('#sosCap').textContent='Uma palavra para levar';
   $('#wAgain').onclick=sosBreath;}
 
 /* você: sequência e humor */
-function paintStreak(){$('#strN').innerHTML=S.streak+'<small>'+(S.streak===1?'dia':'dias seguidos')+'</small>';$('#strRow').innerHTML=Array.from({length:7},(_,i)=>'<i class="'+(i<Math.min(S.streak,7)?'on':'')+'">*</i>').join('');}
+function paintStreak(){$('#strN').innerHTML=S.streak+'<small>'+(S.streak===0?'dias. Comece hoje.':S.streak===1?'dia':'dias seguidos')+'</small>';$('#strRow').innerHTML=Array.from({length:7},(_,i)=>'<i class="'+(i<Math.min(S.streak,7)?'on':'')+'">*</i>').join('');}
 function paintMweek(){const L=['D','S','T','Q','Q','S','S'];
   $('#mweek').innerHTML=Array.from({length:7},(_,k)=>{const n=6-k,d=new Date();d.setDate(d.getDate()-n);const m=S.moods[dk(d)],M=MOODS[m];
     return '<div class="mw"><span>'+(n===0?'hoje':L[d.getDay()])+'</span><i class="'+(M?'v'+M.v:'')+'">'+(M?'*':'')+'</i><em>'+(m||'...')+'</em></div>';}).join('');}
 
-applyPrefs(); paintMoods(); paintGrat(); paintPeds(); paintStreak(); paintMweek();
+applyPrefs(); paintHeat(); $('#since').textContent=new Date(S.since).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}); paintMoods(); paintGrat(); paintPeds(); paintStreak(); paintMweek();
 
 addEventListener('resize',()=>requestAnimationFrame(refreshCars));
 paintSound(); paintJapa(); paintT();
