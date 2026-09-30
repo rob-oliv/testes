@@ -1,2764 +1,1220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eee8dc">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-<title>Japamala</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F1F1EE">
+<title>momento.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap">
 <style>
+/* Layout: light-grey ground, big rounded cards that slide sideways and react to the scroll; serif italic carries the voice, a small sans organises, flag blue is the one colour (the "today" card is full blue). */
 :root{
-  --bg:#eee8dc;
-  --paper:#f5f0e7;
-  --ink:#191815;
-  --muted:#81796d;
-  --red:#d9362d;
-  --red-dark:#b92b24;
-  --green:#64745e;
-  --green-dark:#4f5f4a;
-  --bead:#d8d0c3;
-  --bead-light:#e5ded3;
-  --line:rgba(25,24,21,.14);
-  --white:rgba(255,255,255,.52);
-}
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,
-body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:var(--bg);
-  color:var(--ink);
-}
-
-body{
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Text",
-    "SF Pro Display",
-    system-ui,
-    sans-serif;
-}
-
-button,
-input{
-  font:inherit;
-}
-
-button{
-  border:0;
-  padding:0;
-  background:none;
-  color:inherit;
-}
-
-#app{
-  width:100%;
-  height:100svh;
-  height:100dvh;
-  position:relative;
-  overflow:hidden;
-}
-
-/* =========================================================
-   SETUP
-========================================================= */
-
-.setup{
-  width:100%;
-  height:100%;
-  overflow:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:
-    calc(env(safe-area-inset-top) + 28px)
-    25px
-    calc(env(safe-area-inset-bottom) + 36px);
-}
-
-.setup-inner{
-  width:min(100%, 500px);
-  min-height:100%;
-  margin:auto;
-  display:flex;
-  flex-direction:column;
-}
-
-.kicker{
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.setup-title{
-  margin-top:24px;
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:clamp(54px, 15vw, 82px);
-  line-height:.88;
-  letter-spacing:-.055em;
-}
-
-.setup-star{
-  color:var(--red);
-  font-family:Georgia, serif;
-}
-
-.setup-copy{
-  margin-top:25px;
-  max-width:390px;
-  font-size:16px;
-  line-height:1.55;
-  color:#514b43;
-}
-
-.setup-section{
-  margin-top:48px;
-}
-
-.setup-label{
-  display:block;
-  margin-bottom:13px;
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.mantra-input{
-  width:100%;
-  border:0;
-  border-bottom:1px solid var(--line);
-  border-radius:0;
-  background:transparent;
-  padding:12px 0 14px;
-  outline:none;
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:25px;
-  line-height:1.2;
-  color:var(--ink);
-}
-
-.mantra-input::placeholder{
-  color:#aaa195;
-}
-
-.targets{
-  display:flex;
-  gap:27px;
-  border-bottom:1px solid var(--line);
-  padding-bottom:14px;
-}
-
-.target{
-  position:relative;
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:25px;
-  color:#aaa195;
-  cursor:pointer;
-}
-
-.target.active{
-  color:var(--ink);
-}
-
-.target.active::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-15px;
-  height:2px;
-  background:var(--red);
-}
-
-.start{
-  margin-top:auto;
-  padding-top:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  cursor:pointer;
-}
-
-.start-text{
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:28px;
-}
-
-.start-mark{
-  width:44px;
-  height:44px;
-  border:1px solid var(--ink);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  transition:
-    background .2s ease,
-    color .2s ease,
-    transform .2s ease;
-}
-
-.start:active .start-mark{
-  transform:scale(.94);
-  background:var(--ink);
-  color:var(--paper);
-}
-
-.start-arrow{
-  width:8px;
-  height:8px;
-  border-top:1px solid currentColor;
-  border-right:1px solid currentColor;
-  transform:rotate(45deg);
-  margin-left:-3px;
-}
-
-
-/* =========================================================
-   PRACTICE
-========================================================= */
-
-.practice{
-  position:absolute;
-  inset:0;
-  display:none;
-  overflow:hidden;
-  background:
-    radial-gradient(
-      circle at 50% 43%,
-      rgba(255,255,255,.25),
-      transparent 42%
-    ),
-    var(--bg);
-  touch-action:none;
-}
-
-.practice.visible{
-  display:block;
-}
-
-#canvas{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-  touch-action:none;
-}
-
-/* top information */
-
-.topbar{
-  position:absolute;
-  z-index:10;
-  top:0;
-  left:0;
-  right:0;
-  padding:
-    calc(env(safe-area-inset-top) + 18px)
-    20px
-    10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  pointer-events:none;
-}
-
-.top-left,
-.top-right{
-  pointer-events:auto;
-}
-
-.top-left{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.mala-name{
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  color:var(--muted);
-}
-
-.round-label{
-  font-family:Georgia, serif;
-  font-size:15px;
-}
-
-.top-right{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:4px;
-}
-
-.timer{
-  font-variant-numeric:tabular-nums;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.target-label{
-  font-family:Georgia, serif;
-  font-size:15px;
-}
-
-/* center counter */
-
-.counter{
-  position:absolute;
-  z-index:5;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  text-align:center;
-  pointer-events:none;
-  width:220px;
-}
-
-.counter-number{
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:clamp(74px, 20vw, 112px);
-  line-height:.78;
-  letter-spacing:-.065em;
-  font-variant-numeric:oldstyle-nums;
-}
-
-.counter-number.small{
-  font-size:74px;
-}
-
-.counter-total{
-  margin-top:13px;
-  font-size:11px;
-  letter-spacing:.18em;
-  color:var(--muted);
-  text-transform:uppercase;
-}
-
-.mantra{
-  margin:21px auto 0;
-  max-width:230px;
-  font-family:Georgia, "Times New Roman", serif;
-  font-size:15px;
-  line-height:1.35;
-  color:#5c554c;
-  min-height:21px;
-  transition:
-    opacity .15s ease,
-    transform .15s ease;
-}
-
-.mantra.flash{
-  opacity:.18;
-  transform:translateY(4px);
-}
-
-/* floating tap feedback */
-
-.tap-word{
-  position:absolute;
-  z-index:20;
-  left:50%;
-  top:50%;
-  transform:translate(-50%, -50%);
-  pointer-events:none;
-  opacity:0;
-  font-family:Georgia, serif;
-  font-size:17px;
-  color:var(--red);
-  white-space:nowrap;
-}
-
-.tap-word.show{
-  animation:tapWord .58s ease-out forwards;
-}
-
-@keyframes tapWord{
-  0%{
-    opacity:0;
-    transform:translate(-50%, -30%);
-  }
-  20%{
-    opacity:1;
-  }
-  100%{
-    opacity:0;
-    transform:translate(-50%, -100%);
-  }
-}
-
-/* bottom controls */
-
-.bottom{
-  position:absolute;
-  z-index:15;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:
-    12px 20px
-    calc(env(safe-area-inset-bottom) + 20px);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  pointer-events:none;
-}
-
-.bottom button{
-  pointer-events:auto;
-}
-
-.control{
-  min-width:70px;
-  font-size:11px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--muted);
-  padding:13px 5px;
-}
-
-.control.center{
-  color:var(--ink);
-}
-
-.control:active{
-  opacity:.45;
-}
-
-/* little progress line */
-
-.progress{
-  position:absolute;
-  z-index:11;
-  left:20px;
-  right:20px;
-  bottom:calc(env(safe-area-inset-bottom) + 74px);
-  height:1px;
-  background:rgba(25,24,21,.10);
-  pointer-events:none;
-}
-
-.progress-fill{
-  height:100%;
-  width:0%;
-  background:var(--red);
-  transform-origin:left center;
-  transition:width .18s ease;
-}
-
-/* pause */
-
-.paused{
-  position:absolute;
-  z-index:30;
-  inset:0;
-  display:none;
-  place-items:center;
-  background:rgba(238,232,220,.82);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-
-.paused.visible{
-  display:grid;
-}
-
-.paused-inner{
-  text-align:center;
-}
-
-.paused-label{
-  font-family:Georgia, serif;
-  font-size:38px;
-  letter-spacing:-.04em;
-}
-
-.paused-sub{
-  margin-top:12px;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.13em;
-  color:var(--muted);
-}
-
-/* =========================================================
-   COMPLETE
-========================================================= */
-
-.complete{
-  position:absolute;
-  z-index:50;
-  inset:0;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:
-    calc(env(safe-area-inset-top) + 30px)
-    28px
-    calc(env(safe-area-inset-bottom) + 30px);
-  background:var(--bg);
-}
-
-.complete.visible{
-  display:flex;
-}
-
-.complete-star{
-  font-family:Georgia, serif;
-  font-size:55px;
-  color:var(--red);
-  line-height:1;
-}
-
-.complete-title{
-  margin-top:25px;
-  font-family:Georgia, serif;
-  font-size:45px;
-  line-height:.95;
-  letter-spacing:-.05em;
-}
-
-.complete-copy{
-  max-width:300px;
-  margin-top:19px;
-  font-size:14px;
-  line-height:1.55;
-  color:var(--muted);
-}
-
-.complete-stats{
-  margin-top:35px;
-  display:flex;
-  gap:36px;
-}
-
-.stat{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-}
-
-.stat-number{
-  font-family:Georgia, serif;
-  font-size:25px;
-}
-
-.stat-label{
-  font-size:9px;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-.complete-actions{
-  margin-top:52px;
-  width:min(100%, 330px);
-  display:flex;
-  flex-direction:column;
-}
-
-.complete-action{
-  padding:17px 0;
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-family:Georgia, serif;
-  font-size:20px;
-  text-align:left;
-}
-
-.complete-action:last-child{
-  border-bottom:1px solid var(--line);
-}
-
-.complete-action .arrow{
-  width:8px;
-  height:8px;
-  border-top:1px solid currentColor;
-  border-right:1px solid currentColor;
-  transform:rotate(45deg);
-}
-
-/* =========================================================
-   EDIT MANTRA
-========================================================= */
-
-.edit-mantra{
-  position:absolute;
-  z-index:40;
-  inset:auto 0 0;
-  padding:
-    20px
-    22px
-    calc(env(safe-area-inset-bottom) + 25px);
-  background:var(--paper);
-  border-top:1px solid var(--line);
-  transform:translateY(100%);
-  transition:transform .28s cubic-bezier(.22,.7,.25,1);
-}
-
-.edit-mantra.visible{
-  transform:translateY(0);
-}
-
-.edit-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.edit-title{
-  font-family:Georgia, serif;
-  font-size:22px;
-}
-
-.close{
-  width:32px;
-  height:32px;
-  position:relative;
-}
-
-.close::before,
-.close::after{
-  content:"";
-  position:absolute;
-  width:16px;
-  height:1px;
-  background:var(--ink);
-  top:50%;
-  left:50%;
-}
-
-.close::before{
-  transform:translate(-50%,-50%) rotate(45deg);
-}
-
-.close::after{
-  transform:translate(-50%,-50%) rotate(-45deg);
-}
-
-.save-mantra{
-  margin-top:18px;
-  width:100%;
-  padding:15px 0;
-  border-top:1px solid var(--ink);
-  border-bottom:1px solid var(--ink);
-  text-align:left;
-  font-family:Georgia, serif;
-  font-size:18px;
-}
-
-/* =========================================================
-   MICRO MOTION
-========================================================= */
-
-.practice.counting .counter-number{
-  animation:countPulse .18s ease-out;
-}
-
-@keyframes countPulse{
-  0%{
-    transform:scale(.96);
-  }
-  100%{
-    transform:scale(1);
-  }
-}
+  --bg:#F1F1EE;
+  --card:#FFFFFF;
+  --ink:#131313;
+  --ink-2:rgba(19,19,19,.58);
+  --ink-3:rgba(19,19,19,.3);
+  --line:rgba(19,19,19,.09);
+  --blue:#1437D6;
+  --on-blue:#FFFFFF;
+  --dark:#141414;
+  --on-dark:#F1F1EE;
+  --shadow:0 24px 50px -30px rgba(20,30,80,.35);
+  --serif:"Playfair Display",Georgia,serif;
+  --sans:"Inter Tight","Helvetica Neue",Arial,sans-serif;
+  --glow:rgba(20,55,214,.20);
+  --glow2:rgba(20,55,214,.30);
+  --night:#060818;
+  --fs:1;
+  --spring:cubic-bezier(.2,.9,.25,1.15);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C0C0D; --card:#19191B; --ink:#F2F2EF; --ink-2:rgba(242,242,239,.6); --ink-3:rgba(242,242,239,.3); --line:rgba(242,242,239,.1);
+  --blue:#3F5EF5; --on-blue:#FFFFFF; --dark:#F2F2EF; --on-dark:#141414; --shadow:0 24px 50px -30px rgba(0,0,0,.8); --glow:rgba(63,94,245,.30); --glow2:rgba(90,118,255,.45); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0C0C0D; --card:#19191B; --ink:#F2F2EF; --ink-2:rgba(242,242,239,.6); --ink-3:rgba(242,242,239,.3); --line:rgba(242,242,239,.1);
+  --blue:#3F5EF5; --on-blue:#FFFFFF; --dark:#F2F2EF; --on-dark:#141414; --shadow:0 24px 50px -30px rgba(0,0,0,.8); --glow:rgba(63,94,245,.30); --glow2:rgba(90,118,255,.45); color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit}
+button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+.app{position:relative;height:100%;max-width:440px;margin:0 auto;overflow:hidden;background:var(--bg)}
+@media (min-width:640px){.app{height:min(900px,calc(100% - 48px));margin-top:24px;border-radius:40px;box-shadow:0 30px 80px -40px rgba(0,0,0,.35)}}
+
+/* header */
+.hdr{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:16px 24px 12px;background:linear-gradient(var(--bg) 70%,transparent)}
+.logo{font-family:var(--serif);font-style:italic;font-size:28px;line-height:1;letter-spacing:-.01em}
+.logo b{color:var(--blue);font-weight:400}
+.back{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin-left:-8px;background:var(--card)}
+.back svg{width:18px;height:18px}
+.sp{flex:1}
+.av{width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--on-blue);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:20px;transition:transform .3s var(--spring)}
+.av:active{transform:scale(.9)}
+
+/* screens + motion */
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:80px 24px 130px;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.in{animation:scrIn .55s var(--ease) both}
+.screen.in.from-l{animation-name:scrInL}
+.screen.in.from-r{animation-name:scrInR}
+@keyframes scrIn{from{opacity:0}to{opacity:1}}
+@keyframes scrInR{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes scrInL{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.screen.in .rise{animation:rise .8s var(--ease) both;animation-delay:calc(var(--i,0)*80ms + 80ms)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+.w>span{display:inline-block;animation:wordUp .9s var(--ease) both;animation-delay:calc(var(--d,0)*70ms + 120ms)}
+@keyframes wordUp{from{transform:translateY(105%)}to{transform:none}}
+.stack{display:flex;flex-direction:column;gap:40px}
+.sec{display:flex;flex-direction:column;gap:14px}
+
+/* type */
+.cap{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.hi{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.25;color:var(--ink-2);margin:0}
+.display{font-family:var(--serif);font-weight:400;font-size:clamp(48px,14vw,62px);line-height:1;letter-spacing:-.025em;margin:0;text-wrap:balance}
+.display em{font-style:italic;color:var(--blue)}
+.h2{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.08;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.sec-h .h2{font-size:26px}
+.lede{margin:0;color:var(--ink-2);font-size:15px;max-width:36ch}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:15px;font-weight:600;transition:transform .35s var(--spring),box-shadow .3s}
+.btn:active{transform:scale(.95)}
+.btn.blue{background:var(--blue);color:var(--on-blue)}
+.btn.white{background:#fff;color:#131313}
+.btn.ghost{background:var(--card);color:var(--ink)}
+.btn.full{width:100%}
+.btn svg{width:18px;height:18px}
+.go{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--ink);color:var(--bg);transition:transform .35s var(--spring)}
+.go svg{width:20px;height:20px;transition:transform .35s var(--spring)}
+.go:hover svg{transform:translateX(3px)}
+.go:active{transform:scale(.9)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{height:40px;padding:0 18px;border-radius:999px;background:var(--card);font-size:14px;font-weight:500;transition:background .3s,color .3s,transform .3s var(--spring)}
+.chip:active{transform:scale(.94)}
+.chip.on{background:var(--ink);color:var(--bg)}
+
+/* carousels */
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -24px;padding:10px 32px 22px;scrollbar-width:none;overscroll-behavior-x:contain}
+.car::-webkit-scrollbar{display:none}
+.cl{flex:none;width:100%;height:min(60vh,460px);min-height:380px;scroll-snap-align:center;border-radius:32px;position:relative;overflow:hidden;background:var(--card);box-shadow:var(--shadow);
+  padding:26px;display:flex;flex-direction:column;justify-content:space-between;will-change:transform;transform-origin:50% 60%;text-align:left}
+.car.sm{padding-inline:24px;scroll-padding-inline:24px}
+.car.sm .cl{width:62%;height:250px;min-height:0;scroll-snap-align:start;border-radius:26px;padding:20px}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:-6px}
+.dots i{width:6px;height:6px;border-radius:99px;background:var(--ink-3);transition:width .45s var(--spring),background .3s}
+.dots i.on{width:22px;background:var(--blue)}
+.cl .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:relative;z-index:1}
+.cl .bot{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;position:relative;z-index:1}
+.cl .ct{font-family:var(--serif);font-size:40px;line-height:1;letter-spacing:-.02em;margin:0}
+.cl .ct i{font-style:italic}
+.cl .cs{font-size:14px;color:var(--ink-2);margin-top:8px}
+.par{will-change:transform}
+
+/* blue "hoje" card */
+.cl.today{background:var(--blue);color:var(--on-blue)}
+.cl.today .cap{color:rgba(255,255,255,.75)}
+.cl.today .ct{font-size:clamp(50px,15vw,64px);font-style:italic}
+.cl.today .vr{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.45;opacity:.85;max-width:28ch;margin:14px 0 0}
+.cl.today .go{background:#fff;color:#1437D6}
+.blob{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.34),rgba(255,255,255,0) 65%)}
+.blob.a{width:340px;height:340px;right:-140px;top:-90px;animation:fl1 14s ease-in-out infinite alternate}
+.blob.b{width:260px;height:260px;left:-120px;bottom:-110px;animation:fl2 11s ease-in-out infinite alternate}
+@keyframes fl1{to{transform:translate(-60px,70px) scale(1.15)}}
+@keyframes fl2{to{transform:translate(70px,-40px) scale(.9)}}
+.pseg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:100%}
+.pseg i{height:3px;border-radius:3px;background:rgba(127,127,127,.25);overflow:hidden;position:relative}
+.pseg i::after{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease)}
+.pseg i.d::after{transform:scaleX(1)}
+.pseg i.c::after{background:var(--blue);transform:scaleX(.35)}
+.cl.today .pseg i{background:rgba(255,255,255,.28)}
+.cl.today .pseg i::after{background:#fff}
+
+/* salmo card */
+.big18{font-family:var(--serif);font-style:italic;font-size:210px;line-height:.78;letter-spacing:-.05em;position:absolute;right:-8px;bottom:70px;color:var(--ink);opacity:.95}
+/* affirmation card */
+.cl.aff{background:var(--dark);color:var(--on-dark)}
+.cl.aff .cap{color:var(--on-dark);opacity:.6}
+.cl.aff p{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.35;margin:0;opacity:.8}
+.cl.aff .sou{font-family:var(--serif);font-style:italic;font-size:76px;line-height:.95;letter-spacing:-.03em;margin-top:10px;position:relative;display:inline-block}
+.cl.aff .sou::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:4px;border-radius:4px;background:var(--blue);transform:scaleX(0);transform-origin:left;animation:draw 1.4s var(--ease) .6s forwards}
+@keyframes draw{to{transform:scaleX(1)}}
+
+/* live practice minis */
+.mini{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.ringb{width:200px;height:200px;position:relative;animation:spin 40s linear infinite}
+.ringb i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:var(--ink-3)}
+.ringb i.b{background:var(--blue);width:13px;height:13px;margin:-6.5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bre{width:180px;height:180px;border-radius:50%;background:var(--blue);animation:bre 10s ease-in-out infinite}
+@keyframes bre{0%,100%{transform:scale(.45)}40%,55%{transform:scale(1)}}
+.arcm{width:190px;height:190px}
+.arcm circle.p{stroke-dasharray:578;animation:arc 12s linear infinite}
+@keyframes arc{from{stroke-dashoffset:578}to{stroke-dashoffset:0}}
+.lines{display:flex;flex-direction:column;gap:12px;width:60%}
+.lines i{height:10px;border-radius:10px;background:var(--line);position:relative;overflow:hidden}
+.lines i::after{content:"";position:absolute;inset:0;background:var(--blue);transform:scaleX(0);transform-origin:left;animation:ln 6s var(--ease) infinite}
+.lines i:nth-child(2)::after{animation-delay:.6s}
+.lines i:nth-child(3)::after{animation-delay:1.2s;background:var(--ink)}
+@keyframes ln{0%{transform:scaleX(0)}30%,75%{transform:scaleX(1)}100%{transform:scaleX(1);opacity:0}}
+.cl.prac .top,.cl.prac .bot{z-index:2}
+
+/* day cards (small) */
+.dc .n{font-family:var(--serif);font-style:italic;font-size:64px;line-height:.8;letter-spacing:-.03em}
+.dc .t{font-family:var(--serif);font-size:21px;line-height:1.1}
+.dc .v{font-size:12px;color:var(--ink-2);margin-top:4px}
+.dc .st{position:absolute;top:18px;right:18px;height:26px;padding:0 10px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--ink-2)}
+.dc.done .st{color:var(--ink)}
+.dc.done .st::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.dc.now{background:var(--blue);color:var(--on-blue)}
+.dc.now .v{color:rgba(255,255,255,.75)}
+.dc.now .st{background:rgba(255,255,255,.2);color:#fff}
+
+/* reading */
+.reader{display:flex;flex-direction:column}
+.mk{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;margin:30px 0 10px;height:34px;padding:0 6px 0 14px;border-radius:99px;background:var(--card);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;transition:transform .3s var(--spring)}
+.mk:first-child{margin-top:0}
+.mk span{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center}
+.mk span svg{width:12px;height:12px}
+.mk:active{transform:scale(.95)}
+.mk.free{background:none;padding:0;color:var(--ink-3)}
+.vs{display:flex;gap:12px;padding:5px 0;font-family:var(--serif);font-size:19px;line-height:1.6;width:100%}
+.vs sup{font-family:var(--sans);font-size:10px;font-weight:600;color:var(--ink-3);min-width:18px;padding-top:10px}
+.vs span{background:linear-gradient(var(--blue),var(--blue)) no-repeat 0 94%/0 2px;transition:background-size .6s var(--ease)}
+.vs.saved span{background-size:100% 2px}
+.vs.saved sup{color:var(--blue)}
+.affb{margin:34px 0;padding:30px 24px;border-radius:28px;background:var(--dark);color:var(--on-dark)}
+.affb p{margin:12px 0 0;font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.35;opacity:.85}
+.affb .sou{font-family:var(--serif);font-style:italic;font-size:62px;line-height:1;margin-top:8px}
+
+/* story (devocional) */
+.story{position:absolute;inset:0;z-index:35;background:var(--bg);display:none}
+.story.open{display:block;animation:stIn .6s var(--ease) both}
+@keyframes stIn{from{opacity:0;transform:translateY(40px) scale(.98)}to{opacity:1;transform:none}}
+.st-top{position:absolute;top:0;left:0;right:0;z-index:5;padding:14px 18px 0;display:flex;flex-direction:column;gap:12px;transition:color .4s}
+.bars{display:flex;gap:4px}
+.bars i{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.bars i b{display:block;height:100%;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+.st-row{display:flex;align-items:center;gap:10px}
+.st-row .cap{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--card);flex:none;transition:transform .3s var(--spring),background .3s,color .3s}
+.ib:active{transform:scale(.9)}
+.ib svg{width:18px;height:18px}
+.ib.on{background:var(--blue);color:#fff}
+.story.cover .st-top{color:#fff}
+.story.cover .st-top .cap{color:rgba(255,255,255,.8)}
+.story.cover .bars i{background:rgba(255,255,255,.3)}
+.story.cover .bars i b{background:#fff}
+.story.cover .ib{background:rgba(255,255,255,.18);color:#fff}
+.story.cover .ib.on{background:#fff;color:#1437D6}
+.track{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior:contain}
+.track::-webkit-scrollbar{display:none}
+.sl{flex:none;width:100%;height:100%;overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always;padding:118px 28px 130px;display:flex;flex-direction:column;gap:22px;scrollbar-width:none}
+.sl::-webkit-scrollbar{display:none}
+.sl>*{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.sl.act>*{opacity:1;transform:none}
+.sl.act>*:nth-child(2){transition-delay:.08s}.sl.act>*:nth-child(3){transition-delay:.16s}.sl.act>*:nth-child(4){transition-delay:.24s}.sl.act>*:nth-child(5){transition-delay:.32s}.sl.act>*:nth-child(n+6){transition-delay:.4s}
+.sl.cov{background:var(--blue);color:#fff;justify-content:flex-end;padding-bottom:150px;position:relative;overflow:hidden}
+.sl.cov .cap{color:rgba(255,255,255,.75)}
+.sl.cov .t{font-family:var(--serif);font-style:italic;font-size:clamp(56px,17vw,76px);line-height:.95;letter-spacing:-.03em;margin:0}
+.sl.cov .s{font-family:var(--serif);font-style:italic;font-size:21px;opacity:.85;margin:0}
+.breathe{display:flex;align-items:center;gap:12px;font-size:13px;opacity:.85}
+.breathe i{width:16px;height:16px;border-radius:50%;background:#fff;animation:bi 10s ease-in-out infinite}
+@keyframes bi{0%,100%{transform:scale(.5);opacity:.5}45%,55%{transform:scale(1.5);opacity:1}}
+.sl .q{font-family:var(--serif);font-style:italic;font-size:32px;line-height:1.25;letter-spacing:-.01em;margin:0}
+.sl .q em{color:var(--blue);font-style:italic}
+.sl .ref{font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--blue)}
+.sl h3{margin:0;font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.05;letter-spacing:-.01em}
+.sl p{margin:0;font-size:18px;line-height:1.7}
+.sl .ps{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.65;color:var(--ink-2)}
+.sl .ps sup{font-family:var(--sans);font-style:normal;font-size:10px;font-weight:600;color:var(--blue)}
+.sl .pr{font-family:var(--serif);font-style:italic;font-size:23px;line-height:1.5}
+.fld{display:flex;flex-direction:column;gap:8px;padding:18px;border-radius:24px;background:var(--card)}
+.fld label{font-family:var(--serif);font-style:italic;font-size:20px}
+.fld textarea{width:100%;min-height:84px;resize:none;border:0;background:transparent;font:inherit;font-size:16px;line-height:1.6;color:var(--ink);outline:none;padding:0}
+.fld textarea::placeholder{color:var(--ink-3)}
+.fld:focus-within{box-shadow:0 0 0 2px var(--blue)}
+.st-nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;gap:10px;align-items:center;padding:16px 20px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 40%);transition:opacity .3s,transform .4s var(--ease)}
+.story.cover .st-nav{background:none}
+.st-nav .btn{flex:1}
+.st-nav.hide{opacity:0;transform:translateY(20px);pointer-events:none}
+.done-ov{position:absolute;inset:0;z-index:8;background:var(--blue);color:#fff;display:none;flex-direction:column;justify-content:center;align-items:flex-start;gap:18px;padding:32px;overflow:hidden}
+.done-ov.show{display:flex;animation:wipe .8s var(--ease) both}
+@keyframes wipe{from{clip-path:circle(0% at 50% 85%)}to{clip-path:circle(150% at 50% 85%)}}
+.done-ov svg.ck{width:84px;height:84px}
+.done-ov svg.ck circle{stroke-dasharray:252;stroke-dashoffset:252;animation:dr 1s var(--ease) .4s forwards}
+.done-ov svg.ck path{stroke-dasharray:60;stroke-dashoffset:60;animation:dr .6s var(--ease) 1.1s forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.done-ov .t{font-family:var(--serif);font-style:italic;font-size:54px;line-height:1;margin:0}
+.done-ov .pseg i{background:rgba(255,255,255,.28)}
+.done-ov .pseg i::after{background:#fff}
+.done-ov .row{display:flex;gap:10px;width:100%;margin-top:10px}
+.done-ov .row .btn{flex:1}
+.done-ov .btn.line{background:rgba(255,255,255,.16);color:#fff}
+
+/* japamala */
+.jcard{border-radius:32px;background:var(--card);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;gap:18px;align-items:stretch}
+.intent{width:100%;height:50px;border:0;border-radius:99px;background:var(--bg);padding:0 18px;font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink);outline:none}
+.intent::placeholder{color:var(--ink-3)}
+.intent:focus{box-shadow:0 0 0 2px var(--blue)}
+.mala{position:relative;width:100%;aspect-ratio:1;max-width:320px;align-self:center}
+.bead{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--line);transition:background .3s,transform .5s var(--spring)}
+.bead.lit{background:var(--ink)}
+.bead.cur{background:var(--blue);transform:scale(2.1)}
+.bead.guru{width:14px;height:14px;margin:-7px 0 0 -7px;background:var(--blue)}
+.core{position:absolute;inset:21%;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--bg);transition:transform .35s var(--spring),background .5s,color .5s}
+.core:active{transform:scale(.93)}
+.core .n{font-family:var(--serif);font-style:italic;font-size:78px;line-height:.9;font-variant-numeric:tabular-nums}
+.core .t{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-top:8px}
+.core.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--blue);animation:rip .6s ease-out forwards}
+@keyframes rip{from{transform:scale(1);opacity:1}to{transform:scale(1.35);opacity:0}}
+.mala.complete .core{background:var(--blue);color:#fff}
+.mala.complete .core .t{color:#fff}
+.mala.complete .bead{animation:wave 1.6s ease-in-out infinite;animation-delay:calc(var(--k)*12ms)}
+@keyframes wave{50%{background:var(--blue);transform:scale(1.8)}}
+.counter{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-align:center}
+
+/* respirar / timer */
+.bcard{border-radius:32px;background:var(--card);box-shadow:var(--shadow);padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.breath{position:relative;width:min(100%,260px);aspect-ratio:1;display:grid;place-items:center}
+.breath .r0{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--ink-3)}
+.breath .ball{width:74%;aspect-ratio:1;border-radius:50%;background:var(--blue);transform:scale(.5);transition:transform 4s cubic-bezier(.45,0,.55,1)}
+.breath .lbl{position:absolute;font-family:var(--serif);font-style:italic;font-size:28px;color:#fff;transition:opacity .4s}
+.timer{position:relative;width:min(100%,250px);aspect-ratio:1;display:grid;place-items:center}
+.timer svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.timer .tt{font-family:var(--serif);font-style:italic;font-size:66px;font-variant-numeric:tabular-nums}
+#tArc{transition:stroke-dashoffset 1s linear}
+
+/* você */
+.me{display:flex;align-items:center;gap:16px}
+.me .av{width:68px;height:68px;font-size:32px}
+.me .nm{font-family:var(--serif);font-size:40px;line-height:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{padding:16px 14px;border-radius:24px;background:var(--card);display:flex;flex-direction:column;gap:6px;min-width:0}
+.stat b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:44px;line-height:.9;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;line-height:1.3;color:var(--ink-2)}
+.stat.b{background:var(--blue);color:#fff}
+.stat.b span{color:rgba(255,255,255,.8)}
+.hcard{padding:20px;border-radius:28px;background:var(--card);display:flex;flex-direction:column;gap:14px}
+.heat{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.heat .col{display:grid;grid-template-rows:repeat(7,1fr);gap:4px}
+.cell{aspect-ratio:1;border-radius:50%;background:var(--line);transform:scale(0);animation:pop .5s var(--spring) forwards;animation-delay:calc(var(--k)*6ms)}
+@keyframes pop{to{transform:scale(1)}}
+.cell.l1{background:var(--ink-3)}
+.cell.l2{background:var(--blue)}
+.cell.today{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--ink)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.saved{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sv{height:170px;padding:18px;border-radius:26px;background:var(--card);display:flex;flex-direction:column;justify-content:space-between;text-align:left;transition:transform .35s var(--spring)}
+.sv:active{transform:scale(.96)}
+.sv b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:56px;line-height:.85}
+.sv span{font-family:var(--serif);font-size:19px;line-height:1.15}
+
+/* tab bar */
+.tabs{position:absolute;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;height:66px;border-radius:999px;background:var(--card);box-shadow:0 16px 40px -18px rgba(0,0,0,.35);display:grid;grid-template-columns:repeat(4,1fr);align-items:center;padding:0 6px}
+.ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/4);border-radius:999px;background:var(--ink);transition:transform .55s var(--spring)}
+.tab{position:relative;z-index:1;height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center;transition:color .35s}
+.tab svg{width:21px;height:21px}
+.tab.on{color:var(--bg)}
+
+/* sheet + toast */
+.scrim{position:absolute;inset:0;z-index:40;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:41;max-height:80%;overflow-y:auto;padding:12px 24px calc(28px + env(safe-area-inset-bottom,0px));background:var(--bg);border-radius:30px 30px 0 0;transform:translateY(105%);transition:transform .5s var(--spring)}
+.sheet.show{transform:none}
+.sheet .in{display:flex;flex-direction:column;gap:12px}
+.grab{width:38px;height:4px;border-radius:4px;background:var(--ink-3);margin:0 auto 12px}
+.note{padding:16px;border-radius:20px;background:var(--card);display:flex;flex-direction:column;gap:6px}
+.note .k{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.note .v{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.45}
+.note p{margin:0;white-space:pre-wrap;color:var(--ink-2)}
+.setrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:var(--card)}
+.toast{position:absolute;left:50%;top:74px;z-index:60;transform:translate(-50%,-10px) scale(.96);opacity:0;pointer-events:none;padding:11px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:500;width:max-content;max-width:calc(100% - 32px);text-align:center;transition:all .45s var(--spring)}
+.toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+
+/* ===== asterisco + foco de luz azul ===== */
+.aura{position:absolute;z-index:0;pointer-events:none;width:460px;height:460px;border-radius:50%;left:50%;top:-200px;margin-left:-230px;background:radial-gradient(circle,var(--glow2) 0%,var(--glow) 30%,transparent 66%);filter:blur(10px);animation:aura 18s ease-in-out infinite alternate}
+.aura.b{width:340px;height:340px;top:auto;bottom:-120px;left:-80px;margin:0;opacity:.7;animation-duration:22s;animation-direction:alternate-reverse}
+@keyframes aura{to{transform:translate(70px,110px) scale(1.2)}}
+main{position:absolute;inset:0;z-index:1}
+.ast{font-family:var(--serif);font-style:normal;font-weight:400;color:var(--blue);display:inline-block;text-shadow:0 0 14px var(--glow2)}
+.sec-h .h2::before,.rise>.cap:first-child::before,.hi-ast::before{content:"*";font-family:var(--serif);font-style:normal;color:var(--blue);margin-right:.28em;text-shadow:0 0 12px var(--glow2);display:inline-block}
+.rise>.cap:first-child::before{font-size:1.5em;line-height:0;vertical-align:-.3em}
+.bigast{position:absolute;font-family:var(--serif);font-style:normal;line-height:.7;pointer-events:none;animation:spin 60s linear infinite;z-index:0}
+.cl.today .bigast{font-size:300px;right:-50px;top:-20px;color:rgba(255,255,255,.16);text-shadow:0 0 50px rgba(255,255,255,.4)}
+.cl.aff .bigast{font-size:240px;right:-40px;top:-10px;color:var(--blue);opacity:.9;text-shadow:0 0 40px var(--blue),0 0 90px var(--blue)}
+.cl::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(240px circle at var(--mx,50%) var(--my,-40%),var(--glow2),transparent 62%);opacity:0;transition:opacity .45s;z-index:0}
+.cl.today::after,.dc.now::after{background:radial-gradient(240px circle at var(--mx,50%) var(--my,-40%),rgba(255,255,255,.28),transparent 62%)}
+.cl:hover::after,.cl.lit::after{opacity:1}
+.flare{position:absolute;z-index:80;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,var(--glow2),transparent 70%);animation:flare .75s var(--ease) forwards}
+@keyframes flare{from{transform:scale(.2);opacity:1}to{transform:scale(16);opacity:0}}
+.screen.in{animation-name:scrIn}
+@keyframes scrIn{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:none}}
+@keyframes scrInR{from{opacity:0;transform:translateX(28px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@keyframes scrInL{from{opacity:0;transform:translateX(-28px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.tab.on::after{content:"*";position:absolute;top:-2px;right:calc(50% - 20px);font-family:var(--serif);font-size:15px;color:var(--blue);text-shadow:0 0 10px var(--blue);animation:pop .5s var(--spring)}
+.sl p{font-size:calc(18px*var(--fs))}
+.vs{font-size:calc(19px*var(--fs))}
+.sl .q{font-size:calc(32px*var(--fs))}
+
+/* check-in */
+.moods{display:flex;gap:8px;overflow-x:auto;margin:0 -24px;padding:4px 24px 6px;scrollbar-width:none}
+.moods::-webkit-scrollbar{display:none}
+.mood{flex:none;height:46px;padding:0 18px;border-radius:999px;background:var(--card);font-family:var(--serif);font-style:italic;font-size:17px;display:inline-flex;align-items:center;gap:8px;transition:background .35s,color .35s,transform .4s var(--spring),box-shadow .4s}
+.mood .ast{transition:transform .6s var(--spring)}
+.mood:active{transform:scale(.93)}
+.mood.on{background:var(--blue);color:#fff;box-shadow:0 10px 30px -8px var(--blue)}
+.mood.on .ast{color:#fff;transform:rotate(180deg) scale(1.2)}
+.mres{position:relative;overflow:hidden;border-radius:28px;padding:22px;background:var(--card);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;animation:mres .6s var(--spring) both}
+@keyframes mres{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+.mres::before{content:"";position:absolute;width:260px;height:260px;right:-100px;top:-120px;border-radius:50%;background:radial-gradient(circle,var(--glow2),transparent 65%);pointer-events:none}
+.mres p{position:relative;margin:0;font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.35}
+.mres .ref{position:relative;font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--blue)}
+.mres .tip{position:relative;margin:0;font-size:15px;color:var(--ink-2)}
+.mres .row{position:relative;display:flex;gap:8px;flex-wrap:wrap}
+.pause{position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border-radius:24px;background:var(--night);color:#fff;overflow:hidden;text-align:left;transition:transform .35s var(--spring)}
+.pause:active{transform:scale(.97)}
+.pause .orb{width:38px;height:38px;flex:none;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,#5A76FF 35%,rgba(20,55,214,0) 70%);animation:bi 8s ease-in-out infinite;filter:drop-shadow(0 0 12px #3F5EF5)}
+.pause b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:19px;display:block}
+.pause span.s{font-size:13px;opacity:.65}
+.pause::after{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-90px;border-radius:50%;background:radial-gradient(circle,rgba(63,94,245,.55),transparent 65%)}
+
+/* gratidão */
+.grat{border-radius:28px;background:var(--card);padding:8px 20px 18px;display:flex;flex-direction:column}
+.gl{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:6px 0}
+.gl .ast{font-size:26px;line-height:1;color:var(--ink-3);text-shadow:none;transition:color .4s,text-shadow .4s,transform .6s var(--spring)}
+.gl.ok .ast{color:var(--blue);text-shadow:0 0 14px var(--blue);transform:rotate(90deg)}
+.gl input{flex:1;min-width:0;height:48px;border:0;background:transparent;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink);outline:none}
+.gl input::placeholder{color:var(--ink-3)}
+.grat .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px}
+
+/* pedidos */
+.add{display:flex;gap:8px;padding:6px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.add input{flex:1;min-width:0;border:0;background:transparent;padding:0 16px;font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink);outline:none}
+.add input::placeholder{color:var(--ink-3)}
+.add .go{width:48px;height:48px;background:var(--blue);color:#fff}
+.plist{display:flex;flex-direction:column;gap:10px}
+.pi{position:relative;overflow:hidden;display:flex;gap:14px;align-items:flex-start;padding:18px;border-radius:24px;background:var(--card);animation:mres .5s var(--spring) both}
+.pi .ast{font-size:30px;line-height:.8}
+.pi .tx{flex:1;min-width:0}
+.pi .tx b{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.3;overflow-wrap:anywhere}
+.pi .tx span{font-size:12px;color:var(--ink-2)}
+.pi .chip{height:34px;padding:0 12px;font-size:12px;background:var(--bg);flex:none}
+.pi.ans{background:transparent;border:1px solid var(--line)}
+.pi.ans .ast{color:var(--ink-3);text-shadow:none}
+.pi.ans b{color:var(--ink-2)}
+.pi.bye{animation:bye .5s var(--ease) forwards}
+@keyframes bye{to{opacity:0;transform:translateX(40px) scale(.96)}}
+.empty{padding:26px;border-radius:24px;border:1px dashed var(--line);text-align:center;color:var(--ink-2);font-family:var(--serif);font-style:italic}
+
+/* você extra */
+.streak{position:relative;overflow:hidden;border-radius:28px;padding:22px;background:var(--night);color:#fff;display:flex;flex-direction:column;gap:14px}
+.streak::before{content:"";position:absolute;width:300px;height:300px;left:-80px;top:-140px;border-radius:50%;background:radial-gradient(circle,rgba(63,94,245,.6),transparent 65%)}
+.streak .n{position:relative;font-family:var(--serif);font-style:italic;font-size:64px;line-height:.9}
+.streak .n small{font-size:20px;opacity:.7;margin-left:6px}
+.streak .row{position:relative;display:flex;gap:6px}
+.streak .row i{font-family:var(--serif);font-style:normal;font-size:26px;line-height:1;color:rgba(255,255,255,.2)}
+.streak .row i.on{color:#fff;text-shadow:0 0 12px #5A76FF,0 0 24px #3F5EF5}
+.mweek{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:18px;border-radius:24px;background:var(--card)}
+.mw{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;color:var(--ink-2);text-align:center;min-width:0}
+.mw i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-style:normal;font-size:20px;background:var(--line);color:var(--ink-3)}
+.mw i.v2{background:var(--blue);color:#fff;box-shadow:0 0 14px var(--glow2)}
+.mw i.v1{background:var(--glow);color:var(--blue)}
+.mw em{font-family:var(--serif);font-size:11px;line-height:1.1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.saved{grid-template-columns:1fr 1fr}
+.sv{height:150px}
+
+/* pausa (sos) */
+.sos{position:absolute;inset:0;z-index:45;background:var(--night);color:#fff;display:none;flex-direction:column;overflow:hidden}
+.sos.open{display:flex;animation:sosIn .7s var(--ease) both}
+@keyframes sosIn{from{opacity:0;clip-path:circle(0% at 50% 60%)}to{opacity:1;clip-path:circle(150% at 50% 60%)}}
+.sos .bar{display:flex;align-items:center;gap:12px;padding:16px 18px;position:relative;z-index:2}
+.sos .bar .cap{flex:1;color:rgba(255,255,255,.7)}
+.sos .ib{background:rgba(255,255,255,.12);color:#fff}
+.sos .stage{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 28px 30px;text-align:center}
+.light{position:relative;width:260px;height:260px;display:grid;place-items:center}
+.light .core2{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,#fff 0 6%,#9BB0FF 16%,#3F5EF5 34%,rgba(20,55,214,.35) 52%,rgba(20,55,214,0) 70%);transform:scale(.45);transition:transform 4s cubic-bezier(.45,0,.55,1);filter:blur(1px)}
+.light .ast{position:absolute;color:#fff;font-size:54px;text-shadow:0 0 20px #fff,0 0 40px #5A76FF;animation:spin 24s linear infinite}
+.sos .say{font-family:var(--serif);font-style:italic;font-size:34px;line-height:1.15;min-height:1.2em;transition:opacity .5s}
+.sos .sub{font-size:14px;opacity:.65;margin:0;max-width:30ch}
+.sos .ring60{width:100%;max-width:260px;height:3px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}
+.sos .ring60 i{display:block;height:100%;background:#fff;transform-origin:left;transform:scaleX(0);transition:transform 1s linear}
+.sos .ground{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;text-align:left}
+.sos .gstep{display:flex;gap:14px;align-items:baseline;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.07);opacity:.35;transition:opacity .5s,background .5s,transform .5s var(--spring)}
+.sos .gstep.on{opacity:1;background:rgba(63,94,245,.35);transform:scale(1.02)}
+.sos .gstep.did{opacity:.75}
+.sos .gstep b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:28px;line-height:1}
+.sos .btn.white{color:#060818}
+.sos .cvv{position:relative;z-index:2;margin:0;padding:14px 24px calc(18px + env(safe-area-inset-bottom,0px));font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.6);text-align:center}
+.sos .cvv b{color:#fff}
+.sos .glowbg{position:absolute;width:520px;height:520px;left:50%;top:40%;margin:-260px 0 0 -260px;border-radius:50%;background:radial-gradient(circle,rgba(63,94,245,.35),transparent 62%);animation:aura 14s ease-in-out infinite alternate;pointer-events:none}
+
+/* burst */
+.spark{position:absolute;left:var(--ox,50%);top:var(--oy,40%);font-family:var(--serif);color:#fff;font-size:var(--sz);line-height:1;pointer-events:none;text-shadow:0 0 12px #fff;animation:spark 1.4s var(--ease) forwards}
+@keyframes spark{from{transform:translate(-50%,-50%) scale(.2) rotate(0);opacity:1}to{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1) rotate(var(--r));opacity:0}}
+.seg-row{display:flex;gap:6px}
 
 @media (prefers-reduced-motion:reduce){
-  *,
-  *::before,
-  *::after{
-    animation:none !important;
-    transition:none !important;
-  }
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .cl{transform:none!important}
 }
 </style>
 </head>
-
 <body>
+<div class="app" id="app">
+  <div class="aura" aria-hidden="true"></div><div class="aura b" aria-hidden="true"></div>
+  <header class="hdr">
+    <button class="back" id="backBtn" aria-label="Voltar" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="logo">momento<b>.</b></div>
+    <div class="sp"></div>
+    <button class="av" data-tab-go="voce" aria-label="Você">R</button>
+  </header>
 
-<div id="app">
-
-  <!-- =====================================================
-       SETUP
-  ====================================================== -->
-
-  <section class="setup" id="setup">
-    <div class="setup-inner">
-
-      <div class="kicker">um momento com Deus</div>
-
-      <div class="setup-title">
-        japamala<span class="setup-star">*</span>
-      </div>
-
-      <div class="setup-copy">
-        Um espaço silencioso para repetir uma intenção,
-        respirar e permanecer presente.
-      </div>
-
-      <div class="setup-section">
-        <label class="setup-label" for="mantraInput">
-          sua frase
-        </label>
-
-        <input
-          id="mantraInput"
-          class="mantra-input"
-          type="text"
-          maxlength="90"
-          value="Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou."
-          autocomplete="off"
-          spellcheck="false"
-        >
-      </div>
-
-      <div class="setup-section">
-        <div class="setup-label">volta</div>
-
-        <div class="targets">
-          <button class="target" data-target="27" type="button">27</button>
-          <button class="target" data-target="54" type="button">54</button>
-          <button class="target active" data-target="108" type="button">108</button>
+  <main>
+    <!-- INÍCIO -->
+    <section class="screen" id="s-home">
+      <div class="stack">
+        <div class="rise" style="--i:0">
+          <span class="cap" id="dateLine"></span>
+          <h1 class="display" id="greet" style="margin-top:12px">Bom dia, <em>Rob.</em></h1>
+        </div>
+        <div class="sec rise" style="--i:1">
+          <span class="cap">Como você chega hoje?</span>
+          <div class="moods" id="moods"></div>
+          <div id="moodRes"></div>
+          <button class="pause" data-sos><span class="orb" aria-hidden="true"></span><span><b>Preciso de uma pausa</b><span class="s">1 minuto de respiro com a luz</span></span></button>
+        </div>
+        <div class="sec rise" style="--i:2">
+          <div class="car" id="homeCar"></div>
+          <div class="dots" id="homeDots"></div>
+        </div>
+        <div class="sec rise" style="--i:2">
+          <div class="sec-h"><h2 class="h2">Sua semana no <i>Salmo 18</i></h2><span class="cap" data-weektag></span></div>
+          <div class="car sm" data-days></div>
+        </div>
+        <div class="sec rise" style="--i:3">
+          <div class="sec-h"><h2 class="h2">Três <i>gratidões</i></h2><span class="cap" id="gratTag">hoje</span></div>
+          <div class="grat" id="grat">
+            <label class="gl"><span class="ast">*</span><input id="g0" placeholder="Hoje eu agradeço por..." autocomplete="off"></label>
+            <label class="gl"><span class="ast">*</span><input id="g1" placeholder="Também por..." autocomplete="off"></label>
+            <label class="gl"><span class="ast">*</span><input id="g2" placeholder="E por..." autocomplete="off"></label>
+            <div class="foot"><span class="cap" id="gratCount">0 de 3</span><button class="btn blue" id="gratSave" style="height:44px;padding:0 20px;font-size:14px">Guardar</button></div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <button class="start" id="startButton" type="button">
-        <span class="start-text">começar</span>
-        <span class="start-mark">
-          <span class="start-arrow"></span>
-        </span>
-      </button>
-
-    </div>
-  </section>
-
-
-  <!-- =====================================================
-       PRACTICE
-  ====================================================== -->
-
-  <section class="practice" id="practice">
-
-    <canvas id="canvas"></canvas>
-
-    <div class="topbar">
-
-      <div class="top-left">
-        <div class="mala-name">japamala</div>
-        <div class="round-label" id="roundLabel">volta 01</div>
-      </div>
-
-      <div class="top-right">
-        <div class="timer" id="timer">00:00</div>
-        <div class="target-label" id="targetLabel">108 contas</div>
-      </div>
-
-    </div>
-
-    <div class="counter">
-
-      <div
-        class="counter-number"
-        id="counterNumber"
-      >000</div>
-
-      <div
-        class="counter-total"
-        id="counterTotal"
-      >de 108</div>
-
-      <div
-        class="mantra"
-        id="mantra"
-      >
-        Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.
-      </div>
-
-    </div>
-
-    <div class="tap-word" id="tapWord">
-      eu sou
-    </div>
-
-    <div class="progress">
-      <div
-        class="progress-fill"
-        id="progressFill"
-      ></div>
-    </div>
-
-    <div class="bottom">
-
-      <button
-        class="control"
-        id="undoButton"
-        type="button"
-      >
-        desfazer
-      </button>
-
-      <button
-        class="control center"
-        id="pauseButton"
-        type="button"
-      >
-        pausar
-      </button>
-
-      <button
-        class="control"
-        id="menuButton"
-        type="button"
-      >
-        frase
-      </button>
-
-    </div>
-
-    <div class="paused" id="paused">
-
-      <div class="paused-inner">
-
-        <div class="paused-label">
-          pausado
+    <!-- SALMO 18 -->
+    <section class="screen" id="s-salmo" hidden>
+      <div class="stack">
+        <div class="rise" style="--i:0">
+          <span class="cap">O salmo da semana · 50 versículos</span>
+          <p class="hi" style="margin-top:14px">o cântico de Davi no dia do livramento</p>
+          <h1 class="display" data-split style="margin-top:6px">Salmo <em>18</em></h1>
         </div>
-
-        <div class="paused-sub">
-          toque para continuar
+        <div class="sec rise" style="--i:1">
+          <div class="sec-h"><h2 class="h2">Sete dias</h2><span class="cap" data-weektag></span></div>
+          <div class="car sm" data-days></div>
         </div>
-
-      </div>
-
-    </div>
-
-    <div class="edit-mantra" id="editMantra">
-
-      <div class="edit-head">
-
-        <div class="edit-title">
-          sua frase
-        </div>
-
-        <button
-          class="close"
-          id="closeEdit"
-          type="button"
-          aria-label="Fechar"
-        ></button>
-
-      </div>
-
-      <input
-        id="editInput"
-        class="mantra-input"
-        type="text"
-        maxlength="90"
-        autocomplete="off"
-        spellcheck="false"
-      >
-
-      <button
-        class="save-mantra"
-        id="saveMantra"
-        type="button"
-      >
-        salvar frase
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       COMPLETE
-  ====================================================== -->
-
-  <section class="complete" id="complete">
-
-    <div class="complete-star">*</div>
-
-    <div class="complete-title">
-      uma volta<br>concluída
-    </div>
-
-    <div class="complete-copy">
-      Você chegou ao fim desta volta.
-      Antes de continuar, respire e perceba
-      como você está agora.
-    </div>
-
-    <div class="complete-stats">
-
-      <div class="stat">
-        <div class="stat-number" id="completeCount">
-          108
-        </div>
-        <div class="stat-label">
-          contas
+        <div class="sec rise" style="--i:2">
+          <div class="sec-h"><h2 class="h2">Leitura completa</h2><span class="cap">toque para salvar</span></div>
+          <article class="reader" id="psalmBody"></article>
         </div>
       </div>
+    </section>
 
-      <div class="stat">
-        <div class="stat-number" id="completeTime">
-          00:00
+    <!-- PRÁTICAS -->
+    <section class="screen" id="s-praticas" hidden>
+      <div class="stack">
+        <div class="rise" style="--i:0">
+          <span class="cap">Bem-estar</span>
+          <p class="hi" style="margin-top:14px">voltar ao corpo, à respiração e à presença</p>
+          <h1 class="display" data-split style="margin-top:6px">Práticas</h1>
         </div>
-        <div class="stat-label">
-          tempo
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number" id="completeRounds">
-          01
-        </div>
-        <div class="stat-label">
-          voltas
+        <div class="sec rise" style="--i:1">
+          <div class="car" id="pracCar"></div>
+          <div class="dots" id="pracDots"></div>
         </div>
       </div>
+    </section>
 
+    <!-- VOCÊ -->
+    <section class="screen" id="s-voce" hidden>
+      <div class="stack">
+        <div class="me rise" style="--i:0">
+          <div class="av">R</div>
+          <div style="flex:1;min-width:0"><div class="nm">Rob</div><div class="cap" style="margin-top:6px">Membro desde: 2023</div></div>
+          <button class="ib" id="gear" aria-label="Configurações"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>
+        </div>
+        <div class="sec rise" style="--i:1">
+          <div class="streak"><span class="cap" style="position:relative;color:rgba(255,255,255,.7)">Sequência</span><div class="n" id="strN">6<small>dias seguidos</small></div><div class="row" id="strRow"></div></div>
+          <div class="sec-h" style="margin-top:14px"><h2 class="h2">Como você <i>chegou</i></h2><span class="cap">7 dias</span></div>
+          <div class="mweek" id="mweek"></div>
+        </div>
+        <div class="sec rise" style="--i:2">
+          <h2 class="h2">Sua jornada <i>espiritual</i></h2>
+          <div class="stats">
+            <div class="stat b"><b id="stDev">14</b><span>Devocionais completos</span></div>
+            <div class="stat"><b id="stOr">28</b><span>Dias de oração</span></div>
+            <div class="stat"><b id="stPr">5</b><span>Práticas realizadas</span></div>
+          </div>
+          <div class="hcard">
+            <span class="cap">Últimas 12 semanas</span>
+            <div class="heat" id="heat" aria-label="Dias de oração e devocional nas últimas 12 semanas"></div>
+            <div class="legend"><span><i style="background:var(--line)"></i>Sem registro</span><span><i style="background:var(--ink-3)"></i>Oração</span><span><i style="background:var(--blue)"></i>Devocional</span></div>
+          </div>
+        </div>
+        <div class="sec rise" style="--i:2">
+          <h2 class="h2">Salvos</h2>
+          <div class="saved">
+            <button class="sv" id="openVerses"><b id="cVerses">0</b><span>Escrituras salvas</span></button>
+            <button class="sv" id="openRefl"><b id="cRefl">0</b><span>Reflexões salvas</span></button>
+            <button class="sv" id="openGrat"><b id="cGrat">0</b><span>Gratidões</span></button>
+            <button class="sv" data-go="pedidos"><b id="cPed">0</b><span>Pedidos de oração</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVOCIONAIS -->
+    <section class="screen" id="s-devocionais" hidden>
+      <div class="stack">
+        <div class="rise" style="--i:0">
+          <span class="cap">Biblioteca</span>
+          <p class="hi" style="margin-top:14px">leituras para cada estação</p>
+          <h1 class="display" data-split style="margin-top:6px">Devocionais</h1>
+        </div>
+        <div class="sec rise" style="--i:1">
+          <div class="car" id="devCar">
+            <button class="cl today" data-tab-go="salmo"><span class="blob a"></span><span class="blob b"></span>
+              <div class="top"><span class="cap">Continue lendo</span><span class="cap" data-conts></span></div>
+              <div class="par"><div class="ct">Salmo 18</div><div class="pseg" data-seg style="margin-top:18px"></div></div>
+              <div class="bot"><span style="opacity:.85">7 estudos</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
+            <button class="cl" data-plan="Prosperidade com propósito">
+              <div class="top"><span class="cap">7 dias</span></div>
+              <div class="par"><div class="ct">Prosperidade com <i>propósito</i></div><div class="cs">Crescer sem perder a alma.</div></div>
+              <div class="bot"><span class="cap">Em breve</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
+            <button class="cl aff" data-plan="Um coração em paz">
+              <div class="top"><span class="cap">14 dias</span></div>
+              <div class="par"><div class="ct">Um coração em <i>paz</i></div><div class="cs" style="color:inherit;opacity:.7">Aquietar a ansiedade, um dia de cada vez.</div></div>
+              <div class="bot"><span class="cap">Em breve</span><span class="go" style="background:var(--on-dark);color:var(--dark)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
+            <button class="cl" data-plan="Quando Deus parece silencioso">
+              <div class="top"><span class="cap">7 dias</span></div>
+              <div class="par"><div class="ct">Quando Deus parece <i>silencioso</i></div><div class="cs">Fé que permanece no intervalo.</div></div>
+              <div class="bot"><span class="cap">Em breve</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></button>
+          </div>
+          <div class="dots" id="devDots"></div>
+        </div>
+        <div class="sec rise" style="--i:2">
+          <h2 class="h2">Temas</h2>
+          <div class="chips" id="themes"><button class="chip on">Fé</button><button class="chip">Propósito</button><button class="chip">Oração</button><button class="chip">Prosperidade</button><button class="chip">Coragem</button><button class="chip">Paz</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PEDIDOS -->
+    <section class="screen" id="s-pedidos" hidden>
+      <div class="stack" style="gap:30px">
+        <div class="rise" style="--i:0"><p class="hi">o que você está entregando</p><h1 class="display" data-split style="margin-top:6px">Pedidos</h1></div>
+        <form class="add rise" style="--i:1" id="addPed"><input id="pedIn" placeholder="Escreva um pedido de oração" autocomplete="off" aria-label="Novo pedido"><button class="go" aria-label="Adicionar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></form>
+        <div class="sec rise" style="--i:2"><div class="sec-h"><h2 class="h2">Em oração</h2><span class="cap" id="pedTag"></span></div><div class="plist" id="pedOpen"></div></div>
+        <div class="sec rise" style="--i:3"><div class="sec-h"><h2 class="h2">Respondidos</h2><span class="cap" id="ansTag"></span></div><div class="plist" id="pedAns"></div></div>
+      </div>
+    </section>
+
+    <!-- JAPAMALA -->
+    <section class="screen" id="s-japamala" hidden>
+      <div class="stack" style="gap:28px">
+        <div class="rise" style="--i:0"><p class="hi">uma intenção, 108 vezes</p><h1 class="display" data-split style="margin-top:6px">Japamala</h1></div>
+        <div class="jcard rise" style="--i:1">
+          <input id="intent" class="intent" type="text" placeholder="Sua intenção: eu te amarei, ó Senhor" autocomplete="off" aria-label="Sua intenção">
+          <div class="mala" id="mala"><button class="core" id="core" aria-label="Contar uma conta"><div><div class="n" id="jn">0</div><div class="t" id="jt">Toque para contar</div></div></button></div>
+          <div class="counter" id="rounds"></div>
+        </div>
+        <div class="chips rise" style="--i:2;justify-content:center"><button class="chip" id="japaReset">Reiniciar</button><button class="chip" id="japaSound">Som: ligado</button></div>
+      </div>
+    </section>
+
+    <!-- RESPIRAR -->
+    <section class="screen" id="s-respirar" hidden>
+      <div class="stack" style="gap:28px">
+        <div class="rise" style="--i:0"><p class="hi">inspire 4, segure 4, solte 6</p><h1 class="display" data-split style="margin-top:6px">Respirar</h1></div>
+        <div class="bcard rise" style="--i:1">
+          <div class="breath"><span class="r0"></span><div class="ball" id="ball"></div><span class="lbl" id="blbl">Pronto?</span></div>
+          <div class="counter" id="cycles">0 ciclos</div>
+          <button class="btn blue" id="breathBtn">Começar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORAÇÃO -->
+    <section class="screen" id="s-oracao" hidden>
+      <div class="stack" style="gap:28px">
+        <div class="rise" style="--i:0"><p class="hi">um minuto de</p><h1 class="display" data-split style="margin-top:6px">Entrega</h1></div>
+        <div class="car rise" style="--i:1" id="prayCar">
+          <div class="cl"><span class="cap">01 · Agradeça</span><div class="par"><div class="ct">Diga uma coisa <i>simples</i> pela qual você é grato agora.</div></div><span class="cap">deslize</span></div>
+          <div class="cl"><span class="cap">02 · Entregue</span><div class="par"><div class="ct">Nomeie o que pesa. <i>Só nomear.</i></div></div><span class="cap">deslize</span></div>
+          <div class="cl"><span class="cap">03 · Peça</span><div class="par"><div class="ct">Direção para o <i>próximo passo</i>, não para o caminho inteiro.</div></div><span class="cap">deslize</span></div>
+          <div class="cl today"><span class="blob a"></span><span class="cap">Salmo 18:1</span><div class="par"><div class="ct">Eu te amarei, ó Senhor, fortaleza minha.</div></div><button class="btn white full" id="prayDone">Amém</button></div>
+        </div>
+        <div class="dots" id="prayDots"></div>
+      </div>
+    </section>
+
+    <!-- FICAR AQUI -->
+    <section class="screen" id="s-ficar" hidden>
+      <div class="stack" style="gap:28px">
+        <div class="rise" style="--i:0"><p class="hi">sem texto, sem voz, só</p><h1 class="display" data-split style="margin-top:6px">Ficar aqui</h1></div>
+        <div class="bcard rise" style="--i:1">
+          <div class="chips" id="durs"><button class="chip" data-m="3">3 min</button><button class="chip on" data-m="5">5 min</button><button class="chip" data-m="10">10 min</button></div>
+          <div class="timer"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="none" stroke="currentColor" stroke-opacity=".1" stroke-width="1.5"/><circle id="tArc" cx="50" cy="50" r="47" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="295.3" stroke-dashoffset="0"/></svg><div class="tt" id="tt">5:00</div></div>
+          <button class="btn blue" id="tBtn">Começar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Navegação principal">
+    <span class="ind" id="ind" aria-hidden="true"></span>
+    <button class="tab on" data-tab-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 11l8-6.5 8 6.5V20h-5v-5.5h-6V20H4z"/></svg>Início</button>
+    <button class="tab" data-tab-go="salmo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 6.5C10 5 7 4.5 4 5v13.5c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5zM12 6.5V20"/></svg>Salmo 18</button>
+    <button class="tab" data-tab-go="praticas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Práticas</button>
+    <button class="tab" data-tab-go="voce"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="3.5"/><path d="M5 20c1.2-3.5 4-5 7-5s5.8 1.5 7 5" stroke-linecap="round"/></svg>Você</button>
+  </nav>
+
+  <!-- DEVOCIONAL EM STORIES -->
+  <div class="story" id="story" role="dialog" aria-modal="true" aria-label="Devocional do dia">
+    <div class="st-top">
+      <div class="bars" id="bars"></div>
+      <div class="st-row">
+        <button class="ib" id="stClose" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <span class="cap" id="stLabel"></span>
+        <button class="ib" id="ambBtn" aria-label="Som ambiente" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h3l5 4V6L7 10z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
+      </div>
     </div>
-
-    <div class="complete-actions">
-
-      <button
-        class="complete-action"
-        id="continueButton"
-        type="button"
-      >
-        <span>continuar</span>
-        <span class="arrow"></span>
-      </button>
-
-      <button
-        class="complete-action"
-        id="finishButton"
-        type="button"
-      >
-        <span>encerrar</span>
-        <span class="arrow"></span>
-      </button>
-
+    <div class="track" id="track"></div>
+    <div class="st-nav" id="stNav">
+      <button class="ib" id="stPrev" aria-label="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="btn" id="stNext">Continuar</button>
     </div>
+    <div class="done-ov" id="doneOv">
+      <svg class="ck" viewBox="0 0 84 84" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="42" r="40"/><path d="M26 43l11 11 22-24"/></svg>
+      <span class="cap" style="color:rgba(255,255,255,.8)" id="doneCap"></span>
+      <p class="t" id="doneT">Amém.</p>
+      <div class="pseg" data-seg></div>
+      <div class="row"><button class="btn line" id="doneHome">Início</button><button class="btn white" id="doneNext">Ir para o Dia 4</button></div>
+    </div>
+  </div>
 
-  </section>
+  <!-- PAUSA -->
+  <div class="sos" id="sos" role="dialog" aria-modal="true" aria-label="Pausa de um minuto">
+    <div class="glowbg" aria-hidden="true"></div>
+    <div class="bar"><span class="cap" id="sosCap">Pausa de 1 minuto</span><button class="ib" id="sosClose" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="stage" id="sosStage"></div>
+    <p class="cvv">Se a dor estiver grande demais, você não precisa atravessar isso sozinho. O <b>CVV</b> atende 24 horas, de graça, pelo <b>188</b> ou em cvv.org.br.</p>
+  </div>
 
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="in" id="sheetBody"></div></div>
+  <div class="toast" id="toast" role="status"></div>
 </div>
 
-
 <script>
-/* =========================================================
-   MOMENTO / JAPAMALA
-========================================================= */
-
 (function(){
-
-  "use strict";
-
-  const STORAGE_KEY = "momento_japamala_v1";
-
-  const DEFAULT_MANTRA =
-    "Eu estou no caminho da prosperidade. Eu sou a prosperidade. Eu sou.";
-
-  const state = {
-    target:108,
-    count:0,
-    rounds:0,
-    total:0,
-    mantra:DEFAULT_MANTRA,
-    sessionStartedAt:null,
-    sessionElapsed:0
-  };
-
-  let audioContext = null;
-  let wakeLock = null;
-
-  let canvas;
-  let ctx;
-
-  let width = 0;
-  let height = 0;
-  let dpr = 1;
-
-  let points = [];
-  let guru = null;
-
-  let animationFrame = null;
-  let animationUntil = 0;
-
-  let pointerDownX = 0;
-  let pointerDownY = 0;
-  let pointerDownTime = 0;
-
-  let timerInterval = null;
-
-  let selectedTarget = 108;
-
-  const $ = id => document.getElementById(id);
-
-  const setup = $("setup");
-  const practice = $("practice");
-  const complete = $("complete");
-
-  const mantraInput = $("mantraInput");
-
-  const counterNumber = $("counterNumber");
-  const counterTotal = $("counterTotal");
-
-  const mantraElement = $("mantra");
-
-  const progressFill = $("progressFill");
-
-  const timerElement = $("timer");
-
-  const roundLabel = $("roundLabel");
-  const targetLabel = $("targetLabel");
-
-  const canvasElement = $("canvas");
-
-  const pausedElement = $("paused");
-
-  const tapWord = $("tapWord");
-
-  const editMantra = $("editMantra");
-  const editInput = $("editInput");
-
-  /* =======================================================
-     STORAGE
-  ======================================================= */
-
-  function loadState(){
-
-    try{
-
-      const saved =
-        JSON.parse(
-          localStorage.getItem(STORAGE_KEY) || "null"
-        );
-
-      if(saved){
-
-        state.target =
-          Number(saved.target) || 108;
-
-        state.count =
-          Number(saved.count) || 0;
-
-        state.rounds =
-          Number(saved.rounds) || 0;
-
-        state.total =
-          Number(saved.total) || 0;
-
-        state.mantra =
-          saved.mantra ||
-          DEFAULT_MANTRA;
-
-        state.sessionStartedAt =
-          saved.sessionStartedAt || null;
-
-        state.sessionElapsed =
-          Number(saved.sessionElapsed) || 0;
-
-      }
-
-    }catch(error){
-
-      console.warn("Não foi possível carregar a japamala.", error);
-
-    }
-
-  }
-
-  function saveState(){
-
-    try{
-
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-      );
-
-    }catch(error){
-
-      console.warn("Não foi possível salvar a japamala.", error);
-
-    }
-
-  }
-
-
-  /* =======================================================
-     CANVAS
-  ======================================================= */
-
-  function setupCanvas(){
-
-    canvas = canvasElement;
-    ctx = canvas.getContext("2d", {
-      alpha:true,
-      desynchronized:true
-    });
-
-    resizeCanvas();
-
-    window.addEventListener(
-      "resize",
-      resizeCanvas,
-      {passive:true}
-    );
-
-    if(window.visualViewport){
-
-      window.visualViewport.addEventListener(
-        "resize",
-        resizeCanvas,
-        {passive:true}
-      );
-
-    }
-
-  }
-
-  function resizeCanvas(){
-
-    if(!canvas || !ctx) return;
-
-    const rect =
-      canvas.getBoundingClientRect();
-
-    width = rect.width;
-    height = rect.height;
-
-    dpr = Math.min(
-      window.devicePixelRatio || 1,
-      2
-    );
-
-    canvas.width =
-      Math.round(width * dpr);
-
-    canvas.height =
-      Math.round(height * dpr);
-
-    ctx.setTransform(
-      dpr,
-      0,
-      0,
-      dpr,
-      0,
-      0
-    );
-
-    createMalaGeometry();
-    drawMala();
-
-  }
-
-
-  /*
-    A mala não é desenhada como uma circunferência.
-
-    Ela é uma curva vertical assimétrica.
-    Isso cria a sensação de uma mala pendurada,
-    com a parte inferior mais pesada.
-  */
-
-  function createMalaGeometry(){
-
-    points = [];
-
-    const cx = width * .5;
-
-    /*
-      A mala ocupa aproximadamente 66% da altura.
-      Em telas muito pequenas, reduzimos um pouco.
-    */
-
-    const available =
-      Math.min(
-        height * .68,
-        width * 1.08
-      );
-
-    const top =
-      height * .20;
-
-    const bottom =
-      top + available;
-
-    const centerY =
-      (top + bottom) / 2;
-
-    const radiusX =
-      Math.min(width * .29, 148);
-
-    const radiusY =
-      available * .48;
-
-    for(let i = 0; i < 108; i++){
-
-      /*
-        theta começa em cima e percorre a mala
-        no sentido horário.
-
-        Não usamos uma elipse perfeita.
-      */
-
-      const t =
-        i / 107;
-
-      const theta =
-        Math.PI * (1.06 + t * 1.88);
-
-      const organic =
-        1
-        + Math.sin(i * 1.731) * .018
-        + Math.sin(i * .371) * .012;
-
-      const verticalWeight =
-        1
-        + Math.sin(theta) * .035;
-
-      let x =
-        cx
-        + Math.cos(theta)
-        * radiusX
-        * organic;
-
-      let y =
-        centerY
-        + Math.sin(theta)
-        * radiusY
-        * verticalWeight;
-
-      /*
-        Pequena inclinação na parte superior.
-        Faz a mala parecer menos "desenhada com compasso".
-      */
-
-      x +=
-        Math.sin(t * Math.PI * 2.4)
-        * width
-        * .018;
-
-      y +=
-        Math.sin(i * .47)
-        * 1.8;
-
-      points.push({
-        x,
-        y,
-        index:i
-      });
-
-    }
-
-    /*
-      Guru bead.
-      Ela fica separada da última conta,
-      no ponto inferior da composição.
-    */
-
-    guru = {
-      x:cx,
-      y:bottom + 25
-    };
-
-  }
-
-
-  function roundedPath(pointsArray){
-
-    if(!pointsArray.length) return;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      pointsArray[0].x,
-      pointsArray[0].y
-    );
-
-    for(let i = 1; i < pointsArray.length; i++){
-
-      const previous =
-        pointsArray[i - 1];
-
-      const current =
-        pointsArray[i];
-
-      const midX =
-        (previous.x + current.x) / 2;
-
-      const midY =
-        (previous.y + current.y) / 2;
-
-      ctx.quadraticCurveTo(
-        previous.x,
-        previous.y,
-        midX,
-        midY
-      );
-
-    }
-
-    const last =
-      pointsArray[pointsArray.length - 1];
-
-    ctx.lineTo(last.x, last.y);
-  }
-
-
-  function drawCord(){
-
-    if(points.length < 2) return;
-
-    /*
-      O cordão fica discretíssimo.
-    */
-
-    ctx.save();
-
-    ctx.strokeStyle =
-      "rgba(75,68,58,.32)";
-
-    ctx.lineWidth = 1.1;
-
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-
-    roundedPath(points);
-
-    ctx.stroke();
-
-    /*
-      Pequena linha entre última conta e guru.
-    */
-
-    const last =
-      points[points.length - 1];
-
-    ctx.beginPath();
-
-    ctx.moveTo(last.x, last.y);
-
-    ctx.quadraticCurveTo(
-      guru.x + 4,
-      guru.y - 13,
-      guru.x,
-      guru.y
-    );
-
-    ctx.stroke();
-
-    ctx.restore();
-
-  }
-
-
-  function beadSize(index){
-
-    const base =
-      Math.max(
-        7.5,
-        Math.min(width * .024, 11)
-      );
-
-    /*
-      Pequena irregularidade individual.
-    */
-
-    const organic =
-      Math.sin(index * 2.13) * .7
-      +
-      Math.sin(index * .71) * .45;
-
-    return base + organic;
-
-  }
-
-
-  function drawBead(point, index){
-
-    let radius =
-      beadSize(index);
-
-    const completed =
-      index < state.count;
-
-    const current =
-      index === state.count;
-
-    const future =
-      index > state.count;
-
-    if(current){
-
-      radius *= 1.45;
-
-    }
-
-    /*
-      Current bead pulsa muito suavemente.
-    */
-
-    if(
-      current &&
-      performance.now() < animationUntil
-    ){
-
-      const elapsed =
-        animationUntil - performance.now();
-
-      const pulse =
-        Math.sin(
-          (1 - elapsed / 800)
-          * Math.PI
-        );
-
-      radius *=
-        1 + pulse * .13;
-
-    }
-
-    ctx.save();
-
-    /*
-      Sombra simples.
-      Nada de shadowBlur, porque isso pesa no GPU.
-    */
-
-    if(current){
-
-      ctx.beginPath();
-
-      ctx.arc(
-        point.x + 1.5,
-        point.y + 2,
-        radius + 1,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.fillStyle =
-        "rgba(80,55,45,.13)";
-
-      ctx.fill();
-
-    }
-
-    /*
-      Cor da conta.
-    */
-
-    let fill;
-
-    if(current){
-
-      fill = "#d9362d";
-
-    }else if(completed){
-
-      fill = "#64745e";
-
-    }else if(future){
-
-      fill = "#d8d0c3";
-
-    }
-
-    ctx.beginPath();
-
-    ctx.arc(
-      point.x,
-      point.y,
-      radius,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle = fill;
-    ctx.fill();
-
-    /*
-      Pequeno brilho.
-    */
-
-    const highlight =
-      Math.max(1.2, radius * .18);
-
-    ctx.beginPath();
-
-    ctx.arc(
-      point.x - radius * .28,
-      point.y - radius * .3,
-      highlight,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle =
-      current
-        ? "rgba(255,255,255,.40)"
-        : "rgba(255,255,255,.26)";
-
-    ctx.fill();
-
-    ctx.restore();
-
-  }
-
-
-  function drawGuru(){
-
-    if(!guru) return;
-
-    ctx.save();
-
-    /*
-      Cordão abaixo da guru.
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      guru.x,
-      guru.y + 8
-    );
-
-    ctx.lineTo(
-      guru.x,
-      guru.y + 34
-    );
-
-    ctx.strokeStyle =
-      "rgba(75,68,58,.38)";
-
-    ctx.lineWidth = 1;
-
-    ctx.stroke();
-
-    /*
-      Guru bead.
-    */
-
-    ctx.beginPath();
-
-    ctx.arc(
-      guru.x,
-      guru.y,
-      12,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle =
-      "#64745e";
-
-    ctx.fill();
-
-    /*
-      Nó abaixo da guru.
-    */
-
-    ctx.beginPath();
-
-    ctx.arc(
-      guru.x,
-      guru.y + 36,
-      2.2,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle =
-      "#64745e";
-
-    ctx.fill();
-
-    /*
-      Tassel.
-      Quatro fios finos.
-    */
-
-    ctx.strokeStyle =
-      "rgba(75,68,58,.48)";
-
-    ctx.lineWidth = 1;
-
-    const tasselY =
-      guru.y + 41;
-
-    for(let i = -2; i <= 2; i++){
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        guru.x + i * 2,
-        guru.y + 36
-      );
-
-      ctx.quadraticCurveTo(
-        guru.x + i * 3,
-        guru.y + 46,
-        guru.x + i * 2.6,
-        tasselY + Math.abs(i) * 3
-      );
-
-      ctx.stroke();
-
-    }
-
-    ctx.restore();
-
-  }
-
-
-  function drawMala(){
-
-    if(!ctx) return;
-
-    ctx.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-
-    drawCord();
-
-    for(let i = 0; i < points.length; i++){
-
-      drawBead(
-        points[i],
-        i
-      );
-
-    }
-
-    drawGuru();
-
-    if(
-      animationUntil > performance.now()
-    ){
-
-      if(!animationFrame){
-
-        animationFrame =
-          requestAnimationFrame(
-            animationLoop
-          );
-
-      }
-
-    }
-
-  }
-
-
-  function animationLoop(){
-
-    animationFrame = null;
-
-    drawMala();
-
-  }
-
-
-  /* =======================================================
-     SESSION
-  ======================================================= */
-
-  function formatTime(seconds){
-
-    seconds =
-      Math.max(
-        0,
-        Math.floor(seconds)
-      );
-
-    const minutes =
-      Math.floor(seconds / 60);
-
-    const secs =
-      seconds % 60;
-
-    return (
-      String(minutes).padStart(2,"0")
-      +
-      ":"
-      +
-      String(secs).padStart(2,"0")
-    );
-
-  }
-
-
-  function getElapsed(){
-
-    if(!state.sessionStartedAt){
-
-      return state.sessionElapsed;
-
-    }
-
-    return (
-      state.sessionElapsed
-      +
-      (
-        Date.now()
-        -
-        state.sessionStartedAt
-      ) / 1000
-    );
-
-  }
-
-
-  function updateTimer(){
-
-    timerElement.textContent =
-      formatTime(getElapsed());
-
-  }
-
-
-  function startTimer(){
-
-    clearInterval(timerInterval);
-
-    if(!state.sessionStartedAt){
-
-      state.sessionStartedAt =
-        Date.now();
-
-    }
-
-    timerInterval =
-      setInterval(
-        updateTimer,
-        1000
-      );
-
-    updateTimer();
-
-  }
-
-
-  function stopTimer(){
-
-    if(state.sessionStartedAt){
-
-      state.sessionElapsed =
-        getElapsed();
-
-    }
-
-    state.sessionStartedAt = null;
-
-    clearInterval(timerInterval);
-
-    timerInterval = null;
-
-    updateTimer();
-
-  }
-
-
-  /* =======================================================
-     WAKE LOCK
-  ======================================================= */
-
-  async function requestWakeLock(){
-
-    if(!("wakeLock" in navigator)) return;
-
-    try{
-
-      wakeLock =
-        await navigator.wakeLock.request(
-          "screen"
-        );
-
-    }catch(error){
-
-      wakeLock = null;
-
-    }
-
-  }
-
-
-  async function releaseWakeLock(){
-
-    if(!wakeLock) return;
-
-    try{
-
-      await wakeLock.release();
-
-    }catch(error){}
-
-    wakeLock = null;
-
-  }
-
-
-  document.addEventListener(
-    "visibilitychange",
-    function(){
-
-      if(
-        document.visibilityState === "visible"
-        &&
-        practice.classList.contains("visible")
-        &&
-        !pausedElement.classList.contains("visible")
-      ){
-
-        requestWakeLock();
-
-      }
-
-    }
-  );
-
-
-  /* =======================================================
-     AUDIO
-  ======================================================= */
-
-  /*
-    Som não é obrigatório.
-
-    No iPhone, o AudioContext precisa nascer de uma
-    interação do usuário. Por isso criamos somente no
-    primeiro toque real.
-  */
-
-  function ensureAudio(){
-
-    if(audioContext) return;
-
-    try{
-
-      const AudioCtx =
-        window.AudioContext ||
-        window.webkitAudioContext;
-
-      if(!AudioCtx) return;
-
-      audioContext =
-        new AudioCtx();
-
-    }catch(error){
-
-      audioContext = null;
-
-    }
-
-  }
-
-
-  function tinyTone(){
-
-    /*
-      De propósito, o som é MUITO discreto.
-      Ele pode simplesmente não existir em Safari.
-    */
-
-    if(!audioContext) return;
-
-    try{
-
-      if(
-        audioContext.state === "suspended"
-      ){
-
-        audioContext.resume();
-
-      }
-
-      const oscillator =
-        audioContext.createOscillator();
-
-      const gain =
-        audioContext.createGain();
-
-      oscillator.type = "sine";
-
-      oscillator.frequency.value =
-        392;
-
-      gain.gain.setValueAtTime(
-        0.0001,
-        audioContext.currentTime
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.018,
-        audioContext.currentTime + .008
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        audioContext.currentTime + .065
-      );
-
-      oscillator.connect(gain);
-      gain.connect(audioContext.destination);
-
-      oscillator.start();
-
-      oscillator.stop(
-        audioContext.currentTime + .07
-      );
-
-    }catch(error){}
-
-  }
-
-
-  /* =======================================================
-     UI
-  ======================================================= */
-
-  function updateUI(){
-
-    const current =
-      Math.min(
-        state.count,
-        state.target
-      );
-
-    counterNumber.textContent =
-      String(current).padStart(3,"0");
-
-    counterTotal.textContent =
-      "de " + state.target;
-
-    targetLabel.textContent =
-      state.target + " contas";
-
-    roundLabel.textContent =
-      "volta " +
-      String(state.rounds + 1).padStart(2,"0");
-
-    mantraElement.textContent =
-      state.mantra;
-
-    progressFill.style.width =
-      (
-        current / state.target * 100
-      ) + "%";
-
-    /*
-      Quando chega em 100, a última conta
-      ainda aparece como concluída.
-    */
-
-    drawMala();
-
-  }
-
-
-  function setTarget(value){
-
-    selectedTarget =
-      Number(value);
-
-    document
-      .querySelectorAll(".target")
-      .forEach(button => {
-
-        button.classList.toggle(
-          "active",
-          Number(button.dataset.target)
-          === selectedTarget
-        );
-
-      });
-
-  }
-
-
-  function startSession(){
-
-    state.target =
-      selectedTarget;
-
-    state.count = 0;
-
-    state.sessionElapsed = 0;
-
-    state.sessionStartedAt =
-      Date.now();
-
-    saveState();
-
-    setup.style.display = "none";
-
-    complete.classList.remove("visible");
-
-    practice.classList.add("visible");
-
-    pausedElement.classList.remove("visible");
-
-    resizeCanvas();
-
-    updateUI();
-
-    startTimer();
-
-    requestWakeLock();
-
-  }
-
-
-  function exitSession(){
-
-    stopTimer();
-
-    releaseWakeLock();
-
-    saveState();
-
-    practice.classList.remove("visible");
-
-    complete.classList.remove("visible");
-
-    pausedElement.classList.remove("visible");
-
-    editMantra.classList.remove("visible");
-
-    setup.style.display = "";
-
-  }
-
-
-  function togglePause(){
-
-    const isPaused =
-      pausedElement.classList.contains(
-        "visible"
-      );
-
-    if(isPaused){
-
-      pausedElement.classList.remove(
-        "visible"
-      );
-
-      state.sessionStartedAt =
-        Date.now();
-
-      startTimer();
-
-      requestWakeLock();
-
-      return;
-
-    }
-
-    state.sessionElapsed =
-      getElapsed();
-
-    state.sessionStartedAt = null;
-
-    clearInterval(timerInterval);
-
-    timerInterval = null;
-
-    pausedElement.classList.add(
-      "visible"
-    );
-
-    releaseWakeLock();
-
-    saveState();
-
-  }
-
-
-  function undo(){
-
-    if(
-      state.count <= 0 ||
-      pausedElement.classList.contains("visible")
-    ){
-
-      return;
-
-    }
-
-    state.count--;
-
-    state.total =
-      Math.max(
-        0,
-        state.total - 1
-      );
-
-    updateUI();
-
-    saveState();
-
-    animate();
-
-  }
-
-
-  function animate(){
-
-    animationUntil =
-      performance.now() + 800;
-
-    if(!animationFrame){
-
-      animationFrame =
-        requestAnimationFrame(
-          animationLoop
-        );
-
-    }
-
-  }
-
-
-  /* =======================================================
-     COUNT
-  ======================================================= */
-
-  function countBead(){
-
-    if(
-      pausedElement.classList.contains(
-        "visible"
-      )
-    ){
-
-      togglePause();
-
-      return;
-
-    }
-
-    /*
-      O áudio só nasce aqui, dentro de um
-      gesto real do usuário.
-    */
-
-    ensureAudio();
-
-    if(state.count >= state.target){
-
-      return;
-
-    }
-
-    state.count++;
-
-    state.total++;
-
-    animate();
-
-    updateUI();
-
-    /*
-      Microfeedback.
-
-      navigator.vibrate não é confiável no Safari,
-      então é apenas opcional.
-    */
-
-    if(
-      navigator.vibrate &&
-      typeof navigator.vibrate === "function"
-    ){
-
-      try{
-
-        navigator.vibrate(
-          state.count === state.target
-            ? [8,18,8]
-            : 5
-        );
-
-      }catch(error){}
-
-    }
-
-    tinyTone();
-
-    /*
-      Frase aparece de forma sutil.
-    */
-
-    flashMantra();
-
-    saveState();
-
-    /*
-      Última conta.
-    */
-
-    if(
-      state.count === state.target
-    ){
-
-      setTimeout(
-        completeRound,
-        240
-      );
-
-    }
-
-  }
-
-
-  function flashMantra(){
-
-    mantraElement.classList.remove(
-      "flash"
-    );
-
-    /*
-      force reflow proposital e pequeno
-      para reiniciar a animação.
-    */
-
-    void mantraElement.offsetWidth;
-
-    mantraElement.classList.add(
-      "flash"
-    );
-
-    clearTimeout(
-      mantraElement._flashTimer
-    );
-
-    mantraElement._flashTimer =
-      setTimeout(
-        function(){
-
-          mantraElement.classList.remove(
-            "flash"
-          );
-
-        },
-        170
-      );
-
-  }
-
-
-  /* =======================================================
-     COMPLETE
-  ======================================================= */
-
-  function completeRound(){
-
-    stopTimer();
-
-    releaseWakeLock();
-
-    state.rounds++;
-
-    saveState();
-
-    $("completeCount").textContent =
-      state.target;
-
-    $("completeTime").textContent =
-      formatTime(
-        state.sessionElapsed
-      );
-
-    $("completeRounds").textContent =
-      String(
-        state.rounds
-      ).padStart(2,"0");
-
-    complete.classList.add(
-      "visible"
-    );
-
-  }
-
-
-  function continueRound(){
-
-    state.count = 0;
-
-    state.sessionElapsed = 0;
-
-    state.sessionStartedAt =
-      Date.now();
-
-    complete.classList.remove(
-      "visible"
-    );
-
-    pausedElement.classList.remove(
-      "visible"
-    );
-
-    startTimer();
-
-    requestWakeLock();
-
-    updateUI();
-
-    saveState();
-
-  }
-
-
-  function finishSession(){
-
-    /*
-      A sessão termina, mas mantemos total e voltas.
-    */
-
-    stopTimer();
-
-    releaseWakeLock();
-
-    saveState();
-
-    complete.classList.remove(
-      "visible"
-    );
-
-    practice.classList.remove(
-      "visible"
-    );
-
-    setup.style.display = "";
-
-    /*
-      Ao voltar ao setup, oferecemos a mesma
-      quantidade e a mesma frase.
-    */
-
-    mantraInput.value =
-      state.mantra;
-
-  }
-
-
-  /* =======================================================
-     TOUCH / POINTER
-  ======================================================= */
-
-  function onPointerDown(event){
-
-    /*
-      Ignora botões e áreas de controle.
-    */
-
-    if(
-      event.target.closest("button") ||
-      event.target.closest("input") ||
-      event.target.closest(".edit-mantra")
-    ){
-
-      return;
-
-    }
-
-    pointerDownX =
-      event.clientX;
-
-    pointerDownY =
-      event.clientY;
-
-    pointerDownTime =
-      performance.now();
-
-    /*
-      Evita que o Safari interprete o gesto
-      como scroll/zoom.
-    */
-
-    if(
-      event.pointerType === "touch"
-    ){
-
-      event.preventDefault();
-
-    }
-
-  }
-
-
-  function onPointerUp(event){
-
-    if(
-      event.target.closest("button") ||
-      event.target.closest("input") ||
-      event.target.closest(".edit-mantra")
-    ){
-
-      return;
-
-    }
-
-    const dx =
-      event.clientX - pointerDownX;
-
-    const dy =
-      event.clientY - pointerDownY;
-
-    const distance =
-      Math.sqrt(
-        dx * dx + dy * dy
-      );
-
-    const duration =
-      performance.now()
-      -
-      pointerDownTime;
-
-    /*
-      Só conta um toque.
-      Swipe não conta.
-    */
-
-    if(
-      distance > 22 ||
-      duration > 650
-    ){
-
-      return;
-
-    }
-
-    countBead();
-
-    /*
-      Feedback visual onde tocou.
-    */
-
-    showTapFeedback(
-      event.clientX,
-      event.clientY
-    );
-
-  }
-
-
-  function showTapFeedback(x,y){
-
-    tapWord.style.left =
-      x + "px";
-
-    tapWord.style.top =
-      y + "px";
-
-    tapWord.classList.remove(
-      "show"
-    );
-
-    void tapWord.offsetWidth;
-
-    tapWord.classList.add(
-      "show"
-    );
-
-  }
-
-
-  /* =======================================================
-     MANTRA EDITOR
-  ======================================================= */
-
-  function openMantraEditor(){
-
-    editInput.value =
-      state.mantra;
-
-    editMantra.classList.add(
-      "visible"
-    );
-
-    setTimeout(
-      function(){
-
-        editInput.focus();
-
-      },
-      260
-    );
-
-  }
-
-
-  function closeMantraEditor(){
-
-    editMantra.classList.remove(
-      "visible"
-    );
-
-    document.activeElement?.blur();
-
-  }
-
-
-  function saveMantraValue(){
-
-    const value =
-      editInput.value.trim();
-
-    if(value){
-
-      state.mantra =
-        value;
-
-    }else{
-
-      state.mantra =
-        DEFAULT_MANTRA;
-
-    }
-
-    mantraInput.value =
-      state.mantra;
-
-    updateUI();
-
-    saveState();
-
-    closeMantraEditor();
-
-  }
-
-
-  /* =======================================================
-     EVENTS
-  ======================================================= */
-
-  document
-    .querySelectorAll(".target")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          setTarget(
-            this.dataset.target
-          );
-
-        }
-      );
-
-    });
-
-
-  $("startButton").addEventListener(
-    "click",
-    function(){
-
-      const value =
-        mantraInput.value.trim();
-
-      state.mantra =
-        value || DEFAULT_MANTRA;
-
-      startSession();
-
-    }
-  );
-
-
-  $("undoButton").addEventListener(
-    "click",
-    function(event){
-
-      event.stopPropagation();
-
-      undo();
-
-    }
-  );
-
-
-  $("pauseButton").addEventListener(
-    "click",
-    function(event){
-
-      event.stopPropagation();
-
-      togglePause();
-
-      this.textContent =
-        pausedElement.classList.contains("visible")
-          ? "continuar"
-          : "pausar";
-
-    }
-  );
-
-
-  $("menuButton").addEventListener(
-    "click",
-    function(event){
-
-      event.stopPropagation();
-
-      openMantraEditor();
-
-    }
-  );
-
-
-  $("closeEdit").addEventListener(
-    "click",
-    function(){
-
-      closeMantraEditor();
-
-    }
-  );
-
-
-  $("saveMantra").addEventListener(
-    "click",
-    function(){
-
-      saveMantraValue();
-
-    }
-  );
-
-
-  $("continueButton").addEventListener(
-    "click",
-    function(){
-
-      continueRound();
-
-    }
-  );
-
-
-  $("finishButton").addEventListener(
-    "click",
-    function(){
-
-      finishSession();
-
-    }
-  );
-
-
-  pausedElement.addEventListener(
-    "pointerup",
-    function(event){
-
-      /*
-        Tocar no centro da tela pausada
-        continua a sessão.
-      */
-
-      if(
-        event.target === pausedElement ||
-        event.target.closest(".paused-inner")
-      ){
-
-        togglePause();
-
-        $("pauseButton").textContent =
-          "pausar";
-
-      }
-
-    }
-  );
-
-
-  canvasElement.addEventListener(
-    "pointerdown",
-    onPointerDown,
-    {passive:false}
-  );
-
-
-  canvasElement.addEventListener(
-    "pointerup",
-    onPointerUp,
-    {passive:false}
-  );
-
-
-  /*
-    Se o usuário sair do navegador durante uma sessão,
-    salvamos o estado.
-  */
-
-  window.addEventListener(
-    "pagehide",
-    function(){
-
-      if(
-        practice.classList.contains("visible")
-      ){
-
-        state.sessionElapsed =
-          getElapsed();
-
-        state.sessionStartedAt =
-          null;
-
-        saveState();
-
-      }
-
-    }
-  );
-
-
-  /* =======================================================
-     INIT
-  ======================================================= */
-
-  loadState();
-
-  selectedTarget =
-    state.target || 108;
-
-  mantraInput.value =
-    state.mantra;
-
-  setTarget(
-    selectedTarget
-  );
-
-  setupCanvas();
-
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ARR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const PS=[
+'Eu te amarei, ó Senhor, fortaleza minha.',
+'O Senhor é o meu rochedo, e o meu lugar forte, e o meu libertador; o meu Deus, a minha fortaleza, em quem confio; o meu escudo, a força da minha salvação e o meu alto refúgio.',
+'Invocarei o nome do Senhor, que é digno de louvor, e ficarei livre dos meus inimigos.',
+'Cordéis de morte me cercaram, e torrentes de impiedade me assombraram.',
+'Cordéis do inferno me cingiram, laços de morte me surpreenderam.',
+'Na angústia invoquei o Senhor e clamei ao meu Deus; desde o seu templo ouviu a minha voz, e o meu clamor chegou diante dele, até aos seus ouvidos.',
+'Então a terra se abalou e tremeu; e os fundamentos dos montes também se moveram e se abalaram, porquanto ele se indignou.',
+'Das suas narinas subiu fumaça, e da sua boca saiu fogo que consumia; carvões se acenderam dele.',
+'Abaixou os céus e desceu, e a escuridão estava debaixo de seus pés.',
+'E montou num querubim, e voou; sim, voou sobre as asas do vento.',
+'Fez das trevas o seu lugar oculto; o pavilhão que o cercava era a escuridão das águas e as nuvens dos céus.',
+'Ao resplendor da sua presença as nuvens se espalharam, e a saraiva e as brasas de fogo.',
+'E o Senhor trovejou nos céus, o Altíssimo levantou a sua voz; e houve saraiva e brasas de fogo.',
+'Mandou as suas setas e as espalhou; multiplicou raios e os desbaratou.',
+'Então foram vistas as profundezas das águas, e foram descobertos os fundamentos do mundo, pela tua repreensão, Senhor, ao sopro das tuas narinas.',
+'Enviou desde o alto e me tomou; tirou-me das muitas águas.',
+'Livrou-me do meu inimigo forte e dos que me aborreciam, pois eram mais poderosos do que eu.',
+'Surpreenderam-me no dia da minha calamidade, mas o Senhor foi o meu amparo.',
+'Trouxe-me para um lugar espaçoso; livrou-me, porque tinha prazer em mim.',
+'Recompensou-me o Senhor conforme a minha justiça, retribuiu-me conforme a pureza das minhas mãos.',
+'Porque guardei os caminhos do Senhor e não me apartei impiamente do meu Deus.',
+'Porque todos os seus juízos estavam diante de mim, e não rejeitei os seus estatutos.',
+'Também fui sincero perante ele e me guardei da minha iniquidade.',
+'Assim o Senhor me retribuiu conforme a minha justiça, conforme a pureza de minhas mãos perante os seus olhos.',
+'Com o benigno te mostrarás benigno; e com o homem sincero te mostrarás sincero;',
+'Com o puro te mostrarás puro; e com o perverso te mostrarás indomável.',
+'Porque tu livrarás o povo aflito e abaterás os olhos altivos.',
+'Porque tu acenderás a minha candeia; o Senhor meu Deus iluminará as minhas trevas.',
+'Porque contigo entrei pelo meio de um esquadrão, com o meu Deus saltei uma muralha.',
+'O caminho de Deus é perfeito; a palavra do Senhor é provada; é um escudo para todos os que nele confiam.',
+'Porque quem é Deus senão o Senhor? E quem é rochedo senão o nosso Deus?',
+'Deus é o que me cinge de força e aperfeiçoa o meu caminho.',
+'Faz os meus pés como os das cervas e põe-me nas minhas alturas.',
+'Ensina as minhas mãos para a guerra, de sorte que os meus braços quebraram um arco de cobre.',
+'Também me deste o escudo da tua salvação; a tua mão direita me susteve, e a tua mansidão me engrandeceu.',
+'Alargaste os meus passos debaixo de mim, e os meus pés não vacilaram.',
+'Persegui os meus inimigos e os alcancei; não voltei senão depois de os ter consumido.',
+'Atravessei-os de sorte que não se puderam levantar; caíram debaixo dos meus pés.',
+'Pois me cingiste de força para a peleja; fizeste abater debaixo de mim aqueles que contra mim se levantaram.',
+'Deste-me também o pescoço dos meus inimigos, para que eu pudesse destruir os que me odeiam.',
+'Clamaram, mas não houve quem os livrasse; até ao Senhor, mas ele não lhes respondeu.',
+'Então os esmiucei como o pó diante do vento; deitei-os fora como a lama das ruas.',
+'Livraste-me das contendas do povo e me fizeste cabeça das nações; um povo que não conheci me servirá.',
+'Em ouvindo a minha voz, me obedecerão; os estranhos se submeterão a mim.',
+'Os estranhos descairão e terão medo nos seus esconderijos.',
+'O Senhor vive; e bendito seja o meu rochedo, e exaltado seja o Deus da minha salvação.',
+'É Deus que me vinga inteiramente e sujeita os povos debaixo de mim;',
+'O que me livra de meus inimigos; sim, tu me exaltas sobre os que se levantam contra mim, tu me livras do homem violento.',
+'Assim que, ó Senhor, te louvarei entre os gentios, e cantarei louvores ao teu nome,',
+'Pois engrandece a salvação do seu rei, e usa de benignidade com o seu ungido, com Davi, e com a sua semente para sempre.'];
+
+const DAYS=[
+{from:1,to:3,short:'Fortaleza minha',title:'antes de pedir, ele declara amor',key:'Eu te amarei, ó Senhor, fortaleza minha. O Senhor é o meu rochedo, e o meu lugar forte, e o meu libertador.',cite:'SALMO 18:1-2',
+ comecar:'O Salmo 18 foi escrito depois da tempestade. O título conta que Davi o cantou no dia em que o Senhor o livrou de todos os inimigos e das mãos de Saul. Mesmo assim, a primeira frase não é um relatório do que aconteceu. É uma declaração de amor.',
+ entenda:['Em apenas dois versículos, Davi usa uma sequência de nomes para Deus: fortaleza, rochedo, lugar forte, libertador, escudo, força da salvação, alto refúgio. Não é repetição. Cada nome aponta para um lugar real onde ele se escondeu enquanto fugia, as cavernas e os rochedos do deserto de Judá.','Davi aprendeu quem Deus é pelos lugares onde precisou dele. A fé dele tem endereço.'],
+ momento:'Pense nos anos que ficaram para trás. Em que momentos você atravessou algo que parecia maior do que você? Esses lugares também podem virar nomes.',
+ ex:['Deus foi o meu ___ quando...','Hoje eu preciso que ele seja...'],
+ hoje:'Comece o dia pelo amor, e não pela lista de pedidos. Os pedidos continuam importantes, mas mudam de tamanho quando você lembra com quem está falando.',
+ ora:'Senhor, eu te amo. Tu foste rocha quando tudo em mim tremia. Hoje eu não começo pedindo, começo lembrando. Sê o meu lugar forte neste dia. Amém.'},
+{from:4,to:6,short:'O clamor',title:'clamar também é fé',key:'Na angústia invoquei o Senhor e clamei ao meu Deus; desde o seu templo ouviu a minha voz.',cite:'SALMO 18:6',
+ comecar:'Nem toda oração sai bonita. Algumas saem em forma de grito, de choro dentro do carro, de uma frase repetida no escuro. O Salmo 18 guarda espaço para essa oração também.',
+ entenda:['Davi descreve a angústia com imagens de afogamento: cordas de morte que apertam, torrentes que arrastam, laços que prendem. Ele não suaviza o que sentiu para parecer mais espiritual.','O versículo 6 mostra o outro lado. O clamor chegou “até aos seus ouvidos”. A distância entre a dor de uma pessoa e a atenção de Deus é menor do que parece.'],
+ momento:'O que tem te apertado ultimamente? Não precisa organizar os sentimentos antes de trazê-los. Clamar é justamente trazer do jeito que está.',
+ ex:['O que está me cercando agora é...','O que eu quero dizer em voz alta para Deus é...'],
+ hoje:'Se hoje a sua oração for curta e sem palavras bonitas, ela ainda é oração. Deus não pede eloquência. Ele pede a sua voz.',
+ ora:'Deus, eu clamo a ti do jeito que estou. Tu conheces o que me aperta antes que eu diga. Ouve a minha voz hoje e me alcança onde eu estou. Amém.'},
+{from:7,to:15,short:'Ele desceu',title:'quando Deus se move, o chão se move',key:'Abaixou os céus e desceu, e a escuridão estava debaixo de seus pés.',cite:'SALMO 18:9',
+ comecar:'Depois do clamor, o salmo muda de tom. A terra treme, os montes se abalam, relâmpagos cortam o céu. Davi usa a linguagem mais forte que conhece para descrever uma resposta.',
+ entenda:['Estes versículos são poesia de tempestade. Fumaça, fogo, trovão e vento eram a forma de dizer que a presença de Deus é real e tem peso.','O detalhe mais bonito é a direção do movimento: Deus “abaixou os céus e desceu”. Tudo isso acontece logo depois de uma pessoa clamar, no versículo 6. O céu se inclina por causa de um único clamor.'],
+ momento:'Nem sempre a resposta de Deus vem com barulho. Às vezes o chão se move por dentro: uma conversa que destrava, uma porta que abre, uma paz que você não sabe explicar.',
+ ex:['Onde eu preciso ver Deus agir é...','Uma vez em que ele já se moveu por mim foi...'],
+ hoje:'Você não é pequeno demais para mover o céu. Hoje, preste atenção nos sinais de que Deus está se inclinando na sua direção.',
+ ora:'Senhor, inclina os céus sobre a minha vida. Move o que eu não consigo mover e abre os meus olhos para ver quando tu estiveres agindo. Amém.'},
+{from:16,to:19,short:'Lugar espaçoso',title:'Deus tem prazer em você',key:'Trouxe-me para um lugar espaçoso; livrou-me, porque tinha prazer em mim.',cite:'SALMO 18:19',
+ comecar:'O aperto tem uma sensação física. O peito fecha, os dias encolhem, as opções somem. O versículo 19 descreve exatamente o contrário.',
+ entenda:['Deus tira Davi “das muitas águas” e o leva para um lugar espaçoso. Na Bíblia, esse espaço é imagem de liberdade, respiro e provisão. É assim que as Escrituras falam de prosperidade: amplitude para viver, e não só acúmulo.','O motivo do livramento está no fim da frase: “porque tinha prazer em mim”. Deus não livra por obrigação. Ele livra porque se alegra em quem você é.'],
+ momento:'É daqui que vem a afirmação desta semana: eu estou no caminho da prosperidade. Não como promessa de riqueza rápida, mas como caminho para o lugar espaçoso que Deus prepara.',
+ ex:['Um lugar apertado na minha vida hoje é...','O meu lugar espaçoso seria...'],
+ hoje:'Leia a frase de novo, devagar, com o seu nome: Deus tem prazer em mim. Deixe essa ideia ocupar espaço hoje.',
+ ora:'Pai, tira-me dos lugares apertados e leva-me ao lugar espaçoso que tu preparaste. Obrigado porque tens prazer em mim. Eu recebo isso hoje. Amém.'},
+{from:25,to:29,short:'A candeia',title:'luz para o próximo passo',key:'Porque tu acenderás a minha candeia; o Senhor meu Deus iluminará as minhas trevas.',cite:'SALMO 18:28',
+ comecar:'Uma candeia não é um holofote. Na época de Davi, era uma pequena lâmpada de barro com azeite e pavio. Iluminava um cômodo, ou o próximo passo na estrada.',
+ entenda:['Davi não diz que Deus acaba com toda a escuridão de uma vez. Ele diz que Deus acende a candeia dentro dela. A luz vem na medida do caminho.','No versículo seguinte, essa luz vira coragem: “com o meu Deus saltei uma muralha”. Quem enxerga o próximo passo consegue dar o próximo passo.'],
+ momento:'Talvez você esteja esperando ver o caminho inteiro para começar. Hoje, olhe só para o pedaço que já está iluminado.',
+ ex:['A escuridão que eu estou atravessando é...','O próximo passo que já está claro é...'],
+ hoje:'Um passo iluminado vale mais do que um mapa inteiro no escuro. Dê o passo que você já enxerga.',
+ ora:'Senhor, acende a minha candeia. Não preciso ver tudo, só o próximo passo. Ilumina as minhas trevas e me dá coragem para saltar as muralhas de hoje. Amém.'},
+{from:30,to:36,short:'Pés de cerva',title:'firmeza em lugares altos',key:'Faz os meus pés como os das cervas e põe-me nas minhas alturas.',cite:'SALMO 18:33',
+ comecar:'As cervas vivem em terrenos de pedra. Sobem encostas íngremes com uma segurança que parece impossível para quem olha de baixo.',
+ entenda:['Repare no que Davi agradece. Deus não achatou a montanha. Ele mudou os pés de Davi. A dificuldade continuou lá, mas ele ganhou firmeza para atravessar.','E no versículo 36: “alargaste os meus passos debaixo de mim, e os meus pés não vacilaram”. O caminho fica mais largo por dentro, mesmo quando por fora continua estreito.'],
+ momento:'Qual é a sua subida agora? Em vez de pedir que ela desapareça, experimente pedir pés de cerva.',
+ ex:['A montanha na minha frente é...','A firmeza que eu peço para esta semana é...'],
+ hoje:'Você não precisa de um caminho plano para chegar alto. Precisa de pés preparados, e isso Deus sabe fazer.',
+ ora:'Deus, dá-me pés de cerva. Firma os meus passos nas alturas que me assustam e alarga o caminho debaixo de mim. Amém.'},
+{from:46,to:50,short:'O Senhor vive',title:'o louvor do fim da semana',key:'O Senhor vive; e bendito seja o meu rochedo, e exaltado seja o Deus da minha salvação.',cite:'SALMO 18:46',
+ comecar:'Chegamos ao fim do salmo e ao fim desta semana. Davi termina como começou, falando de Deus como rochedo. Só que agora com a história inteira no meio.',
+ entenda:['No primeiro versículo, “eu te amarei”. No versículo 46, “o Senhor vive”. Entre os dois, angústia, clamor, tempestade, livramento, luz e firmeza. O louvor do fim pesa mais porque atravessou tudo isso.','“O Senhor vive” é uma das frases mais curtas do salmo, e talvez a mais importante. Se ele vive, a sua história não terminou.'],
+ momento:'Olhe para os sete dias. Releia as suas reflexões salvas. O que mudou na forma como você enxerga Deus e a si mesmo?',
+ ex:['Nesta semana, eu aprendi que Deus é...','O que eu levo comigo daqui é...'],
+ hoje:'Guarde uma frase deste salmo para as próximas semanas. Quando o chão tremer de novo, você vai saber onde fica a rocha.',
+ ora:'O Senhor vive. Bendito seja o meu rochedo. Obrigado por esta semana, pelos lugares espaçosos e pelas candeias acesas. Eu sigo contigo. Amém.'}];
+
+/* state */
+const KEY='momento-18-v3';
+let S={done:[1,2],verses:[1,19,28],refl:[
+  {day:1,d:'Domingo',a:'Deus foi o meu rochedo quando perdi o emprego em 2021.',b:'Que ele seja a minha paz nesta mudança.'},
+  {day:2,d:'Ontem',a:'O prazo do projeto e a conversa difícil com meu pai.',b:'Que eu estou cansado e preciso de ajuda.'}],
+  dev:14,or:28,pr:5,rounds:0,sound:true};
+try{const r=localStorage.getItem(KEY); if(r) S=Object.assign(S,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const curDay=()=>{for(let i=1;i<=7;i++) if(!S.done.includes(i)) return i; return 7;};
+
+/* audio */
+let AC=null; const ac=()=>{ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}} if(AC&&AC.state==='suspended')AC.resume(); return AC;};
+function tick(){ if(!S.sound) return; const c=ac(); if(!c) return; const t=c.currentTime;
+  const o=c.createOscillator(),v=c.createGain(),f=c.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1800;
+  o.type='triangle'; o.frequency.setValueAtTime(420,t); o.frequency.exponentialRampToValueAtTime(260,t+.12);
+  v.gain.setValueAtTime(0,t); v.gain.linearRampToValueAtTime(.09,t+.004); v.gain.exponentialRampToValueAtTime(.0001,t+.16);
+  o.connect(f).connect(v).connect(c.destination); o.start(t); o.stop(t+.18);
+  try{navigator.vibrate&&navigator.vibrate(8)}catch(e){} }
+function chime(){ const c=ac(); if(!c) return; const t=c.currentTime;
+  [392,493.88,587.33,783.99].forEach((f,i)=>{const o=c.createOscillator(),v=c.createGain();o.type='sine';o.frequency.value=f;const s=t+i*.12;
+    v.gain.setValueAtTime(0,s);v.gain.linearRampToValueAtTime(.05,s+.02);v.gain.exponentialRampToValueAtTime(.0001,s+2.2);o.connect(v).connect(c.destination);o.start(s);o.stop(s+2.3);});}
+let amb=null;
+function setAmb(on){const b=$('#ambBtn');b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);}
+function ambientOn(){ const c=ac(); if(!c) return; const out=c.createGain(); out.gain.value=0; out.connect(c.destination);
+  const lp=c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=700; lp.connect(out);
+  const oscs=[98,146.83,196,293.66].map((f,i)=>{const o=c.createOscillator();o.type=i%2?'triangle':'sine';o.frequency.value=f;o.detune.value=(i-1.5)*5;const g=c.createGain();g.gain.value=[.5,.3,.22,.07][i];o.connect(g).connect(lp);o.start();return o;});
+  const lfo=c.createOscillator(),lg=c.createGain();lfo.frequency.value=.08;lg.gain.value=.012;lfo.connect(lg).connect(out.gain);lfo.start();
+  out.gain.linearRampToValueAtTime(.035,c.currentTime+3); amb={out,oscs,lfo}; setAmb(true);}
+function ambientOff(){ if(!amb||!AC) return; const a=amb; a.out.gain.cancelScheduledValues(AC.currentTime); a.out.gain.setTargetAtTime(0,AC.currentTime,.4);
+  setTimeout(()=>{a.oscs.forEach(o=>o.stop());a.lfo.stop();},1800); amb=null; setAmb(false);}
+
+/* toast / sheet */
+let tT; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+function sheet(h){$('#sheetBody').innerHTML=h;$('#scrim').classList.add('show');$('#sheet').classList.add('show');}
+function closeSheet(){$('#scrim').classList.remove('show');$('#sheet').classList.remove('show');}
+$('#scrim').onclick=closeSheet;
+
+/* carousels: scroll-linked depth */
+function wireCar(car,dots){
+  if(!car) return;
+  const cards=()=>[...car.children];
+  if(dots){dots.innerHTML=cards().map(()=>'<i></i>').join('');}
+  let raf=0;
+  const fx=()=>{raf=0; const r=car.getBoundingClientRect(); if(!r.width) return; const cx=r.left+r.width/2; let best=0,bd=9;
+    cards().forEach((c,i)=>{const b=c.getBoundingClientRect(); const d=(b.left+b.width/2-cx)/b.width; const a=Math.min(Math.abs(d),1.2);
+      if(Math.abs(d)<bd){bd=Math.abs(d);best=i;}
+      if(RM) return;
+      c.style.transform='scale('+(1-a*.06).toFixed(3)+')';
+      c.style.opacity=(1-a*.28).toFixed(3);
+      const p=c.querySelector('.par'); if(p) p.style.transform='translateX('+(-d*46).toFixed(1)+'px)';});
+    if(dots) [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===best));};
+  car.addEventListener('scroll',()=>{if(!raf) raf=requestAnimationFrame(fx);},{passive:true});
+  car._fx=fx; fx();
+}
+const refreshCars=()=>$$('.car').forEach(c=>c._fx&&c._fx());
+
+/* split words for title reveal */
+function splitWords(el){ if(el.dataset.done) return; el.dataset.done=1; let k=0;
+  const walk=n=>{[...n.childNodes].forEach(ch=>{ if(ch.nodeType===3){const parts=ch.textContent.split(/(\s+)/); const frag=document.createDocumentFragment();
+      parts.forEach(p=>{ if(!p) return; if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return;} const w=document.createElement('span');w.className='w';const s=document.createElement('span');s.style.setProperty('--d',k++);s.textContent=p;w.appendChild(s);frag.appendChild(w);});
+      ch.replaceWith(frag);} else if(ch.nodeType===1) walk(ch);});};
+  walk(el);}
+function replayWords(root){ root.querySelectorAll('.w>span').forEach(s=>{s.style.animation='none';void s.offsetWidth;s.style.animation='';}); }
+
+/* nav */
+const TABS=['home','salmo','praticas','voce'];
+let tab='home',stack=[],bOn=false,bT=null,bC=0,tTot=300,tLeft=300,tRun=null;
+function show(id,dir){
+  $$('.screen').forEach(s=>{s.hidden=true;s.classList.remove('in','from-l','from-r')});
+  const el=$('#s-'+id); el.hidden=false; void el.offsetWidth; el.classList.add('in'); if(dir) el.classList.add(dir); el.scrollTop=0;
+  el.querySelectorAll('[data-split]').forEach(splitWords); replayWords(el);
+  $('#backBtn').hidden=!stack.length;
+  const ti=TABS.indexOf(tab); $$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tabGo===tab)); $('#ind').style.transform='translateX('+(ti*100)+'%)';
+  if(id!=='respirar') stopBreath();
+  if(id!=='ficar') pauseTimer();
+  requestAnimationFrame(refreshCars);
+}
+function goTab(t){const a=TABS.indexOf(tab),b=TABS.indexOf(t); const dir=b>a?'from-r':b<a?'from-l':''; tab=t;stack=[];show(t,dir);}
+function go(id){const cur=stack.length?stack[stack.length-1]:tab; if(cur===id) return; stack.push(id); show(id,'from-r');}
+function back(){stack.pop(); show(stack.length?stack[stack.length-1]:tab,'from-l');}
+$('#backBtn').onclick=back;
+document.addEventListener('click',e=>{
+  if((e.target.closest('#story')||e.target.closest('#sos'))&&!e.target.closest('[data-tab-go]')) return;
+  const so=e.target.closest('[data-sos]'); if(so){openSos();return;}
+  const ex=e.target.closest('[data-examen]'); if(ex){openExamen();return;}
+  const d=e.target.closest('[data-day]'); if(d){openStory(+d.dataset.day);return;}
+  const a=e.target.closest('[data-go]'); if(a){go(a.dataset.go);return;}
+  const b=e.target.closest('[data-tab-go]'); if(b){goTab(b.dataset.tabGo);return;}
+  const p=e.target.closest('[data-plan]'); if(p){toast('“'+p.dataset.plan+'” abre depois do Salmo 18');}
+});
+
+/* cards */
+const practice=[
+ {go:'japamala',t:'Japa<i>mala</i>',s:'108 contas para a sua intenção',mini:()=>'<div class="ringb">'+Array.from({length:27},(_,i)=>{const a=i/27*Math.PI*2;return '<i class="'+(i===0?'b':'')+'" style="transform:translate('+(Math.cos(a)*92).toFixed(1)+'px,'+(Math.sin(a)*92).toFixed(1)+'px)"></i>';}).join('')+'</div>'},
+ {go:'respirar',t:'Res<i>pirar</i>',s:'inspire 4, segure 4, solte 6',mini:()=>'<div class="bre"></div>'},
+ {go:'oracao',t:'Ora<i>ção</i>',s:'guiada em três movimentos',mini:()=>'<div class="lines"><i></i><i></i><i></i></div>'},
+ {go:'pedidos',t:'Pedi<i>dos</i>',s:'o que você está entregando',mini:()=>'<div style="font-family:var(--serif);font-size:170px;line-height:.7;color:var(--blue);text-shadow:0 0 30px var(--blue),0 0 70px var(--blue);animation:spin 30s linear infinite">*</div>'},
+ {go:'ficar',t:'Ficar <i>aqui</i>',s:'silêncio com tempo marcado',mini:()=>'<svg class="arcm" viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="none" stroke="var(--line)" stroke-width="2"/><circle class="p" cx="100" cy="100" r="92" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" transform="rotate(-90 100 100)"/></svg>'}];
+const pracCard=p=>'<button class="cl prac" data-go="'+p.go+'"><div class="mini par">'+p.mini()+'</div><div class="top"><span class="cap">Prática</span></div><div class="bot"><div><div class="ct">'+p.t+'</div><div class="cs">'+p.s+'</div></div><span class="go">'+ARR+'</span></div></button>';
+
+function buildHome(){
+  const c=curDay(),D=DAYS[c-1],n=S.done.length,all=n===7;
+  $('#homeCar').innerHTML=
+   '<button class="cl today" data-day="'+c+'"><span class="bigast" aria-hidden="true">*</span><span class="blob b"></span>'+
+     '<div class="top"><span class="cap">'+(all?'Semana completa':'Hoje · Dia '+c+' de 7')+'</span><span class="cap">v. '+D.from+'-'+D.to+'</span></div>'+
+     '<div class="par"><div class="ct">'+D.short+'.</div><p class="vr">“'+D.key+'”</p></div>'+
+     '<div class="bot"><div class="pseg" data-seg style="flex:1"></div><span class="go">'+ARR+'</span></div></button>'+
+   '<button class="cl" data-tab-go="salmo"><div class="par big18" aria-hidden="true">18</div>'+
+     '<div class="top"><span class="cap">Salmo da semana</span><span class="cap" data-weektag></span></div>'+
+     '<div></div><div class="bot"><div><div class="ct">Salmo <i>18</i></div><div class="cs">50 versículos · 7 estudos</div></div><span class="go">'+ARR+'</span></div></button>'+
+   (new Date().getHours()>=18?examenCard():'')+
+   pracCard(practice[0])+
+   '<button class="cl aff" data-tab-go="salmo"><span class="bigast" aria-hidden="true">*</span><div class="top"><span class="cap">A afirmação</span></div>'+
+     '<div class="par"><p>Eu estou no caminho da prosperidade.<br>Eu sou a prosperidade.</p><div class="sou">Eu sou.</div></div><span class="cap">Salmo 18:19</span></button>'+
+   pracCard(practice[1])+
+   (new Date().getHours()<18?examenCard():'')+
+   '<button class="cl" data-go="devocionais"><div class="top"><span class="cap">Biblioteca</span></div><div class="par"><div class="ct">Devo<i>cionais</i></div><div class="cs">3 planos para depois do Salmo 18</div></div><div class="bot"><span class="cap">Descubra</span><span class="go">'+ARR+'</span></div></button>';
+  wireCar($('#homeCar'),$('#homeDots'));
+}
+function buildDays(){
+  const c=curDay();
+  $$('[data-days]').forEach(box=>{box.innerHTML=DAYS.map((d,i)=>{const k=i+1,done=S.done.includes(k),now=k===c&&!done;
+    return '<button class="cl dc'+(now?' now':'')+(done?' done':'')+'" data-day="'+k+'"><span class="st">'+(done?'Feito':now?'Hoje':'Dia '+k)+'</span><div class="par n">'+k+'</div><div><div class="t">'+d.short+'</div><div class="v">v. '+d.from+'-'+d.to+'</div></div></button>';}).join('');
+    wireCar(box,null);
+    const tgt=box.children[Math.max(0,c-1)]; if(tgt) requestAnimationFrame(()=>{box.scrollLeft=tgt.offsetLeft-24;});});
+}
+function progress(){
+  const n=S.done.length,c=curDay();
+  $$('[data-seg]').forEach(s=>{s.innerHTML=[1,2,3,4,5,6,7].map(i=>'<i class="'+(S.done.includes(i)?'d':(i===c&&n<7?'c':''))+'"></i>').join('');});
+  $$('[data-conts]').forEach(x=>x.textContent=n===7?'Semana completa':'Dia '+c+' de 7');
+  $$('[data-weektag]').forEach(x=>x.textContent=n+' de 7 feitos');
+  counts();
+}
+function rebuild(){buildHome();buildDays();progress();renderPsalm();refreshCars();}
+(function(){const now=new Date(),h=now.getHours(),wd=now.toLocaleDateString('pt-BR',{weekday:'long'}).split('-')[0],mo=now.toLocaleDateString('pt-BR',{month:'long'});
+  $('#dateLine').textContent=wd+', '+now.getDate()+' de '+mo;
+  $('#greet').innerHTML=(h<12?'Bom dia':h<18?'Boa tarde':'Boa noite')+', <em>Rob.</em>';
+  $('#greet').setAttribute('data-split','');})();
+
+/* salmo reading */
+function renderPsalm(){
+  const starts={}; DAYS.forEach((d,i)=>starts[d.from]=i+1);
+  let h='';
+  PS.forEach((v,i)=>{const n=i+1;
+    if(starts[n]){const dn=starts[n],D=DAYS[dn-1];h+='<button class="mk" data-day="'+dn+'">Dia '+dn+' · '+D.short+'<span>'+ARR+'</span></button>';}
+    else if(n===20||n===37) h+='<div class="mk free">Leitura livre</div>';
+    if(n===20) h+='<div class="affb"><span class="cap" style="color:inherit;opacity:.6">A afirmação</span><p>Eu estou no caminho da prosperidade.<br>Eu sou a prosperidade.</p><div class="sou">Eu sou.</div></div>';
+    h+='<button class="vs'+(S.verses.includes(n)?' saved':'')+'" data-v="'+n+'" aria-pressed="'+S.verses.includes(n)+'"><sup>'+n+'</sup><span>'+v+'</span></button>';});
+  $('#psalmBody').innerHTML=h;
+}
+$('#psalmBody').addEventListener('click',e=>{const b=e.target.closest('[data-v]'); if(!b) return; const n=+b.dataset.v,k=S.verses.indexOf(n);
+  if(k>-1){S.verses.splice(k,1);toast('Versículo '+n+' removido');}else{S.verses.push(n);S.verses.sort((a,b)=>a-b);toast('Versículo '+n+' salvo');}
+  save(); b.classList.toggle('saved',k<0); b.setAttribute('aria-pressed',k<0); counts();});
+
+/* story */
+let SD=1,slides=0,lastIdx=-1;
+function openStory(n){SD=n;buildStory();const st=$('#story');st.classList.remove('open');void st.offsetWidth;st.classList.add('open');[...$('#track').children].forEach(x=>x.classList.remove('act'));lastIdx=-1;requestAnimationFrame(()=>requestAnimationFrame(stFx));}
+function closeStory(){$('#story').classList.remove('open'); if(amb) ambientOff(); $('#doneOv').classList.remove('show');}
+function buildStory(){
+  const D=DAYS[SD-1],n=SD,prev=S.refl.find(r=>r.day===n)||{};
+  const passage=PS.slice(D.from-1,D.to).map((v,i)=>'<sup>'+(D.from+i)+'</sup> '+v).join(' ');
+  const S1=[
+   '<section class="sl cov"><span class="blob a"></span><span class="blob b"></span><span class="cap">Salmo 18 · Dia '+n+' de 7 · v. '+D.from+'-'+D.to+'</span><h2 class="t">'+D.short+'.</h2><p class="s">'+D.title+'</p><div class="breathe"><i></i>Respire com o ponto antes de começar</div></section>',
+   '<section class="sl" style="justify-content:center"><span class="cap">A palavra de hoje</span><p class="q">“'+D.key+'”</p><span class="ref">'+D.cite+'</span></section>',
+   '<section class="sl"><span class="cap">01 · Para começar</span><h3>Para <i>começar</i></h3><p>'+D.comecar+'</p></section>',
+   '<section class="sl"><span class="cap">02 · A passagem</span><h3>Salmo 18:'+D.from+'-'+D.to+'</h3><p class="ps">'+passage+'</p></section>',
+   '<section class="sl"><span class="cap">03 · Entenda</span><h3><i>Entenda</i></h3>'+D.entenda.map(p=>'<p>'+p+'</p>').join('')+'</section>',
+   '<section class="sl"><span class="cap">04 · Olhe para o seu momento</span><h3>O seu <i>momento</i></h3><p>'+D.momento+'</p></section>',
+   '<section class="sl"><span class="cap">05 · Exercício</span><h3>Escreva</h3><div class="fld"><label for="exA">'+D.ex[0]+'</label><textarea id="exA" rows="3" placeholder="Três linhas bastam.">'+esc(prev.a||'')+'</textarea></div><div class="fld"><label for="exB">'+D.ex[1]+'</label><textarea id="exB" rows="3" placeholder="Sem certo ou errado.">'+esc(prev.b||'')+'</textarea></div><button class="btn ghost" id="saveRefl" style="align-self:flex-start">Salvar reflexão</button></section>',
+   '<section class="sl"><span class="cap">06 · Para você, hoje</span><p>'+D.hoje+'</p><span class="cap" style="margin-top:14px">Oração</span><p class="pr">'+D.ora+'</p><button class="btn blue full" id="amen">Amém</button></section>'];
+  slides=S1.length; lastIdx=-1;
+  $('#track').innerHTML=S1.join(''); $('#track').scrollLeft=0;
+  $('#bars').innerHTML=S1.map(()=>'<i><b></b></i>').join('');
+  $('#stLabel').textContent='Dia '+n+' · '+D.short;
+  $('#saveRefl').onclick=()=>{const a=$('#exA').value.trim(),b=$('#exB').value.trim();
+    if(!a&&!b){toast('Escreva ao menos uma linha');$('#exA').focus();return;}
+    const r={day:n,d:new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'short'}),a,b};
+    const k=S.refl.findIndex(x=>x.day===n); if(k>-1) S.refl[k]=r; else S.refl.push(r);
+    save();counts();toast('Reflexão do Dia '+n+' salva');};
+  $('#amen').onclick=complete;
+  $('#doneOv').classList.remove('show');
+  stFx();
+}
+let sraf=0;
+function stFx(){sraf=0; const tr=$('#track'),w=tr.clientWidth||1,p=tr.scrollLeft/w,idx=Math.round(p);
+  [...$('#bars').children].forEach((b,i)=>{b.firstChild.style.transform='scaleX('+Math.max(0,Math.min(1,p-i+1))+')';});
+  $('#story').classList.toggle('cover',p<.5);
+  if(idx!==lastIdx){lastIdx=idx;[...tr.children].forEach((s,i)=>s.classList.toggle('act',i===idx));}
+  $('#stNav').classList.toggle('hide',idx>=slides-1);
+  $('#stNext').textContent=idx===0?'Começar':'Continuar';
+  $('#stNext').classList.toggle('white',idx===0);
+  $('#stPrev').style.visibility=idx===0?'hidden':'visible';}
+$('#track').addEventListener('scroll',()=>{if(!sraf) sraf=requestAnimationFrame(stFx);},{passive:true});
+const stGo=d=>{const tr=$('#track');tr.scrollTo({left:(Math.round(tr.scrollLeft/tr.clientWidth)+d)*tr.clientWidth,behavior:RM?'auto':'smooth'});};
+$('#stNext').onclick=()=>stGo(1); $('#stPrev').onclick=()=>stGo(-1);
+$('#stClose').onclick=closeStory;
+$('#ambBtn').onclick=()=>{ if(amb) ambientOff(); else {ambientOn();toast('Som ambiente ligado');}};
+function complete(){
+  if(!S.done.includes(SD)){S.done.push(SD);S.done.sort((a,b)=>a-b);S.dev++;save();}
+  chime(); rebuild(); markActive();
+  const next=SD<7?SD+1:0;
+  $('#doneCap').textContent='Dia '+SD+' concluído · '+S.done.length+' de 7';
+  $('#doneT').textContent=SD===7?'O Senhor vive.':'Amém.';
+  $('#doneNext').textContent=next?'Ir para o Dia '+next:'Ver a semana';
+  $('#doneNext').dataset.next=next;
+  const ov=$('#doneOv'); ov.classList.remove('show'); void ov.offsetWidth; ov.classList.add('show'); burst(ov,'50%','24%');
+  ov.querySelectorAll('svg *').forEach(x=>{x.style.animation='none';void x.getBBox;x.style.animation='';});
+}
+$('#doneNext').onclick=()=>{const nx=+$('#doneNext').dataset.next; if(nx){SD=nx;buildStory();} else {closeStory();goTab('salmo');}};
+$('#doneHome').onclick=()=>{closeStory();goTab('home');};
+
+/* practices */
+$('#pracCar').innerHTML='<button class="cl" data-sos style="background:var(--night);color:#fff"><div class="mini par"><div class="bre" style="background:radial-gradient(circle,#fff 0 8%,#5A76FF 30%,rgba(20,55,214,0) 70%)"></div></div><div class="top"><span class="cap" style="color:rgba(255,255,255,.7)">Agora</span></div><div class="bot"><div><div class="ct">Pausa de <i>1 minuto</i></div><div class="cs" style="color:rgba(255,255,255,.65)">respiração, chão e uma palavra</div></div><span class="go" style="background:#fff;color:#060818">'+ARR+'</span></div></button>'+practice.map(pracCard).join(''); wireCar($('#pracCar'),$('#pracDots'));
+wireCar($('#devCar'),$('#devDots')); wireCar($('#prayCar'),$('#prayDots'));
+
+/* japamala */
+const mala=$('#mala'), beads=[];
+for(let i=0;i<108;i++){const a=((i+.5)/108)*Math.PI*2-Math.PI/2;const d=document.createElement('span');d.className='bead';d.style.setProperty('--k',i);
+  d.style.left=(50+46*Math.cos(a))+'%';d.style.top=(50+46*Math.sin(a))+'%';mala.appendChild(d);beads.push(d);}
+const guru=document.createElement('span');guru.className='bead guru';guru.style.left='50%';guru.style.top='4%';mala.appendChild(guru);
+let jc=0;
+function paintJapa(){beads.forEach((b,i)=>{b.classList.toggle('lit',i<jc-1);b.classList.toggle('cur',i===jc-1)});
+  $('#jn').textContent=jc; $('#jt').textContent=jc===0?'Toque para contar':jc===108?'Volta completa':'de 108';
+  mala.classList.toggle('complete',jc===108); $('#rounds').textContent='Voltas completas hoje: '+S.rounds;}
+$('#core').onclick=()=>{ if(jc>=108){toast('Volta completa. Toque em Reiniciar.');return;}
+  jc++; tick(); const c=$('#core'); c.classList.remove('pulse'); void c.offsetWidth; c.classList.add('pulse');
+  if(jc===108){S.rounds++;S.pr++;save();counts();setTimeout(chime,180);toast('108 repetições. Intenção entregue.');}
+  paintJapa();};
+$('#japaReset').onclick=()=>{jc=0;paintJapa();};
+function paintSound(){$('#japaSound').textContent='Som: '+(S.sound?'ligado':'desligado');}
+$('#japaSound').onclick=()=>{S.sound=!S.sound;save();paintSound();};
+
+/* respirar */
+const PH=[['Inspire',4000,1],['Segure',4000,1],['Solte',6000,.5]];
+function stepB(i){ if(!bOn) return; const [l,ms,sc]=PH[i],ball=$('#ball'); ball.style.transitionDuration=(i===1?.2:ms/1000)+'s'; ball.style.transform='scale('+sc+')'; $('#blbl').textContent=l;
+  bT=setTimeout(()=>{ if(i===2){bC++;$('#cycles').textContent=bC+(bC===1?' ciclo':' ciclos');} stepB((i+1)%3);},ms);}
+function stopBreath(){ if(!bOn) return; bOn=false;clearTimeout(bT);$('#ball').style.transform='scale(.5)';$('#blbl').textContent='Pronto?';$('#breathBtn').textContent='Começar';
+  if(bC>=3){S.pr++;save();counts();}}
+$('#breathBtn').onclick=()=>{ if(bOn) stopBreath(); else {bOn=true;bC=0;$('#cycles').textContent='0 ciclos';$('#breathBtn').textContent='Pausar';stepB(0);} };
+
+/* oração */
+$('#prayDone').onclick=e=>{chime();S.or++;markActive();save();counts();burst($('#app'),'50%','60%');toast('Oração registrada na sua jornada');};
+
+/* ficar aqui */
+const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function paintT(){$('#tt').textContent=fmt(tLeft);$('#tArc').style.strokeDashoffset=295.3*(1-tLeft/tTot);}
+function pauseTimer(){ if(tRun){clearInterval(tRun);tRun=null;$('#tBtn').textContent='Continuar';}}
+$('#durs').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;pauseTimer();$$('#durs .chip').forEach(c=>c.classList.toggle('on',c===b));tTot=tLeft=+b.dataset.m*60;$('#tBtn').textContent='Começar';paintT();};
+$('#tBtn').onclick=()=>{ if(tRun){pauseTimer();return;} if(tLeft<=0) tLeft=tTot; $('#tBtn').textContent='Pausar';
+  tRun=setInterval(()=>{tLeft--;paintT(); if(tLeft<=0){clearInterval(tRun);tRun=null;chime();S.pr++;save();counts();$('#tBtn').textContent='De novo';toast('Seu tempo terminou. Volte devagar.');}},1000);};
+$('#themes').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('#themes .chip').forEach(c=>c.classList.toggle('on',c===b));toast('Planos sobre '+b.textContent);};
+
+/* você */
+(function(){const N=84,lv=new Array(N).fill(0);let s=11;const r=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  const p=[];while(p.length<28){const i=Math.floor(Math.pow(r(),.55)*N);if(!p.includes(i))p.push(i);}
+  p.forEach(i=>lv[i]=1);p.sort((a,b)=>b-a).slice(0,14).forEach(i=>lv[i]=2);
+  let h='';for(let w=0;w<12;w++){h+='<div class="col">';for(let d=0;d<7;d++){const i=w*7+d;h+='<span class="cell'+(lv[i]?' l'+lv[i]:'')+(i===N-1?' today':'')+'" style="--k:'+i+'"></span>';}h+='</div>';}
+  $('#heat').innerHTML=h;})();
+function counts(){ if($('#cGrat')&&S.grat&&S.peds){$('#cGrat').textContent=Object.values(S.grat).reduce((a,g)=>a+g.filter(Boolean).length,0);$('#cPed').textContent=S.peds.length;} $('#stDev').textContent=S.dev;$('#stOr').textContent=S.or;$('#stPr').textContent=S.pr;$('#cVerses').textContent=S.verses.length;$('#cRefl').textContent=S.refl.length;}
+$('#openVerses').onclick=()=>sheet('<h2 class="h2">Escrituras <i>salvas</i></h2>'+(S.verses.length?S.verses.map(n=>'<div class="note"><span class="k">Salmo 18:'+n+'</span><span class="v">'+PS[n-1]+'</span></div>').join(''):'<p class="lede">Toque em um versículo no Salmo 18 para salvar.</p>'));
+$('#openRefl').onclick=()=>{const l=[...S.refl].sort((a,b)=>a.day-b.day);
+  sheet('<h2 class="h2">Reflexões <i>salvas</i></h2>'+(l.length?l.map(r=>{const D=DAYS[r.day-1];return '<div class="note"><span class="k">Dia '+r.day+' · '+esc(r.d)+'</span><span class="v">'+D.ex[0]+'</span><p>'+esc(r.a||'...')+'</p><span class="v">'+D.ex[1]+'</span><p>'+esc(r.b||'...')+'</p></div>';}).join(''):'<p class="lede">Suas reflexões aparecem aqui.</p>'));};
+$('#gear').onclick=()=>{sheet('<h2 class="h2">Ajustes</h2>'+
+  '<div class="setrow"><span>Lembrete diário</span><span class="cap">6:30</span></div>'+
+  '<div class="setrow"><span>Som tátil do japamala</span><button class="chip'+(S.sound?' on':'')+'" id="sSnd">'+(S.sound?'Ligado':'Desligado')+'</button></div>'+
+  '<div class="setrow"><span>Tema</span><span class="chips" id="sTheme"><button class="chip" data-t="">Auto</button><button class="chip" data-t="light">Claro</button><button class="chip" data-t="dark">Escuro</button></span></div>'+
+  '<div class="setrow"><span>Texto de leitura</span><span class="chips" id="sFs"><button class="chip" data-f="0.9">A-</button><button class="chip" data-f="1">A</button><button class="chip" data-f="1.15">A+</button></span></div>'+
+  '<div class="setrow"><span>Tradução</span><span class="cap">Almeida</span></div>'+
+  '<div class="setrow"><span>Recomeçar a semana</span><button class="chip" id="sClr">Recomeçar</button></div>');
+  const paintSet=()=>{$$('#sTheme .chip').forEach(c=>c.classList.toggle('on',c.dataset.t===(S.theme||'')));$$('#sFs .chip').forEach(c=>c.classList.toggle('on',+c.dataset.f===S.fs));};paintSet();
+  $('#sTheme').onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;S.theme=b.dataset.t;applyPrefs();save();paintSet();};
+  $('#sFs').onclick=e=>{const b=e.target.closest('[data-f]');if(!b)return;S.fs=+b.dataset.f;applyPrefs();save();paintSet();};
+  $('#sSnd').onclick=e=>{S.sound=!S.sound;save();paintSound();e.target.classList.toggle('on',S.sound);e.target.textContent=S.sound?'Ligado':'Desligado';};
+  $('#sClr').onclick=e=>{ if(e.target.dataset.c){S.done=[];save();rebuild();closeSheet();toast('Semana recomeçada no Dia 1');} else {e.target.dataset.c='1';e.target.textContent='Confirmar';}};};
+
+
+/* ===== bem-estar ===== */
+const dk=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const dayOff=n=>{const d=new Date();d.setDate(d.getDate()-n);return dk(d);};
+S.moods=S.moods||{[dayOff(6)]:'Cansado',[dayOff(5)]:'Ansioso',[dayOff(4)]:'Em paz',[dayOff(3)]:'Grato',[dayOff(2)]:'Ansioso',[dayOff(1)]:'Em paz'};
+S.grat=S.grat||{[dayOff(1)]:['O café da manhã com calma','Uma conversa boa com a minha mãe','Ter terminado o relatório']};
+S.peds=S.peds||[{id:1,t:'Direção na mudança de trabalho',d:dayOff(12),a:null},{id:2,t:'Saúde do meu pai',d:dayOff(5),a:null},{id:3,t:'Paz para dormir bem',d:dayOff(20),a:dayOff(3)}];
+S.exam=S.exam||[]; S.streak=S.streak||6; S.last=S.last||dayOff(1); S.fs=S.fs||1; if(S.theme===undefined) S.theme='';
+function applyPrefs(){const r=document.documentElement; if(S.theme) r.setAttribute('data-theme',S.theme); else r.removeAttribute('data-theme'); r.style.setProperty('--fs',S.fs);}
+function markActive(){const t=dk(); if(S.last!==t){S.streak=(S.last===dayOff(1))?S.streak+1:1;S.last=t;save();paintStreak();toast('* Sequência de '+S.streak+' dias');}}
+
+/* luz: segue o dedo e clarão ao tocar */
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.cl');if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');},{passive:true});
+document.addEventListener('pointerdown',e=>{
+  const c=e.target.closest('.cl'); if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');c.classList.add('lit');setTimeout(()=>c.classList.remove('lit'),700);}
+  const t=e.target.closest('.cl,.btn,.go,.chip,.mood,.sv,.tab,.pause,.mk'); if(!t||RM) return;
+  const a=$('#app').getBoundingClientRect(),f=document.createElement('span');f.className='flare';f.style.left=(e.clientX-a.left)+'px';f.style.top=(e.clientY-a.top)+'px';$('#app').appendChild(f);setTimeout(()=>f.remove(),800);},{passive:true});
+function burst(host,x,y){ if(RM) return; for(let i=0;i<16;i++){const s=document.createElement('span');s.className='spark';s.textContent='*';const a=Math.random()*Math.PI*2,d=90+Math.random()*140;
+  s.style.cssText='--ox:'+x+';--oy:'+y+';--x:'+Math.cos(a)*d+'px;--y:'+Math.sin(a)*d+'px;--r:'+(Math.random()*360-180)+'deg;--sz:'+(16+Math.random()*28)+'px;animation-delay:'+(Math.random()*.15)+'s;z-index:90';host.appendChild(s);setTimeout(()=>s.remove(),1700);}}
+
+/* check-in */
+const MOODS={
+ 'Em paz':{v:2,q:'Trouxe-me para um lugar espaçoso; livrou-me, porque tinha prazer em mim.',r:'SALMO 18:19',tip:'Aproveite a calma. Fique alguns minutos em silêncio e só agradeça.',a:[['Ficar aqui','ficar']]},
+ 'Grato':{v:2,q:'Eu te amarei, ó Senhor, fortaleza minha.',r:'SALMO 18:1',tip:'Gratidão cresce quando vira palavra. Anote as três de hoje.',a:[['Anotar gratidões','#grat']]},
+ 'Ansioso':{v:0,q:'O Senhor é o meu rochedo, e o meu lugar forte, e o meu libertador.',r:'SALMO 18:2',tip:'Antes de resolver, respire. Um minuto com a luz já muda o ritmo do corpo.',a:[['Pausa de 1 minuto','sos'],['Respirar','respirar']]},
+ 'Cansado':{v:1,q:'Deus é o que me cinge de força e aperfeiçoa o meu caminho.',r:'SALMO 18:32',tip:'Hoje, faça menos. Uma prática curta basta.',a:[['Respirar','respirar'],['Ficar aqui','ficar']]},
+ 'Pesado':{v:0,q:'Na angústia invoquei o Senhor e clamei ao meu Deus; desde o seu templo ouviu a minha voz.',r:'SALMO 18:6',tip:'Você não precisa carregar isso em silêncio. Coloque em palavras.',a:[['Escrever um pedido','pedidos'],['Pausa de 1 minuto','sos']]}};
+function paintMoods(){const cur=S.moods[dk()];
+  $('#moods').innerHTML=Object.keys(MOODS).map(m=>'<button class="mood'+(cur===m?' on':'')+'" data-mood="'+m+'"><span class="ast">*</span>'+m+'</button>').join('');
+  const M=MOODS[cur]; const box=$('#moodRes');
+  if(!M){box.innerHTML='';return;}
+  box.innerHTML='<div class="mres"><span class="cap" style="position:relative">Para quem está '+cur.toLowerCase()+'</span><p>“'+M.q+'”</p><span class="ref">'+M.r+'</span><p class="tip">'+M.tip+'</p><div class="row">'+M.a.map((x,i)=>'<button class="btn '+(i?'ghost':'blue')+'" style="height:44px;padding:0 18px;font-size:14px" data-act="'+x[1]+'">'+x[0]+'</button>').join('')+'</div></div>';}
+$('#moods').addEventListener('click',e=>{const b=e.target.closest('[data-mood]');if(!b)return;S.moods[dk()]=b.dataset.mood;markActive();save();paintMoods();paintMweek();tick();});
+$('#moodRes').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+  if(a==='sos') openSos(); else if(a==='#grat'){$('#g0').focus();$('#grat').scrollIntoView({behavior:'smooth',block:'center'});} else go(a);});
+
+/* gratidão */
+function paintGrat(){const g=S.grat[dk()]||['','',''];[0,1,2].forEach(i=>{$('#g'+i).value=g[i]||'';$('#g'+i).closest('.gl').classList.toggle('ok',!!g[i]);});$('#gratCount').textContent=g.filter(Boolean).length+' de 3';}
+[0,1,2].forEach(i=>$('#g'+i).addEventListener('input',e=>{e.target.closest('.gl').classList.toggle('ok',!!e.target.value.trim());$('#gratCount').textContent=[0,1,2].filter(k=>$('#g'+k).value.trim()).length+' de 3';}));
+$('#gratSave').onclick=e=>{const g=[0,1,2].map(i=>$('#g'+i).value.trim()); if(!g.some(Boolean)){toast('Escreva ao menos uma gratidão');$('#g0').focus();return;}
+  S.grat[dk()]=g;markActive();save();counts();chime();const r=$('#grat').getBoundingClientRect(),a=$('#app').getBoundingClientRect();burst($('#app'),(r.left-a.left+r.width/2)+'px',(r.top-a.top+30)+'px');toast('Gratidões guardadas');};
+$('#openGrat').onclick=()=>{const ks=Object.keys(S.grat).sort().reverse();sheet('<h2 class="h2">Suas <i>gratidões</i></h2>'+(ks.length?ks.map(k=>'<div class="note"><span class="k">'+new Date(k+'T12:00').toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'short'})+'</span>'+S.grat[k].filter(Boolean).map(t=>'<span class="v"><span class="ast">*</span> '+esc(t)+'</span>').join('')+'</div>').join(''):'<p class="lede">Suas gratidões aparecem aqui.</p>'));};
+
+/* pedidos */
+function paintPeds(){const open=S.peds.filter(p=>!p.a),ans=S.peds.filter(p=>p.a);
+  const fd=d=>new Date(d+'T12:00').toLocaleDateString('pt-BR',{day:'numeric',month:'short'});
+  $('#pedOpen').innerHTML=open.length?open.map(p=>'<div class="pi" data-id="'+p.id+'"><span class="ast">*</span><div class="tx"><b>'+esc(p.t)+'</b><span>desde '+fd(p.d)+'</span></div><button class="chip" data-ans="'+p.id+'">Respondido</button></div>').join(''):'<div class="empty">Nada pendente. Escreva o que está no seu coração.</div>';
+  $('#pedAns').innerHTML=ans.length?ans.map(p=>'<div class="pi ans"><span class="ast">*</span><div class="tx"><b>'+esc(p.t)+'</b><span>respondido em '+fd(p.a)+'</span></div></div>').join(''):'<div class="empty">Os pedidos respondidos ficam guardados aqui, como memória.</div>';
+  $('#pedTag').textContent=open.length+(open.length===1?' pedido':' pedidos'); $('#ansTag').textContent=ans.length+'';counts();}
+$('#addPed').addEventListener('submit',e=>{e.preventDefault();const t=$('#pedIn').value.trim();if(!t){$('#pedIn').focus();return;}
+  S.peds.unshift({id:Date.now(),t,d:dk(),a:null});$('#pedIn').value='';markActive();save();paintPeds();tick();toast('Pedido entregue');});
+$('#pedOpen').addEventListener('click',e=>{const b=e.target.closest('[data-ans]');if(!b)return;const id=+b.dataset.ans,row=b.closest('.pi');
+  row.classList.add('bye');chime();const r=row.getBoundingClientRect(),a=$('#app').getBoundingClientRect();burst($('#app'),(r.left-a.left+30)+'px',(r.top-a.top+r.height/2)+'px');
+  setTimeout(()=>{const p=S.peds.find(x=>x.id===id);p.a=dk();save();paintPeds();toast('Graças a Deus. Guardado em Respondidos.');},450);});
+
+/* encerrar o dia */
+function examenCard(){return '<button class="cl" data-examen style="background:var(--night);color:#fff"><span class="bigast" aria-hidden="true" style="font-size:240px;right:-40px;top:-10px;color:#5A76FF;text-shadow:0 0 40px #3F5EF5,0 0 90px #3F5EF5">*</span><div class="top"><span class="cap" style="color:rgba(255,255,255,.7)">Antes de dormir</span></div><div class="par"><div class="ct">Encerrar <i>o dia</i></div><div class="cs" style="color:rgba(255,255,255,.65)">três perguntas para soltar o dia</div></div><div class="bot"><span class="cap" style="color:rgba(255,255,255,.7)">3 min</span><span class="go" style="background:#fff;color:#060818">'+ARR+'</span></div></button>';}
+function openExamen(){sheet('<span class="cap"><span class="ast">*</span> Encerrar o dia</span><h2 class="h2">Três perguntas antes de <i>dormir</i></h2>'+
+  '<div class="fld"><label for="e1">Onde eu senti Deus hoje?</label><textarea id="e1" rows="2"></textarea></div>'+
+  '<div class="fld"><label for="e2">O que ainda pesa em mim?</label><textarea id="e2" rows="2"></textarea></div>'+
+  '<div class="fld"><label for="e3">O que eu entrego antes de dormir?</label><textarea id="e3" rows="2"></textarea></div>'+
+  '<button class="btn blue full" id="eSave">Entregar e descansar</button>');
+  $('#eSave').onclick=()=>{const v=[1,2,3].map(i=>$('#e'+i).value.trim()); if(!v.some(Boolean)){toast('Escreva ao menos uma resposta');return;}
+    S.exam.unshift({d:dk(),v});markActive();save();closeSheet();chime();burst($('#app'),'50%','70%');toast('Boa noite. Descanse, o Senhor vive.');};}
+
+/* pausa de 1 minuto */
+let sosT=[],sosOn=false;
+function sosClear(){sosT.forEach(clearTimeout);sosT=[];}
+function openSos(){const o=$('#sos');o.classList.add('open');sosOn=true;sosBreath();}
+function closeSos(){$('#sos').classList.remove('open');sosOn=false;sosClear();}
+$('#sosClose').onclick=closeSos;
+function sosBreath(){sosClear();$('#sosCap').textContent='Pausa de 1 minuto';
+  $('#sosStage').innerHTML='<div class="light"><div class="core2" id="lc"></div><span class="ast">*</span></div><div class="say" id="say">Chegue aqui.</div><div class="ring60"><i id="r60"></i></div><p class="sub">Acompanhe a luz. Inspire quando ela cresce, solte quando ela diminui.</p><button class="btn ghost" id="skipB" style="background:rgba(255,255,255,.12);color:#fff">Pular para o chão</button>';
+  $('#skipB').onclick=sosGround;
+  const lc=$('#lc'),say=$('#say'),r=$('#r60'); let t=0;
+  const PH=[['Inspire',4000,1],['Segure',2000,1],['Solte',6000,.45]];
+  const cyc=()=>{ if(!sosOn) return; let acc=0; PH.forEach(([l,ms,sc])=>{sosT.push(setTimeout(()=>{if(!sosOn)return;say.textContent=l;lc.style.transitionDuration=(ms/1000)+'s';lc.style.transform='scale('+sc+')';},acc));acc+=ms;}); sosT.push(setTimeout(cyc,acc));};
+  sosT.push(setTimeout(cyc,900));
+  for(let s=1;s<=60;s++) sosT.push(setTimeout(()=>{r.style.transform='scaleX('+(s/60)+')'; if(s===60) sosGround();},s*1000+900));}
+function sosGround(){sosClear();$('#sosCap').textContent='Volte para o chão';
+  const G=[['5','coisas que você vê'],['4','coisas que você toca'],['3','sons que você ouve'],['2','cheiros ao seu redor'],['1','respiração lenta e funda']];
+  $('#sosStage').innerHTML='<div class="say" style="font-size:28px">Onde você está agora?</div><div class="ground">'+G.map((g,i)=>'<div class="gstep'+(i?'':' on')+'"><b>'+g[0]+'</b><span>'+g[1]+'</span></div>').join('')+'</div><button class="btn white" id="gNext">Pronto</button>';
+  let i=0; $('#gNext').onclick=()=>{const st=[...$$('#sosStage .gstep')]; st[i].classList.remove('on');st[i].classList.add('did'); i++; tick();
+    if(i<st.length){st[i].classList.add('on');} else sosWord();};}
+function sosWord(){$('#sosCap').textContent='Uma palavra para levar';
+  $('#sosStage').innerHTML='<div class="light" style="width:140px;height:140px"><div class="core2" style="transform:scale(.8)"></div><span class="ast" style="font-size:40px">*</span></div><div class="say" style="font-size:28px">“Na angústia invoquei o Senhor, e ele ouviu a minha voz.”</div><span class="cap" style="color:#9BB0FF">Salmo 18:6</span><div class="chips" style="justify-content:center"><button class="btn white" id="wDone">Estou melhor</button><button class="btn" id="wAgain" style="background:rgba(255,255,255,.12);color:#fff">Mais um minuto</button></div>';
+  $('#wDone').onclick=()=>{S.pr++;markActive();save();counts();chime();burst($('#sos'),'50%','40%');setTimeout(closeSos,900);};
+  $('#wAgain').onclick=sosBreath;}
+
+/* você: sequência e humor */
+function paintStreak(){$('#strN').innerHTML=S.streak+'<small>'+(S.streak===1?'dia':'dias seguidos')+'</small>';$('#strRow').innerHTML=Array.from({length:7},(_,i)=>'<i class="'+(i<Math.min(S.streak,7)?'on':'')+'">*</i>').join('');}
+function paintMweek(){const L=['D','S','T','Q','Q','S','S'];
+  $('#mweek').innerHTML=Array.from({length:7},(_,k)=>{const n=6-k,d=new Date();d.setDate(d.getDate()-n);const m=S.moods[dk(d)],M=MOODS[m];
+    return '<div class="mw"><span>'+(n===0?'hoje':L[d.getDay()])+'</span><i class="'+(M?'v'+M.v:'')+'">'+(M?'*':'')+'</i><em>'+(m||'...')+'</em></div>';}).join('');}
+
+applyPrefs(); paintMoods(); paintGrat(); paintPeds(); paintStreak(); paintMweek();
+
+addEventListener('resize',()=>requestAnimationFrame(refreshCars));
+paintSound(); paintJapa(); paintT();
+rebuild(); show('home');
 })();
 </script>
-
 </body>
 </html>
