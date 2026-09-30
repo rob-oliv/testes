@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F1F1EE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="momento.">
 <title>momento.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -474,6 +477,31 @@ main{position:absolute;inset:0;z-index:1}
   .cl{transform:none!important}
 }
 </style>
+<script>
+/* ícone do iPhone: luz azul com um asterisco branco */
+(function(){
+  function draw(){
+    var S=512,c=document.createElement('canvas');c.width=S;c.height=S;var x=c.getContext('2d');
+    var g=x.createRadialGradient(S*.5,S*.36,10,S*.5,S*.5,S*.78);
+    g.addColorStop(0,'#6E86FF');g.addColorStop(.38,'#1F45E0');g.addColorStop(1,'#0A1C7A');
+    x.fillStyle=g;x.fillRect(0,0,S,S);
+    var h=x.createRadialGradient(S*.5,S*.46,0,S*.5,S*.46,S*.34);
+    h.addColorStop(0,'rgba(255,255,255,.55)');h.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle=h;x.fillRect(0,0,S,S);
+    x.font='italic 400 400px "Playfair Display", Georgia, serif';x.textAlign='center';x.textBaseline='alphabetic';
+    var m=x.measureText('*'),top=m.actualBoundingBoxAscent||200,bot=m.actualBoundingBoxDescent||0,y=S/2+(top-bot)/2;
+    x.shadowColor='rgba(255,255,255,.9)';x.shadowBlur=40;x.fillStyle='#FFFFFF';x.fillText('*',S/2+6,y);
+    x.shadowBlur=0;x.fillText('*',S/2+6,y);
+    var l=document.getElementById('apple-icon');
+    if(!l){l=document.createElement('link');l.id='apple-icon';l.rel='apple-touch-icon';document.head.appendChild(l);}
+    l.href=c.toDataURL('image/png');
+    var f=document.getElementById('fav');if(!f){f=document.createElement('link');f.id='fav';f.rel='icon';document.head.appendChild(f);}f.href=l.href;
+  }
+  draw();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
+})();
+</script>
+
 </head>
 <body>
 <div class="app" id="app">
